@@ -1,0 +1,32 @@
+% !TEX TS-program = latex
+\documentclass[varwidth = true]{standalone}
+
+\usepackage{pstricks,pst-node,pst-tree,pst-plot}
+\usepackage{graphicx} 
+\usepackage{pstricks-add}
+
+\begin{document}
+
+
+\begin{pspicture}[showgrid=false](0,0.5)(0,-6.5)
+%\begin{figure}
+%\begin{center}
+\def\psedge{\nccurve[angleA=-90,angleB=90, nodesepA=2pt]} 
+\pstree[treemode=D, treesep=1.5, levelsep=2]
+ {\Tr{multiclass}}{
+ 	\Tr{unilabel}
+	\pstree[treemode=D, treesep=1.5, levelsep=2]{\Tr{\textbf{multilabel}}}{
+		\Tr{sub-entity unilabel}
+		\pstree[treemode=D, treesep=1.5, levelsep=2]{\Tr{\textbf{entity-wide multilabel}}}{
+			\Tr{fixed label count}
+			\Tr{\textbf{varying label counts}}
+		}
+	}
+}
+%\end{center}
+%\end{figure}
+\end{pspicture}
+
+\end{document}
+
+

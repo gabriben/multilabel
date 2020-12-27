@@ -1,0 +1,493 @@
+%%% -*-BibTeX-*-
+%%% Do NOT edit. File created by BibTeX with style
+%%% ACM-Reference-Format-Journals [18-Jan-2012].
+
+\begin{thebibliography}{29}
+
+%%% ====================================================================
+%%% NOTE TO THE USER: you can override these defaults by providing
+%%% customized versions of any of these macros before the \bibliography
+%%% command.  Each of them MUST provide its own final punctuation,
+%%% except for \shownote{}, \showDOI{}, and \showURL{}.  The latter two
+%%% do not use final punctuation, in order to avoid confusing it with
+%%% the Web address.
+%%%
+%%% To suppress output of a particular field, define its macro to expand
+%%% to an empty string, or better, \unskip, like this:
+%%%
+%%% \newcommand{\showDOI}[1]{\unskip}   % LaTeX syntax
+%%%
+%%% \def \showDOI #1{\unskip}           % plain TeX syntax
+%%%
+%%% ====================================================================
+
+\ifx \showCODEN    \undefined \def \showCODEN     #1{\unskip}     \fi
+\ifx \showDOI      \undefined \def \showDOI       #1{#1}\fi
+\ifx \showISBNx    \undefined \def \showISBNx     #1{\unskip}     \fi
+\ifx \showISBNxiii \undefined \def \showISBNxiii  #1{\unskip}     \fi
+\ifx \showISSN     \undefined \def \showISSN      #1{\unskip}     \fi
+\ifx \showLCCN     \undefined \def \showLCCN      #1{\unskip}     \fi
+\ifx \shownote     \undefined \def \shownote      #1{#1}          \fi
+\ifx \showarticletitle \undefined \def \showarticletitle #1{#1}   \fi
+\ifx \showURL      \undefined \def \showURL       {\relax}        \fi
+% The following commands are used for tagged output and should be
+% invisible to TeX
+\providecommand\bibfield[2]{#2}
+\providecommand\bibinfo[2]{#2}
+\providecommand\natexlab[1]{#1}
+\providecommand\showeprint[2][]{arXiv:#2}
+
+\bibitem[\protect\citeauthoryear{??}{dat}{2007}]%
+        {dataScenery}
+ \bibinfo{year}{2007}\natexlab{}.
+\newblock \bibinfo{journal}{\emph{Advances in Neural Information Processing
+  Systems 19}} (\bibinfo{year}{2007}).
+\newblock
+\showISBNx{9780262256919}
+\urldef\tempurl%
+\url{https://doi.org/10.7551/mitpress/7503.003.0206}
+\showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Apostolidis, Adamantidou, Metsai, Mezaris, and
+  Patras}{Apostolidis et~al\mbox{.}}{2020}]%
+        {AC-SUM-GAN}
+\bibfield{author}{\bibinfo{person}{E. Apostolidis}, \bibinfo{person}{E.
+  Adamantidou}, \bibinfo{person}{A.~I. Metsai}, \bibinfo{person}{V. Mezaris},
+  {and} \bibinfo{person}{I. Patras}.} \bibinfo{year}{2020}\natexlab{}.
+\newblock \showarticletitle{AC-SUM-GAN: Connecting Actor-Critic and Generative
+  Adversarial Networks for Unsupervised Video Summarization,}.
+\newblock \bibinfo{journal}{\emph{IEEE Transactions on Circuits and Systems for
+  Video Technology}} (\bibinfo{year}{2020}).
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Bishop}{Bishop}{2007}]%
+        {Bishop}
+\bibfield{author}{\bibinfo{person}{Christopher~M. Bishop}.}
+  \bibinfo{year}{2007}\natexlab{}.
+\newblock \bibinfo{booktitle}{\emph{Pattern recognition and machine learning,
+  5th Edition}}.
+\newblock \bibinfo{publisher}{Springer}.
+\newblock
+\showISBNx{9780387310732}
+\urldef\tempurl%
+\url{https://www.worldcat.org/oclc/71008143}
+\showURL{%
+\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Chang, Yu, Zhong, Yang, and Dhillon}{Chang
+  et~al\mbox{.}}{2019}]%
+        {softF1}
+\bibfield{author}{\bibinfo{person}{Wei-Cheng Chang}, \bibinfo{person}{Hsiang-Fu
+  Yu}, \bibinfo{person}{Kai Zhong}, \bibinfo{person}{Yiming Yang}, {and}
+  \bibinfo{person}{Inderjit~S. Dhillon}.} \bibinfo{year}{2019}\natexlab{}.
+\newblock \showarticletitle{The Unknown Benefits of using a Soft-F1 Loss in
+  Classification Systems}.
+\newblock \bibinfo{journal}{\emph{Towards Data Science}} (\bibinfo{date}{Dec}
+  \bibinfo{year}{2019}).
+\newblock
+\urldef\tempurl%
+\url{https://towardsdatascience.com/the-unknown-benefits-of-using-a-soft-f1-loss-in-classification-systems-753902c0105d}
+\showURL{%
+\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Chang, Yu, Zhong, Yang, and Dhillon}{Chang
+  et~al\mbox{.}}{2020}]%
+        {extremeMultilabelText}
+\bibfield{author}{\bibinfo{person}{Wei-Cheng Chang}, \bibinfo{person}{Hsiang-Fu
+  Yu}, \bibinfo{person}{Kai Zhong}, \bibinfo{person}{Yiming Yang}, {and}
+  \bibinfo{person}{Inderjit~S. Dhillon}.} \bibinfo{year}{2020}\natexlab{}.
+\newblock \showarticletitle{Taming Pretrained Transformers for Extreme
+  Multi-label Text Classification}.
+\newblock \bibinfo{journal}{\emph{Proceedings of the 26th ACM SIGKDD
+  International Conference on Knowledge Discovery & Data Mining}}
+  (\bibinfo{date}{Jul} \bibinfo{year}{2020}).
+\newblock
+\showISBNx{9781450379984}
+\urldef\tempurl%
+\url{https://doi.org/10.1145/3394486.3403368}
+\showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Chu and Guo}{Chu and Guo}{2017}]%
+        {moviePosters}
+\bibfield{author}{\bibinfo{person}{Wei-Ta Chu} {and} \bibinfo{person}{Hung-Jui
+  Guo}.} \bibinfo{year}{2017}\natexlab{}.
+\newblock \showarticletitle{Movie Genre Classification based on Poster Images
+  with Deep Neural Networks}.
+\newblock \bibinfo{journal}{\emph{Proceedings of the Workshop on Multimodal
+  Understanding of Social, Affective and Subjective Attributes}}
+  (\bibinfo{date}{Oct} \bibinfo{year}{2017}).
+\newblock
+\showISBNx{9781450355094}
+\urldef\tempurl%
+\url{https://doi.org/10.1145/3132515.3132516}
+\showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Clare and King}{Clare and King}{2001}]%
+        {ML-DT}
+\bibfield{author}{\bibinfo{person}{Amanda Clare} {and} \bibinfo{person}{Ross~D.
+  King}.} \bibinfo{year}{2001}\natexlab{}.
+\newblock \showarticletitle{Knowledge Discovery in Multi-label Phenotype Data}.
+\newblock \bibinfo{journal}{\emph{Lecture Notes in Computer Science}}
+  (\bibinfo{year}{2001}), \bibinfo{pages}{42–53}.
+\newblock
+\showISBNx{9783540447948}
+\showISSN{0302-9743}
+\urldef\tempurl%
+\url{https://doi.org/10.1007/3-540-44794-6_4}
+\showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Du, Chen, Peng, Xiang, Tao, and Lu}{Du
+  et~al\mbox{.}}{2019}]%
+        {multitaskLabel}
+\bibfield{author}{\bibinfo{person}{Jingcheng Du}, \bibinfo{person}{Qingyu
+  Chen}, \bibinfo{person}{Yifan Peng}, \bibinfo{person}{Yang Xiang},
+  \bibinfo{person}{Cui Tao}, {and} \bibinfo{person}{Zhiyong Lu}.}
+  \bibinfo{year}{2019}\natexlab{}.
+\newblock \showarticletitle{ML-Net: multi-label classification of biomedical
+  texts with deep neural networks}.
+\newblock \bibinfo{journal}{\emph{Journal of the American Medical Informatics
+  Association}} \bibinfo{volume}{26}, \bibinfo{number}{11} (\bibinfo{date}{Jun}
+  \bibinfo{year}{2019}), \bibinfo{pages}{1279–1285}.
+\newblock
+\showISSN{1527-974X}
+\urldef\tempurl%
+\url{https://doi.org/10.1093/jamia/ocz085}
+\showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Eban, Schain, Mackey, Gordon, Saurous, and
+  Elidan}{Eban et~al\mbox{.}}{2016}]%
+        {optimizableLosses}
+\bibfield{author}{\bibinfo{person}{Elad~ET. Eban}, \bibinfo{person}{Mariano
+  Schain}, \bibinfo{person}{Alan Mackey}, \bibinfo{person}{Ariel Gordon},
+  \bibinfo{person}{Rif~A. Saurous}, {and} \bibinfo{person}{Gal Elidan}.}
+  \bibinfo{year}{2016}\natexlab{}.
+\newblock \bibinfo{booktitle}{\emph{{Scalable Learning of Non-Decomposable
+  Objectives}}}.
+\newblock
+\showeprint[arxiv]{1608.04802v2}~[stat.ML]
+
+
+\bibitem[\protect\citeauthoryear{Elisseeff and Weston}{Elisseeff and
+  Weston}{2001}]%
+        {multilabelSVM}
+\bibfield{author}{\bibinfo{person}{Andr\'{e} Elisseeff} {and}
+  \bibinfo{person}{Jason Weston}.} \bibinfo{year}{2001}\natexlab{}.
+\newblock \showarticletitle{A Kernel Method for Multi-Labelled Classification}.
+  In \bibinfo{booktitle}{\emph{Proceedings of the 14th International Conference
+  on Neural Information Processing Systems: Natural and Synthetic}} (Vancouver,
+  British Columbia, Canada) \emph{(\bibinfo{series}{NIPS'01})}.
+  \bibinfo{publisher}{MIT Press}, \bibinfo{address}{Cambridge, MA, USA},
+  \bibinfo{pages}{681–687}.
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Hanahan and Weinberg}{Hanahan and
+  Weinberg}{2011}]%
+        {cancerHallmarks}
+\bibfield{author}{\bibinfo{person}{Douglas Hanahan} {and}
+  \bibinfo{person}{Robert A. Weinberg}.} \bibinfo{year}{2011}\natexlab{}.
+\newblock \showarticletitle{Hallmarks of Cancer: The Next Generation}.
+\newblock \bibinfo{journal}{\emph{Cell}} \bibinfo{volume}{144},
+  \bibinfo{number}{5} (\bibinfo{date}{Mar} \bibinfo{year}{2011}),
+  \bibinfo{pages}{646–674}.
+\newblock
+\showISSN{0092-8674}
+\urldef\tempurl%
+\url{https://doi.org/10.1016/j.cell.2011.02.013}
+\showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Hastie, Tibshirani, and Friedman}{Hastie
+  et~al\mbox{.}}{2009}]%
+        {statLearning}
+\bibfield{author}{\bibinfo{person}{Trevor Hastie}, \bibinfo{person}{Robert
+  Tibshirani}, {and} \bibinfo{person}{Jerome Friedman}.}
+  \bibinfo{year}{2009}\natexlab{}.
+\newblock \showarticletitle{The Elements of Statistical Learning}.
+\newblock \bibinfo{journal}{\emph{Springer Series in Statistics}}
+  (\bibinfo{year}{2009}).
+\newblock
+\showISBNx{9780387848587}
+\showISSN{2197-568X}
+\urldef\tempurl%
+\url{https://doi.org/10.1007/978-0-387-84858-7}
+\showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Huang, Xu, Wang, and Silamu}{Huang
+  et~al\mbox{.}}{2015}]%
+        {sigmoid}
+\bibfield{author}{\bibinfo{person}{Hao Huang}, \bibinfo{person}{Haihua Xu},
+  \bibinfo{person}{Xianhui Wang}, {and} \bibinfo{person}{Wushour Silamu}.}
+  \bibinfo{year}{2015}\natexlab{}.
+\newblock \showarticletitle{Maximum F1-Score Discriminative Training Criterion
+  for Automatic Mispronunciation Detection}.
+\newblock \bibinfo{journal}{\emph{IEEE/ACM Transactions on Audio, Speech, and
+  Language Processing}} \bibinfo{volume}{23}, \bibinfo{number}{4}
+  (\bibinfo{date}{Apr} \bibinfo{year}{2015}), \bibinfo{pages}{787–797}.
+\newblock
+\showISSN{2329-9304}
+\urldef\tempurl%
+\url{https://doi.org/10.1109/taslp.2015.2409733}
+\showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Li, Song, and Luo}{Li et~al\mbox{.}}{2017}]%
+        {multitaskLabelImages}
+\bibfield{author}{\bibinfo{person}{Yuncheng Li}, \bibinfo{person}{Yale Song},
+  {and} \bibinfo{person}{Jiebo Luo}.} \bibinfo{year}{2017}\natexlab{}.
+\newblock \showarticletitle{Improving Pairwise Ranking for Multi-label Image
+  Classification}.
+\newblock \bibinfo{journal}{\emph{2017 IEEE Conference on Computer Vision and
+  Pattern Recognition (CVPR)}} (\bibinfo{date}{Jul} \bibinfo{year}{2017}).
+\newblock
+\showISBNx{9781538604571}
+\urldef\tempurl%
+\url{https://doi.org/10.1109/cvpr.2017.199}
+\showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Lin, Goyal, Girshick, He, and Dollar}{Lin
+  et~al\mbox{.}}{2017}]%
+        {focalLoss}
+\bibfield{author}{\bibinfo{person}{Tsung-Yi Lin}, \bibinfo{person}{Priya
+  Goyal}, \bibinfo{person}{Ross Girshick}, \bibinfo{person}{Kaiming He}, {and}
+  \bibinfo{person}{Piotr Dollar}.} \bibinfo{year}{2017}\natexlab{}.
+\newblock \showarticletitle{Focal Loss for Dense Object Detection}.
+\newblock \bibinfo{journal}{\emph{2017 IEEE International Conference on
+  Computer Vision (ICCV)}} (\bibinfo{date}{Oct} \bibinfo{year}{2017}).
+\newblock
+\showISBNx{9781538610329}
+\urldef\tempurl%
+\url{https://doi.org/10.1109/iccv.2017.324}
+\showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Lin, Maire, Belongie, Hays, Perona, Ramanan,
+  Dollár, and Zitnick}{Lin et~al\mbox{.}}{2014}]%
+        {COCO}
+\bibfield{author}{\bibinfo{person}{Tsung-Yi Lin}, \bibinfo{person}{Michael
+  Maire}, \bibinfo{person}{Serge Belongie}, \bibinfo{person}{James Hays},
+  \bibinfo{person}{Pietro Perona}, \bibinfo{person}{Deva Ramanan},
+  \bibinfo{person}{Piotr Dollár}, {and} \bibinfo{person}{C.~Lawrence
+  Zitnick}.} \bibinfo{year}{2014}\natexlab{}.
+\newblock \showarticletitle{Microsoft COCO: Common Objects in Context}.
+\newblock \bibinfo{journal}{\emph{Lecture Notes in Computer Science}}
+  (\bibinfo{year}{2014}), \bibinfo{pages}{740–755}.
+\newblock
+\showISBNx{9783319106021}
+\showISSN{1611-3349}
+\urldef\tempurl%
+\url{https://doi.org/10.1007/978-3-319-10602-1_48}
+\showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Lipton, Elkan, and Naryanaswamy}{Lipton
+  et~al\mbox{.}}{2014}]%
+        {threshForF1}
+\bibfield{author}{\bibinfo{person}{Zachary~C. Lipton}, \bibinfo{person}{Charles
+  Elkan}, {and} \bibinfo{person}{Balakrishnan Naryanaswamy}.}
+  \bibinfo{year}{2014}\natexlab{}.
+\newblock \showarticletitle{Optimal Thresholding of Classifiers to Maximize F1
+  Measure}.
+\newblock \bibinfo{journal}{\emph{Lecture Notes in Computer Science}}
+  (\bibinfo{year}{2014}), \bibinfo{pages}{225–239}.
+\newblock
+\showISBNx{9783662448519}
+\showISSN{1611-3349}
+\urldef\tempurl%
+\url{https://doi.org/10.1007/978-3-662-44851-9_15}
+\showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Milbich, Ghori, Diego, and Ommer}{Milbich
+  et~al\mbox{.}}{2020}]%
+        {unsupervisedImage}
+\bibfield{author}{\bibinfo{person}{Timo Milbich}, \bibinfo{person}{Omair
+  Ghori}, \bibinfo{person}{Ferran Diego}, {and} \bibinfo{person}{Björn
+  Ommer}.} \bibinfo{year}{2020}\natexlab{}.
+\newblock \showarticletitle{Unsupervised representation learning by discovering
+  reliable image relations}.
+\newblock \bibinfo{journal}{\emph{Pattern Recognition}}  \bibinfo{volume}{102}
+  (\bibinfo{date}{Jun} \bibinfo{year}{2020}), \bibinfo{pages}{107107}.
+\newblock
+\showISSN{0031-3203}
+\urldef\tempurl%
+\url{https://doi.org/10.1016/j.patcog.2019.107107}
+\showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Nakano, Cerri, and Vens}{Nakano
+  et~al\mbox{.}}{2020}]%
+        {activeLearningMultiLabel}
+\bibfield{author}{\bibinfo{person}{Felipe~Kenji Nakano},
+  \bibinfo{person}{Ricardo Cerri}, {and} \bibinfo{person}{Celine Vens}.}
+  \bibinfo{year}{2020}\natexlab{}.
+\newblock \showarticletitle{Active learning for hierarchical multi-label
+  classification}.
+\newblock \bibinfo{journal}{\emph{Data Mining and Knowledge Discovery}}
+  \bibinfo{volume}{34}, \bibinfo{number}{5} (\bibinfo{year}{2020}),
+  \bibinfo{pages}{1496--1530}.
+\newblock
+\showISBNx{1573-756X}
+\urldef\tempurl%
+\url{https://doi.org/10.1007/s10618-020-00704-w}
+\showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Rennie}{Rennie}{2005}]%
+        {smoothHinge}
+\bibfield{author}{\bibinfo{person}{Jason~DM Rennie}.}
+  \bibinfo{year}{2005}\natexlab{}.
+\newblock \showarticletitle{Smooth hinge classification}.
+\newblock \bibinfo{journal}{\emph{Proceeding of Massachusetts Institute of
+  Technology}} (\bibinfo{year}{2005}).
+\newblock
+
+
+\bibitem[\protect\citeauthoryear{Rijsbergen}{Rijsbergen}{[n.d.]}]%
+        {informationRetrieval}
+\bibfield{author}{\bibinfo{person}{C.J.~van Rijsbergen}.}
+  \bibinfo{year}{[n.d.]}\natexlab{}.
+\newblock \bibinfo{booktitle}{\emph{Information retrieval}
+  (\bibinfo{edition}{2nd [rev.] ed.} ed.)}.
+\newblock \bibinfo{publisher}{Butterworths}, \bibinfo{address}{London [etc}.
+\newblock
+\showISBNx{0408709294}
+
+
+\bibitem[\protect\citeauthoryear{Thain, Dixon, and Wulczyn}{Thain
+  et~al\mbox{.}}{2017}]%
+        {toxicComments}
+\bibfield{author}{\bibinfo{person}{Nithum Thain}, \bibinfo{person}{Lucas
+  Dixon}, {and} \bibinfo{person}{Ellery Wulczyn}.}
+  \bibinfo{year}{2017}\natexlab{}.
+\newblock \bibinfo{title}{Wikipedia Talk Labels: Toxicity}.
+\newblock
+\newblock
+\urldef\tempurl%
+\url{https://doi.org/10.6084/m9.figshare.4563973.v2}
+\showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Wang, Sun, Cheng, Jiang, Deng, Zhao, Liu, Mu,
+  Tan, Wang, and et~al.}{Wang et~al\mbox{.}}{2020}]%
+        {highResRepresentation}
+\bibfield{author}{\bibinfo{person}{Jingdong Wang}, \bibinfo{person}{Ke Sun},
+  \bibinfo{person}{Tianheng Cheng}, \bibinfo{person}{Borui Jiang},
+  \bibinfo{person}{Chaorui Deng}, \bibinfo{person}{Yang Zhao},
+  \bibinfo{person}{Dong Liu}, \bibinfo{person}{Yadong Mu},
+  \bibinfo{person}{Mingkui Tan}, \bibinfo{person}{Xinggang Wang}, {and}
+  \bibinfo{person}{et al.}} \bibinfo{year}{2020}\natexlab{}.
+\newblock \showarticletitle{Deep High-Resolution Representation Learning for
+  Visual Recognition}.
+\newblock \bibinfo{journal}{\emph{IEEE Transactions on Pattern Analysis and
+  Machine Intelligence}} (\bibinfo{year}{2020}), \bibinfo{pages}{1–1}.
+\newblock
+\showISSN{1939-3539}
+\urldef\tempurl%
+\url{https://doi.org/10.1109/tpami.2020.2983686}
+\showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Wu, Chen, Fan, Zhang, Hou, Liu, and Zhang}{Wu
+  et~al\mbox{.}}{2019}]%
+        {tencent}
+\bibfield{author}{\bibinfo{person}{Baoyuan Wu}, \bibinfo{person}{Weidong Chen},
+  \bibinfo{person}{Yanbo Fan}, \bibinfo{person}{Yong Zhang},
+  \bibinfo{person}{Jinlong Hou}, \bibinfo{person}{Jie Liu}, {and}
+  \bibinfo{person}{Tong Zhang}.} \bibinfo{year}{2019}\natexlab{}.
+\newblock \showarticletitle{Tencent ML-Images: A Large-Scale Multi-Label Image
+  Database for Visual Representation Learning}.
+\newblock \bibinfo{journal}{\emph{IEEE Access}}  \bibinfo{volume}{7}
+  (\bibinfo{year}{2019}), \bibinfo{pages}{172683–172693}.
+\newblock
+\showISSN{2169-3536}
+\urldef\tempurl%
+\url{https://doi.org/10.1109/access.2019.2956775}
+\showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Yessou, Sumbul, and Demir}{Yessou
+  et~al\mbox{.}}{2020}]%
+        {lossComp}
+\bibfield{author}{\bibinfo{person}{Hichame Yessou}, \bibinfo{person}{Gencer
+  Sumbul}, {and} \bibinfo{person}{Begüm Demir}.}
+  \bibinfo{year}{2020}\natexlab{}.
+\newblock \bibinfo{booktitle}{\emph{{A Comparative Study of Deep Learning Loss
+  Functions for Multi-Label Remote Sensing Image Classification}}}.
+\newblock
+\showeprint[arxiv]{2009.13935v1}~[cs.CV]
+
+
+\bibitem[\protect\citeauthoryear{Zhang, Bengio, Hardt, Recht, and
+  Vinyals}{Zhang et~al\mbox{.}}{2017}]%
+        {generalization}
+\bibfield{author}{\bibinfo{person}{Chiyuan Zhang}, \bibinfo{person}{Samy
+  Bengio}, \bibinfo{person}{Moritz Hardt}, \bibinfo{person}{Benjamin Recht},
+  {and} \bibinfo{person}{Oriol Vinyals}.} \bibinfo{year}{2017}\natexlab{}.
+\newblock \showarticletitle{Understanding deep learning requires rethinking
+  generalization}.
+\newblock
+\urldef\tempurl%
+\url{https://arxiv.org/abs/1611.03530}
+\showURL{%
+\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Zhang and Zhou}{Zhang and Zhou}{2006}]%
+        {multilabelBackprop}
+\bibfield{author}{\bibinfo{person}{Min-Ling Zhang} {and}
+  \bibinfo{person}{Zhi-Hua Zhou}.} \bibinfo{year}{2006}\natexlab{}.
+\newblock \showarticletitle{Multilabel Neural Networks with Applications to
+  Functional Genomics and Text Categorization}.
+\newblock \bibinfo{journal}{\emph{IEEE Transactions on Knowledge and Data
+  Engineering}} \bibinfo{volume}{18}, \bibinfo{number}{10} (\bibinfo{date}{Oct}
+  \bibinfo{year}{2006}), \bibinfo{pages}{1338–1351}.
+\newblock
+\showISSN{1041-4347}
+\urldef\tempurl%
+\url{https://doi.org/10.1109/tkde.2006.162}
+\showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Zhang and Zhou}{Zhang and Zhou}{2007}]%
+        {ML-KNN}
+\bibfield{author}{\bibinfo{person}{Min-Ling Zhang} {and}
+  \bibinfo{person}{Zhi-Hua Zhou}.} \bibinfo{year}{2007}\natexlab{}.
+\newblock \showarticletitle{ML-KNN: A lazy learning approach to multi-label
+  learning}.
+\newblock \bibinfo{journal}{\emph{Pattern Recognition}} \bibinfo{volume}{40},
+  \bibinfo{number}{7} (\bibinfo{date}{Jul} \bibinfo{year}{2007}),
+  \bibinfo{pages}{2038–2048}.
+\newblock
+\showISSN{0031-3203}
+\urldef\tempurl%
+\url{https://doi.org/10.1016/j.patcog.2006.12.019}
+\showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Zhang and Zhou}{Zhang and Zhou}{2014}]%
+        {multilabelReview}
+\bibfield{author}{\bibinfo{person}{Min-Ling Zhang} {and}
+  \bibinfo{person}{Zhi-Hua Zhou}.} \bibinfo{year}{2014}\natexlab{}.
+\newblock \showarticletitle{A Review on Multi-Label Learning Algorithms}.
+\newblock \bibinfo{journal}{\emph{IEEE Transactions on Knowledge and Data
+  Engineering}} \bibinfo{volume}{26}, \bibinfo{number}{8} (\bibinfo{date}{Aug}
+  \bibinfo{year}{2014}), \bibinfo{pages}{1819–1837}.
+\newblock
+\showISSN{1041-4347}
+\urldef\tempurl%
+\url{https://doi.org/10.1109/tkde.2013.39}
+\showDOI{\tempurl}
+
+
+\end{thebibliography}
