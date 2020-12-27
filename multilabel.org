@@ -74,7 +74,7 @@
 #+LATEX:% #+LATEX_HEADER:    {\baselineskip}% after sep                           
 
 
-\title{Loss framework for uni-instance multiclass multilabel prediction with varying number of labels}
+\title{SigmoidF1 – Loss framework for uni-instance multiclass multilabel prediction with varying number of labels}
 
 
 #+LATEX:% #+BEGIN_LATEX latex
@@ -91,7 +91,7 @@
 #+LATEX:% #+END_LATEX
 
 \begin{abstract}
-Multilabel classification is a common task in text, image or video (scene) prediction.
+Multilabel classification is a common task in text, image or video (scene) prediction...
 \end{abstract}
 
 
@@ -111,7 +111,7 @@ Although multilabel binary prediction (commonly referring to mutually inclusive 
 #+NAME:   fig:tree
 [[./tree/Tree.pdf]]
 
-Before, exploring the subject further, we will use Figure \ref{fig:tree} to disambiguate the terminology used in this research. There seems to exist a concensus over the terms multiclass and multilabel learning, meaning respectively mutually exclusive and mutually inclusive labels \todo{source}. Multilabel can therefore be seen as a subdomain of multiclass learning, where more than one class can be true for the same example. Within multilabel training, we introduce the distinction between multi-instance multilabel (e.g. cite:multiInstance) and uni-instance multilabel. The former refers to tasks where elements within each example can be singled-out (objects in an image or expressions in a text) and assigned one or more labels. In the countrary, this paper focusses on uni-instance multilabel training (sparse occurences of the term holistic can be found in the litterature to describe this phenomenon for image cite:holisticImageDescriptors,holisticLungs and a recent video dataset cite:holisticVideoData \todo{read these}), more specifically with varying label counts. To the best of our knowledge, there are few existing representatives of that type of labelling task in the literature. \todo{cite more milestone examples for each category.} \todo{delta with hierarchical label learning}
+Before, exploring the subject further, we will use Figure \ref{fig:tree} to disambiguate the terminology used in this research. There seems to exist a consensus over the terms multiclass and multilabel learning, meaning respectively mutually exclusive and mutually inclusive labels \todo{source}. Multilabel can therefore be seen as a subdomain of multiclass learning, where more than one class can be true for the same example. Within multilabel training, we introduce the distinction between multi-instance multilabel (e.g. cite:multiInstance) and uni-instance multilabel. The former refers to tasks where elements within each example can be singled-out (objects in an image or expressions in a text) and assigned one or more labels. In the countrary, this paper focusses on uni-instance multilabel training (sparse occurences of the term holistic can be found in the literature to describe this phenomenon for image cite:holisticImageDescriptors,holisticLungs and a recent video dataset cite:holisticVideoData \todo{read these}), more specifically with varying label counts. To the best of our knowledge, there are few existing representatives of that type of labelling task in the literature. \todo{cite more milestone examples for each category.} \todo{delta with hierarchical label learning}
 
 The particularity of tasks like scientific paper tagging or movie genre classification is that it remains unclear what elements in an image/video or text can be singled out as predictive of a particular tag/genre. Rather, a complex interaction between these elements in the feature space steer the predictions. For example, the sole mention of the term "machine learning" in a paper should not be a sufficient condition to tag it as such. Instead, one could expect from the publisher to get acquainted with the paper enough to determine wether the research is a worthwhile contribution or application of /machine learning/ to deserve the tag. This involves thorough understanding of the proposed method and background knowledge on state-of-the-art methods. An analogous argument can be made for movie genre classification for movie posters.
 
@@ -178,7 +178,7 @@ Although predictions and counts explicitly appear in that formulation, $\mathcal
 
 \todo{look at [[https://www.sciencedirect.com/topics/computer-science/extractive-summarization][extractive summarization]]}
 
-This section will be guided by the previous section's formulation of the multitags problem, we will therefore focus on /algorithm adaptation/, /metrics as losses/ and /dynamic thresholding/.
+This section will be guided by the previous section's formulation of the multitags problem, we will therefore focus on /algorithm adaptation/, /metrics as losses/ and /thresholding/.
 
 ** algorithm adaptation
 
@@ -191,9 +191,9 @@ Often, machine learning post-training evaluation metrics (e.g. AUROC, F1) are no
 
 #+LATEX:% in reformulating loss functions to accomodate sparsity in the data, to optimize directly for the metric at hand or to do thresholding posthoc (see movie posters).
 
-** dynamic thresholding
+** thresholding
 
-/dynamic thresholding/ accross classes or examples is an issue as soon as the number of labels to predict is unknown. Certain variants of cross-entropy loss accomodate imbalanced label data  cite:focalLoss, but remain agnostic towards the number of labels to predict. Solutions have been tailored to that end, starting with determining an ideal global /threshold/ depending on use-cases cite:threshForF1, or per-class-thresholding after training cite:moviePosters and eventually abstracting the threshold away via a /soft-F1/ measure cite:softF1 \todo{say more about this method}. In the latter two cases, the task is to predict genre from movie posters.
+/thresholding/ accross classes or examples can be an issue as soon as the number of labels to predict is unknown. Certain variants of cross-entropy loss accommodate imbalanced label data  cite:focalLoss, but remain agnostic towards the number of labels to predict. Solutions have been tailored to that end, starting with determining an ideal global /threshold/ depending on use-cases cite:threshForF1, or per-class-thresholding after training cite:moviePosters and eventually abstracting the threshold away via a /soft-F1/ measure cite:softF1 \todo{say more about this method}. In the latter two cases, the task is to predict genre from movie posters.
 
 #+CAPTION: ordered per-label cross-entropy predictions for each example (each grey line) with the median (orange) and IQR (green & blue) over all examples. Determining a global threshold can be related to visually finding the "knee" in that median curve (dotted line)
 #+NAME:   fig:knee
@@ -201,7 +201,7 @@ Often, machine learning post-training evaluation metrics (e.g. AUROC, F1) are no
 
 \todo{nicer plot on another dataset (this is from RTL)}
 
-The proposed method is positioned in the lineage of /algorithm adaptation/, using /metric as losses/ and allowing for /dynamic thresholdig/. 
+The proposed method is positioned in the lineage of /algorithm adaptation/, using /metric as losses/ and allowing for dynamic /thresholding/. 
 
 #+LATEX:% We propose a dynamic thresholding mechanism auto-tuned at training time.
 
@@ -298,7 +298,7 @@ $tp$, $fp$ and $fn$ are now replaced by rough surrogates, this method has the ad
 
 ** sigmoidF1 score
 
-We define /sigmoidF1/, inspired by the /Maximum F1-score criterion/ for automatic mispronounciation detection cite:sigmoid. Whereas a sigmoid function $S(u)$
+We define /sigmoidF1/, inspired by the /Maximum F1-score criterion/ for automatic mispronunciation detection cite:sigmoid. Whereas a sigmoid function $S(u)$
 
 \begin{equation}
 S(u; \beta, \eta)=\frac{1}{1+\exp (-\beta (u + \eta))},
@@ -306,14 +306,14 @@ S(u; \beta, \eta)=\frac{1}{1+\exp (-\beta (u + \eta))},
 
 with $\beta$ and $\eta$ tunable parameters for slope and offset respectively. Higher $\beta$ results in steeper slope at the center of the sigmoid and thus more stringent thresholding. At its extreme, $lim_{\beta\to\infty} S(u; \beta, \eta)$ corresponds to the step function used in Equation \ref{eq:conf}. with $S(u)$, the confusion matrix entries then become
 
-$$
+\begin{equation}\label{eq:sigmoidF1}
 \widetilde{tp}=\sum S(\hat{\mathbf{y}}) \odot \mathbf{y} \quad\widetilde{fp}= \sum S(\hat{\mathbf{y}}) \odot (\mathbf{1} - \mathbf{y}) \quad \widetilde{f n}= \sum (\mathbf{1} - S(\hat{\mathbf{y}})) \odot \mathbf{y}
-$$
+\end{equation}
 
 And thus
 
 \begin{equation}
-\mathcal{L}_{\text {softF1}}= \frac{\widetilde{tp}}{2 \widetilde{tp}+ \widetilde{fn}+ \widetilde{fp}}
+\mathcal{L}_{\text {sigmoidF1}}= \frac{\widetilde{tp}}{2 \widetilde{tp}+ \widetilde{fn}+ \widetilde{fp}}
 \end{equation}
 
 \doubt{mention smooth hinge loss} cite:smoothHinge
@@ -323,14 +323,23 @@ For /sigmoidF1/ $\beta$ and $\eta$ are tuned globally as hyperparameters. /SAdF1
 /SBayesF1/ (sigmoid Bayes F1) replaces point estimates for $\beta$ and $\eta$ with posterior distribution estimates. 
 
 \begin{equation}
-S(u_i) = \frac{1}{1+\exp (-\beta_i (u_i + \eta_i))}
+\dot{S}(u_i) = \frac{1}{1+\exp (-\beta_i (u_i + \eta_i))}
 \end{equation}
 
-#+LATEX:% $$ \beta_i \tilde \mathcal{N} (0, \sigma^{2}_{\beta}) $$
+$$ \beta_i \sim N(0, \sigma^{2}_{\beta}) $$
 
-#+LATEX:% $$ \eta_i \tilde \mathcal{N} (0, \sigma^{2}_{\eta}) $$
+$$ \eta_i \sim N(0, \sigma^{2}_{\eta}) $$
 
-$\beta_i$ and $\eta_i$ are estimated with MCMC at training time of the neural network. They are therefore implicitely allowed to vary across examples.
+$\beta_i$ and $\eta_i$ are estimated with MCMC at training time of the neural network. They are therefore implicitely allowed to vary across examples. The $\dot{tp}$, $\dot{fp}$ and $\dot{fn}$ surrogates can be formulated similarly to Equation \ref{eq:sigmoidF1}. We thus have
+
+\begin{equation}
+\mathcal{L}_{\text {SBayesF1}}= \frac{\dot{tp}}{2 \dot{tp}+ \dot{fn}+ \dot{fp}}
+\end{equation}
+
+
+#+LATEX:% $\doublewidetilde{tp}$
+#+LATEX:% https://tex.stackexchange.com/questions/321231/double-widetilde
+#+LATEX:% doesn't work
 
 \todo{try SadF1 and SBayesF1 in practice}
 
@@ -346,13 +355,13 @@ Similarly to the focal loss cite:focalLoss, sigmoidF1 loss deals with class imba
 
 ** Evaluation Metrics
 
-The metrics described below are a result of a survey of different common practices for measuring accuracy of multilabel prediction. When true positives and false positives are used, recall that $t p=\sum_{i \in Y^{+}} \mathds{1}_{\mathbf{p_i} \geq b}$ and $f p=\sum_{i \in Y^{-}} \mathds{1}_{\mathbf{p_i} \geq b}$, and thus a threshold $b$ must be set. When $b = 0.5$, as is commonly done [SOURCE HERE], a risk remains that a lot of examples remain without predictions.
+The metrics described below are a result of a survey of different common practices for measuring accuracy of multilabel prediction. When true positives and false positives are used, recall that $t p=\sum_{i \in Y^{+}} \mathds{1}_{\mathbf{p_i} \geq b}$ and $f p=\sum_{i \in Y^{-}} \mathds{1}_{\mathbf{p_i} \geq b}$, and thus a threshold $b$ must be set. When $b = 0.5$, as is commonly done \todo{add source}, a risk remains that a lot of examples remain without predictions.
 
 Extending $F_1$ to multi-class binary classification amounts to deciding wether to un/pool classes.
 In a first pooled iteration, micro $F_1$ [SOURCE HERE] equates to creating a single 2x2 confusion matrix for all classes:
 $$F_1^{micro} = \frac{\sum tp_c}{2 \sum tp_c + \sum fn_c + \sum fp_c} \quad for \quad c \in C$$
 
-Macro $F_1$ cite:threshForF1 amounts to creating one confusion matrix per class:
+Macro $F_1$ cite:threshForF1 amounts to creating one confusion matrix per class or unpooling:
 
 $$F_1^{macro} = \frac{1}{c} \sum_{j=1}^c F_1$$
 
@@ -377,12 +386,9 @@ $$
 #+LATEX:% $$F_1^{micro} = \frac{\sum tp_c}{2 \sum tp_c + \sum fn_c + \sum fp_c} \quad for \quad c \in C$$
 
 
-** TODO compare to  cite:lossComp
-  :PROPERTIES:  
-  :UNNUMBERED: t  
-  :END: 
+\todo{compare to this:} cite:lossComp
 
- \clearpage
+
 
 * datasets
 
@@ -419,7 +425,6 @@ Another recently created dataset was made available for /Large Scale Holistic Vi
 
 \doubt{add a music genre classification dataset, for which Vincent Koops at RTL could help train}
 
-\newpage
 
 * Experimental Results
 
@@ -489,7 +494,7 @@ F_{1}(\%) & 0 & 0 & 0 & \mathbf{0} \\
 
 *Shortcomings*
 
- it is debatable wether any task is intrinsincly multilabel and wether the image / text cannot be decomposed in parts that are single labelled.
+ it is debatable wether any task is intrinsincly multilabel and wether the image / text cannot be decomposed in parts that are single labeled.
 
  not long training and small models, but aibility to demonstrate the statement anyways.
 
