@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=latex 2017.9.13)  24 DEC 2020 14:24
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=latex 2017.9.13)  27 DEC 2020 15:03
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -367,7 +367,7 @@ e 20.
 (/usr/local/texlive/2017/texmf-dist/tex/latex/pstricks-add/pstricks-add.cfg
 File: pstricks-add.cfg 2005/01/10 v0.1 addtional user stuff (hv)
 ))
-No file Tree.aux.
+(./Tree.aux)
 \openout1 = `Tree.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 8.
@@ -386,16 +386,16 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <7> on input line 30.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line 30.
-[1
+ [1
 
 ] (./Tree.aux) ) 
 Here is how much of TeX's memory you used:
- 10014 strings out of 492996
- 181468 string characters out of 6132730
- 292721 words of memory out of 5000000
+ 10016 strings out of 492996
+ 181486 string characters out of 6132730
+ 292745 words of memory out of 5000000
  13453 multiletter control sequences out of 15000+600000
  3948 words of font info for 15 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  37i,8n,56p,560b,759s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on Tree.dvi (1 page, 14280 bytes).
+Output written on Tree.dvi (1 page, 14288 bytes).

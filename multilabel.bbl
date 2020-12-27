@@ -2,7 +2,7 @@
 %%% Do NOT edit. File created by BibTeX with style
 %%% ACM-Reference-Format-Journals [18-Jan-2012].
 
-\begin{thebibliography}{34}
+\begin{thebibliography}{33}
 
 %%% ====================================================================
 %%% NOTE TO THE USER: you can override these defaults by providing
@@ -36,18 +36,6 @@
 \providecommand\bibinfo[2]{#2}
 \providecommand\natexlab[1]{#1}
 \providecommand\showeprint[2][]{arXiv:#2}
-
-\bibitem[\protect\citeauthoryear{??}{dat}{2007}]%
-        {dataScenery}
- \bibinfo{year}{2007}\natexlab{}.
-\newblock \bibinfo{journal}{\emph{Advances in Neural Information Processing
-  Systems 19}} (\bibinfo{year}{2007}).
-\newblock
-\showISBNx{9780262256919}
-\urldef\tempurl%
-\url{https://doi.org/10.7551/mitpress/7503.003.0206}
-\showDOI{\tempurl}
-
 
 \bibitem[\protect\citeauthoryear{Apostolidis, Adamantidou, Metsai, Mezaris, and
   Patras}{Apostolidis et~al\mbox{.}}{2020}]%
@@ -454,17 +442,18 @@
 \showISBNx{0408709294}
 
 
-\bibitem[\protect\citeauthoryear{Thain, Dixon, and Wulczyn}{Thain
-  et~al\mbox{.}}{2017}]%
-        {toxicComments}
-\bibfield{author}{\bibinfo{person}{Nithum Thain}, \bibinfo{person}{Lucas
-  Dixon}, {and} \bibinfo{person}{Ellery Wulczyn}.}
-  \bibinfo{year}{2017}\natexlab{}.
-\newblock \bibinfo{title}{Wikipedia Talk Labels: Toxicity}.
-\newblock
+\bibitem[\protect\citeauthoryear{{Soleimani} and {Miller}}{{Soleimani} and
+  {Miller}}{2017}]%
+        {multiInstance}
+\bibfield{author}{\bibinfo{person}{H. {Soleimani}} {and} \bibinfo{person}{D.~J.
+  {Miller}}.} \bibinfo{year}{2017}\natexlab{}.
+\newblock \showarticletitle{Semisupervised, Multilabel, Multi-Instance Learning
+  for Structured Data}.
+\newblock \bibinfo{journal}{\emph{Neural Computation}} \bibinfo{volume}{29},
+  \bibinfo{number}{4} (\bibinfo{year}{2017}), \bibinfo{pages}{1053--1102}.
 \newblock
 \urldef\tempurl%
-\url{https://doi.org/10.6084/m9.figshare.4563973.v2}
+\url{https://doi.org/10.1162/NECO_a_00939}
 \showDOI{\tempurl}
 
 

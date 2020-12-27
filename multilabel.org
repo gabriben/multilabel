@@ -35,10 +35,10 @@
 #+LATEX_HEADER: \input{meta}
 
 
-
 # #+LATEX_HEADER: \usepackage{aistats2018}
 # #+LATEX_HEADER: \usepackage{natbib}
 
+# #+Latex_header: \usepackage{hyperref}
 #+Latex_header: \usepackage{xcolor}
 #+Latex_header: \newcommand\todo[1]{\textcolor{red}{TODO : #1}}
 #+Latex_header: \newcommand\doubt[1]{\textcolor{orange}{DOUBT : #1}}
@@ -74,7 +74,7 @@
 # #+LATEX_HEADER:    {\baselineskip}% after sep                           
 
 
-\title{Loss framework for entity-wide multiclass multilabel prediction with varying number of labels}
+\title{Loss framework for uni-instance multiclass multilabel prediction with varying number of labels}
 
 
 # #+BEGIN_LATEX latex
@@ -111,17 +111,17 @@ Although multilabel binary prediction (commonly referring to mutually inclusive 
 #+NAME:   fig:tree
 [[./tree/Tree.pdf]]
 
-Before, exploring the subject further, we will use Figure \ref{fig:tree} to disambiguate the terminology used in this research. There seems to exist a concensus over the terms multiclass and multilabel learning, meaning respectively mutually exclusive and mutually inclusive labels \todo{source}. Multilabel can therefore be seen as a subdomain of multiclass learning, where more than one class can be true for the same example. Within multilabel training, we introduce the distinction between sub-entity unilabel and entity-wide multilabel. The former refers to tasks where elements within each example can be singled-out (objects in an image or expressions in a text) and assigned a single label. In the countrary, this paper focusses on entity-wide multilabel training (sparse occurences of the term holistic can be found in the litterature to describe this phenomenon for image cite:holisticImageDescriptors,holisticLungs and a recent video dataset cite:holisticVideoData \todo{read these}), more specifically with varying label counts. To the best of our knowledge, there are few existing representatives of that type of labelling task in the literature. \todo{cite more milestone examples for each category.} \todo{delta with hierarchical label learning}
+Before, exploring the subject further, we will use Figure \ref{fig:tree} to disambiguate the terminology used in this research. There seems to exist a concensus over the terms multiclass and multilabel learning, meaning respectively mutually exclusive and mutually inclusive labels \todo{source}. Multilabel can therefore be seen as a subdomain of multiclass learning, where more than one class can be true for the same example. Within multilabel training, we introduce the distinction between multi-instance multilabel (e.g. cite:multiInstance) and uni-instance multilabel. The former refers to tasks where elements within each example can be singled-out (objects in an image or expressions in a text) and assigned one or more labels. In the countrary, this paper focusses on uni-instance multilabel training (sparse occurences of the term holistic can be found in the litterature to describe this phenomenon for image cite:holisticImageDescriptors,holisticLungs and a recent video dataset cite:holisticVideoData \todo{read these}), more specifically with varying label counts. To the best of our knowledge, there are few existing representatives of that type of labelling task in the literature. \todo{cite more milestone examples for each category.} \todo{delta with hierarchical label learning}
 
 The particularity of tasks like scientific paper tagging or movie genre classification is that it remains unclear what elements in an image/video or text can be singled out as predictive of a particular tag/genre. Rather, a complex interaction between these elements in the feature space steer the predictions. For example, the sole mention of the term "machine learning" in a paper should not be a sufficient condition to tag it as such. Instead, one could expect from the publisher to get acquainted with the paper enough to determine wether the research is a worthwhile contribution or application of /machine learning/ to deserve the tag. This involves thorough understanding of the proposed method and background knowledge on state-of-the-art methods. An analogous argument can be made for movie genre classification for movie posters.
 
-However, if elements in an image/text can be singled out as predictive of a single tag, the problem reverts back to predicting with the a priori knowledge of the existence of only one true label (i.e. sub-entity unilabel learning).  The reason for distanciating singling-out from entity-wide labels, is that it has been shown that as soon as singling-out is possible, models that work on instances are more accurate \todo{rewrite this paragraph and sources}. The singled-out elements can be subsets of the original feature space (typically in object detection like with the COCO dataset  cite:COCO and \todo{others}). Similarly, recent research has shown that the singled-out elements can be located in the abstract representations (embeddings) of the feature set and might individually predict a single true label (like GPT-3 \todo{source}) \todo{more examples}. This might also carry prospects of generalizability of the model cite:generalization \todo{elaborate}. 
+However, if elements in an image/text can be singled out as predictive of a single tag, the problem reverts back to predicting with the a priori knowledge of the existence of only one true label (i.e. multi-instance multilabel learning).  The reason for distanciating singling-out from uni-instance labels, is that it has been shown that as soon as singling-out is possible, models that work on instances are more accurate \todo{rewrite this paragraph and sources}. The singled-out elements can be subsets of the original feature space (typically in object detection like with the COCO dataset  cite:COCO or the Amazon Rainforest Dataset\footnote{Available at https://www.kaggle.com/c/planet-understanding-the-amazon-from-space} \todo{others}). Similarly, recent research has shown that the singled-out elements can be located in the abstract representations (embeddings) of the feature set and might individually predict a single true label (like GPT-3 \todo{source}) \todo{more examples}. This might also carry prospects of generalizability of the model cite:generalization \todo{elaborate}. 
 
-But for now, in certain retrieval tasks such as scientific journal tagging, the effect of sub-entities (either expressions in the text or single features in the embedding space) on the prediction of each label remains hard to assess. Instead we propose entity-wide (sometimes referred to as holistic) multilabel learning for varying amount of labels, with a focus on custom loss functions.
+But for now, in certain retrieval tasks such as scientific journal tagging, the effect of sub-entities (either expressions in the text or single features in the embedding space) on the prediction of each label remains hard to assess. Instead we propose uni-instance (sometimes referred to as holistic) multilabel learning for varying amount of labels, with a focus on custom loss functions.
 
-To allow the use of existing diffentiable loss fonctions, previous research papers tend to reframe the problem into either (I) a sub-entity uni-label (as described above, with the COCO dataset as an example of isolation of features cite:COCO), (II) entity-wide unilabel prediction (III) entity-wide multilabel prediction with fixed label count (IV) entity-wide multilabel prediction with varying label count with post-training thresholding (V) redefine backpropagation for multilabel prediction cite:multilabelBackprop (VI) multitask learning cite:multitaskLabel. This order reflects in ascending order how close modelling seem to fit the original task, which remains entity-wide multilabel learning with varying amounts of labels. \todo{group them}
+To allow the use of existing diffentiable loss fonctions, previous research papers tend to reframe the problem into either (I) a multi-instance uni-label (as described above, with the COCO dataset as an example of isolation of features cite:COCO), (II) uni-instance unilabel prediction (III) uni-instance multilabel prediction with fixed label count (IV) uni-instance multilabel prediction with varying label count with post-training thresholding (V) redefine backpropagation for multilabel prediction cite:multilabelBackprop (VI) multitask learning cite:multitaskLabel. This order reflects in ascending order how close modelling seem to fit the original task, which remains uni-instance multilabel learning with varying amounts of labels. \todo{group them}
 
-Sometimes it seems useful to optimize a neural network directly on the evaluation metric cite:optimizableLosses. In the case of entity-wide multilabel classification with varying amount of labels, common loss functions such as cross-entropy loss or multinomial logit loss deliver predictions on the unit interval. In the case of mutually exclusive labels, this is a viable solution. Sometimes the groundtruth consists of a collection of positive and negative valued classes, in varying amounts across observations. In other terms, one is  looking for a top-k prediction with varying $k$ accross observations.
+Sometimes it seems useful to optimize a neural network directly on the evaluation metric cite:optimizableLosses. In the case of uni-instance multilabel classification with varying amount of labels, common loss functions such as cross-entropy loss or multinomial logit loss deliver predictions on the unit interval. In the case of mutually exclusive labels, this is a viable solution. Sometimes the groundtruth consists of a collection of positive and negative valued classes, in varying amounts across observations. In other terms, one is  looking for a top-k prediction with varying $k$ accross observations.
 
 
 
@@ -132,8 +132,7 @@ In a number of retrieval tasks, a model's out of sample accuracy is measured on 
 
 **our contribution**
 
- We propose a general mathematical formulation of entity-wide multilabel learning for varying amount of groundtruth labels. The generalization encompasses different levels of complexity, from the classical cross-entropy loss up to the proposed loss function. /sigmoidF1/ is a F1 score surrogate which allows to optimize for label prediction and count simultanuously in a single task and is robust to outliers. It delivers more precise predictions than the current state-of-the-art on several different metrics, accross text and image related tasks.
-
+ We propose a general mathematical formulation of uni-instance multilabel learning for varying amount of groundtruth labels. The generalization encompasses different levels of complexity, from the classical cross-entropy loss up to the proposed loss function. /sigmoidF1/ is a F1 score surrogate which allows to optimize for label prediction and count simultanuously in a single task and is robust to outliers. It delivers more precise predictions than the current state-of-the-art on several different metrics, accross text and image related tasks.
 
 * Building up on losses
 
@@ -258,9 +257,10 @@ For each observation $i$, label class probabilities can be defined based on pred
 
 Let $tp$ and $fp$ be number of true and false positives respectively. It is necessary to define a bound $b$, at which a prediction is dichotomized:
 
- $$
+\begin{equation}
  t p=\sum_{i \in Y^{+}} \mathds{1}_{\mathbf{p_i} \geq b} \quad f p=\sum_{i \in Y^{-}} \mathds{1}_{\mathbf{p_i} \geq b} \quad fn = \sum_{i \in Y^{+}} \mathds{1}_{\mathbf{p_i} < b}
- $$
+\end{equation}
+\label{eq:conf}
 
 $\mathds{1}_{\mathbf{p_i} \geq b}$, $\mathds{1}_{\mathbf{p_i} < b}$ are thus the count of positive and negative predictions at threshold $b$, 
 
@@ -298,19 +298,18 @@ $$
 \mathcal{L}_{\text {softF1}}= \frac{\tilde{tp}}{2 \tilde{tp}+ \tilde{fn}+ \tilde{fp}}
 \end{equation}
 
-/softF1/ is 
-  # $$\mathcal{L}_{\text {Pred}}=\sum_{i, j}\left(\mathbf{y}_{i j}-\hat{\mathbf{y}}_{i j}\right)^{2}$$
+# /softF1/ is 
+# $$\mathcal{L}_{\text {Pred}}=\sum_{i, j}\left(\mathbf{y}_{i j}-\hat{\mathbf{y}}_{i j}\right)^{2}$$
 
 ** sigmoidF1 score
 
-We define /sigmoidF1/, inspired by the /Maximum F1-score criterion/ for automatic mispronounciation detection cite:sigmoid. Whereas 
-A sigmoid function $S(u)$
+We define /sigmoidF1/, inspired by the /Maximum F1-score criterion/ for automatic mispronounciation detection cite:sigmoid. Whereas a sigmoid function $S(u)$
 
 \begin{equation}
-S(u)=\frac{1}{1+\exp (-\beta u)}
+S(u)=\frac{1}{1+\exp (-\beta (u + \eta))}
 \end{equation}
 
-Confusion matrix entries then become
+Note that $\lim \beta \rightarrow \infty S(u)$ corresponds to the step function used in Equation \ref{eq:conf} \todo{wrong equatino number in ref}. The confusion matrix entries then become
 
 $$
 \tilde{tp}=\sum S(\hat{\mathbf{y}}) \odot \mathbf{y} \quad \tilde{fp} = \sum \hat{\mathbf{y}} \odot (\mathbf{1} - \mathbf{y}) \quad \tilde{fn} = \sum (\mathbf{1} - \hat{\mathbf{y}}) \odot \mathbf{y}
@@ -373,63 +372,38 @@ sigmoidF1 is tested across different modalities, namely image, video, sound and 
 # In light of the problem definition leading to the sigmoidF1 framework in the introduction and in order to clearly delimit the proposed method, following are a few datasets that are not suitable for the task.
 
 
-Among the three datasets used for benchmarking ML-NET cite:multitaskLabel, a cancer hallmark dataset is of sub-entity unilabel nature cite:cancerHallmarks (available at https://www.cl.cam.ac.uk/&sim;sb895/HoC.html): the research clearly describe a process of annotating several expressions within paper abstracts. The remaining two for chemical exposure cite:chemExposure (available at https://figshare.com/articles/Corpus_and_Software/4668229) and diagnosis codes assigment cite:diagnosisCode (available at https://physionet.org/works/ICD9CodingofDischargeSummaries), seem to fit to the entity wide multilabel definition but have a strong hierarchical nature. 
+Among the three datasets used for benchmarking ML-NET cite:multitaskLabel, a cancer hallmark dataset is of multi-instance multilabel nature cite:cancerHallmarks \footnote{Available at https://www.cl.cam.ac.uk/&sim;sb895/HoC.html}: the research clearly describe a process of annotating several expressions within paper abstracts. The remaining two datasets for chemical exposure cite:chemExposure \footnote{Available at https://figshare.com/articles/Corpus_and_Software/4668229} and diagnosis codes assigment cite:diagnosisCode \footnote{Available at https://physionet.org/works/ICD9CodingofDischargeSummaries}, seem to fit to the entity wide multilabel definition but have a strong hierarchical nature. Although slightly out-of-scope, the three datasets above will be used for benchmarking, since they were used to test ML-NET, which is the state-of-the-art in /algorithm adaptation/ for text to the best of our knowledge.
 
-Since ML-Net can be considered as the state-of-the-art in the closest task in text, the three datasets above will be used. The 
+For a broader scope in learning for text data, we also use the newly created /Arxiv dataset/ \footnote{Available at https://www.kaggle.com/Cornell-University/arxiv} with data on abstracts of 1.7 million open source articles and their categories (suitably mutually inclusive and of varying count per example).
 
-Cancer can be described according to its complexity with different principles, named hallmarks cite:cancerHallmarks. A corpus of 1580 PubMed abstracts are manually annotated for 10 hallmarks. This is a sub-entity labelling task and will therefore not be used here.
-
-[[./images/cancerHallmarksAnnotation.jpg]]
-
-
-video dataset: cite:holisticVideoData
-
-, a dataset for movie posters. Music genre 
-
-music genre, Arxiv publications, medical publications.
-
-In order to test sigmoidF1 on different settings, image, sound and text 
-
-
-The datasets are namely a movie poster dataset, a toxic comments dataset and a medical publications dataset.
-
-
-- Multilabel classification for text cite:toxicComments
-
-- Scenery dataset for images cite:dataScenery.
-
-- movie Posters dataset: 
-
-https://www.kaggle.com/neha1703/movie-genre-from-its-poster
-
-pre-scraped: https://www.kaggle.com/neha1703/movie-genre-from-its-poster/discussion/35485 (I removed all jpg's that are empty.)
-
-** TODO download posters myself, to see if I get more  (see utils in [[https://github.com/ashrefm/multi-label-soft-f1.git][here]])
-   :PROPERTIES:  
-   :UNNUMBERED: t
-   :END: 
+In the vision domain, a dataset of movie posters \footnote{Labels available at https://tinyurl.com/y7ydyedu and prescraped images from IMDB at https://tinyurl.com/y7lfpvlx} and their genre is used. Similarly, labels are mutually inclusive and of varying count per example. It is arguable that is hard to single out elements in the image of a poster that define the genre of a movie. Rather it might be a combination of the title font, the background image, the presence of actors and specific objects such as cars, weapons etc. 
 
 
 
- - https://www.kaggle.com/c/imaterialist-challenge-fashion-2018/data
 
- - https://archive.ics.uci.edu/ml/datasets/DeliciousMIL\%3A+A+Data+Set+for+Multi-Label+Multi-Instance+Learning+with+Instance+Labels#
+\todo{I removed all jpg's that are empty in the prescraped data. I could try to scrape the posters myself to see if I get more}
 
+Another recently created dataset was made available for /Large Scale Holistic Video Understanding/ cite:holisticVideoData \footnote{Available at https://github.com/holistic-video-understanding/HVU-Dataset}, as defined in the introduction.
 
- Not what we are looking for:
+# Cancer can be described according to its complexity with different principles, named hallmarks cite:cancerHallmarks. A corpus of 1580 PubMed abstracts are manually annotated for 10 hallmarks. This is a multi-instance labelling task and will therefore not be used here.
 
- some datasets have spacially differing labels such as [[https://machinelearningmastery.com/how-to-develop-a-convolutional-neural-network-to-classify-satellite-photos-of-the-amazon-rainforest/][Amazon rainforest]].
+# [[./images/cancerHallmarksAnnotation.jpg]]
 
- /citing Kaggle datasets/
- https://www.kaggle.com/data/46091
+# - Multilabel classification for text cite:toxicComments
 
+# - Scenery dataset for images cite:dataScenery.
+
+\todo{this is an ambitious number of datasets. Add longer description of each dataset, depending on which ones I keep: sample size, number of classes etc. see utils here: https://github.com/ashrefm/multi-label-soft-f1}
+
+\doubt{cite Kaggle datasets formally instead of using links: https://www.kaggle.com/data/46091}
+
+\doubt{add a music genre classification dataset, for which Vincent Koops at RTL could help train}
+
+\newpage
 
 * Experimental Results
 
-
-** implementation
-
-varying b in the sigmoid function as if it is an adaptive learning rate.
+varying b in the sigmoid function as if it is an adaptive learning rate \todo{actually try it out}.
 
 one b per class
 
@@ -439,7 +413,7 @@ the batch size has to be relatively large (i.c. 256), in order for meaningful F1
 
 
 
-*VanillaResnet*
+*movie posters (CNN)*
 
 \begin{array}{cccccc}\hline Loss  & \rotatebox[origin=c]{270}{macroF @ 0.5} & \rotatebox[origin=c]{270}{microF1 @ 0.5} & \rotatebox[origin=c]{270}{weightedF1 @ 0.5} & \rotatebox[origin=c]{270}{Precision @ 0.5} & \rotatebox[origin=c]{270}{Recall @ 0.5}\\ 
 \hline \mathcal{L}_{\text {CE}} & 0.057 & 0.200 & 0.159 & 0.106 & 0.106 \\ 
@@ -450,7 +424,7 @@ the batch size has to be relatively large (i.c. 256), in order for meaningful F1
 \mathcal{L}_{\text {sigmoidF1}} & \mathbf{0.117} & \mathbf{0.240} & \mathbf{0.263} & \mathbf{0.103} & \mathbf{0.103} \\
 \hline\end{array}
 
-*TencentResnet*
+*Arxiv (distillBERT)*
 
 \begin{array}{ccccc}\hline \text { Metric } & \mathcal{L}_{\text {CE}} & \mathcal{L}_{\text {FL}} & \mathcal{L}_{\text {CE+N}} & \mathcal{L}_{\text {CE+T}} \\ 
 \hline P(\%) & 0 & 0 & 0 & 0 \\ 
@@ -459,7 +433,7 @@ F_{1}(\%) & 0 & 0 & 0 & \mathbf{0} \\
 \hline\end{array}
 
 
-*DenseNet*
+*Cancer hallmark (distillBERT)*
 
 \begin{array}{ccccc}\hline \text { Metric } & \mathcal{L}_{\text {CE}} & \mathcal{L}_{\text {FL}} & \mathcal{L}_{\text {CE+N}} & \mathcal{L}_{\text {CE+T}} \\ 
 \hline P(\%) & 0 & 0 & 0 & 0 \\ 
@@ -467,7 +441,15 @@ R(\%) & 0 & 0 & 0 & 0 \\
 F_{1}(\%) & 0 & 0 & 0 & \mathbf{0} \\
 \hline\end{array}
 
-*some TextNet*
+*Chemical exposure (distillBERT)*
+
+\begin{array}{ccccc}\hline \text { Metric } & \mathcal{L}_{\text {CE}} & \mathcal{L}_{\text {FL}} & \mathcal{L}_{\text {CE+N}} & \mathcal{L}_{\text {CE+T}} \\ 
+\hline P(\%) & 0 & 0 & 0 & 0 \\ 
+R(\%) & 0 & 0 & 0 & 0 \\
+F_{1}(\%) & 0 & 0 & 0 & \mathbf{0} \\
+\hline\end{array}
+
+*Chemical exposure (distillBERT)*
 
 \begin{array}{ccccc}\hline \text { Metric } & \mathcal{L}_{\text {CE}} & \mathcal{L}_{\text {FL}} & \mathcal{L}_{\text {CE+N}} & \mathcal{L}_{\text {CE+T}} \\ 
 \hline P(\%) & 0 & 0 & 0 & 0 \\ 
@@ -483,25 +465,32 @@ R(\%) & 0 & 0 & 0 & 0 \\
 F_{1}(\%) & 0 & 0 & 0 & \mathbf{0} \\
 \hline\end{array}
 
-* future work
+* conclusion
 
-Apply the loss function to more sophisticated neural network architectures that use F1 score as an evaluation metric such as AC-SUM-GAN cite:AC-SUM-GAN.
+*Shortcomings*
 
-This model can be adapted for hiarchical multilabel classification or active learning (for both see cite:activeLearningMultiLabel).
+ it is debatable wether any task is intrinsincly multilabel and wether the image / text cannot be decomposed in parts that are single labelled.
 
-Combine the proposed loss functions with representation learning cite:unsupervisedImage,highResRepresentation or self-supervised learning, in order to model abstract relationships between the labels.
+ not long training and small models, but aibility to demonstrate the statement anyways.
+
+*Results*
+
+In this paper we defined a new problem in deep learning for mulitple modalities that harness the current advances in abstract representation of the input space. A general loss framework is proposed to locate that solution within the existing multiclass multilabel losses and a specific loss function is formulated. /sigmoidF1/ achieves significantly results for different F1 values on all datasets.
+
+*Future work*
+
+ Apply the loss function to more sophisticated neural network architectures that use F1 score as an evaluation metric such as AC-SUM-GAN cite:AC-SUM-GAN.
+
+ This model can be adapted for hiarchical multilabel classification or active learning (for both see cite:activeLearningMultiLabel).
+
+ Combine the proposed loss functions with representation learning cite:unsupervisedImage,highResRepresentation or self-supervised learning, in order to model abstract relationships between the labels.
 
 adapt to /extreme/ multilabel prediction cite:extremeMultilabelText
 
-* drawbacks
-
-it is debatable wether any task is intrinsincly multilabel and wether the image / text cannot be decomposed in parts that are single labelled.
-
-not long training and small models, but aibility to demonstrate the statement anyways.
 
 \begin{acks}}
-This work was supported by many people.
-All content represents the opinion of the authors, which is not necessarily shared or endorsed by their respective employers and/or sponsors.
+ This work was supported by many people.
+ All content represents the opinion of the authors, which is not necessarily shared or endorsed by their respective employers and/or sponsors.
 \end{acks}
 
 \bibliographystyle{ACM-Reference-Format}
