@@ -1,4 +1,4 @@
-% Created 2020-12-27 Sun 16:30
+% Created 2020-12-27 Sun 22:12
 % Intended LaTeX compiler: pdflatex
 \documentclass[sigconf,natbib,screen=true,review=true,anonymous]{acmart}
 \usepackage[utf8]{inputenc}
@@ -26,6 +26,7 @@
 \newcommand\doubt[1]{\textcolor{orange}{DOUBT : #1}}
 % \newcommand\todo[1]{} % uncomment to hide comments
 % \newcommand\doubt[1]{} % uncomment to hide comments
+\usepackage{amsmath}
 \usepackage{dsfont}
 \usepackage{color}
 \author{Gabriel Bénédict}
@@ -40,8 +41,71 @@
  pdflang={English}}
 \begin{document}
 
+% https://sigir.org/sigir2021/checklist-to-strengthen-an-ir-paper/
+% Things that strengthen an IR paper: recommendations from the Program Chairs
+% Presentation
+% The paper’s motivation and the potential impact of the addressed problem are discussed.
+% The paper’s original contributions (i.e. the delta over prior art) are clearly stated.
+% The paper’s claims are properly scoped and supported.
+% The paper clearly describes what was done and what was not.
+% The choices made in each step of the research are justified (the why’s).
+% The results are presented effectively in appropriate format.
+% Good discussion accompanies the results.
+% Experimentation (if applicable)
+% The experimental design and its scale are appropriate.
+% In comparative studies, appropriate baselines are used.
+% The experimental results are reliable and generalizable.
+% The evaluation methods employed are in line with the research questions.
+% Statistical analysis is performed and reported appropriately.
+% Sufficient details (with data and code where appropriate) are provided to help other researchers assess and reproduce the experiments.
+
+
+% bibliographystyle:apa
+
+% #+LATEX_HEADER: \documentclass[sigconf,natbib,screen=true,review=true,anonymous]{acmart}
+
+% #+LATEX_HEADER: \usepackage{aistats2018}
+% #+LATEX_HEADER: \usepackage{natbib}
+
+% #+Latex_header: \usepackage{hyperref}
+% #+Latex_header: \usepackage{mathtools}  % amsmath with extensions
+% #+Latex_header: \usepackage{amsfonts}  % (otherwise \mathbb does nothing)
+% #+Latex_header: \usepackage{amssymb}
+% highlight sections
+% https://latex.org/forum/viewtopic.php?t=27521
+
+% #+LATEX_HEADER: \usepackage{xcolor}
+% #+LATEX_HEADER: \usepackage[explicit]{titlesec}
+% #+LATEX_HEADER: \definecolor{Blue}{rgb}{0,0,0.8}
+% #+LATEX_HEADER:
+% #+LATEX_HEADER: \titleformat{\subsection}
+% #+LATEX_HEADER:    {\normalfont\large\bfseries\color{Blue}}% format
+% #+LATEX_HEADER:    {}% label
+% #+LATEX_HEADER:    {0pt}% sep
+% #+LATEX_HEADER:    {\titlerule\newline\llap{\thetitle. }#1}% before code
+% #+LATEX_HEADER:    [{\titlerule[0.4pt]}]% after code
+% #+LATEX_HEADER:
+% #+LATEX_HEADER: \titlespacing{\subsection}
+% #+LATEX_HEADER:    {25pt}% left
+% #+LATEX_HEADER:    {0pt}% before sep
+% #+LATEX_HEADER:    {\baselineskip}% after sep
+
+
 \title{Loss framework for uni-instance multiclass multilabel prediction with varying number of labels}
 
+
+% #+BEGIN_LATEX latex
+% \twocolumn[
+
+% \aistatstitle{Top-\( \kappa \) : top k multilabel prediction with varying k}
+
+% \aistatstitle{DynaMu Loss : a loss framework for multilabel prediction with varying number of groundtruth labels}
+% # a framework for multilabel prediction with varying amount of labels [Varying Label Amounts Prediction] or top k with varying k
+
+% \aistatsauthor{ Author 1 \And Author 2 \And  Author 3 }
+
+% \aistatsaddress{ Institution 1 \And  Institution 2 \And Institution 3 } ]
+% #+END_LATEX
 
 \begin{abstract}
 Multilabel classification is a common task in text, image or video (scene) prediction.
@@ -55,7 +119,7 @@ Multilabel classification is a common task in text, image or video (scene) predi
 \acresetall
 
 \section{introduction}
-\label{sec:org0c2a261}
+\label{sec:org027ce58}
 
 As neural network models are able to learn increasingly abstracter representations via deeper networks, representation learning and self-supervision, it might be reasonable to expect that, thanks to their conferred broader understanding of the world, they get better at predicting more abstract labels. Beyond objects types, face recognition, expressions, neural networks might be able to predict genres/categories \todo{other things as well?} of text, image and sound. While researchers are working hard at building neural networks with very high level of understanding in the embedding space, there seems to be few research on developing loss functions that are adapted for these higher level concepts in the output space.
 
@@ -92,7 +156,7 @@ In a number of retrieval tasks, a model's out of sample accuracy is measured on 
 We propose a general mathematical formulation of uni-instance multilabel learning for varying amount of groundtruth labels. The generalization encompasses different levels of complexity, from the classical cross-entropy loss up to the proposed loss function. \emph{sigmoidF1} is a F1 score surrogate which allows to optimize for label prediction and count simultanuously in a single task and is robust to outliers. It delivers more precise predictions than the current state-of-the-art on several different metrics, accross text and image related tasks.
 
 \section{Building up on losses}
-\label{sec:org1cf7ec0}
+\label{sec:org47cc712}
 
 Multi-label learning can be divided into two major fields: \emph{problem transformation} and \emph{algorithm adaptation} \cite{multilabelReview}. In the former case, multilabel classification is reframed as a binary, multiclass classification or label ranking problem. In the latter, one tries to adapt multiclass algorithms to the problem. The current endeavour focusses on \emph{algorithm adaptation}.
 
@@ -124,25 +188,33 @@ Although predictions and counts explicitely appear in that formulation, \(\mathc
 
 \todo{cite stat learning}   \cite[p. 308-310]{statLearning}
 
+
+% * our contribution
+
+% In order to verify our hypotheses, we use multilabel examples, where it is arguably hard to distinguish which elements is predictive of the label. For example, movie posters where the whole context is important and not just facial expressions, title font.
+
 \section{related work}
-\label{sec:org2350031}
+\label{sec:orgfe89773}
 
 \todo{look at [[https://www.sciencedirect.com/topics/computer-science/extractive-summarization][extractive summarization]]}
 
 This section will be guided by the previous section's formulation of the multitags problem, we will therefore focus on \emph{algorithm adaptation}, \emph{metrics as losses} and \emph{dynamic thresholding}.
 
 \subsection{algorithm adaptation}
-\label{sec:org451092f}
+\label{sec:orga72c80c}
 
 Early representatives of \emph{algorithm adaptation} stem from heterogenous domains of machine learning. Multi-Label k-Nearest Neighbors \cite{ML-KNN}, Multi-Label Decision Tree \cite{ML-DT}, Ranking Support Vector Machine \cite{multilabelSVM} and Backpropagation for Multi-Label Learning \cite{multilabelBackprop}. More recently, two papers introduced the idea of multitask learning for \emph{label prediction} and \emph{label count prediction} for text (ML\(_{\text{NET}}\)) \cite{multitaskLabel} and image \cite{multitaskLabelImages} data. The latter research is loosely catered towards object detection (although not formally presented as such) and is thus out-of-scope: elements in a picture are predicted that tend to be unilabel as defined by the groundtruth (e.g. cat, flower, vase, person, bottle etc.).
 
 \subsection{metrics as losses}
-\label{sec:org892834e}
+\label{sec:org14bc58c}
 
 Often, machine learning post-training evaluation metrics (e.g. AUROC, F1) are not differentiable. There are motivations \todo{which motivations} for optimizing a model directly on a metric at training time. A general framework for AUC, AUROC and F1 is presented in \cite{optimizableLosses}, but the proposed F1 surrogate remains short of being explicitly derived for stochastic gradient descent. \todo{check again with the authors if I can't get inspired from their work}. Recently, a similar work has been proposed to train a Convolutional Neural Network (CNN) from scratch with a few millions of images and hundreds of labels specifically for multilabel tasks \cite{tencent}. This task is loosely related to object detection, similarly to \cite{multitaskLabelImages} mentioned in the previous paragraph.
 
+
+% in reformulating loss functions to accomodate sparsity in the data, to optimize directly for the metric at hand or to do thresholding posthoc (see movie posters).
+
 \subsection{dynamic thresholding}
-\label{sec:org800b9ed}
+\label{sec:org0a345a1}
 
 \emph{dynamic thresholding} accross classes or examples is an issue as soon as the number of labels to predict is unknown. Certain variants of cross-entropy loss accomodate imbalanced label data  \cite{focalLoss}, but remain agnostic towards the number of labels to predict. Solutions have been tailored to that end, starting with determining an ideal global \emph{threshold} depending on use-cases \cite{threshForF1}, or per-class-thresholding after training \cite{moviePosters} and eventually abstracting the threshold away via a \emph{soft-F1} measure \cite{softF1} \todo{say more about this method}. In the latter two cases, the task is to predict genre from movie posters.
 
@@ -153,12 +225,45 @@ Often, machine learning post-training evaluation metrics (e.g. AUROC, F1) are no
 ordered per-label cross-entropy predictions for each example (each grey line) with the median (orange) and IQR (green \& blue) over all examples. Determining a global threshold can be related to visually finding the "knee" in that median curve (dotted line)}
 \end{figure}
 
-\todo{nicer plot on the right dataset}
+\todo{nicer plot on another dataset (this is from RTL)}
 
 The proposed method is positioned in the lineage of \emph{algorithm adaptation}, using \emph{metric as losses} and allowing for \emph{dynamic thresholdig}. 
 
+% We propose a dynamic thresholding mechanism auto-tuned at training time.
+
+
+% ** weak labels
+% (unsure the labels are correct)
+
+% - https://people.cs.pitt.edu/~kovashka/ye_zhang_kovashka_iccv2019_cap2det.pdf
+
+
+% ** implementations
+
+% *** movies
+
+%  [[https://www.analyticsvidhya.com/blog/2019/04/build-first-multi-label-image-classification-model-python/][movie posters with classes]].
+
+%  They have movie titles in them
+
+% *** pretrained resnet on multilabel
+
+%  https://github.com/Tencent/tencent-ml-images
+
+% What happens when using a Resnet pretrained on multilabels
+
+% *** soft F1 score loss
+
+%  https://github.com/ashrefm/multi-label-soft-f1
+
+% https://www.analyticsvidhya.com/blog/2019/04/build-first-multi-label-image-classification-model-python/
+
+
+
+% /Optimizing directly for macro F1: By introducing the macro soft-F1 loss, we could train the model to directly increase the metric we care about: the macro F1-score @ threshold 0.5. We could clearly observe the alignment during training and evaluation on successive epochs. When using this loss, we do not have to tune the decision threshold any more. Imagine a multi-label classification system with hundreds of labels, how unstable the system will be if we have to continuously update the optimal threshold for each label. The macro soft-F1 loss comes to the rescue. By using it, we can keep all thresholds fixed at 0.5 and still get an optimal performance from the training process./
+
 \section{Sigmoid F1 loss}
-\label{sec:orgc91a4d4}
+\label{sec:org42f3a7a}
 
 For a class of multilayer perceptron \(\mathcal{F}(\cdot ; \Theta): \mathcal{X} \rightarrow \mathcal{Y}\), we consider a special case, where \(\mathbf{x} = \{x_1, ..., x_n\}\). Each observation is attributed one or more classes out of a label set \(\mathbf{l} = \{l_1, ..., l_c\}\). Labels \(y_{i}^{j}\) are available for each observation \(i\) and class \(j\). 
 
@@ -173,9 +278,9 @@ For each observation \(i\), label class probabilities can be defined based on pr
 Let \(tp\) and \(fp\) be number of true and false positives respectively. It is necessary to define a bound \(b\), at which a prediction is dichotomized:
 
 \begin{equation}
+\label{eq:conf}
  t p=\sum_{i \in Y^{+}} \mathds{1}_{\mathbf{p_i} \geq b} \quad f p=\sum_{i \in Y^{-}} \mathds{1}_{\mathbf{p_i} \geq b} \quad fn = \sum_{i \in Y^{+}} \mathds{1}_{\mathbf{p_i} < b}
 \end{equation}
-\label{eq:conf}
 
 \(\mathds{1}_{\mathbf{p_i} \geq b}\), \(\mathds{1}_{\mathbf{p_i} < b}\) are thus the count of positive and negative predictions at threshold \(b\), 
 
@@ -202,48 +307,82 @@ Or equivalently:
 Given the presence of the step indicator function \(\sum \mathds{1}_{\mathbf{p_i} \geq b}\), \(F_\beta\) is not differentiable for gradient based methods. One way of surpassing that problem is to use a smooth surrogate.
 
 \subsection{soft F1 score}
-\label{sec:orgb7ed830}
+\label{sec:org6c9f8a3}
 
 It is possible define a \emph{soft F1} score \cite{softF1} \doubt{can we cite a Medium post?} with smooth confusion matrix entries (i.e. \(tp\), \(fp\) and \(fn\) are not natural numbers anymore):
 
 $$
-\tilde{tp}=\sum \hat{\mathbf{y}} \odot \mathbf{y} \quad \tilde{fp} = \sum \hat{\mathbf{y}} \odot (\mathbf{1}- \mathbf{y}) \quad \tilde{fn} = \sum (\mathbf{1} - \hat{\mathbf{y}}) \odot \mathbf{y}
+\overline{tp}=\sum \hat{\mathbf{y}} \odot \mathbf{y} \quad \overline{fp} = \sum \hat{\mathbf{y}} \odot (\mathbf{1}- \mathbf{y}) \quad \overline{fn} = \sum (\mathbf{1} - \hat{\mathbf{y}}) \odot \mathbf{y}
 $$
 
 \begin{equation}
-\mathcal{L}_{\text {softF1}}= \frac{\tilde{tp}}{2 \tilde{tp}+ \tilde{fn}+ \tilde{fp}}
+\mathcal{L}_{\text {softF1}}= \frac{\overline{tp}}{2 \overline{tp}+ \overline{fn}+ \overline{fp}}
 \end{equation}
 
+\(tp\), \(fp\) and \(fn\) are now replaced by rough surrogates, this method has the advantage of 
+
+% /softF1/ is
+% $$\mathcal{L}_{\text {Pred}}=\sum_{i, j}\left(\mathbf{y}_{i j}-\hat{\mathbf{y}}_{i j}\right)^{2}$$
+
 \subsection{sigmoidF1 score}
-\label{sec:orgccfa21c}
+\label{sec:orgf27ddd5}
 
 We define \emph{sigmoidF1}, inspired by the \emph{Maximum F1-score criterion} for automatic mispronounciation detection \cite{sigmoid}. Whereas a sigmoid function \(S(u)\)
 
 \begin{equation}
-S(u)=\frac{1}{1+\exp (-\beta (u + \eta))}
+S(u; \beta, \eta)=\frac{1}{1+\exp (-\beta (u + \eta))},
 \end{equation}
 
-Note that \(\lim \beta \rightarrow \infty S(u)\) corresponds to the step function used in Equation \ref{eq:conf} \todo{wrong equatino number in ref}. The confusion matrix entries then become
+with \(\beta\) and \(\eta\) tunable parameters for slope and offset respectively. Higher \(\beta\) results in steeper slope at the center of the sigmoid and thus more stringent thresholding. At its extreme, \(lim_{\beta\to\infty} S(u; \beta, \eta)\) corresponds to the step function used in Equation \ref{eq:conf}. with \(S(u)\), the confusion matrix entries then become
 
 $$
-\tilde{tp}=\sum S(\hat{\mathbf{y}}) \odot \mathbf{y} \quad \tilde{fp} = \sum \hat{\mathbf{y}} \odot (\mathbf{1} - \mathbf{y}) \quad \tilde{fn} = \sum (\mathbf{1} - \hat{\mathbf{y}}) \odot \mathbf{y}
+\widetilde{tp}=\sum S(\hat{\mathbf{y}}) \odot \mathbf{y} \quad\widetilde{fp}= \sum S(\hat{\mathbf{y}}) \odot (\mathbf{1} - \mathbf{y}) \quad \widetilde{f n}= \sum (\mathbf{1} - S(\hat{\mathbf{y}})) \odot \mathbf{y}
 $$
+
+And thus
+
+\begin{equation}
+\mathcal{L}_{\text {softF1}}= \frac{\widetilde{tp}}{2 \widetilde{tp}+ \widetilde{fn}+ \widetilde{fp}}
+\end{equation}
 
 \doubt{mention smooth hinge loss} \cite{smoothHinge}
 
+For \emph{sigmoidF1} \(\beta\) and \(\eta\) are tuned globally as hyperparameters. \emph{SAdF1} (Sigmoid Adaptive F1), is an alternative where \(\beta\) is first set to a relatively low value and increased after each epoch. This way, a loose threshold first allows Stochastic Gradient Descent (SGD) to broadly scan the parameter space accross several local minima, before narrowing parameter search down to a promissing region (similarily to adaptive learning rates).
+
+\emph{SBayesF1} (sigmoid Bayes F1) replaces point estimates for \(\beta\) and \(\eta\) with posterior distribution estimates. 
+
+\begin{equation}
+S(u_i) = \frac{1}{1+\exp (-\beta_i (u_i + \eta_i))}
+\end{equation}
+
+% $$ \beta_i \tilde \mathcal{N} (0, \sigma^{2}_{\beta}) $$
+
+% $$ \eta_i \tilde \mathcal{N} (0, \sigma^{2}_{\eta}) $$
+
+\(\beta\) and \(\eta\) are estimated with MCMC at training time of the neural network. They are therefore implicitely allowed to vary across examples.
+
+\todo{try SadF1 and SBayesF1 in practice}
+
+ow value and increased after each epoch. This way, a loose threshold first allows Stochastic Gradient Descent (SGD) to broadly scan the parameter space accross several local minima, before narrowing parameter search down to a promissing region (similarily to adaptive learning rates).
+
+ow value and increased after each epoch. This way, a loose threshold first allows Stochastic Gradient Descent (SGD) to broadly scan the parameter space accross several local minima, before narrowing parameter search down to a promissing region (similarily to adaptive learning rates).
+
+ow value and increased after each epoch. This way, a loose threshold first allows Stochastic Gradient Descent (SGD) to broadly scan the parameter space accross several local minima, before narrowing parameter search down to a promissing region (similarily to adaptive learning rates).
+
+
 
 \subsection{Robustness}
-\label{sec:org8f7073a}
+\label{sec:org259a021}
 
 
-Similarily to the focal loss, sigmoidF1 loss deals with class imbalance (see \cite{focalLoss}), robustness to outliers \cite{focalLoss}.
+Similarily to the focal loss \cite{focalLoss}, sigmoidF1 loss deals with class imbalance, robustness to outliers.
 
 \todo{statistical robustness assessment}
 
 
 
 \subsection{Evaluation Metrics}
-\label{sec:orge234873}
+\label{sec:orgfc4c2e0}
 
 The metrics described below are a result of a survey of different common practices for measuring accuracy of multilabel prediction. When true positives and false positives are used, recall that \(t p=\sum_{i \in Y^{+}} \mathds{1}_{\mathbf{p_i} \geq b}\) and \(f p=\sum_{i \in Y^{-}} \mathds{1}_{\mathbf{p_i} \geq b}\), and thus a threshold \(b\) must be set. When \(b = 0.5\), as is commonly done [SOURCE HERE], a risk remains that a lot of examples remain without predictions.
 
@@ -256,10 +395,13 @@ Macro \(F_1\) \cite{threshForF1} amounts to creating one confusion matrix per cl
 $$F_1^{macro} = \frac{1}{c} \sum_{j=1}^c F_1$$
 
 \doubt{Do we need to justify optimizing for an F1 surrogate at training time and to then use F1 itself as a metric?}
+% $$F_1^{macro} = \frac{\sum tp_c}{2 \sum tp_c + \sum fn_c + \sum fp_c} \quad for \quad c \in C$$
 
 Weighted macro \(F_1\) \todo{find source} is similar but includes weighing to account for class imbalance, i.e. weighing each class by the number of groundtruth positives.
 
 $$F_1^{weighted} = \frac{1}{c} \sum_{j=1}^c n_j F_1 \quad where \quad n_j = \sum_i \mathds{1}_{\mathbf{y_i^j} = 1}$$
+
+% $$F_1^{weighted} = \frac{\sum tp_c}{2 \sum tp_c + \sum fn_c + \sum fp_c} \quad for \quad c \in C$$
 
 Accuracy is the overall fraction of correctly predicted labels \cite{threshForF1}:
 
@@ -267,13 +409,23 @@ $$
 A c c=\frac{t p+t n}{t p+t n+f p+f n}
 $$
 
+% - 'samples':
+% Calculate metrics for each instance, and find their average (only meaningful for multilabel classification where this differs from accuracy_score).
+
+% $$F_1^{micro} = \frac{\sum tp_c}{2 \sum tp_c + \sum fn_c + \sum fp_c} \quad for \quad c \in C$$
+
 
 \subsection*{{\color{red}\bfseries\sffamily TODO} compare to  \cite{lossComp}}
-\label{sec:org7b96cce}
+\label{sec:orgc40601c}
+\clearpage
+
 \section{datasets}
-\label{sec:orgace9825}
+\label{sec:orgc2f1097}
 
 sigmoidF1 is tested across different modalities, namely image, video, sound and text, with a focus on text: the most comparable research was on text data.
+
+% \doubt{optional paragraph}
+% In light of the problem definition leading to the sigmoidF1 framework in the introduction and in order to clearly delimit the proposed method, following are a few datasets that are not suitable for the task.
 
 
 Among the three datasets used for benchmarking ML-NET \cite{multitaskLabel}, a cancer hallmark dataset is of multi-instance multilabel nature \cite{cancerHallmarks} \footnote{Available at https://www.cl.cam.ac.uk/&sim;sb895/HoC.html}: the research clearly describe a process of annotating several expressions within paper abstracts. The remaining two datasets for chemical exposure \cite{chemExposure} \footnote{Available at https://figshare.com/articles/Corpus_and_Software/4668229} and diagnosis codes assigment \cite{diagnosisCode} \footnote{Available at https://physionet.org/works/ICD9CodingofDischargeSummaries}, seem to fit to the entity wide multilabel definition but have a strong hierarchical nature. Although slightly out-of-scope, the three datasets above will be used for benchmarking, since they were used to test ML-NET, which is the state-of-the-art in \emph{algorithm adaptation} for text to the best of our knowledge.
@@ -289,6 +441,14 @@ In the vision domain, a dataset of movie posters \footnote{Labels available at h
 
 Another recently created dataset was made available for \emph{Large Scale Holistic Video Understanding} \cite{holisticVideoData} \footnote{Available at https://github.com/holistic-video-understanding/HVU-Dataset}, as defined in the introduction.
 
+% Cancer can be described according to its complexity with different principles, named hallmarks cite:cancerHallmarks. A corpus of 1580 PubMed abstracts are manually annotated for 10 hallmarks. This is a multi-instance labelling task and will therefore not be used here.
+
+% [[./images/cancerHallmarksAnnotation.jpg]]
+
+% - Multilabel classification for text cite:toxicComments
+
+% - Scenery dataset for images cite:dataScenery.
+
 \todo{this is an ambitious number of datasets. Add longer description of each dataset, depending on which ones I keep: sample size, number of classes etc. see utils here: https://github.com/ashrefm/multi-label-soft-f1}
 
 \doubt{cite Kaggle datasets formally instead of using links: https://www.kaggle.com/data/46091}
@@ -298,7 +458,7 @@ Another recently created dataset was made available for \emph{Large Scale Holist
 \newpage
 
 \section{Experimental Results}
-\label{sec:org7a9cdbb}
+\label{sec:orga5dff65}
 
 varying b in the sigmoid function as if it is an adaptive learning rate \todo{actually try it out}.
 
@@ -363,7 +523,7 @@ F_{1}(\%) & 0 & 0 & 0 & \mathbf{0} \\
 \hline\end{array}
 
 \section{conclusion}
-\label{sec:org0d4a7c3}
+\label{sec:org150413c}
 
 \textbf{Shortcomings}
 

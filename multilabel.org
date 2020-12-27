@@ -1,27 +1,27 @@
-# https://sigir.org/sigir2021/checklist-to-strengthen-an-ir-paper/
-# Things that strengthen an IR paper: recommendations from the Program Chairs
-# Presentation
-# The paper’s motivation and the potential impact of the addressed problem are discussed.
-# The paper’s original contributions (i.e. the delta over prior art) are clearly stated.
-# The paper’s claims are properly scoped and supported.
-# The paper clearly describes what was done and what was not.
-# The choices made in each step of the research are justified (the why’s).
-# The results are presented effectively in appropriate format.
-# Good discussion accompanies the results.
-# Experimentation (if applicable)
-# The experimental design and its scale are appropriate.
-# In comparative studies, appropriate baselines are used.
-# The experimental results are reliable and generalizable.
-# The evaluation methods employed are in line with the research questions.
-# Statistical analysis is performed and reported appropriately.
-# Sufficient details (with data and code where appropriate) are provided to help other researchers assess and reproduce the experiments.
+#+LATEX:% https://sigir.org/sigir2021/checklist-to-strengthen-an-ir-paper/
+#+LATEX:% Things that strengthen an IR paper: recommendations from the Program Chairs
+#+LATEX:% Presentation
+#+LATEX:% The paper’s motivation and the potential impact of the addressed problem are discussed.
+#+LATEX:% The paper’s original contributions (i.e. the delta over prior art) are clearly stated.
+#+LATEX:% The paper’s claims are properly scoped and supported.
+#+LATEX:% The paper clearly describes what was done and what was not.
+#+LATEX:% The choices made in each step of the research are justified (the why’s).
+#+LATEX:% The results are presented effectively in appropriate format.
+#+LATEX:% Good discussion accompanies the results.
+#+LATEX:% Experimentation (if applicable)
+#+LATEX:% The experimental design and its scale are appropriate.
+#+LATEX:% In comparative studies, appropriate baselines are used.
+#+LATEX:% The experimental results are reliable and generalizable.
+#+LATEX:% The evaluation methods employed are in line with the research questions.
+#+LATEX:% Statistical analysis is performed and reported appropriately.
+#+LATEX:% Sufficient details (with data and code where appropriate) are provided to help other researchers assess and reproduce the experiments.
 
 
 #+OPTIONS: toc:nil 
 
-# bibliographystyle:apa
+#+LATEX:% bibliographystyle:apa
 
-# #+LATEX_HEADER: \documentclass[sigconf,natbib,screen=true,review=true,anonymous]{acmart}
+#+LATEX:% #+LATEX_HEADER: \documentclass[sigconf,natbib,screen=true,review=true,anonymous]{acmart}
 
 #+LATEX_CLASS: acmart
 #+LATEX_CLASS_OPTIONS: [sigconf,natbib,screen=true,review=true,anonymous]
@@ -35,60 +35,60 @@
 #+LATEX_HEADER: \input{meta}
 
 
-# #+LATEX_HEADER: \usepackage{aistats2018}
-# #+LATEX_HEADER: \usepackage{natbib}
+#+LATEX:% #+LATEX_HEADER: \usepackage{aistats2018}
+#+LATEX:% #+LATEX_HEADER: \usepackage{natbib}
 
-# #+Latex_header: \usepackage{hyperref}
+#+LATEX:% #+Latex_header: \usepackage{hyperref}
 #+Latex_header: \usepackage{xcolor}
 #+Latex_header: \newcommand\todo[1]{\textcolor{red}{TODO : #1}}
 #+Latex_header: \newcommand\doubt[1]{\textcolor{orange}{DOUBT : #1}}
 #+Latex_header: % \newcommand\todo[1]{} % uncomment to hide comments
 #+Latex_header: % \newcommand\doubt[1]{} % uncomment to hide comments
 
-# #+Latex_header: \usepackage{mathtools}  % amsmath with extensions
-# #+Latex_header: \usepackage{amsfonts}  % (otherwise \mathbb does nothing)
-# #+Latex_header: \usepackage{amsmath}
-# #+Latex_header: \usepackage{amssymb}
+#+LATEX:% #+Latex_header: \usepackage{mathtools}  % amsmath with extensions
+#+LATEX:% #+Latex_header: \usepackage{amsfonts}  % (otherwise \mathbb does nothing)
+#+Latex_header: \usepackage{amsmath}
+#+LATEX:% #+Latex_header: \usepackage{amssymb}
 #+Latex_header: \usepackage{dsfont}
 
 #+LATEX_HEADER: \usepackage{color}
 #+MACRO: color @@latex:{\color{$1}@@$2@@latex:}@@
 
-# highlight sections
-# https://latex.org/forum/viewtopic.php?t=27521
+#+LATEX:% highlight sections
+#+LATEX:% https://latex.org/forum/viewtopic.php?t=27521
 
-# #+LATEX_HEADER: \usepackage{xcolor}                                     
-# #+LATEX_HEADER: \usepackage[explicit]{titlesec}                         
-# #+LATEX_HEADER: \definecolor{Blue}{rgb}{0,0,0.8}                        
-# #+LATEX_HEADER:                                                         
-# #+LATEX_HEADER: \titleformat{\subsection}                                  
-# #+LATEX_HEADER:    {\normalfont\large\bfseries\color{Blue}}% format     
-# #+LATEX_HEADER:    {}% label                                            
-# #+LATEX_HEADER:    {0pt}% sep                                           
-# #+LATEX_HEADER:    {\titlerule\newline\llap{\thetitle. }#1}% before code
-# #+LATEX_HEADER:    [{\titlerule[0.4pt]}]% after code                    
-# #+LATEX_HEADER:                                                         
-# #+LATEX_HEADER: \titlespacing{\subsection}                                 
-# #+LATEX_HEADER:    {25pt}% left                                          
-# #+LATEX_HEADER:    {0pt}% before sep                                    
-# #+LATEX_HEADER:    {\baselineskip}% after sep                           
+#+LATEX:% #+LATEX_HEADER: \usepackage{xcolor}                                     
+#+LATEX:% #+LATEX_HEADER: \usepackage[explicit]{titlesec}                         
+#+LATEX:% #+LATEX_HEADER: \definecolor{Blue}{rgb}{0,0,0.8}                        
+#+LATEX:% #+LATEX_HEADER:                                                         
+#+LATEX:% #+LATEX_HEADER: \titleformat{\subsection}                                  
+#+LATEX:% #+LATEX_HEADER:    {\normalfont\large\bfseries\color{Blue}}% format     
+#+LATEX:% #+LATEX_HEADER:    {}% label                                            
+#+LATEX:% #+LATEX_HEADER:    {0pt}% sep                                           
+#+LATEX:% #+LATEX_HEADER:    {\titlerule\newline\llap{\thetitle. }#1}% before code
+#+LATEX:% #+LATEX_HEADER:    [{\titlerule[0.4pt]}]% after code                    
+#+LATEX:% #+LATEX_HEADER:                                                         
+#+LATEX:% #+LATEX_HEADER: \titlespacing{\subsection}                                 
+#+LATEX:% #+LATEX_HEADER:    {25pt}% left                                          
+#+LATEX:% #+LATEX_HEADER:    {0pt}% before sep                                    
+#+LATEX:% #+LATEX_HEADER:    {\baselineskip}% after sep                           
 
 
 \title{Loss framework for uni-instance multiclass multilabel prediction with varying number of labels}
 
 
-# #+BEGIN_LATEX latex
-# \twocolumn[
+#+LATEX:% #+BEGIN_LATEX latex
+#+LATEX:% \twocolumn[
 
-# \aistatstitle{Top-\( \kappa \) : top k multilabel prediction with varying k}
+#+LATEX:% \aistatstitle{Top-\( \kappa \) : top k multilabel prediction with varying k}
 
-# \aistatstitle{DynaMu Loss : a loss framework for multilabel prediction with varying number of groundtruth labels}
-# # a framework for multilabel prediction with varying amount of labels [Varying Label Amounts Prediction] or top k with varying k
+#+LATEX:% \aistatstitle{DynaMu Loss : a loss framework for multilabel prediction with varying number of groundtruth labels}
+#+LATEX:% # a framework for multilabel prediction with varying amount of labels [Varying Label Amounts Prediction] or top k with varying k
 
-# \aistatsauthor{ Author 1 \And Author 2 \And  Author 3 }
+#+LATEX:% \aistatsauthor{ Author 1 \And Author 2 \And  Author 3 }
 
-# \aistatsaddress{ Institution 1 \And  Institution 2 \And Institution 3 } ]
-# #+END_LATEX
+#+LATEX:% \aistatsaddress{ Institution 1 \And  Institution 2 \And Institution 3 } ]
+#+LATEX:% #+END_LATEX
 
 \begin{abstract}
 Multilabel classification is a common task in text, image or video (scene) prediction.
@@ -177,9 +177,9 @@ Although predictions and counts explicitely appear in that formulation, $\mathca
 \todo{cite stat learning}   [[cite:statLearning][p. 308-310]]
 
 
-# * our contribution
+#+LATEX:% * our contribution
 
-# In order to verify our hypotheses, we use multilabel examples, where it is arguably hard to distinguish which elements is predictive of the label. For example, movie posters where the whole context is important and not just facial expressions, title font.
+#+LATEX:% In order to verify our hypotheses, we use multilabel examples, where it is arguably hard to distinguish which elements is predictive of the label. For example, movie posters where the whole context is important and not just facial expressions, title font.
 
 * related work
 
@@ -196,7 +196,7 @@ Early representatives of /algorithm adaptation/ stem from heterogenous domains o
 Often, machine learning post-training evaluation metrics (e.g. AUROC, F1) are not differentiable. There are motivations \todo{which motivations} for optimizing a model directly on a metric at training time. A general framework for AUC, AUROC and F1 is presented in cite:optimizableLosses, but the proposed F1 surrogate remains short of being explicitly derived for stochastic gradient descent. \todo{check again with the authors if I can't get inspired from their work}. Recently, a similar work has been proposed to train a Convolutional Neural Network (CNN) from scratch with a few millions of images and hundreds of labels specifically for multilabel tasks cite:tencent. This task is loosely related to object detection, similarly to cite:multitaskLabelImages mentioned in the previous paragraph.
 
 
-# in reformulating loss functions to accomodate sparsity in the data, to optimize directly for the metric at hand or to do thresholding posthoc (see movie posters).
+#+LATEX:% in reformulating loss functions to accomodate sparsity in the data, to optimize directly for the metric at hand or to do thresholding posthoc (see movie posters).
 
 ** dynamic thresholding
 
@@ -206,42 +206,42 @@ Often, machine learning post-training evaluation metrics (e.g. AUROC, F1) are no
 #+NAME:   fig:knee
 [[./images/knee.png]]
 
-\todo{nicer plot on the right dataset}
+\todo{nicer plot on another dataset (this is from RTL)}
 
 The proposed method is positioned in the lineage of /algorithm adaptation/, using /metric as losses/ and allowing for /dynamic thresholdig/. 
 
-# We propose a dynamic thresholding mechanism auto-tuned at training time.
+#+LATEX:% We propose a dynamic thresholding mechanism auto-tuned at training time.
 
 
-# ** weak labels
-# (unsure the labels are correct)
+#+LATEX:% ** weak labels
+#+LATEX:% (unsure the labels are correct)
 
-# - https://people.cs.pitt.edu/~kovashka/ye_zhang_kovashka_iccv2019_cap2det.pdf
+#+LATEX:% - https://people.cs.pitt.edu/~kovashka/ye_zhang_kovashka_iccv2019_cap2det.pdf
   
 
-# ** implementations
+#+LATEX:% ** implementations
 
-# *** movies
+#+LATEX:% *** movies
 
-#  [[https://www.analyticsvidhya.com/blog/2019/04/build-first-multi-label-image-classification-model-python/][movie posters with classes]]. 
+#+LATEX:%  [[https://www.analyticsvidhya.com/blog/2019/04/build-first-multi-label-image-classification-model-python/][movie posters with classes]]. 
 
-#  They have movie titles in them
+#+LATEX:%  They have movie titles in them
 
-# *** pretrained resnet on multilabel
+#+LATEX:% *** pretrained resnet on multilabel
 
-#  https://github.com/Tencent/tencent-ml-images
+#+LATEX:%  https://github.com/Tencent/tencent-ml-images
 
-# What happens when using a Resnet pretrained on multilabels
+#+LATEX:% What happens when using a Resnet pretrained on multilabels
 
-# *** soft F1 score loss
+#+LATEX:% *** soft F1 score loss
 
-#  https://github.com/ashrefm/multi-label-soft-f1
+#+LATEX:%  https://github.com/ashrefm/multi-label-soft-f1
 
-# https://www.analyticsvidhya.com/blog/2019/04/build-first-multi-label-image-classification-model-python/
+#+LATEX:% https://www.analyticsvidhya.com/blog/2019/04/build-first-multi-label-image-classification-model-python/
 
 
 
-# /Optimizing directly for macro F1: By introducing the macro soft-F1 loss, we could train the model to directly increase the metric we care about: the macro F1-score @ threshold 0.5. We could clearly observe the alignment during training and evaluation on successive epochs. When using this loss, we do not have to tune the decision threshold any more. Imagine a multi-label classification system with hundreds of labels, how unstable the system will be if we have to continuously update the optimal threshold for each label. The macro soft-F1 loss comes to the rescue. By using it, we can keep all thresholds fixed at 0.5 and still get an optimal performance from the training process./
+#+LATEX:% /Optimizing directly for macro F1: By introducing the macro soft-F1 loss, we could train the model to directly increase the metric we care about: the macro F1-score @ threshold 0.5. We could clearly observe the alignment during training and evaluation on successive epochs. When using this loss, we do not have to tune the decision threshold any more. Imagine a multi-label classification system with hundreds of labels, how unstable the system will be if we have to continuously update the optimal threshold for each label. The macro soft-F1 loss comes to the rescue. By using it, we can keep all thresholds fixed at 0.5 and still get an optimal performance from the training process./
 
 * Sigmoid F1 loss
 
@@ -258,9 +258,9 @@ For each observation $i$, label class probabilities can be defined based on pred
 Let $tp$ and $fp$ be number of true and false positives respectively. It is necessary to define a bound $b$, at which a prediction is dichotomized:
 
 \begin{equation}
+\label{eq:conf}
  t p=\sum_{i \in Y^{+}} \mathds{1}_{\mathbf{p_i} \geq b} \quad f p=\sum_{i \in Y^{-}} \mathds{1}_{\mathbf{p_i} \geq b} \quad fn = \sum_{i \in Y^{+}} \mathds{1}_{\mathbf{p_i} < b}
 \end{equation}
-\label{eq:conf}
 
 $\mathds{1}_{\mathbf{p_i} \geq b}$, $\mathds{1}_{\mathbf{p_i} < b}$ are thus the count of positive and negative predictions at threshold $b$, 
 
@@ -291,37 +291,61 @@ Given the presence of the step indicator function $\sum \mathds{1}_{\mathbf{p_i}
 It is possible define a /soft F1/ score cite:softF1 \doubt{can we cite a Medium post?} with smooth confusion matrix entries (i.e. $tp$, $fp$ and $fn$ are not natural numbers anymore):
 
 $$
-\tilde{tp}=\sum \hat{\mathbf{y}} \odot \mathbf{y} \quad \tilde{fp} = \sum \hat{\mathbf{y}} \odot (\mathbf{1}- \mathbf{y}) \quad \tilde{fn} = \sum (\mathbf{1} - \hat{\mathbf{y}}) \odot \mathbf{y}
+\overline{tp}=\sum \hat{\mathbf{y}} \odot \mathbf{y} \quad \overline{fp} = \sum \hat{\mathbf{y}} \odot (\mathbf{1}- \mathbf{y}) \quad \overline{fn} = \sum (\mathbf{1} - \hat{\mathbf{y}}) \odot \mathbf{y}
 $$
 
 \begin{equation}
-\mathcal{L}_{\text {softF1}}= \frac{\tilde{tp}}{2 \tilde{tp}+ \tilde{fn}+ \tilde{fp}}
+\mathcal{L}_{\text {softF1}}= \frac{\overline{tp}}{2 \overline{tp}+ \overline{fn}+ \overline{fp}}
 \end{equation}
 
-# /softF1/ is 
-# $$\mathcal{L}_{\text {Pred}}=\sum_{i, j}\left(\mathbf{y}_{i j}-\hat{\mathbf{y}}_{i j}\right)^{2}$$
+$tp$, $fp$ and $fn$ are now replaced by rough surrogates, this method has the advantage of 
+
+#+LATEX:% /softF1/ is 
+#+LATEX:% $$\mathcal{L}_{\text {Pred}}=\sum_{i, j}\left(\mathbf{y}_{i j}-\hat{\mathbf{y}}_{i j}\right)^{2}$$
 
 ** sigmoidF1 score
 
 We define /sigmoidF1/, inspired by the /Maximum F1-score criterion/ for automatic mispronounciation detection cite:sigmoid. Whereas a sigmoid function $S(u)$
 
 \begin{equation}
-S(u)=\frac{1}{1+\exp (-\beta (u + \eta))}
+S(u; \beta, \eta)=\frac{1}{1+\exp (-\beta (u + \eta))},
 \end{equation}
 
-Note that $\lim \beta \rightarrow \infty S(u)$ corresponds to the step function used in Equation \ref{eq:conf} \todo{wrong equatino number in ref}. The confusion matrix entries then become
+with $\beta$ and $\eta$ tunable parameters for slope and offset respectively. Higher $\beta$ results in steeper slope at the center of the sigmoid and thus more stringent thresholding. At its extreme, $lim_{\beta\to\infty} S(u; \beta, \eta)$ corresponds to the step function used in Equation \ref{eq:conf}. with $S(u)$, the confusion matrix entries then become
 
 $$
-\tilde{tp}=\sum S(\hat{\mathbf{y}}) \odot \mathbf{y} \quad \tilde{fp} = \sum \hat{\mathbf{y}} \odot (\mathbf{1} - \mathbf{y}) \quad \tilde{fn} = \sum (\mathbf{1} - \hat{\mathbf{y}}) \odot \mathbf{y}
+\widetilde{tp}=\sum S(\hat{\mathbf{y}}) \odot \mathbf{y} \quad\widetilde{fp}= \sum S(\hat{\mathbf{y}}) \odot (\mathbf{1} - \mathbf{y}) \quad \widetilde{f n}= \sum (\mathbf{1} - S(\hat{\mathbf{y}})) \odot \mathbf{y}
 $$
+
+And thus
+
+\begin{equation}
+\mathcal{L}_{\text {softF1}}= \frac{\widetilde{tp}}{2 \widetilde{tp}+ \widetilde{fn}+ \widetilde{fp}}
+\end{equation}
 
 \doubt{mention smooth hinge loss} cite:smoothHinge
+
+For /sigmoidF1/ $\beta$ and $\eta$ are tuned globally as hyperparameters. /SAdF1/ (Sigmoid Adaptive F1), is an alternative where $\beta$ is first set to a relatively low value and increased after each epoch. This way, a loose threshold first allows Stochastic Gradient Descent (SGD) to broadly scan the parameter space accross several local minima, before narrowing parameter search down to a promissing region (similarily to adaptive learning rates).
+
+/SBayesF1/ (sigmoid Bayes F1) replaces point estimates for $\beta$ and $\eta$ with posterior distribution estimates. 
+
+\begin{equation}
+S(u_i) = \frac{1}{1+\exp (-\beta_i (u_i + \eta_i))}
+\end{equation}
+
+#+LATEX:% $$ \beta_i \tilde \mathcal{N} (0, \sigma^{2}_{\beta}) $$
+
+#+LATEX:% $$ \eta_i \tilde \mathcal{N} (0, \sigma^{2}_{\eta}) $$
+
+$\beta_i$ and $\eta_i$ are estimated with MCMC at training time of the neural network. They are therefore implicitely allowed to vary across examples.
+
+\todo{try SadF1 and SBayesF1 in practice}
 
 
 ** Robustness
 
 
-Similarily to the focal loss, sigmoidF1 loss deals with class imbalance (see cite:focalLoss), robustness to outliers cite:focalLoss.
+Similarily to the focal loss cite:focalLoss, sigmoidF1 loss deals with class imbalance, robustness to outliers.
 
 \todo{statistical robustness assessment}
 
@@ -340,13 +364,13 @@ Macro $F_1$ cite:threshForF1 amounts to creating one confusion matrix per class:
 $$F_1^{macro} = \frac{1}{c} \sum_{j=1}^c F_1$$
 
 \doubt{Do we need to justify optimizing for an F1 surrogate at training time and to then use F1 itself as a metric?}
-# $$F_1^{macro} = \frac{\sum tp_c}{2 \sum tp_c + \sum fn_c + \sum fp_c} \quad for \quad c \in C$$
+#+LATEX:% $$F_1^{macro} = \frac{\sum tp_c}{2 \sum tp_c + \sum fn_c + \sum fp_c} \quad for \quad c \in C$$
 
 Weighted macro $F_1$ \todo{find source} is similar but includes weighing to account for class imbalance, i.e. weighing each class by the number of groundtruth positives.
 
 $$F_1^{weighted} = \frac{1}{c} \sum_{j=1}^c n_j F_1 \quad where \quad n_j = \sum_i \mathds{1}_{\mathbf{y_i^j} = 1}$$
 
-# $$F_1^{weighted} = \frac{\sum tp_c}{2 \sum tp_c + \sum fn_c + \sum fp_c} \quad for \quad c \in C$$
+#+LATEX:% $$F_1^{weighted} = \frac{\sum tp_c}{2 \sum tp_c + \sum fn_c + \sum fp_c} \quad for \quad c \in C$$
 
 Accuracy is the overall fraction of correctly predicted labels cite:threshForF1:
 
@@ -354,22 +378,25 @@ $$
 A c c=\frac{t p+t n}{t p+t n+f p+f n}
 $$
 
-# - 'samples':
-# Calculate metrics for each instance, and find their average (only meaningful for multilabel classification where this differs from accuracy_score).
+#+LATEX:% - 'samples':
+#+LATEX:% Calculate metrics for each instance, and find their average (only meaningful for multilabel classification where this differs from accuracy_score).
 
-# $$F_1^{micro} = \frac{\sum tp_c}{2 \sum tp_c + \sum fn_c + \sum fp_c} \quad for \quad c \in C$$
+#+LATEX:% $$F_1^{micro} = \frac{\sum tp_c}{2 \sum tp_c + \sum fn_c + \sum fp_c} \quad for \quad c \in C$$
 
 
 ** TODO compare to  cite:lossComp
   :PROPERTIES:  
   :UNNUMBERED: t  
   :END: 
+
+ \clearpage
+
 * datasets
 
 sigmoidF1 is tested across different modalities, namely image, video, sound and text, with a focus on text: the most comparable research was on text data.
 
-# \doubt{optional paragraph}
-# In light of the problem definition leading to the sigmoidF1 framework in the introduction and in order to clearly delimit the proposed method, following are a few datasets that are not suitable for the task.
+#+LATEX:% \doubt{optional paragraph}
+#+LATEX:% In light of the problem definition leading to the sigmoidF1 framework in the introduction and in order to clearly delimit the proposed method, following are a few datasets that are not suitable for the task.
 
 
 Among the three datasets used for benchmarking ML-NET cite:multitaskLabel, a cancer hallmark dataset is of multi-instance multilabel nature cite:cancerHallmarks \footnote{Available at https://www.cl.cam.ac.uk/&sim;sb895/HoC.html}: the research clearly describe a process of annotating several expressions within paper abstracts. The remaining two datasets for chemical exposure cite:chemExposure \footnote{Available at https://figshare.com/articles/Corpus_and_Software/4668229} and diagnosis codes assigment cite:diagnosisCode \footnote{Available at https://physionet.org/works/ICD9CodingofDischargeSummaries}, seem to fit to the entity wide multilabel definition but have a strong hierarchical nature. Although slightly out-of-scope, the three datasets above will be used for benchmarking, since they were used to test ML-NET, which is the state-of-the-art in /algorithm adaptation/ for text to the best of our knowledge.
@@ -385,13 +412,13 @@ In the vision domain, a dataset of movie posters \footnote{Labels available at h
 
 Another recently created dataset was made available for /Large Scale Holistic Video Understanding/ cite:holisticVideoData \footnote{Available at https://github.com/holistic-video-understanding/HVU-Dataset}, as defined in the introduction.
 
-# Cancer can be described according to its complexity with different principles, named hallmarks cite:cancerHallmarks. A corpus of 1580 PubMed abstracts are manually annotated for 10 hallmarks. This is a multi-instance labelling task and will therefore not be used here.
+#+LATEX:% Cancer can be described according to its complexity with different principles, named hallmarks cite:cancerHallmarks. A corpus of 1580 PubMed abstracts are manually annotated for 10 hallmarks. This is a multi-instance labelling task and will therefore not be used here.
 
-# [[./images/cancerHallmarksAnnotation.jpg]]
+#+LATEX:% [[./images/cancerHallmarksAnnotation.jpg]]
 
-# - Multilabel classification for text cite:toxicComments
+#+LATEX:% - Multilabel classification for text cite:toxicComments
 
-# - Scenery dataset for images cite:dataScenery.
+#+LATEX:% - Scenery dataset for images cite:dataScenery.
 
 \todo{this is an ambitious number of datasets. Add longer description of each dataset, depending on which ones I keep: sample size, number of classes etc. see utils here: https://github.com/ashrefm/multi-label-soft-f1}
 
