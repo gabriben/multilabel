@@ -367,16 +367,17 @@ $$
   :END: 
 * datasets
 
-sigmoidF1 is tested across different modalities, namely image sound and text, with a focus on text: the most comparable research was on text data.
+sigmoidF1 is tested across different modalities, namely image, video, sound and text, with a focus on text: the most comparable research was on text data.
 
-\doubt{optional paragraph}
-In light of the problem definition leading to the sigmoidF1 framework in the introduction and in order to clearly delimit the proposed method, following are a few datasets that are not suitable for the task.
-
-
-Among the three datacets used for benchmarking ML-NET cite:multitaskLabel, a cancer hallmark dataset is of sub-entity unilabel nature cite:cancerHallmarks: the research clearly describe a process of annotating several expressions within paper abstracts. The remaining two, seem to fit to the entity wide multilabel definition and have a strong hierarchical nature.
+# \doubt{optional paragraph}
+# In light of the problem definition leading to the sigmoidF1 framework in the introduction and in order to clearly delimit the proposed method, following are a few datasets that are not suitable for the task.
 
 
-Cacncer can be described according to its complexity with different principles, named hallmarks cite:cancerHallmarks. A corpus of 1580 PubMed abstracts are manually annotated for 10 hallmarks. This is a sub-entity labelling task and will therefore not be used here.
+Among the three datasets used for benchmarking ML-NET cite:multitaskLabel, a cancer hallmark dataset is of sub-entity unilabel nature cite:cancerHallmarks (available at https://www.cl.cam.ac.uk/&sim;sb895/HoC.html): the research clearly describe a process of annotating several expressions within paper abstracts. The remaining two for chemical exposure cite:chemExposure (available at https://figshare.com/articles/Corpus_and_Software/4668229) and diagnosis codes assigment cite:diagnosisCode (available at https://physionet.org/works/ICD9CodingofDischargeSummaries), seem to fit to the entity wide multilabel definition but have a strong hierarchical nature. 
+
+Since ML-Net can be considered as the state-of-the-art in the closest task in text, the three datasets above will be used. The 
+
+Cancer can be described according to its complexity with different principles, named hallmarks cite:cancerHallmarks. A corpus of 1580 PubMed abstracts are manually annotated for 10 hallmarks. This is a sub-entity labelling task and will therefore not be used here.
 
 [[./images/cancerHallmarksAnnotation.jpg]]
 
@@ -421,6 +422,7 @@ pre-scraped: https://www.kaggle.com/neha1703/movie-genre-from-its-poster/discuss
 
  /citing Kaggle datasets/
  https://www.kaggle.com/data/46091
+
 
 * Experimental Results
 

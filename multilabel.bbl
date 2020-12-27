@@ -2,7 +2,7 @@
 %%% Do NOT edit. File created by BibTeX with style
 %%% ACM-Reference-Format-Journals [18-Jan-2012].
 
-\begin{thebibliography}{29}
+\begin{thebibliography}{34}
 
 %%% ====================================================================
 %%% NOTE TO THE USER: you can override these defaults by providing
@@ -143,6 +143,19 @@
 \showDOI{\tempurl}
 
 
+\bibitem[\protect\citeauthoryear{Diba, Fayyaz, Sharma, Paluri, Gall,
+  Stiefelhagen, and Gool}{Diba et~al\mbox{.}}{2019}]%
+        {holisticVideoData}
+\bibfield{author}{\bibinfo{person}{Ali Diba}, \bibinfo{person}{Mohsen Fayyaz},
+  \bibinfo{person}{Vivek Sharma}, \bibinfo{person}{Manohar Paluri},
+  \bibinfo{person}{Jurgen Gall}, \bibinfo{person}{Rainer Stiefelhagen}, {and}
+  \bibinfo{person}{Luc~Van Gool}.} \bibinfo{year}{2019}\natexlab{}.
+\newblock \bibinfo{booktitle}{\emph{{Large Scale Holistic Video
+  Understanding}}}.
+\newblock
+\showeprint[arxiv]{1904.11451v3}~[cs.CV]
+
+
 \bibitem[\protect\citeauthoryear{Du, Chen, Peng, Xiang, Tao, and Lu}{Du
   et~al\mbox{.}}{2019}]%
         {multitaskLabel}
@@ -187,6 +200,28 @@
   \bibinfo{publisher}{MIT Press}, \bibinfo{address}{Cambridge, MA, USA},
   \bibinfo{pages}{681–687}.
 \newblock
+
+
+\bibitem[\protect\citeauthoryear{Gao, Bagci, Lu, Wu, Buty, Shin, Roth,
+  Papadakis, Depeursinge, Summers, and et~al.}{Gao et~al\mbox{.}}{2016}]%
+        {holisticLungs}
+\bibfield{author}{\bibinfo{person}{Mingchen Gao}, \bibinfo{person}{Ulas Bagci},
+  \bibinfo{person}{Le Lu}, \bibinfo{person}{Aaron Wu}, \bibinfo{person}{Mario
+  Buty}, \bibinfo{person}{Hoo-Chang Shin}, \bibinfo{person}{Holger Roth},
+  \bibinfo{person}{Georgios~Z. Papadakis}, \bibinfo{person}{Adrien
+  Depeursinge}, \bibinfo{person}{Ronald~M. Summers}, {and} \bibinfo{person}{et
+  al.}} \bibinfo{year}{2016}\natexlab{}.
+\newblock \showarticletitle{Holistic classification of CT attenuation patterns
+  for interstitial lung diseases via deep convolutional neural networks}.
+\newblock \bibinfo{journal}{\emph{Computer Methods in Biomechanics and
+  Biomedical Engineering: Imaging & Visualization}} \bibinfo{volume}{6},
+  \bibinfo{number}{1} (\bibinfo{date}{Jun} \bibinfo{year}{2016}),
+  \bibinfo{pages}{1–6}.
+\newblock
+\showISSN{2168-1171}
+\urldef\tempurl%
+\url{https://doi.org/10.1080/21681163.2015.1124249}
+\showDOI{\tempurl}
 
 
 \bibitem[\protect\citeauthoryear{Hanahan and Weinberg}{Hanahan and
@@ -237,6 +272,42 @@
 \showISSN{2329-9304}
 \urldef\tempurl%
 \url{https://doi.org/10.1109/taslp.2015.2409733}
+\showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Jaenal, Moreno, and Gonzalez-Jimenez}{Jaenal
+  et~al\mbox{.}}{2019}]%
+        {holisticImageDescriptors}
+\bibfield{author}{\bibinfo{person}{Alberto Jaenal},
+  \bibinfo{person}{Francisco-Angel Moreno}, {and} \bibinfo{person}{Javier
+  Gonzalez-Jimenez}.} \bibinfo{year}{2019}\natexlab{}.
+\newblock \showarticletitle{Experimental study of the suitability of CNN-based
+  holistic descriptors for accurate visual localization}.
+\newblock \bibinfo{journal}{\emph{Proceedings of the 2nd International
+  Conference on Applications of Intelligent Systems - APPIS ’19}}
+  (\bibinfo{year}{2019}).
+\newblock
+\showISBNx{9781450360852}
+\urldef\tempurl%
+\url{https://doi.org/10.1145/3309772.3309800}
+\showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Larsson, Silins, Guo, Korhonen, Stenius, and
+  Berglund}{Larsson et~al\mbox{.}}{2014}]%
+        {chemExposure}
+\bibfield{author}{\bibinfo{person}{Kristin Larsson}, \bibinfo{person}{Ilona
+  Silins}, \bibinfo{person}{Yufan Guo}, \bibinfo{person}{Anna Korhonen},
+  \bibinfo{person}{Ulla Stenius}, {and} \bibinfo{person}{Marika Berglund}.}
+  \bibinfo{year}{2014}\natexlab{}.
+\newblock \showarticletitle{Text mining for improved human exposure
+  assessment}.
+\newblock \bibinfo{journal}{\emph{Toxicology Letters}}  \bibinfo{volume}{229}
+  (\bibinfo{date}{Sep} \bibinfo{year}{2014}), \bibinfo{pages}{S119}.
+\newblock
+\showISSN{0378-4274}
+\urldef\tempurl%
+\url{https://doi.org/10.1016/j.toxlet.2014.06.427}
 \showDOI{\tempurl}
 
 
@@ -340,6 +411,25 @@
 \showISBNx{1573-756X}
 \urldef\tempurl%
 \url{https://doi.org/10.1007/s10618-020-00704-w}
+\showDOI{\tempurl}
+
+
+\bibitem[\protect\citeauthoryear{Perotte, Pivovarov, Natarajan, Weiskopf, Wood,
+  and Elhadad}{Perotte et~al\mbox{.}}{2014}]%
+        {diagnosisCode}
+\bibfield{author}{\bibinfo{person}{Adler Perotte}, \bibinfo{person}{Rimma
+  Pivovarov}, \bibinfo{person}{Karthik Natarajan}, \bibinfo{person}{Nicole
+  Weiskopf}, \bibinfo{person}{Frank Wood}, {and} \bibinfo{person}{Noémie
+  Elhadad}.} \bibinfo{year}{2014}\natexlab{}.
+\newblock \showarticletitle{Diagnosis code assignment: models and evaluation
+  metrics}.
+\newblock \bibinfo{journal}{\emph{Journal of the American Medical Informatics
+  Association}} \bibinfo{volume}{21}, \bibinfo{number}{2} (\bibinfo{date}{Mar}
+  \bibinfo{year}{2014}), \bibinfo{pages}{231–237}.
+\newblock
+\showISSN{1527-974X}
+\urldef\tempurl%
+\url{https://doi.org/10.1136/amiajnl-2013-002159}
 \showDOI{\tempurl}
 
 
