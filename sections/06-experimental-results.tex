@@ -1,0 +1,101 @@
+% !TEX root = ../main.tex
+
+\section{Experimental Results}
+\label{sec:orgc23a664}
+
+varying b in the sigmoid function as if it is an adaptive learning rate \todo{actually try it out}.
+
+one b per class
+
+if we consider \(b\) and \(c\) to be probabilistic, we can then use tensorflow probability to assess their distribution
+
+the batch size has to be relatively large (i.c. 256), in order for meaningful F1 surrogates to be calculated.
+
+
+
+\begin{table}
+\caption{movie posters (CNN). \mdr{Explain what we see.}}
+\centering
+\begin{tabular}{l ccccc}
+\toprule 
+Loss  & \rotatebox[origin=c]{90}{macroF @ 0.5} & \rotatebox[origin=c]{90}{microF1 @ 0.5} & \rotatebox[origin=c]{90}{weightedF1 @ 0.5} & \rotatebox[origin=c]{90}{Precision @ 0.5} & \rotatebox[origin=c]{90}{Recall @ 0.5}\\ 
+\midrule
+$\mathcal{L}_{\text {CE}}$ & 0.057 & 0.200 & 0.159 & 0.106 & 0.106 \\ 
+$\mathcal{L}_{\text {FL}}$ & 0.055 & 0.192 & 0.154 & 0.115 & 0.115 \\
+$\mathcal{L}_{\text {CE+N}}$ & 0 & 0 & 0 & 0 & 0 \\
+$\mathcal{L}_{\text {CE+T}}$ & 0 & 0 & 0 & 0 & 0 \\
+$\mathcal{L}_{\text {macroSoftF1}}$ & 0.132 & 0.323 & 0.280 & 0.105 & 0.105 \\
+$\mathcal{L}_{\text {sigmoidF1}}$ & \textbf{0.117} & \textbf{0.240} & \textbf{0.263} & \textbf{0.103} & \textbf{0.103} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}
+\caption{Arxiv (distillBERT)}
+
+\begin{tabular}{ccccc}
+\toprule 
+\text { Metric } & $\mathcal{L}_{\text {CE}}$ & $\mathcal{L}_{\text {FL}}$ & $\mathcal{L}_{\text {CE+N}}$ & $\mathcal{L}_{\text {CE+T}} $\\ 
+\midrule
+ P(\%) & 0 & 0 & 0 & 0 \\ 
+R(\%) & 0 & 0 & 0 & 0 \\
+$F_{1}$(\%) & 0 & 0 & 0 & \textbf{0} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}
+\caption{Cancer hallmark (distillBERT)}
+\centering
+\begin{tabular}{ccccc}
+\toprule 
+\text { Metric } & $\mathcal{L}_{\text {CE}}$ & $\mathcal{L}_{\text {FL}}$ & $\mathcal{L}_{\text {CE+N}}$ & $\mathcal{L}_{\text {CE+T}}$ \\ 
+\midrule 
+P(\%) & 0 & 0 & 0 & 0 \\ 
+R(\%) & 0 & 0 & 0 & 0 \\
+$F_{1}$(\%) & 0 & 0 & 0 & \textbf{0} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}
+\caption{Chemical exposure (distillBERT)}
+\centering
+\begin{tabular}{ccccc}
+\toprule 
+\text { Metric } & $\mathcal{L}_{\text {CE}}$ & $\mathcal{L}_{\text {FL}}$ & $\mathcal{L}_{\text {CE+N}}$ & $\mathcal{L}_{\text {CE+T}}$ \\ 
+\midrule 
+P(\%) & 0 & 0 & 0 & 0 \\ 
+R(\%) & 0 & 0 & 0 & 0 \\
+$F_{1}$(\%) & 0 & 0 & 0 & \textbf{0} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}
+\caption{Chemical exposure (distillBERT)}
+\centering
+\begin{tabular}{ccccc}
+\toprule 
+\text { Metric } & $\mathcal{L}_{\text {CE}}$ & $\mathcal{L}_{\text {FL}}$ & $\mathcal{L}_{\text {CE+N}}$ & $\mathcal{L}_{\text {CE+T}}$ \\ 
+\midrule 
+P(\%) & 0 & 0 & 0 & 0 \\ 
+R(\%) & 0 & 0 & 0 & 0 \\
+$F_{1}$(\%) & 0 & 0 & 0 & \textbf{0} \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}
+\caption{simulated data}
+\centering
+\begin{tabular}{ccccc}
+\toprule
+\text { Metric } & $\mathcal{L}_{\text {CE}}$ & $\mathcal{L}_{\text {FL}}$ & $\mathcal{L}_{\text {CE+N}}$ & $\mathcal{L}_{\text {CE+T}}$ \\ 
+\midrule 
+P(\%) & 0 & 0 & 0 & 0 \\ 
+R(\%) & 0 & 0 & 0 & 0 \\
+$F_{1}$(\%) & 0 & 0 & 0 & \textbf{0} \\
+\bottomrule
+\end{tabular}
+\end{table}

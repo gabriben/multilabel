@@ -1,0 +1,24 @@
+% !TEX root = ./main.tex
+
+\section{Conclusion}
+\label{sec:orged3d8a1}
+
+\textbf{Shortcomings}
+
+it is debatable wether any task is intrinsincly multilabel and wether the image / text cannot be decomposed in parts that are single labeled.
+
+not long training and small models, but aibility to demonstrate the statement anyways.
+
+\textbf{Results}
+
+In this paper we defined a new problem in deep learning for mulitple modalities that harness the current advances in abstract representation of the input space. A general loss framework is proposed to locate that solution within the existing multiclass multilabel losses and a specific loss function is formulated. \emph{sigmoidF1} achieves significantly results for different F1 values on all datasets.
+
+\textbf{Future work}
+
+Apply the loss function to more sophisticated neural network architectures that use F1 score as an evaluation metric such as AC-SUM-GAN \cite{AC-SUM-GAN}.
+
+This model can be adapted for hiarchical multilabel classification or active learning (for both see \cite{activeLearningMultiLabel}).
+
+Combine the proposed loss functions with representation learning \cite{unsupervisedImage,highResRepresentation} or self-supervised learning, in order to model abstract relationships between the labels.
+
+adapt to \emph{extreme} multilabel prediction \cite{extremeMultilabelText}

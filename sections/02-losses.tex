@@ -1,0 +1,39 @@
+% !TEX root = ../main.tex
+
+\section{Building up on losses}
+\label{sec:org8c910ea}
+
+Multi-label learning can be divided into two major fields: \emph{problem transformation} and \emph{algorithm adaptation} \cite{multilabelReview}. In the former case, multilabel classification is reframed as a binary, multiclass classification or label ranking problem. In the latter, one tries to adapt multiclass algorithms to the problem. The current endeavor focusses on \emph{algorithm adaptation}.
+
+
+For the purpose of \emph{problem transformation}, we define \(\mathcal{L}_{\text {multiclass}}\), a class of loss functions that minimize predictions in relative terms. Binary cross-entropy, logit and their variants such as focal loss or hinge loss (deemed unstable \cite{focalLoss}) are common choices when it comes to multiclass prediction. Cross-entropy loss can be formulated as \(\mathcal{L}_{\text {CE}}=-\sum \log \left(p_{i}\right)\) . Note that minimizing binary cross-entropy is equivalent to maximizing for log-likelihood \cite[Section 4.3.4]{Bishop}. More generally, the \emph{problem transformation} formulation amounts to minimizing the loss on a class of neural networks, such that
+%
+\begin{equation}
+\underset{\mathcal{L}_{\text {multiclass}}} {\min} \mathcal{F}\left(\cdot ; \Theta; \mathcal{L}_{\text {multiclass}} (\mathbf{y}, \hat{\mathbf{y}}) \right),
+\end{equation}
+%
+In the context of \emph{algorithm adaptation}, where the number of positive labels in the groundtruth is unknown a priori, we aim to both obtain a propensity of each label being true and a prediction of the number of true labels: 
+%
+\begin{equation}
+\underset{\mathcal{L}_{\text {multiclass}}, \mathcal{L}_{\text {count}}} {\min} \mathcal{F}\left(\cdot ; \Theta; \mathcal{L}_{\text {multiclass}} (\mathbf{y}, \hat{\mathbf{y}}) + \lambda \mathcal{L}_{\text {count}} (\mathbf{n}, \hat{\mathbf{n}})\right),
+\end{equation}
+%
+where \(n_i = \sum_j \mathds{1}_{\mathbf{y_i^j} = 1}\) is the count of positive labels per example. We thus impose a constraint for the retrieval of label counts. For example, a cross-entropy loss surrogate would penalize for the number of wrongly predicted labels \(\mathcal{L}_{\text {CE+N}}= \mathcal{L}_{\text {CE}} + \lambda (\sum tp / \sum p)\), with \(t p=\sum_{i \in Y^{+}} \mathds{1}_{\mathbf{p_i} \geq b}\) and \(b\) a threshold to be defined. \todo{tencent loss}.
+
+This formulation is most straightfoward but suffers from higher parametrization and the lack of modelling of the interactions between label counts and label prediction. To mitigate these issues, we propose a unified loss formulation, namely
+%
+\begin{equation}
+\underset{\mathcal{L}_{\text {multitag}}} {\min} \mathcal{F}\left(\cdot ; \Theta; \mathcal{L}_{\text {multitag}} (\mathbf{y}, \hat{\mathbf{y}}, \mathbf{n}, \hat{\mathbf{n}}) \right),
+\end{equation}
+%
+Although predictions and counts explicitly appear in that formulation, \(\mathcal{L}_{\text {multitag}}\) can optimize for both metrics implicitely (see proposed \emph{sigmoidF1} below).
+
+
+\todo{look at YOU ONLY TRAIN ONCE: LOSS-CONDITIONAL TRAINING OF DEEP NETWORKS}
+
+\todo{cite stat learning}   \cite[p. 308-310]{statLearning}
+
+
+% * our contribution
+
+% In order to verify our hypotheses, we use multilabel examples, where it is arguably hard to distinguish which elements is predictive of the label. For example, movie posters where the whole context is important and not just facial expressions, title font.

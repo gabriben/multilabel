@@ -1,0 +1,47 @@
+% Created 2020-12-27 Sun 23:59
+% Intended LaTeX compiler: pdflatex
+\documentclass[sigconf,natbib,screen=true,review=true,anonymous]{acmart}
+
+% We'll get the submission number fro the submission system
+\acmSubmissionID{xx}
+\input{packages}
+\input{definitions}
+\input{authors}
+\input{meta}
+
+\begin{document}
+
+\title{A SigmoidF1-Loss Framework for Uni-instance Multiclass Multilabel Prediction with a Varying Number of Labels}
+
+\begin{abstract}
+Multilabel classification is a common task in text, image or video (scene) prediction...
+\end{abstract}
+
+
+\keywords{Keyword; Keyword; Keyword}
+
+\maketitle
+
+\acresetall
+
+\input{sections/01-introduction}
+\input{sections/02-losses}
+\input{sections/03-sigmoid-f1-loss}
+\input{sections/04-related-work}
+\input{sections/05-experimental-setup}
+\input{sections/06-experimental-results}
+\input{sections/07-conclusions}
+
+\section*{Data and Code}
+To facilitate the reproducibility of the reported results, this work only made use of publicly available data and our experimental implementation is publicly available at \mdr{\url{where}}.
+
+\begin{acks}}
+ This work was supported by many people.
+ All content represents the opinion of the authors, which is not necessarily shared or endorsed by their respective employers and/or sponsors.
+\end{acks}
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{references}
+
+\end{document}
+
