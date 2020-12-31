@@ -1,7 +1,9 @@
 % !TEX root = ../main.tex
 
-\section{Sigmoid F1 loss}
+\section{Method}
 \label{sec:orga8a42f5}
+
+\mdr{In this section we introduce the Sigmoid F1 Loss. We proceed as follows.}
 
 For a class of multilayer perceptron \(\mathcal{F}(\cdot ; \Theta): \mathcal{X} \rightarrow \mathcal{Y}\), we consider a special case, where \(\mathbf{x} = \{x_1, ..., x_n\}\). Each observation is attributed one or more classes out of a label set \(\mathbf{l} = \{l_1, ..., l_c\}\). Labels \(y_{i}^{j}\) are available for each observation \(i\) and class \(j\). 
 
@@ -124,6 +126,8 @@ Similarly to the focal loss \cite{focalLoss}, sigmoidF1 loss deals with class im
 \subsection{Evaluation Metrics}
 \label{sec:org23c8447}
 
+\mdr{Should this be here or in the Exp Setup section?}
+
 The metrics described below are a result of a survey of different common practices for measuring accuracy of multilabel prediction. When true positives and false positives are used, recall that \(t p=\sum_{i \in Y^{+}} \mathds{1}_{\mathbf{p_i} \geq b}\) and \(f p=\sum_{i \in Y^{-}} \mathds{1}_{\mathbf{p_i} \geq b}\), and thus a threshold \(b\) must be set. When \(b = 0.5\), as is commonly done \todo{add source}, a risk remains that a lot of examples remain without predictions.
 
 Extending \(F_1\) to multi-class binary classification amounts to deciding wether to un/pool classes.
@@ -138,8 +142,9 @@ $$F_1^{macro} = \frac{1}{c} \sum_{j=1}^c F_1$$
 % $$F_1^{macro} = \frac{\sum tp_c}{2 \sum tp_c + \sum fn_c + \sum fp_c} \quad for \quad c \in C$$
 
 Weighted macro \(F_1\) \todo{find source} is similar but includes weighing to account for class imbalance, i.e. weighing each class by the number of groundtruth positives.
-
-$$F_1^{weighted} = \frac{1}{c} \sum_{j=1}^c n_j F_1 \quad where \quad n_j = \sum_i \mathds{1}_{\mathbf{y_i^j} = 1}$$
+\begin{equation}
+F_1^{weighted} = \frac{1}{c} \sum_{j=1}^c n_j F_1 \text{ where } n_j = \sum_i \mathds{1}_{\mathbf{y_i^j} = 1}.
+\end{equation}
 
 % $$F_1^{weighted} = \frac{\sum tp_c}{2 \sum tp_c + \sum fn_c + \sum fp_c} \quad for \quad c \in C$$
 

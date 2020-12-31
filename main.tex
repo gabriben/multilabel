@@ -4,6 +4,7 @@
 
 % We'll get the submission number fro the submission system
 \acmSubmissionID{xx}
+
 \input{packages}
 \input{definitions}
 \input{authors}
@@ -15,22 +16,30 @@
 
 \begin{abstract}
 Multilabel classification is a common task in text, image or video (scene) prediction...
+\begin{itemize}
+\item \mdr{one sentence context}
+\item \mdr{one sentence problem statement}
+\item \mdr{one sentence what's wrong with current solutions}
+\item \mdr{one sentence our proposal}
+\item \mdr{one sentence the results achieved with our proposal}
+\item \mdr{one sentence why this matters}
+\end{itemize}
 \end{abstract}
 
-
-\keywords{Keyword; Keyword; Keyword}
+\keywords{Content analysis; Classification; \mdr{Keyword}}
 
 \maketitle
 
 \acresetall
 
 \input{sections/01-introduction}
-\input{sections/02-losses}
-\input{sections/03-sigmoid-f1-loss}
-\input{sections/04-related-work}
+\input{sections/02-task-definition}
+\input{sections/03-background}
+\input{sections/04-method}
 \input{sections/05-experimental-setup}
 \input{sections/06-experimental-results}
-\input{sections/07-conclusions}
+\input{sections/07-related-work}
+\input{sections/08-conclusions}
 
 \section*{Data and Code}
 To facilitate the reproducibility of the reported results, this work only made use of publicly available data and our experimental implementation is publicly available at \mdr{\url{where}}.
