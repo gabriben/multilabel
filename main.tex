@@ -15,18 +15,18 @@
 \title{A SigmoidF1-Loss Framework for Uni-instance Multiclass Multilabel Prediction with a Varying Number of Labels}
 
 \begin{abstract}
-Multilabel classification is a common task in text, image or video (scene) prediction...
-\begin{itemize}
-\item \mdr{one sentence context}
-\item \mdr{one sentence problem statement}
-\item \mdr{one sentence what's wrong with current solutions}
-\item \mdr{one sentence our proposal}
-\item \mdr{one sentence the results achieved with our proposal}
-\item \mdr{one sentence why this matters}
-\end{itemize}
-\end{abstract}
+  Multilabel classification is a common task when learning from text, image or sound, but few models are tailored towards learning abstract descriptors of an entire text/image/sound. Current solutions tend to re-frame the problem as an instance of the multiclass domain, which allow the use of variations of cross-entropy or multinomial logit losses. These produce unit-interval results that require a sophisticated thresholding regime (at training time or after training), when the number of groundtruth labels varies over each example. As a decomposable F1 score surrogate, /sigmoidF1/ can implicitly deal with thresholding. The proposed method yields higher macro F1 results on several datasets of different modes, thus enabling higher level abstractions in the embedding space to be directly predictive of abstract labels in the output space.
+% \begin{itemize}
+% \item \mdr{one sentence context}
+% \item \mdr{one sentence problem statement}
+% \item \mdr{one sentence what's wrong with current solutions}
+% \item \mdr{one sentence our proposal}
+% \item \mdr{one sentence the results achieved with our proposal}
+% \item \mdr{one sentence why this matters}
+% \end{itemize}
+% \end{abstract}
 
-\keywords{Content analysis; Classification; \mdr{Keyword}}
+\keywords{Content analysis; Classification; Multiclass; Multilabel; Custom Loss \mdr{Keyword}}
 
 \maketitle
 
@@ -54,3 +54,8 @@ To facilitate the reproducibility of the reported results, this work only made u
 
 \end{document}
 
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
