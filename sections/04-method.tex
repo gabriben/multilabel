@@ -154,6 +154,8 @@ $$
 A c c=\frac{t p+t n}{t p+t n+f p+f n}
 $$
 
+Note that accuracy assigns equal cost to false positives and false negatives. This is particularly problematic in an unbalanced setup like here.
+
 % - 'samples':
 % Calculate metrics for each instance, and find their average (only meaningful for multilabel classification where this differs from accuracy_score).
 
@@ -162,4 +164,8 @@ $$
 
 \todo{compare to this:} \cite{lossComp}
 
+\todo{Hamming Loss}
+\todo{Precision@K, Recall@K, NDCG@K}
+\todo{MLTSVM loss and the three-way loss inspired by it} \cite{MLTSVM} and \cite{MLTSVMThreeway}
 
+\todo{explain batch size mathematically for F1 surrogate losses}

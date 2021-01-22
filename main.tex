@@ -12,10 +12,10 @@
 
 \begin{document}
 
-\title{A SigmoidF1-Loss Framework for Uni-instance Multiclass Multilabel Prediction with a Varying Number of Labels}
+\title{SIMPUL: a loss framework to learn abstract labels from abstract representations / SigmoidF1-Loss Framework for Single-Instance Multiclass Multilabel Prediction with Unknown Label count}
 
 \begin{abstract}
-  Multilabel classification is a common task when learning from text, image or sound, but few models are tailored towards learning abstract descriptors of an entire text/image/sound. Current solutions tend to re-frame the problem as an instance of the multiclass domain, which allow the use of variations of cross-entropy or multinomial logit losses. These produce unit-interval results that require a sophisticated thresholding regime (at training time or after training), when the number of groundtruth labels varies over each example. As a decomposable F1 score surrogate, /sigmoidF1/ can implicitly deal with thresholding. The proposed method yields higher macro F1 results on several datasets of different modes, thus enabling higher level abstractions in the embedding space to be directly predictive of abstract labels in the output space.
+  Multilabel classification is a common task when learning from text, image or sound, but few models are tailored towards learning abstract descriptors of an entire text/image/sound. Current solutions tend to re-frame the problem as an instance of the multiclass domain, which allow the use of variations of cross-entropy or multinomial logit losses. When the number of groundtruth labels varies over each example, these losses produce unit-interval results that require a sophisticated thresholding regime (at training or at inference time) to predict both label prediction propensity and label count. As a decomposable F1 score surrogate, \emph{sigmoidF1} introduces smooth thresholding. The proposed method yields higher F1 metrics on several datasets of different modes. Among them, the recent Arxiv Dataset is benchmarked for the first time on a classification task by finetuning DistilBert. This showcases that higher level abstractions in the embedding space can be directly predictive of abstract labels in the output space. The code is available at (https://anonymous.4open.science). 
 % \begin{itemize}
 % \item \mdr{one sentence context}
 % \item \mdr{one sentence problem statement}
@@ -24,9 +24,10 @@
 % \item \mdr{one sentence the results achieved with our proposal}
 % \item \mdr{one sentence why this matters}
 % \end{itemize}
-% \end{abstract}
+\end{abstract}
 
 \keywords{Content analysis; Classification; Multiclass; Multilabel; Custom Loss \mdr{Keyword}}
+
 
 \maketitle
 
@@ -44,7 +45,7 @@
 \section*{Data and Code}
 To facilitate the reproducibility of the reported results, this work only made use of publicly available data and our experimental implementation is publicly available at \mdr{\url{where}}.
 
-\begin{acks}}
+\begin{acks}
  This work was supported by many people.
  All content represents the opinion of the authors, which is not necessarily shared or endorsed by their respective employers and/or sponsors.
 \end{acks}

@@ -3,9 +3,9 @@
 \section{Background}
 \label{sec:org8c910ea}
 
-In this section \mdr{we recall the background material needed to be able to introduce our proposed solution to the U-I, MC, ML prediction problem with a VNofL}.
+In this section, we recall the background material needed to be able to introduce our proposed solution to the MSILUL problem.
 
-Multi-label learning can be divided into two major fields: \emph{problem transformation} and \emph{algorithm adaptation} \cite{multilabelReview}. In the former case, multilabel classification is reframed as a binary, multiclass classification or label ranking problem. In the latter, one tries to adapt multiclass algorithms to the problem. The current endeavor focusses on \emph{algorithm adaptation}.
+Multilabel learning can be divided into two major fields: \emph{problem transformation} and \emph{algorithm adaptation} \cite{multilabelReview}. In the former case, multilabel classification is reframed as a binary, multiclass classification or label ranking problem. In the latter, one tries to adapt multiclass algorithms to the problem. The current endeavor focusses on \emph{algorithm adaptation}.
 
 
 For the purpose of \emph{problem transformation}, we define \(\mathcal{L}_{\text {multiclass}}\), a class of loss functions that minimize predictions in relative terms. Binary cross-entropy, logit and their variants such as focal loss or hinge loss (deemed unstable \cite{focalLoss}) are common choices when it comes to multiclass prediction. Cross-entropy loss can be formulated as \(\mathcal{L}_{\text {CE}}=-\sum \log \left(p_{i}\right)\) . Note that minimizing binary cross-entropy is equivalent to maximizing for log-likelihood \cite[Section 4.3.4]{Bishop}. More generally, the \emph{problem transformation} formulation amounts to minimizing the loss on a class of neural networks, such that
@@ -20,9 +20,9 @@ In the context of \emph{algorithm adaptation}, where the number of positive labe
 \underset{\mathcal{L}_{\text {multiclass}}, \mathcal{L}_{\text {count}}} {\min} \mathcal{F}\left(\cdot ; \Theta; \mathcal{L}_{\text {multiclass}} (\mathbf{y}, \hat{\mathbf{y}}) + \lambda \mathcal{L}_{\text {count}} (\mathbf{n}, \hat{\mathbf{n}})\right),
 \end{equation}
 %
-where \(n_i = \sum_j \mathds{1}_{\mathbf{y_i^j} = 1}\) is the count of positive labels per example. We thus impose a constraint for the retrieval of label counts. For example, a cross-entropy loss surrogate would penalize for the number of wrongly predicted labels \(\mathcal{L}_{\text {CE+N}}= \mathcal{L}_{\text {CE}} + \lambda (\sum tp / \sum p)\), with \(t p=\sum_{i \in Y^{+}} \mathds{1}_{\mathbf{p_i} \geq b}\) and \(b\) a threshold to be defined. \todo{tencent loss}.
+where \(n_i = \sum_j \mathds{1}_{\mathbf{y_i^j} = 1}\) is the count of positive labels per example. We thus impose a constraint for the retrieval of label counts. For example, a cross-entropy loss surrogate would penalize for the number of wrongly predicted labels \(\mathcal{L}_{\text {CE+N}}= \mathcal{L}_{\text {CE}} + \lambda (\sum tp / \sum p)\), with \(t p=\sum_{i \in Y^{+}} \mathds{1}_{\mathbf{p_i} \geq b}\) and \(b\) a threshold to be defined. With its multitask framework (predict label prediction propensity and label count) \cite{multitaskLabel} corresponds to that type of infrastructure. \todo{tencent loss}.
 
-This formulation is most straightfoward but suffers from higher parametrization and the lack of modelling of the interactions between label counts and label prediction. To mitigate these issues, we propose a unified loss formulation, namely
+The latter formulation is most straightfoward but suffers from higher parametrization and the lack of modelling of the interactions between label counts and label prediction. To mitigate these issues, we propose a unified loss formulation, namely
 %
 \begin{equation}
 \underset{\mathcal{L}_{\text {multitag}}} {\min} \mathcal{F}\left(\cdot ; \Theta; \mathcal{L}_{\text {multitag}} (\mathbf{y}, \hat{\mathbf{y}}, \mathbf{n}, \hat{\mathbf{n}}) \right),
@@ -31,10 +31,16 @@ This formulation is most straightfoward but suffers from higher parametrization 
 Although predictions and counts explicitly appear in that formulation, \(\mathcal{L}_{\text {multitag}}\) can optimize for both metrics implicitely (see proposed \emph{sigmoidF1} below).
 
 
+
+% (IV) uni-instance multilabel prediction with varying label count with post-training thresholding (V) redefine backpropagation for multilabel prediction \cite{multilabelBackprop} (VI) multitask learning \cite{multitaskLabel} (VII) custom loss function \cite{tencent}. This order reflects in ascending order how close modelling seem to fit the original task, which remains uni-instance multilabel learning with varying amounts of labels. \doubt{group them}
+
+
 \todo{look at YOU ONLY TRAIN ONCE: LOSS-CONDITIONAL TRAINING OF DEEP NETWORKS}
 
 \todo{cite stat learning}   \cite[p. 308-310]{statLearning}
 
+\todo{show that I am between the two extremes of Pure multiclass with post thresholding and multiclass + penalty for num labels}
+\todo{can I rewrite L CN + N into F1}
 
 % * our contribution
 
