@@ -20,30 +20,30 @@ the batch size has to be relatively large (i.c. 256), in order for meaningful F1
 \toprule 
 Loss  & \rotatebox[origin=c]{90}{macroF @ 0.5} & \rotatebox[origin=c]{90}{microF1 @ 0.5} & \rotatebox[origin=c]{90}{weightedF1 @ 0.5} & \rotatebox[origin=c]{90}{Precision @ 0.5} & \rotatebox[origin=c]{90}{Recall @ 0.5}\\ 
 \midrule
-$\mathcal{L}_{\text {CE}}$ & 0.057 & 0.200 & 0.159 & 0.106 & 0.106 \\ 
-$\mathcal{L}_{\text {FL}}$ & 0.055 & 0.192 & 0.154 & 0.115 & 0.115 \\
+$\mathcal{L}_{\text {CE}}$ & 0.057 & 0.200 & 0.159 & 0.106 & – \\ 
+$\mathcal{L}_{\text {FL}}$ & 0.055 & 0.192 & 0.154 & 0.115 & – \\
 $\mathcal{L}_{\text {CE+N}}$ & 0 & 0 & 0 & 0 & 0 \\
 $\mathcal{L}_{\text {CE+T}}$ & 0 & 0 & 0 & 0 & 0 \\
-$\mathcal{L}_{\text {macroSoftF1}}$ & 0.132 & 0.323 & 0.280 & 0.105 & 0.105 \\
-$\mathcal{L}_{\text {sigmoidF1}}$ & \textbf{0.117} & \textbf{0.240} & \textbf{0.263} & \textbf{0.103} & \textbf{0.103} \\
+$\mathcal{L}_{\text {macroSoftF1}}$ & 0.132 & 0.323 & 0.280 & 0.105 & – \\
+$\mathcal{L}_{\text {sigmoidF1}}$ & \textbf{0.117} & \textbf{0.240} & \textbf{0.263} & \textbf{0.103} & \textbf{–} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 
 \begin{table}
-\caption{Arxiv (distillBERT 2020), frozen pretrained weights}
+\caption{Arxiv (distillBERT 2020), frozen pretrained weights 100 epochs, min-label-thresh: 1000}
 \centering
 \begin{tabular}{l ccccc}
-\toprule 
+\toprule
 Loss  & \rotatebox[origin=c]{90}{macroF @ 0.5} & \rotatebox[origin=c]{90}{microF1 @ 0.5} & \rotatebox[origin=c]{90}{weightedF1 @ 0.5} & \rotatebox[origin=c]{90}{Precision @ 0.5} & \rotatebox[origin=c]{90}{Recall @ 0.5}\\ 
 \midrule
-$\mathcal{L}_{\text {CE}}$ & 0.093 & 0.106 & 0.106 & 0.096 & 0.096 \\ 
+$\mathcal{L}_{\text {CE}}$ & 0.093 & 0.106 & 0.106 & 0.096 & – \\ 
 $\mathcal{L}_{\text {FL}}$ & 0 & 0 & 0 & 0 & 0 \\
 $\mathcal{L}_{\text {CE+N}}$ & 0 & 0 & 0 & 0 & 0 \\
 $\mathcal{L}_{\text {CE+T}}$ & 0 & 0 & 0 & 0 & 0 \\
-$\mathcal{L}_{\text {macroSoftF1}}$ & 0 & 0 & 0 & 0 & 0 \\
-$\mathcal{L}_{\text {sigmoidF1}}$ & \textbf{0} & \textbf{0} & \textbf{0} & \textbf{0} & \textbf{0} \\
+$\mathcal{L}_{\text {macroSoftF1}}$ & 0.077 & 0.088 & 0.087 & 0.100 & – \\
+$\mathcal{L}_{\text {sigmoidF1}}$ & \textbf{0.076} & \textbf{0.103} & \textbf{0.092} & \textbf{0.107} & \textbf{–} \\
 \bottomrule
 \end{tabular}
 \end{table}
