@@ -5,22 +5,22 @@
 
 In this section, we recall the background material needed to be able to introduce our proposed solution to the MSILUL problem.
 
-Multilabel learning can be divided into two major fields: \emph{problem transformation} and \emph{algorithm adaptation} \cite{multilabelReview}. In the former case, multilabel classification is reframed as a binary, multiclass classification or label ranking problem. In the latter, one tries to adapt multiclass algorithms to the problem. The current endeavor focusses on \emph{algorithm adaptation}.
+Multilabel learning can be divided into two major fields: \emph{problem transformation} and \emph{algorithm adaptation} \cite{multilabelReview}. In the former case, multilabel classification is reframed as a binary, multiclass classification or label ranking problem. In the latter, one tries to adapt multiclass algorithms to the problem. The current endeavor focusses on \emph{algorithm adaptation}. \daan{This distinction I like!}
 
 
-For the purpose of \emph{problem transformation}, we define \(\mathcal{L}_{\text {multiclass}}\), a class of loss functions that minimize predictions in relative terms. Binary cross-entropy, logit and their variants such as focal loss or hinge loss (deemed unstable \cite{focalLoss}) are common choices when it comes to multiclass prediction. Cross-entropy loss can be formulated as \(\mathcal{L}_{\text {CE}}=-\sum \log \left(p_{i}\right)\) . Note that minimizing binary cross-entropy is equivalent to maximizing for log-likelihood \cite[Section 4.3.4]{Bishop}. More generally, the \emph{problem transformation} formulation amounts to minimizing the loss on a class of neural networks, such that
+For the purpose of \emph{problem transformation}, we define \(\mathcal{L}_{\text {multiclass}}\), a class of loss functions that minimize predictions in relative terms. Binary cross-entropy, logit and their variants, such as focal loss or hinge loss (deemed unstable \cite{focalLoss} \daan{seems too big of a point for just a sidenote}) are common choices when it comes to multiclass prediction. Cross-entropy loss can be formulated as \(\mathcal{L}_{\text {CE}}=-\sum \log \left(p_{i}\right)\) . Note that minimizing binary cross-entropy is equivalent to maximizing for log-likelihood \cite[Section 4.3.4]{Bishop}. More generally, the \emph{problem transformation} formulation amounts to minimizing the loss on a class of neural networks, such that
 %
 \begin{equation}
 \underset{\mathcal{L}_{\text {multiclass}}} {\min} \mathcal{F}\left(\cdot ; \Theta; \mathcal{L}_{\text {multiclass}} (\mathbf{y}, \hat{\mathbf{y}}) \right),
 \end{equation}
 %
-In the context of \emph{algorithm adaptation}, where the number of positive labels in the groundtruth is unknown a priori, we aim to both obtain a propensity of each label being true and a prediction of the number of true labels: 
+In the context of \emph{algorithm adaptation}, where the number of positive labels in the groundtruth is unknown a priori \daan{this is not a property of algo adapt per se, right?}, we aim to both obtain a propensity of each label being true and a prediction of the number of true labels: 
 %
 \begin{equation}
 \underset{\mathcal{L}_{\text {multiclass}}, \mathcal{L}_{\text {count}}} {\min} \mathcal{F}\left(\cdot ; \Theta; \mathcal{L}_{\text {multiclass}} (\mathbf{y}, \hat{\mathbf{y}}) + \lambda \mathcal{L}_{\text {count}} (\mathbf{n}, \hat{\mathbf{n}})\right),
 \end{equation}
 %
-where \(n_i = \sum_j \mathds{1}_{\mathbf{y_i^j} = 1}\) is the count of positive labels per example. We thus impose a constraint for the retrieval of label counts. For example, a cross-entropy loss surrogate would penalize for the number of wrongly predicted labels \(\mathcal{L}_{\text {CE+N}}= \mathcal{L}_{\text {CE}} + \lambda (\sum tp / \sum p)\), with \(t p=\sum_{i \in Y^{+}} \mathds{1}_{\mathbf{p_i} \geq b}\) and \(b\) a threshold to be defined. With its multitask framework (predict label prediction propensity and label count) \cite{multitaskLabel} corresponds to that type of infrastructure. \todo{tencent loss}.
+where \(n_i = \sum_j \mathds{1}_{\mathbf{y_i^j} = 1}\) is the count of positive labels per example. We thus impose a constraint for the retrieval of label counts. For example, a cross-entropy loss surrogate \daan{You never really introduced the idea of surrogates, did you? Why is it needed? What are the limitations? etc.} would penalize for the number of wrongly predicted labels \(\mathcal{L}_{\text {CE+N}}= \mathcal{L}_{\text {CE}} + \lambda (\sum tp / \sum p)\), with \(t p=\sum_{i \in Y^{+}} \mathds{1}_{\mathbf{p_i} \geq b}\) and \(b\) a threshold to be defined. With its multitask framework (predict label prediction propensity and label count) \cite{multitaskLabel} corresponds to that type of infrastructure. \todo{tencent loss}.
 
 The latter formulation is most straightfoward but suffers from higher parametrization and the lack of modelling of the interactions between label counts and label prediction. To mitigate these issues, we propose a unified loss formulation, namely
 %
@@ -29,6 +29,7 @@ The latter formulation is most straightfoward but suffers from higher parametriz
 \end{equation}
 %
 Although predictions and counts explicitly appear in that formulation, \(\mathcal{L}_{\text {multitag}}\) can optimize for both metrics implicitely (see proposed \emph{sigmoidF1} below).
+\daan{Whoa, where does multitag all of a sudden come from? ;-) }
 
 
 
@@ -41,6 +42,8 @@ Although predictions and counts explicitly appear in that formulation, \(\mathca
 
 \todo{show that I am between the two extremes of Pure multiclass with post thresholding and multiclass + penalty for num labels}
 \todo{can I rewrite L CN + N into F1}
+
+\daan{I feel that there is more to get out of this section. If we can get from a clear problem formulation, with the two attack vectors (problem transformation and algorithm adaptation) to a clear gap, that would make a beautiful flow from intro to our method.}
 
 % * our contribution
 
