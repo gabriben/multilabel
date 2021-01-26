@@ -11,7 +11,7 @@ In our setting, we deliberately deal with cases where it is not possible to sing
 At the bottom of the tree, the situation where the number of labels $n_i$ to predict for each example is known a priori will deliberately be dodged. In that case, common information retrieval algorithms can retrieve ranks and thus $top_{n_i}$ predictions \todo{source}.
 \daan{My feeling was that this was where we make the most significant contribution, in better distributing the loss over an unknown number of labels. If so, then this should be the gist of this section of text.}
 
-We are left with the branch at the bottom right of the tree. Namely, we define the problem of single-instance multilabel learning for varying amount of labels.
+We are left with the branch at the bottom right of the tree. Namely, we define the problem of single-instance multilabel learning for varying amount of labels. The strength of the proposed method is to 
 
 Note that Figure~\ref{fig:tree} could be further divided into different branches starting from the bottom right corner. In particular, frameworks that study the relationships between labels like holistic label learning (as seen for image \cite{holisticImageDescriptors,holisticLungs} and video dataset \cite{holisticVideoData} \todo{read these}) and hierarchical label learning~\cite{activeLearningMultiLabel, HARAM} are left out of the picture, in order to focus on the general MSILUL formulation. \daan{MSILUL? Earlier acronym?}
 
