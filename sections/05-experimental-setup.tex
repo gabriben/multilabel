@@ -16,7 +16,12 @@ For a broader scope in learning for text data, we also use the newly created \em
 In the vision domain, a dataset of movie posters\footnote{Labels available at https://tinyurl.com/y7ydyedu and prescraped images from IMDB at https://tinyurl.com/y7lfpvlx} and their genre is used. Similarly, labels are mutually inclusive and of varying count per example. It is arguable that is hard to single out elements in the image of a poster that define the genre of a movie. Rather it might be a combination of the title font, the background image, the presence of actors and specific objects such as cars, weapons etc. 
 
 
+\textbf{hardware}
+Cloud computing was used to perform experiments. Databricks was used to train models on AWS machines with 1, 8, or 16 GPUs in parallel, depending on the needs (\textit{g4dn.12xlarge}, \textit{p2.8xlarge}, \textit{p2.16xlarge}).
 
+
+\textbf{setup}
+We set an irrelevance threshold $t$ on both datasets. If a class appears less than $t$ times in the dataset, it is considered irrelevant. For the Arxiv2020 Dataset, we set it at 1000, which results in 145 classes. For moviePosters we set it at 1000 as well, which results in 14 classes.
 
 \todo{I removed all jpg's that are empty in the prescraped data. I could try to scrape the posters myself to see if I get more}
 
@@ -29,6 +34,8 @@ Another recently created dataset was made available for \emph{Large Scale Holist
 % - Multilabel classification for text cite:toxicComments
 
 % - Scenery dataset for images cite:dataScenery.
+
+\todo{read http://papers.nips.cc/paper/5347-how-transferable-are-features-in-deep-neural-networks.pdf and http://adas.cvc.uab.es/task-cv2016/papers/0002.pdf}
 
 \todo{this is an ambitious number of datasets. Add longer description of each dataset, depending on which ones I keep: sample size, number of classes etc. see utils here: https://github.com/ashrefm/multi-label-soft-f1}
 

@@ -3,14 +3,25 @@
 \section{introduction}
 \label{sec:org662677c}
 
-As neural network models are able to learn increasingly more abstract representations via deeper networks, representation learning and self-supervision~\citep[see, e.g.,][]{XX,YYY,ZZZ}, it is reasonable to expect that they also get better at predicting more abstract labels. 
-Beyond identifying object types~\mdr{REF}, performing face recognition~\mdr{REF}, \mdr{doing what with} expressions~\mdr{REF}, neural networks should soon be able to predict genres/categories of text, image and sound at high levels of accuracy. 
-Towards this goal, there is a significant volume of recent work on building neural networks with high-level of understanding in the embedding space~\mdr{REF}.
+
+we propose a loss framework based on confusion matrix metrics as losses. they have in common that they require step functions that are not decomposable for SGD: We propose a soft thresholding method with a sigmoid function to remedy this.
+
+Certain classification problems do not yet have a designed solution to solve them. One of these is the problem of multilabel classification with unknown number of labels. This is particularly fitting to the new models which are able to learn abstract labnels from abstract representations.
+Some of these metrics-as-losses can be particularly useful for tackling problems
+
+Note that previous litterature has the tendency to reframe the problem . 
+Note that the literature often brings back the problem to a multiclass multilabel
+
+As neural network models are able to learn increasingly more abstract representations via deeper networks, representation learning and self-supervision~\citep[see, e.g.,][]{SS,Rep}, it is reasonable to expect that they also get better at predicting more abstract labels. 
+Beyond identifying object types (see \cite{YOLO} and its successors), performing face recognition (see \cite{FaceNet} and its successors) on segments of an image, neural networks should soon be able to predict genres/categories of text, image and sound at high levels of accuracy. 
+Towards this goal, there is a significant volume of recent work on building neural networks with a high-level of abstract understanding in the embedding space~\mdr{REF}.
 However, there seems\daan{vague} to be limited research on developing loss functions that are adapted for these higher level concepts in the output space.
 
 % \mdr{Briefly and concretely describe the abstract labeling task that we are interested in.}
 
-These higher-level concepts can be mutually inclusive (not mutually exclusive). For example, a scientific journal can be tagged as \emph{machine learning} and \emph{economics}, a movie can be tagged as \emph{romance} and \emph{comedy}, a song can be tagged as \emph{jazz} and \emph{soul}. Among the candidate class labels, more than one of the candidate labels can be the correct ones and the number of correct ones is unknown a priori. This is the problem of interest along this paper and can be regarded as a classical supervised learning task. However it is not straightforward to place that problem within the supervised learning nomenclature.
+% paper that uses mutually inclusive https://paperswithcode.com/paper/smile-semantically-guided-multi-attribute/review/
+% https://www.diva-portal.org/smash/get/diva2:1324807/FULLTEXT01.pdf
+These higher-level concepts can be mutually inclusive (not mutually exclusive). For example, a scientific journal can be tagged as \emph{machine learning} and \emph{economics}, a movie can be tagged as \emph{romance} and \emph{comedy}, a song can be tagged as \emph{jazz} and \emph{soul}. Among the candidate class labels, more than one of the candidate labels can be correct and the number of correct labels is unknown a priori. This is the classification problem of interest along this paper. It can be regarded as a classical supervised learning task. However it is not straightforward to place that problem within the supervised learning nomenclature.
 
 To situate the specific problem that we tackle in this paper, it is helpful to consider Figure~\ref{fig:tree} so as to disambiguate our terminology. There seems to exist a consensus over the terms \emph{multiclass} and \emph{multilabel learning}, meaning mutually exclusive and mutually inclusive labels, respectively~\cite{multilabelMethods}. 
 Multilabel learning can therefore be seen as a subdomain of multiclass learning, where more than one class can be correct for the same example. 
@@ -27,6 +38,13 @@ The last branch of the tree in Figure~\ref{fig:tree} has been ignored until now.
 Little work can be found in the literature for \textbf{S}ingle-\textbf{I}nstance \textbf{M}ultilabel \textbf{P}rediction for \textbf{U}nknown \textbf{L}abel counts. We propose SIMPUL, a loss framework that accommodates for that problem. The existing measures to deal with SIMPUL can be divided into problem transformation (reverting back to a known problem formulation) and algorithm adaptation (adapting existing classification algorithms for the problem at hand). In the former case, cross-entropy losses are used at training time and thresholding is done at inference time. In the latter, elements of the learning algorithm are changed (such as the backpropagation procedure or the tasks). We propose a solution aligned with the algorithm adaptation paradigm, where we propose a custom loss formulation to solve SIMPUL problems.
 \daan{I like that we can formulate this as a framework, but I wonder if we really need two new labels, SIMPUL and SigmoidF1. Maybe we should keep only one?}
 
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.9\linewidth]{./images/sigmoid.pdf}
+\caption{\label{fig:sigmoid}
+Sigmoid function with different values for $\beta$ (steepness) \& $\eta$ (offset)}
+\end{figure}
+
 % \begin{itemize}
 % \item \mdr{Now explain that the task introduced in the second paragraph is an instance of uni-instance multilabel classification.}
 % \item \mdr{Now make the distinction between fixed label counts and varying label counts}
@@ -38,7 +56,7 @@ Little work can be found in the literature for \textbf{S}ingle-\textbf{I}nstance
 \centering
 \includegraphics[width=.9\linewidth]{./tree/Tree.pdf}
 \caption{\label{fig:tree}
-Making room for SIMPUL within the \emph{multiclass} nomenclature
+SIMPUL (bold) within the \emph{multiclass} nomenclature
 % Clarifying ``multiclass'' classification problems.
 % In this paper we focus on the uni-instance, multilabel, multiclass classification problem with a varying number of labels (the bottom right hand side of the tree).
 }

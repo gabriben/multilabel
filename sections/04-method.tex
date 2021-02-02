@@ -18,6 +18,8 @@ For each observation \(i\), label class probabilities can be defined based on pr
 
 Let \(tp\) and \(fp\) be number of true and false positives respectively. It is necessary to define a bound \(b\), at which a prediction is dichotomized:
 
+\todo{note that tn have no effect}
+
 \begin{equation}
 \label{eq:conf}
  t p=\sum_{i \in Y^{+}} \mathds{1}_{\mathbf{p_i} \geq b} \quad f p=\sum_{i \in Y^{-}} \mathds{1}_{\mathbf{p_i} \geq b} \quad fn = \sum_{i \in Y^{+}} \mathds{1}_{\mathbf{p_i} < b}

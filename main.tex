@@ -12,10 +12,12 @@
 
 \begin{document}
 
-\title{SIMPUL: a loss framework to learn abstract labels from abstract representations / SigmoidF1-Loss Framework for Single-Instance Multiclass Multilabel Prediction with Unknown Label count}
+\title{SIMPUL: A Loss Framework to Learn Abstract Labels from Abstract Representations: Single-Instance Multiclass Multilabel Prediction with Unknown Label count}
 
 \begin{abstract}
-  Multilabel classification is a common task when learning from text, image or sound, but few optimization frameworks are tailored towards learning abstract descriptors of an entire text/image/sound. Current solutions tend to re-frame the problem as an instance of the multiclass domain, which allow the use of variations of cross-entropy or multinomial logit losses. When the number of groundtruth labels varies over each example, these losses produce unit-interval results that require a sophisticated thresholding regime (at training or at inference time) to predict both label prediction propensity and label count. As a decomposable F1 score surrogate, \emph{sigmoidF1} introduces smooth thresholding. The proposed method yields higher F1 metrics on several datasets of different modes. Among them, the recent Arxiv Dataset is benchmarked for the first time on a classification task by finetuning DistilBert. \daan{Not sure we want to claim this novelty in the abstract, we are selling sigmoidF1.} This showcases that higher level abstractions in the embedding space can be directly predictive of abstract labels in the output space. The code is available at (https://anonymous.4open.science). 
+  Multilabel classification is a common task when learning from text, image or sound, but few optimization frameworks are tailored towards learning abstract descriptors of an entire text/image/sound. Current solutions tend to re-frame the problem as an instance of the multiclass domain, which allows for the use of variations of cross-entropy or multinomial logit losses. When the number of groundtruth labels varies over each example, these losses produce unit-interval results that require a sophisticated thresholding regime (at training or at inference time) to predict both label prediction propensity and label count. As a decomposable F1 score surrogate, \emph{sigmoidF1} introduces smooth thresholding. The proposed method yields higher F1 metrics on several datasets of different modes. This showcases that higher level abstractions in the embedding space can be directly predictive of abstract labels in the output space. The code is available at (https://anonymous.4open.science).
+\todo{SIMPUL as a general confusion-metric-as-a-loss framework }
+  
 % \begin{itemize}
 % \item \mdr{one sentence context}
 % \item \mdr{one sentence problem statement}
@@ -34,7 +36,7 @@
 \acresetall
 
 \input{sections/01-introduction}
-\input{sections/02-task-definition}
+%\input{sections/02-task-definition}
 \input{sections/03-background}
 \input{sections/04-method}
 \input{sections/05-experimental-setup}
@@ -49,6 +51,9 @@
  This work was supported by many people.
  All content represents the opinion of the authors, which is not necessarily shared or endorsed by their respective employers and/or sponsors.
 \end{acks}
+
+\section*{APPENDIX}
+\input*{sections/02-task-definition}
 
 \bibliographystyle{ACM-Reference-Format}
 \bibliography{references}
