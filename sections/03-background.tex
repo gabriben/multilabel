@@ -3,12 +3,13 @@
 \section{Background}
 \label{sec:org8c910ea}
 
-In this section, we recall the background material needed to be able to introduce our proposed solution to the MSILUL problem.
+This section reviews background material to be able to introduce our proposed solution to the MSILUL problem.
 
-Multilabel learning can be divided into two major fields: \emph{problem transformation} and \emph{algorithm adaptation} \cite{multilabelReview}. In the former case, multilabel classification is reframed as a binary, multiclass classification or label ranking problem. In the latter, one tries to adapt multiclass algorithms to the problem. The current endeavor focusses on \emph{algorithm adaptation}. \daan{This distinction I like!}
+\mvm{what's MSILUL?}
 
+Multilabel learning can be divided into two fields: \emph{problem transformation} and \emph{algorithm adaptation} \cite{multilabelReview}. In the case of problem transformation, multilabel classification is reframed as a binary, multiclass classification or label ranking problem. In the case of algorithm adaptation, one tries to adapt multiclass algorithms to the problem. We focus on algorithm adaptation. \daan{This distinction I like!}
 
-For the purpose of \emph{problem transformation}, we define \(\mathcal{L}_{\text {multiclass}}\), a class of loss functions that minimize predictions in relative terms. Binary cross-entropy, logit and their variants, such as focal loss or hinge loss (deemed unstable \cite{focalLoss} \daan{seems too big of a point for just a sidenote}) are common choices when it comes to multiclass prediction. Cross-entropy loss can be formulated as \(\mathcal{L}_{\text {CE}}=-\sum \log \left(p_{i}\right)\) . Note that minimizing binary cross-entropy is equivalent to maximizing for log-likelihood \cite[Section 4.3.4]{Bishop}. More generally, the \emph{problem transformation} formulation amounts to minimizing the loss on a class of neural networks, such that
+For the purpose of problem transformation, we define \(\mathcal{L}_{\text {multiclass}}\), a class of loss functions that minimize predictions in relative terms. Binary cross-entropy, logit and their variants, such as focal loss or hinge loss (deemed unstable \cite{focalLoss} \daan{seems too big of a point for just a sidenote}) are common choices when it comes to multiclass prediction. Cross-entropy loss can be formulated as \(\mathcal{L}_{\text {CE}}=-\sum \log \left(p_{i}\right)\) . Note that minimizing binary cross-entropy is equivalent to maximizing for log-likelihood \cite[Section 4.3.4]{Bishop}. More generally, the \emph{problem transformation} formulation amounts to minimizing the loss on a class of neural networks, such that
 %
 \begin{equation}
 \underset{\mathcal{L}_{\text {multiclass}}} {\min} \mathcal{F}\left(\cdot ; \Theta; \mathcal{L}_{\text {multiclass}} (\mathbf{y}, \hat{\mathbf{y}}) \right),
