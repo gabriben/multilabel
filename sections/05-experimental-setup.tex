@@ -23,6 +23,8 @@ Cloud computing was used to perform experiments. Databricks was used to train mo
 \textbf{setup}
 We set an irrelevance threshold $t$ on both datasets. If a class appears less than $t$ times in the dataset, it is considered irrelevant. For the Arxiv2020 Dataset, we set it at 1000, which results in 145 classes. For moviePosters we set it at 1000 as well, which results in 14 classes.
 
+In order to make sure that the results of different loss functions are comparable, we fix the model weights of the pretrained CNN and DistilBert and keep the hyperparameter values that were used to train them from scratch. We also use the same random seeds for the neural network and make sure to split the data in the same train/validation/test sets for each different loss function.
+
 \todo{I removed all jpg's that are empty in the prescraped data. I could try to scrape the posters myself to see if I get more}
 
 Another recently created dataset was made available for \emph{Large Scale Holistic Video Understanding} \cite{holisticVideoData} \footnote{Available at https://github.com/holistic-video-understanding/HVU-Dataset}, as defined in the introduction.
