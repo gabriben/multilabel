@@ -19,19 +19,25 @@ In this article, we are interested in higher-level concepts, for example genres,
 
 \mvm{What is a higher-level concept?}
 
-There is no reason why the earlier mentioned movie also cannot be an action movie–surely, the era-defining movie Spy is story of love, comedy, \textit{and} action. This article, thus, proposes  SIMPUL, that is \textbf{S}ingle-\textbf{I}nstance \textbf{M}ultilabel \textbf{P}rediction for \textbf{U}nknown \textbf{L}abel counts, a method to solve multilabel classification problems with an unknown number of labels. 
+There is no reason why the earlier mentioned movie also cannot be an action movie–surely, the era-defining movie Spy is story of love, comedy, \textit{and} action. This article, thus, presents a framework for a problem formulation  SIMPUL, that is \textbf{S}ingle-\textbf{I}nstance \textbf{M}ultilabel \textbf{P}rediction for \textbf{U}nknown \textbf{L}abel counts, and a method to solve this problem, \emph{sigmoidF1}. 
 
 \subsection{Literature}
 
 
 \begin{itemize}[leftmargin=*]
-\item \mvm{How does the literature reframe the problem?}
+
 
 \item \mvm{Multiclass versus multilabel? }
 
-There seems to exist a consensus over the terms \emph{multiclass} and \emph{multilabel learning}, meaning mutually exclusive and mutually inclusive labels, respectively~\cite{multilabelMethods}. Multilabel learning can therefore be seen as a subdomain of multiclass learning, where more than one class can be correct for the same example. 
+There seems to exist a consensus over the terms \emph{multiclass} and \emph{multilabel learning}, meaning mutually exclusive and mutually inclusive labels \footnote{definition mutually inclusive: they can overlap }, respectively~\cite{multilabelMethods}. Multilabel learning can therefore be seen as a subdomain of multiclass learning, where more than one class can be correct for the same example. 
 
-\item \mvm{How do you address this? }
+\item \mvm{How does the literature reframe the problem?}
+
+
+multilabel --> multiclass 
+
+
+\item \mvm{How do you address this in abstract terms? }
 
 Within multilabel training, we introduce the distinction between multi-instance multilabel~\citep[e.g.,][]{multiInstance, multiInstanceMultiLabel} and uni-instance multilabel. The term instance refers to segments in say a text or image that can be isolated as predictive of one or more labels, typically objects in an image. We define uni-instance learning as the case where the whole image / text / sound is predictive of a label; or at least if, with the current methods, it is not possible to isolate segments\footnote{Segments can be understood loosely here: a segment could be a detected interaction between 5 different expressions in the text that are together predictive of a label.} as predictive of certain labels.
 \daan{I like how we are getting to a clear definition here. I am not sure if the uni vs multi-instance is really of importance. It could also maybe just be one sentence: note that in this work we do not consider the case of multi-instance ...}
@@ -47,6 +53,24 @@ Within multilabel training, we introduce the distinction between multi-instance 
 
 
 \subsection{Proposition}
+
+
+\begin{itemize}
+\item technical problem definition
+\begin{itemize}
+	\item the number of labels is unknown a priori 
+\end{itemize}
+
+
+\end{itemize}
+
+Mulitlabel classification problems with an unknown label count present numerous challenges. 
+
+The first is that we do not know the number of labels is unknown a priori. 
+
+
+\mvm{parapgraph below should only do one thing}
+
 
 Machine learning prediction tasks' output are probabilistic (or a reversible transformation of a probabilistic measure such as a sigmoid or a soft max function). At training time, these probabilistic values are compared to binary values in the case of binary encoding of classes. At inference time, if the number $n_i$ of labels to be predicted per example is known a priori, it is logical to assign the $top_{n_i}$ predictions to that example~\cite{lossTopKError, topKmulticlassSVM}. If the number of labels per example is unknown a priori, the question remains at inference time as to how to extract information about the number of labels to assign to each example, beyond the propensity of labels to be assigned. This is generally done via a \emph{decision threshold}, that can be set globally for all examples. This threshold can optimize for specificity or sensitivity~\cite{decisionThreshold}.
 
