@@ -9,9 +9,11 @@
 
 \subsection{Why is this important?}
 
-Multilabel classification problems arise when multiple labels can be assigned during a prediction. Currently, research has produced no method to solve multilabel classification with an unknown number of labels. Rather, the literature reframes the problem as a multiclass problem, which effectively treats the classification as mutually exclusive. 
+Multilabel classification problems arise when multiple labels can be assigned during a prediction. For example, we might want to classify media into genres, text, sound, and images often belong to multiple genres.
 
-When we want to classify media into genres, text, sound, and images often belong to multiple genres. Hence, we need multilabel classification rather than multiclass classification. 
+
+Currently, research has produced no method to solve multilabel classification with an unknown number of labels. Rather, the literature reframes the problem as a multiclass problem, which effectively treats the classification as mutually exclusive. 
+
 
 In this article, we are interested in higher-level concepts, for example genres, that can be mutually inclusive as opposed to mutually exhaustive. For example, a scientific journal can be tagged as \emph{machine learning} and \emph{economics}, a movie can be tagged as \emph{romance} and \emph{comedy}, a song might be considered \emph{jazz} and \emph{soul}. Among the candidate class labels, more than one of the candidate labels can be correct and the number of correct labels is unknown a priori. 
 
