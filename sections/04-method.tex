@@ -87,16 +87,33 @@ S(u; \beta, \eta)=\frac{1}{1+\exp (-\beta (u + \eta))},
 with \(\beta\) and \(\eta\) tunable parameters for slope and offset respectively. Higher \(\beta\) results in steeper slope at the center of the sigmoid and thus more stringent thresholding. At its extreme, \(lim_{\beta\to\infty} S(u; \beta, \eta)\) corresponds to the step function used in Equation \ref{eq:conf}. with \(S(u)\), the confusion matrix entries then become
 
 \begin{equation}\label{eq:sigmoidF1}
-\widetilde{tp}=\sum S(\hat{\mathbf{y}}) \odot \mathbf{y} \quad\widetilde{fp}= \sum S(\hat{\mathbf{y}}) \odot (\mathbf{1} - \mathbf{y}) \quad \widetilde{f n}= \sum (\mathbf{1} - S(\hat{\mathbf{y}})) \odot \mathbf{y}
+\widetilde{\mathit{tp}}=\sum S(\hat{\mathbf{y}}) \odot \mathbf{y} \quad\widetilde{\mathit{fp}}= \sum S(\hat{\mathbf{y}}) \odot (\mathbf{1} - \mathbf{y}) \quad \widetilde{\mathit{fn}}= \sum (\mathbf{1} - S(\hat{\mathbf{y}})) \odot \mathbf{y}
 \end{equation}
 
 And thus
 
 \begin{equation}
-\mathcal{L}_{\text {sigmoidF1}}= \frac{\widetilde{tp}}{2 \widetilde{tp}+ \widetilde{fn}+ \widetilde{fp}}
+\mathcal{L}_{\text {sigmoidF1}}= \frac{\widetilde{\mathit{tp}}}{2 \widetilde{\mathit{tp}}+ \widetilde{\mathit{fn}}+ \widetilde{\mathit{fp}}}
 \end{equation}
 
 \doubt{mention smooth hinge loss} \cite{smoothHinge}
+
+\begin{table*}[]
+\caption{Confusion matrix with our proposed smoothed confusion matrix entries, $\widetilde{\mathit{tp}}$, $\widetilde{\mathit{fp}}$, $\widetilde{\mathit{fn}}$ and $\widetilde{\mathit{tn}}$ and six derived loss functions that use these smoothed confusion matrix entries, with $\mathcal{L}_{\text {sigmoidF1}}$ that is used in our experiments.}
+\def\arraystretch{1.1}
+\begin{tabular}{|c||c|c||c|} \cline{2-4}
+\multicolumn{1}{l|}{} & \textbf{Condition} & \textbf{Condition} & \multirow{2}{*}{$\mathcal{L}_{\text {sigmoidAccuracy}}= \frac{\widetilde{\mathit{tp}} + \widetilde{\mathit{tn}}}{\widetilde{\mathit{tp}} + \widetilde{\mathit{fp}} + \widetilde{\mathit{tn}} + \widetilde{\mathit{fn}}}$} \\
+\multicolumn{1}{l|}{} & \textbf{positive} &  \textbf{negative} & \\ \hline \hline
+\textbf{~Predicted~} & True positive & False positive & \multirow{2}{*}{$\mathcal{L}_{\text {sigmoidPrediction}}= \frac{\widetilde{\mathit{tp}}}{\widetilde{\mathit{tp}} + \widetilde{\mathit{fp}}}$} \\
+\textbf{positive} & $\widetilde{\mathit{tp}}=\sum S(\hat{\mathbf{y}}) \odot \mathbf{y}$ & $\widetilde{\mathit{fp}}= \sum S(\hat{\mathbf{y}}) \odot (\mathbf{1} - \mathbf{y})$ & \\ \hline
+\textbf{Predicted} & False negative & True Negative & \multirow{2}{*}{$\mathcal{L}_{\text {sigmoidNPV}}= \frac{\widetilde{\mathit{tn}}}{\widetilde{\mathit{tn}} + \widetilde{\mathit{fn}}}$} \\
+\textbf{negative} & $\widetilde{\mathit{fn}}= \sum (\mathbf{1} - S(\hat{\mathbf{y}})) \odot \mathbf{y}$ & $\widetilde{\mathit{tn}}= \sum (\mathbf{1} - S(\hat{\mathbf{y}})) \odot (\mathbf{1} - \mathbf{y})$ & \\ \hline \hline
+\multicolumn{1}{l|}{} & \multirow{2}{*}{\hspace{1.2em}$\mathcal{L}_{\text {sigmoidRecall}}= \frac{\widetilde{\mathit{tp}}}{\widetilde{\mathit{tp}} + \widetilde{\mathit{fn}}}$\hspace{1.2em}}& \multirow{2}{*}{$\mathcal{L}_{\text {sigmoidSpecificity}}= \frac{\widetilde{\mathit{tn}}}{\widetilde{\mathit{fp}} + \widetilde{\mathit{tn}}}$} & \multirow{2}{*}{$\mathcal{L}_{\text {sigmoidF1}}= \frac{\widetilde{\mathit{tp}}}{2 \widetilde{\mathit{tp}}+ \widetilde{\mathit{fn}}+ \widetilde{\mathit{fp}}}$} \\
+\multicolumn{1}{l|}{} & & & \\
+\cline{2-4}
+\end{tabular}%
+\label{tab:my-table}
+\end{table*}
 
 For \emph{sigmoidF1} \(\beta\) and \(\eta\) are tuned globally as hyperparameters. \emph{SAdF1} (Sigmoid Adaptive F1), is an alternative where \(\beta\) is first set to a relatively low value and increased after each epoch. This way, a loose threshold first allows Stochastic Gradient Descent (SGD) to broadly scan the parameter space accross several local minima, before narrowing parameter search down to a promissing region (similarily to adaptive learning rates).
 
@@ -162,7 +179,7 @@ F_1^{weighted} = \frac{1}{c} \sum_{j=1}^c n_j F_1 \text{ where } n_j = \sum_i \m
 Accuracy is the overall fraction of correctly predicted labels \cite{threshForF1}:
 
 $$
-A c c=\frac{t p+t n}{t p+t n+f p+f n}
+A c c=\frac{\mathit{tp} + \mathit{tn}}{\mathit{tp} + \mathit{tn} + \mathit{fp} + \mathit{fn}}
 $$
 
 Note that accuracy assigns equal cost to false positives and false negatives. This is particularly problematic in an unbalanced setup like here.
