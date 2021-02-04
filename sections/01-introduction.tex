@@ -10,18 +10,25 @@ reader by the hand) 2) I think it would help to work the related work into the
 introduction, that makes writing the story easier, and would give less overlap
 between the sections.}
 
-\hvk{my proposal: 1) multi-class classification problems are hard because of
+\hvk{my proposal:
+\begin{itemize}
+\item multi-class classification problems are hard because of
 reasons relating to issues, unclear (or overlapping) class-boundaries and
 disagreement etc. Give the examples of movies, medical imagery, etc. Specific
-problem is the Single-Instance 102 Multilabel Prediction for Unknown Label
-counts. 2) Commonly, for these problems, metrics like AUROC, F1 are used.
+problem is the Single-Instance Multilabel Prediction for Unknown Label
+counts.
+\item Commonly, for these problems, metrics like AUROC, F1 are used.
 However these are not differentiable. Now that NN are becoming more powerful,
 we get more capabilities for learning more abstract concepts. For SIMPUL
 problems, there is a need to integrate metric in network to better learn
-abstract concepts. 3) We are trying to bridge this gap by proposing soft
-versions of these metrics. (give examples in tables). 4) In this paper we
-focus on a soft version of the F1 and propose to use it directly as a loss in
-a NN. We show in experiments that this loss improves results}
+abstract concepts.
+\item We are trying to bridge this gap by proposing soft
+versions of these metrics. (give examples in tables).
+\item In this paper we focus on a soft version of the F1 and propose to use it
+directly as a loss in a NN. We show in experiments that this loss improves
+results
+\end{itemize}
+}
 
 
 \hvk{I think this needs a softer introduction, e.g.}
