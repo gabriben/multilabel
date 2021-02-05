@@ -8,22 +8,22 @@ sigmoidF1 is tested across different modalities, namely image, video, sound and 
 % \doubt{optional paragraph}
 % In light of the problem definition leading to the sigmoidF1 framework in the introduction and in order to clearly delimit the proposed method, following are a few datasets that are not suitable for the task.
 
-
-Among the three datasets used for benchmarking ML-NET \cite{multitaskLabel}, a cancer hallmark dataset is of multi-instance multilabel nature \cite{cancerHallmarks}\footnote{Available at \url{https://www.cl.cam.ac.uk/&sim;sb895/HoC.html}}: the research clearly describe a process of annotating several expressions within paper abstracts. The remaining two datasets for chemical exposure \cite{chemExposure}\footnote{Available at \url{https://figshare.com/articles/Corpus_and_Software/4668229}} and diagnosis codes assigment \cite{diagnosisCode}, \footnote{Available at \url{https://physionet.org/works/ICD9CodingofDischargeSummaries}} seem to fit to the entity wide multilabel definition but have a strong hierarchical nature. Although slightly out-of-scope, the three datasets above will be used for benchmarking, since they were used to test ML-NET, which is the state-of-the-art in \emph{algorithm adaptation} for text to the best of our knowledge.
+\hvk{ML-NET was not introduced yet, I think?}
+Among the three datasets used for benchmarking ML-NET \cite{multitaskLabel}, a cancer hallmark dataset is of multi-instance multilabel nature \cite{cancerHallmarks}\footnote{Available at \url{https://www.cl.cam.ac.uk/&sim;sb895/HoC.html}}: the research clearly describe a process of annotating several expressions within paper abstracts. \hvk{I don't get this sentence, there is a dataset for benchmarking a dataset?} The remaining two datasets for chemical exposure \cite{chemExposure}\footnote{Available at \url{https://figshare.com/articles/Corpus_and_Software/4668229}} and diagnosis codes assigment \cite{diagnosisCode}, \footnote{Available at \url{https://physionet.org/works/ICD9CodingofDischargeSummaries}} seem to fit to the entity wide multilabel definition but have a strong hierarchical nature. Although slightly out-of-scope, the three datasets above will be used for benchmarking, since they were used to test ML-NET, which is the state-of-the-art in \emph{algorithm adaptation} for text to the best of our knowledge.
 
 For a broader scope in learning for text data, we also use the newly created \emph{Arxiv dataset}\footnote{Available at \url{https://www.kaggle.com/Cornell-University/arxiv}} with data on abstracts of 1.7 million open source articles and their categories (suitably mutually inclusive and of varying count per example). This dataset is to be distinguished from an earlier long document Arxiv datset: it consisted of content scraped from a small number of PDFs with 11 classes \cite{oldArxiv} and was used in a recent long transformer publication~\cite{bigBird}. In \textit{Arxiv2020}, we subset the Arxiv dataset into its 2020 content, given limited computing power. This results in around 25k abstracts.
 
-In the vision domain, a dataset of movie posters\footnote{Labels available at https://tinyurl.com/y7ydyedu and prescraped images from IMDB at https://tinyurl.com/y7lfpvlx} and their genre is used. Similarly, labels are mutually inclusive and of varying count per example. It is arguable that is hard to single out elements in the image of a poster that define the genre of a movie. Rather it might be a combination of the title font, the background image, the presence of actors and specific objects such as cars, weapons etc. 
+In the vision domain, a dataset of movie posters\footnote{Labels available at https://tinyurl.com/y7ydyedu and prescraped images from IMDB at https://tinyurl.com/y7lfpvlx} and their genre is used. Similarly, labels are mutually inclusive and of varying count per example. It is arguable that is hard to single out elements in the image of a poster that define the genre of a movie. Rather it might be a combination of the title font, the background image, the presence of actors and specific objects such as cars, weapons etc.
 
 \begin{table}
 \caption{Datasets}
-\label{tab:arxiv2020}  
+\label{tab:arxiv2020}
 \centering
 \begin{tabular}{l ccccc}
 \toprule
 Dataset & Type & \# classes & $\varnothing$ \# labels & sample size\\
 \midrule
-Arxiv2020 & text & 0 & 0 & 0\\ 
+Arxiv2020 & text & 0 & 0 & 0\\
 moviePosters & image & 0 & 0 & 0\\
 cancerHallmarks & text & 0 & 0 & 0\\
 chemExposure & text & 0 & 0 & 0\\
@@ -35,13 +35,13 @@ chemExposure & text & 0 & 0 & 0\\
 
 
 \textbf{hardware}
-Cloud computing was used to perform experiments. Databricks was used to train models on AWS machines with 1, 8, or 16 GPUs in parallel, depending on the needs (\textit{g4dn.12xlarge}, \textit{p2.8xlarge}, \textit{p2.16xlarge}).
+Cloud computing was used to perform experiments. Databricks was used to train models on AWS machines with 1, 8, or 16 GPUs in parallel, depending on the needs (\textit{g4dn.12xlarge}, \textit{p2.8xlarge}, \textit{p2.16xlarge}). \hvk{Rephrase as: we performed our experiments on AWS machines with up to 16 GPUs \textit{p2.16xlarge}. Rest of information is not needed.}
 
 
 \textbf{setup}
 We set an irrelevance threshold $t$ on both datasets prior to conducting experiments, so as to not finetune for that feature. The sensitivity study below shows what happens when that constraint is relaxed. If a class appears less than $t$ times in the dataset, it is considered irrelevant. For the Arxiv2020 Dataset, we set it at 1000, which results in 145 classes. For moviePosters we set it at 1000 as well, which results in 14 classes.
 
-Batch size is set at a high value of 256. We thus increase accuracy over existing losses~\cite{bigBS}, but also allow variety of examples within the batch, thus collectinf enough values in the confusion matrix. In a future research, it might be interesting to establish the minimum required batch size for sigmoidF1.
+Batch size is set at a high value of 256. We thus increase accuracy over existing losses~\cite{bigBS}, but also allow variety of examples within the batch, thus collecting enough values in the confusion matrix. In a future research, it might be interesting to establish the minimum required batch size for sigmoidF1.
 
 In order to make sure that the results of different loss functions are comparable, we fix the model weights of the pretrained CNN and DistilBert and keep the hyperparameter values that were used to train them from scratch. We also use the same random seeds for the neural network and make sure to split the data in the same train/validation/test sets for each different loss function.
 
