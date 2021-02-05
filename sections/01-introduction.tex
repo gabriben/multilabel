@@ -201,6 +201,18 @@ sensitivity~\cite{decisionThreshold}. We propose a method where this threshold
 is implicitely defined, thanks to the use of metrics that already penalize for
 wrong label counts.
 
+Often, machine learning post-training evaluation metrics (e.g. AUROC, F1) are
+not differentiable. There are motivations \todo{which motivations} for
+optimizing a model directly on a metric at training time. A general framework
+for AUC, AUROC and F1 is presented in \cite{optimizableLosses}, but the
+proposed F1 surrogate remains short of being explicitly derived for stochastic
+gradient descent. \todo{check again with the authors if I can't get inspired
+from their work}. Recently, a similar work has been proposed to train a
+Convolutional Neural Network (CNN) from scratch with a few millions of images
+and hundreds of labels specifically for multilabel tasks \cite{tencent}. This
+task is loosely related to object detection, similarly to
+\cite{multitaskLabelImages} mentioned in the previous paragraph.
+
 % \begin{figure}[t]
 % \centering
 % \includegraphics[width=.9\linewidth]{./tree/Tree.pdf}
