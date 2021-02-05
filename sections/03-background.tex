@@ -3,17 +3,26 @@
 \section{Background}
 \label{sec:org8c910ea}
 
+\hvk{I have the feeling that this should not be a seperate background section,
+but is more appropriate as a subsection in the introduction. For example, you
+now have to explicitly mention why the dichotomy of problem trans. and alg.
+adaption is important for your argument, while it probably flows more
+naturally from the information that is in the introduction}
+
 This section reviews background material to be able to introduce our proposed solution to the SIMPUL problem.
 
-Multilabel learning can be divided into two fields: \emph{problem transformation} and \emph{algorithm adaptation} \cite{multilabelReview}. In the case of problem transformation, multilabel classification is reframed as a binary, multiclass classification or label ranking problem. In the case of algorithm adaptation, one tries to adapt multiclass algorithms to the problem. We focus on algorithm adaptation. \daan{This distinction I like!}
+Multilabel learning can be divided into two fields: \emph{problem transformation} and \emph{algorithm adaptation} \cite{multilabelReview}. In the case of problem transformation, multilabel classification is reframed as a binary, multiclass classification or label ranking problem. In the case of algorithm adaptation, one tries to adapt multiclass algorithms to the problem. \daan{This distinction I like!}
 
+\subsection{Problem transformation}
 For the purpose of problem transformation, we define \(\mathcal{L}_{\text {multiclass}}\), a class of loss functions that minimize predictions in relative terms. Binary cross-entropy, logit and their variants, such as focal loss or hinge loss (deemed unstable \cite{focalLoss} \daan{seems too big of a point for just a sidenote}) are common choices when it comes to multiclass prediction. Cross-entropy loss can be formulated as \(\mathcal{L}_{\text {CE}}=-\sum \log \left(p_{i}\right)\) . Note that minimizing binary cross-entropy is equivalent to maximizing for log-likelihood \cite[Section 4.3.4]{Bishop}. More generally, the \emph{problem transformation} formulation amounts to minimizing the loss on a class of neural networks, such that
 %
 \begin{equation}
 \underset{\mathcal{L}_{\text {multiclass}}} {\min} \mathcal{F}\left(\cdot ; \Theta; \mathcal{L}_{\text {multiclass}} (\mathbf{y}, \hat{\mathbf{y}}) \right),
 \end{equation}
 %
-In the context of \emph{algorithm adaptation}, where the number of positive labels in the groundtruth is unknown a priori \daan{this is not a property of algo adapt per se, right?}, we aim to both obtain a propensity of each label being true and a prediction of the number of true labels: 
+
+\subsection{Algorithm adaptation}
+In the context of \emph{algorithm adaptation}, where the number of positive labels in the groundtruth is unknown a priori \daan{this is not a property of algo adapt per se, right?}, we aim to both obtain a propensity of each label being true and a prediction of the number of true labels:
 %
 \begin{equation}
 \underset{\mathcal{L}_{\text {multiclass}}, \mathcal{L}_{\text {count}}} {\min} \mathcal{F}\left(\cdot ; \Theta; \mathcal{L}_{\text {multiclass}} (\mathbf{y}, \hat{\mathbf{y}}) + \lambda \mathcal{L}_{\text {count}} (\mathbf{n}, \hat{\mathbf{n}})\right),
