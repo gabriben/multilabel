@@ -174,6 +174,8 @@ Note that accuracy assigns equal cost to false positives and false negatives. Th
 
 More variations scores exist in the literature, such as hamming loss~\cite{hammingLoss} (the fraction of incorrectly predicted labels), hamming score.q
 
+you can find the tencent loss here: https://github.com/Tencent/tencent-ml-images/blob/master/train.py
+
 
 \todo{compare to this:} \cite{lossComp}
 
@@ -182,6 +184,36 @@ More variations scores exist in the literature, such as hamming loss~\cite{hammi
 \todo{MLTSVM loss and the three-way loss inspired by it} \cite{MLTSVM} and \cite{MLTSVMThreeway}
 
 \todo{explain batch size mathematically for F1 surrogate losses}
+
+
+
+\textbf{Limitations and Future Work}
+
+it is debatable wether any task is intrinsincly multilabel and wether the image / text cannot be decomposed in parts that are single labeled.
+
+not long training and small models, but aibility to demonstrate the statement anyways.
+
+Although we have identified a niche where the proposed loss framework is advantageous, a lot of experimentations in different domains are needed to further assess its performance.
+
+\textbf{Future work}
+
+Apply the loss function to more sophisticated neural network architectures that use F1 score as an evaluation metric such as AC-SUM-GAN \cite{AC-SUM-GAN}.
+
+This model can be adapted for hiarchical multilabel classification \cite{HARAM} or active learning (for both see \cite{activeLearningMultiLabel}).
+
+Combine the proposed loss functions with representation learning \cite{unsupervisedImage,highResRepresentation} or self-supervised learning, in order to model abstract relationships between the labels.
+
+adapt to \emph{extreme} multilabel prediction \cite{extremeMultilabelText}
+
+implement the loss to train a CNN from scratch as was done by \cite{tencent}
+
+we propose to release our results on Kaggle in the weeks to come.
+
+dynamic weight freezing for finetuning~\cite{ULMFit}
+
+Another recently created dataset was made available for \emph{Large Scale Holistic Video Understanding} \cite{holisticVideoData}\footnote{Available at https://github.com/holistic-video-understanding/HVU-Dataset}, as defined in the introduction.
+
+
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "../main"

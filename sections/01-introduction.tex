@@ -32,25 +32,25 @@
 % \textbf{multi-class classification problems are hard}
 Many real-world classification problems are challenging because of
 subjectivity issues, unclear (or overlapping) class-boundaries and
-disagreement between annotators. For example, \textit{Tenet} was a confusing
-movie. Aside from its complex content, debates are fusing about which movie
-genre it belongs to. IMDB simultaneously categorizes it as \textit{action}
+disagreement between annotators. For example, the movie \textit{Tenet} generated 
+debates about which movie genre it belongs to, besides debates on content among the selected few who understood it. IMDB simultaneously categorizes it as \textit{action}
 \textit{sci-fi} and \textit{thriller}. In a different domain, a seminal
 Machine Learning publication proposed training with bigger batch sizes as a
 general recommendation~\cite{bigBS}. This paper was categorized on
-\textit{Arxiv} \hvk{ref} as \textit{Machine Learning (cs.LG)},
+\textit{Arxiv}~\cite{bigBSArxiv} as \textit{Machine Learning (cs.LG)},
 \textit{Computer Vision and Pattern Recognition (cs.CV)}, \textit{Distributed,
 Parallel, and Cluster Computing (cs.DC)}, and \textit{Machine Learning
-(stat.ML)}. In cancer research, an ongoing discourse is concerned with
-categorizing cells' capabilities (e.g. \{\textit{resistance to immune system,
-enhanced proliferation}\}): at a certain point to be determined, cells have
-acquired enough of these capabilities to be malignant~\cite{cancerHallmarks}.
-\hvk{I don't get the link of this last example with the multilabel/class
-learning problem of the paper}
+(stat.ML)}.
+
+% In cancer research, an ongoing discourse is concerned with
+% categorizing cells' capabilities (e.g. \{\textit{resistance to immune system,
+% enhanced proliferation}\}): at a certain point to be determined, cells have
+% acquired enough of these capabilities to be malignant~\cite{cancerHallmarks}.
+% \hvk{I don't get the link of this last example with the multilabel/class
+% learning problem of the paper}
 
 % \textbf{hard because of reasons}
-These three examples in the domains of
-cinema, publication and medicine have several things in common. (I) Labels
+These examples in the domains of cinema and publication have several things in common. (I) Labels
 such as \textit{thriller} and \textit{machine learning} are abstract and
 debatable concepts to a certain degree (as opposed to \textit{featured actor
 x}, \textit{featured in journal x}) (II) The possibility of attributing more
@@ -71,7 +71,7 @@ single problem definition in the existing literature. We formalize learning
 tasks that match these four criteria as Single-Instance Multilabel Prediction
 for Unknown Label counts (SIMPUL).
 
-\subsection{Problems/frameworks of multilabel/class learning}
+\subsection{Learning Algorithms for multiclass multilabel learning}
 % \textbf{we introduce our sub-problem}
 There seems to exist a consensus over the terms \emph{multiclass learning} and
 \emph{multilabel learning}, meaning mutually exclusive and mutually inclusive
@@ -97,20 +97,19 @@ limited.
 % \textbf{current state of the art, related work}
 The existing optimization frameworks are still largely based on variations of
 the cross-entropy loss, with recently some advances in dealing with
-sparsity~\citep[see, e.g.,][]{focalLoss,tencent} \daan{need to explain
-sparsity here more.}. Existing measures for multilabel prediction can be
-divided into two fields: \emph{problem transformation} and \emph{algorithm
-adaptation} \cite{multilabelReview}. In the case of problem transformation,
+sparsity in the output space~\citep[see, e.g.,][]{focalLoss,tencent}. Existing measures for multilabel prediction can be
+divided into two fields: the \emph{fit-data-to-algorithm} (a.k.a \emph{problem transformation}) and \emph{fit-algorithm-to-data} (a.k.a \emph{algorithm
+adaptation}) approaches~\cite{multilabelReview}. Although it is less in use in the literature, we prefer the first definitions because they are less ambiguous. In the case of fit-data-to-algorithm,
 multilabel classification is reframed as a binary, multiclass classification
-or label ranking problem. In the case of algorithm adaptation, one tries to
+or label ranking problem. In the case of fit-algorithm-to-data, one tries to
 adapt multiclass algorithms to the problem.
 
-\subsubsection{Problem transformation} For the purpose of problem transformation,
+\subsubsection{fit-data-to-algorithm} For the purpose of problem transformation,
 we define \(\mathcal{L}_{\text {multiclass}}\), a class of loss functions that
-minimize predictions in relative terms. Binary cross-entropy, logit and their
+minimize predictions in relative terms. Binary cross-entropy, logistic regression and their
 variants, such as focal loss or hinge loss are common choices when it comes to
 multiclass prediction. Cross-entropy loss can be formulated as
-\(\mathcal{L}_{\text {CE}}=-\sum \log \left(p_{i}\right)\) . Note that
+\(\mathcal{L}_{\text {CE}}=-\sum \log \left(p_{i}\right)\). Note that
 minimizing binary cross-entropy is equivalent to maximizing for log-likelihood
 \cite[Section 4.3.4]{Bishop}. More generally, the \emph{problem
 transformation} formulation amounts to minimizing the loss on a class of
@@ -123,9 +122,12 @@ neural networks, such that
 \end{equation}
 %
 
+
+Astonishingly, state-of-the-art CNN and attention based models for text~\cite{XLNet, bigBird, } and image respectively still use the problem transformation framework even when fine-tuning for multilabel classification tasks on datasets like IMDB, Yelp-2, Yelp-5, DBpedia, AG, Amazon-2, and Amazon-5 for text and .  XLNet uses adversarial loss, BigBird uses cross-entropy as most Bert models do...
+
 \hvk{related work of problem transformation here}
 
-\subsubsection{Algorithm adaptation}
+\subsubsection{fit-algorithm-to-data}
 In the context of \emph{algorithm
 adaptation}, where the number of positive labels in the groundtruth is unknown
 a priori \daan{this is not a property of algo adapt per se, right?}, we aim to
@@ -141,9 +143,7 @@ number of true labels:
 %
 where \(n_i = \sum_j \mathds{1}_{\mathbf{y_i^j} = 1}\) is the count of
 positive labels per example. We thus impose a constraint for the retrieval of
-label counts. For example, a cross-entropy loss surrogate \daan{You never
-really introduced the idea of surrogates, did you? Why is it needed? What are
-the limitations? etc.} would penalize for the number of wrongly predicted
+label counts. For example, a cross-entropy loss surrogate would penalize for the number of wrongly predicted
 labels \(\mathcal{L}_{\text {CE+N}}= \mathcal{L}_{\text {CE}} + \lambda (\sum
 tp / \sum p)\), with \(t p=\sum_{i \in Y^{+}} \mathds{1}_{\mathbf{p_i} \geq
 b}\) and \(b\) a threshold to be defined. With its multitask framework
@@ -151,19 +151,7 @@ b}\) and \(b\) a threshold to be defined. With its multitask framework
 corresponds to that type of infrastructure. \todo{tencent loss}. The latter
 formulation is most straightfoward but suffers from higher parametrization and
 the lack of modelling of the interactions between label counts and label
-prediction. To mitigate these issues, we propose a unified loss formulation,
-namely
-%
-\begin{equation}
-\underset{\mathcal{L}_{\text {multitag}}} {\min} \mathcal{F}\left(\cdot ;
-\Theta; \mathcal{L}_{\text {multitag}} (\mathbf{y}, \hat{\mathbf{y}},
-\mathbf{n}, \hat{\mathbf{n}}) \right),
-\end{equation}
-%
-Although predictions and counts explicitly appear in that formulation,
-\(\mathcal{L}_{\text {multitag}}\) can optimize for both metrics implicitely
-(see proposed \emph{sigmoidF1} below).
-\daan{Whoa, where does multitag all of a sudden come from? ;-) }
+prediction.
 
 Early representatives of algorithm adaptation stem from heterogenous
 domains of machine learning. Multi-Label k-Nearest Neighbors \cite{ML-KNN},
@@ -176,6 +164,21 @@ prediction} for text (ML\(_{\text{NET}}\)) \cite{multitaskLabel} and image
 towards object detection (although not formally presented as such) and is thus
 out-of-scope: elements in a picture are predicted that tend to be unilabel as
 defined by the groundtruth (e.g. cat, flower, vase, person, bottle etc.).
+
+\subsubsection{design-algorithm-for-data}
+
+To mitigate these issues, we propose a unified loss formulation,
+namely
+%
+\begin{equation}
+\underset{\mathcal{L}_{\text {multilabel}}} {\min} \mathcal{F}\left(\cdot ;
+\Theta; \mathcal{L}_{\text {multilabel}} (\mathbf{y}, \hat{\mathbf{y}},
+\mathbf{n}, \hat{\mathbf{n}}) \right),
+\end{equation}
+%
+Although predictions and counts explicitly appear in that formulation,
+\(\mathcal{L}_{\text {multilabel}}\) can optimize for both metrics implicitly
+(see proposed \emph{sigmoidF1} below).
 
 \subsection{Towards smooth loss functions that optimize learning
 in SIMPUL problems}
@@ -206,8 +209,7 @@ not differentiable. There are motivations \todo{which motivations} for
 optimizing a model directly on a metric at training time. A general framework
 for AUC, AUROC and F1 is presented in \cite{optimizableLosses}, but the
 proposed F1 surrogate remains short of being explicitly derived for stochastic
-gradient descent. \todo{check again with the authors if I can't get inspired
-from their work}. Recently, a similar work has been proposed to train a
+gradient descent. Recently, a similar work has been proposed to train a
 Convolutional Neural Network (CNN) from scratch with a few millions of images
 and hundreds of labels specifically for multilabel tasks \cite{tencent}. This
 task is loosely related to object detection, similarly to
@@ -251,7 +253,7 @@ current  state-of-the-art on several different metrics, across text
 (especially on the Arxiv dataset which, to the best of our knowledge, is the
 first use since its publication in August 2020) and image related tasks.
 
-The remainder of this paper is structures as follows: first, we introduce
+The remainder of this paper is structured as follows: first, we introduce
 our method and define a class of smooth loss functions for SIMPUL problems.
 Next, we detail our experimental setup and describe the datasets used in our
 experiments. After presenting the experimental results in the next section,

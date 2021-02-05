@@ -12,13 +12,14 @@
 
 \begin{document}
 
-\title{SIMPUL: A Loss Framework to Learn Abstract Labels from Abstract Representations: Single-Instance Multiclass Multilabel Prediction with Unknown Label Count}
+\title{Towards confusion matrix metrics as losses}
+
+  % SIMPUL: A Loss Framework to Learn Abstract Labels from Abstract Representations: Single-Instance Multiclass Multilabel Prediction with Unknown Label Count}
 
 \begin{abstract}
-Multilabel classification is a common task when learning from text, image, or sound. However, few optimization frameworks are tailored towards learning multiple abstract labels for an entire text, image, or sound. We present this problem as SIMPUL. \hvk{it is a bit confusing to me here that SIMPUL is presented as a problem, but as a framework in the title} Current solutions typically reframe the SIMPUL problem as a multiclass problem. This allows for the use of variations of cross-entropy or multinomial logit losses \daan{do we use this as a baseline? otherwise drop?}. When the number of ground-truth labels varies over each example, these losses produce unit-interval results that require a sophisticated thresholding regime (at training or at inference time) to predict both label prediction propensity and label count. As a solution to SIMPUL, we present \emph{sigmoidF1}: a decomposable surrogate F1 score that introduces smooth thresholding. The proposed method yields higher F1 metrics on several datasets of different modalities. This shows that higher level abstractions in the embedding space can be directly predictive of abstract labels in the output space. The code is available at (https://anonymous.4open.science).
-\todo{SIMPUL as a general confusion-metric-as-a-loss framework }
+  Multilabel classification is a common task when learning from text, image, or sound. However, few optimization frameworks are tailored towards learning multiple abstract labels for an entire text, image, or sound. State of the art models for image and text, of the CNN and BERT family respectively, are often benchmarked on multiclass multilabel datasets, but still use loss functions adapted to a multiclass unilabel situation (i.e. variations of cross-entropy losses). When the number of ground-truth labels varies over each example as is commonly the case in multilabel classification, these losses produce unit-interval results that require a sophisticated thresholding regime (at training or at inference time) to predict both label prediction propensity and label count. Since certain confusion matrix metrics usually already fulfill that goal at inference time, we propose decomposable surrogates for gradient descent at training time. We illustrate the solution with \emph{sigmoidF1}: a decomposable surrogate F1 score that introduces smooth thresholding. We are able to demonstrate its performance on efficient versions of the state of the art models (DistilBert and MobileNetV2). For a fair assessment of the proposed loss function, we avoid datasets that would benefit from a two stage modelling procedure (object / expression / segment detection followed by classification) and instead turn to datasets, where the whole example is predictive of a label. This paper is thus a first assessment on the feasability of designing loss functions specifically for the multilabel setting based on statistical and information retrieval metrics.
 
-
+%We present this problem as SIMPUL. \hvk{it is a bit confusing to me here that SIMPUL is presented as a problem, but as a framework in the title} Current solutions typically reframe the SIMPUL problem as a multiclass problem.
 
 % \begin{itemize}
 % \item \mdr{one sentence context}
@@ -29,7 +30,6 @@ Multilabel classification is a common task when learning from text, image, or so
 % \item \mdr{one sentence why this matters}
 % \end{itemize}
 \end{abstract}
-
 \keywords{Content analysis; Classification; Multiclass; Multilabel; Custom Loss \mdr{Keyword}}
 
 
