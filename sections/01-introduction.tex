@@ -4,32 +4,6 @@
 \label{sec:org662677c}
 
 
-% \hvk{I think this section need restructuring. Especially: 1) it needs more
-% structure (explict: subsection or paragraph titles, implicit: taking the
-% reader by the hand) 2) I think it would help to work the related work into the
-% introduction, that makes writing the story easier, and would give less overlap
-% between the sections.}
-
-% \hvk{my proposal:
-% \begin{itemize}
-% \item multi-class classification problems are hard because of reasons relating
-% to issues, unclear (or overlapping) class-boundaries and disagreement etc.
-% Give the examples of movies, medical imagery, etc. Specific problem is the
-% Single-Instance Multilabel Prediction for Unknown Label counts.
-% \item Commonly, for these problems, metrics like AUROC, F1 are used. However
-% these are not differentiable. Now that NN are becoming more powerful, we get
-% more capabilities for learning more abstract concepts. For SIMPUL problems,
-% there is a need to integrate metric in network to better learn abstract
-% concepts.
-% \item We are trying to bridge this gap by proposing soft versions of these
-% metrics. (give examples in tables).
-% \item In this paper we focus on a soft version of the F1 and propose to use it
-% directly as a loss in a NN. We show in experiments that this loss improves
-% results
-% \end{itemize} }
-
-
-% \textbf{multi-class classification problems are hard}
 Many real-world classification problems are challenging because of
 subjectivity issues, unclear (or overlapping) class-boundaries and
 disagreement between annotators. For example, the movie \textit{Tenet} generated 
@@ -37,10 +11,12 @@ debates about which movie genre it belongs to, besides debates on content among 
 \textit{sci-fi} and \textit{thriller}. In a different domain, a seminal machine learning publication in which the authors propose to train with bigger batch sizes~\cite{bigBS} is categorized as \textit{Machine Learning (cs.LG)},
 \textit{Computer Vision and Pattern Recognition (cs.CV)}, \textit{Distributed,
 Parallel, and Cluster Computing (cs.DC)}, and \textit{Machine Learning
-(stat.ML)} on
-\textit{arXiv}~\cite{bigBSArxiv}.
+(stat.ML)} on \textit{arXiv}~\cite{bigBSArxiv}.
 
-\paragraph{Problem statement}
+% \textit{Tenet} was a confusing movie. Aside from its complex content, debates are fusing about which movie genre it belongs to. IMDB categorizes it as \{\textit{action; sci-fi; thriller}\}. Also controversial, a seminal Machine Learning publication proposed training with bigger batch sizes as a general recommendation~\cite{bigBS} (the \#GreenAI movement later emerged to condemn delegating more computing power to neural networks at any environmental cost). This paper was categorized on Arxiv as \{\textit{Machine Learning (cs.LG); Computer Vision and Pattern Recognition (cs.CV); Distributed, Parallel, and Cluster Computing (cs.DC); Machine Learning (stat.ML)}\}. In cancer research, an ongoing discourse is concerned with categorizing cells' capabilities (e.g. \{\textit{resistance to immune system, enhanced proliferation}\}): at a certain point to be determined, cells have acquired enough of these capabilities to be malignant~\cite{cancerHallmarks}.
+
+% These examples above in the domains of cinema and publication have several things in common. (I) Labels such as \textit{thriller} and \textit{machine learning} are abstract and debatable concepts to a certain degree (as opposed to \textit{featured actor x}, \textit{featured in journal x}) (II) The possibility of attributing more than one category to a single movie or a paper is desirable (i.e. labels are not mutually exclusive for the benefit of creativity / research). (III) The movie or paper as a whole needs to be looked at to categorize it. It requires an entire viewing of the movie \textit{Tenet} to determine if the label \textit{Romance} might not also be appropriate, as it is arguably the underlying driver of the protagonists. In other words, complex combinations of features in the movie are related to a label. In the contrary, it would be hard to isolate elements within these examples (such as a particular scene in a movie or a particular expression in a paper) as uniquely predictive of a single of their labels. (IV) The number of labels to attribute to each example is unknown at inference time.
+
 The examples given above in the domains of cinema and publishing have several things in common: 
 \begin{enumerate*}[label=(\arabic*)]
 \item Labels such as \textit{thriller} and \textit{machine learning} are abstract and
@@ -59,285 +35,105 @@ expression in a paper) as uniquely predictive of a single of their labels.
 time.
 \end{enumerate*}
 
-In this paper we focus on such learning problems,  which we call \emph{Single-Instance Multilabel Prediction
-for Unknown Label counts} (SIMPUL).
-More precisely, 
-\begin{itemize}
-\item \mdr{It's good to have a sharp definition of the problem space, whether it is SIMPUL or something else. And no, we do not need to sell it, we just need to identify it in a precise manner.}
-\item \mdr{a CONCISE definition of the problem, like in the paper by \citet{multilabelMethods}; no discussion, just definition.}
-\item \mdr{NO DISCUSSION, just a concise statement}
-\item \mdr{Include a comment that SIMPUL problems are very common in IR, as we sho in the related work sectino below.}
-\end{itemize}
 
-\paragraph{Optimization frameworks to SIMPUL}
-As we explain in Section~\ref{section:background}, previous optimization frameworks for SIMPUL problems come in two flavors. 
-\begin{itemize}
-\item flavor  1
-\item flavor 2
-\end{itemize}
-We introduce a new flavor, 
-\begin{itemize}
-\item Why? One sentence about what's wrong with flavors 1 and 2
-\item Bring in the idea of confusion matrix metrics, etc. Just two sentences. No abstract stuff.
-\item What? One sentence about The New Thing.
-\end{itemize}
+These four criteria do not appear together in a single problem definition in the existing literature, to the best of our knowledge. We thus propose to formalize the learning task of \textbf{F}ull-\textbf{I}nstance\textsuperscript{(III)} \textbf{M}ultilabel\textsuperscript{(II)} \textbf{P}rediction for \textbf{U}nknown\textsuperscript{(IV)} \textbf{L}abel counts (FIMPUL). [definitions and problem statement] + [this is common n IR]
 
-\paragraph{Contributions}
-In this paper, we first propose a class of smooth loss functions that optimize
-learning in SIMPUL problems. 
-\mdr{What does this mean? The generalization encompasses different levels
-of complexity, from the classical cross-entropy loss up to the proposed loss
-function.} 
-\mdr{Isn't this too specific for the introduction; you haven't introduced this; how does it connect to confusion matrix metrics: We propose the \emph{sigmoidF1}: an F1 score surrogate, with a sigmoid function acting as a surrogate thresholding step function.} This allows for
-the use of the F1 metric which implicitly optimizes for label prediction and
-count simultaneously in a single task and is robust to outliers.
-\emph{sigmoidF1} and its adaptive \emph{SadF1} and Bayesian \emph{SBayesF1}
-counterparts are benchmarked against loss functions commonly used in
-multiclass learning and other existing models that are closely related to the
-SIMPUL setting. 
+% Regarding nomenclature, there seems to exist a consensus over the terms \emph{multiclass} and \emph{multilabel learning}, meaning mutually exclusive and non-mutually exclusive labels \footnote{non-mutually exclusive means here one example can have more than one label}, respectively~\cite{multilabelMethods}. Multilabel learning can therefore be seen as a subdomain of multiclass learning, where more than one class can be correct for the same example. We propose the term single-instance as opposed to multi-instance learning~\citep[e.g.,][]{multiInstance, multiInstanceMultiLabel}, for which it is considered natural to first segment an image / text / sound before performing prediction on each of the segments.
 
-We show that our custom losses improve predictions over the
-current  state-of-the-art on several different metrics, across text
-(especially on the arXiv dataset which, to the best of our knowledge, is the
-first use since its publication in August 2020) and image related tasks.
+% That full/multi instance distinction helps explain why the abstract\textsuperscript{(I)} aspect can be considered implicit in FIMPUL. Beyond identifying object types (see YOLO \cite{YOLO} and its successors), performing face recognition (see FaceNet \cite{FaceNet} and its successors) on segments of an image, neural networks should soon be able to predict genres/categories of text, image and sound at high levels of accuracy. Neural network models are able to learn increasingly more abstract representations via deeper networks, representation learning and self-supervision~\citep[see, e.g.,][]{SS,Rep}. Hence, we would expect that they also get better at predicting more abstract labels. Towards this goal, there is a significant volume of recent work on building neural networks with a high-level of abstract understanding in the embedding space~\mdr{REF}. However, there seems\daan{vague} to be limited research on developing optimization frameworks that are adapted for these abstract concepts in the output space.
 
-\paragraph{The remainder of the paper}
-The remainder of this paper is structured as follows: first, we introduce
-our method and define a class of smooth loss functions for SIMPUL problems.
-Next, we detail our experimental setup and describe the datasets used in our
-experiments. After presenting the experimental results in the next section,
-we close the paper with conclusions and propositions for future work.
+To solve multilabel tasks, existing optimization frameworks are still largely based on variations of the cross-entropy loss, with recently some advances in dealing with sparsity~\citep[see, e.g.,][]{focalLoss,tencent}. The existing measures to deal with FIMPUL can be divided into fit-data-to-algorithm (reverting back to a known problem formulation like multiclass unilabel classification) and fit-algorithm-to-data (adapting existing classification algorithms for the problem at hand). In the former case, cross-entropy losses are used at training time and thresholding is done at inference time. In the latter, elements of the learning algorithm are changed (such as the backpropagation procedure or the tasks). We propose a design-algorithm-for-data approach: [description here]
 
-% \mvm{I don't see how these paragraphs flow into each other}
+Machine learning prediction tasks' output are probabilistic (or a reversible transformation of a probabilistic measure such as a sigmoid or a soft max function). At training time, these probabilistic values are compared to binary values in the case of binary encoding of classes. At inference time, if the number $n_i$ of labels to be predicted per example is known a priori, it is natural to assign the $top_{n_i}$ predictions to that example~\cite{lossTopKError, topKmulticlassSVM}. If the number of labels per example is unknown a priori, the question remains at inference time as to how to extract information about the number of labels to assign to each example, aside from the propensity of labels to be assigned. This is generally done via a \emph{decision threshold}, that can be set globally for all examples. This threshold can optimize for specificity or sensitivity~\cite{decisionThreshold}. We propose a method where this threshold is implicitely defined, thanks to the use of metrics that already penalize for wrong label counts.
 
-% Little work can be found in the literature for
-% \textbf{S}ingle-\textbf{I}nstance \textbf{M}ultilabel \textbf{P}rediction
-% for \textbf{U}nknown \textbf{L}abel counts.
+% \begin{figure}[t]
+% \centering
+% \includegraphics[width=.9\linewidth]{./tree/Tree.pdf}
+% \caption{\label{fig:tree}
+% FIMPUL (bold) within the \emph{multiclass} nomenclature
+% % Clarifying ``multiclass'' classification problems.
+% % In this paper we focus on the uni-instance, multilabel, multiclass classification problem with a varying number of labels (the bottom right hand side of the tree).
+% }
+% \end{figure}
+% % \mdr{Image source ...}
+
+Learning to Rank (the practice of using Machine Learning to sort documents according to their relevance) lead to the widespread use of certain metrics~\cite{LTR}. In a number of retrieval tasks, a model's out of sample accuracy is measured on metrics such as AUROC, F1 score, etc. These reflect an objective catered towards evaluating the model over an entire ranking. Due to the lack of differentiability, these metrics cannot be directly used as loss functions at training time (in-sample). A seminal study~\cite{optimizableLosses} derived a general framework for deriving decomposable surrogates to some of these metrics. We propose our own decomposable surrogates of classical confusion matrix metrics and in particular sigmoidF1 tailored for the problem at hand.
+
+In this paper, we first propose a general mathematical formulation of FIMPUL tasks and thus place it within the multiclass nomenclature. The generalization encompasses different levels of complexity, from the classical cross-entropy loss up to the proposed loss function. \emph{sigmoidF1} is a F1 score surrogate, with a sigmoid function acting as a surrogate thresholding step function. This allows the use of the F1 metric which implicitly optimizes for label prediction and count simultaneously in a single task.  \emph{sigmoidF1} is benchmarked against loss functions commonly used in multiclass learning and other existing models that are closely related to the SIMPUL setting. We show that our custom losses improve predictions over the current state-of-the-art on several different metrics, across text (especially on the Arxiv dataset which, to the best of our knowledge, is the first use since its publication in August 2020) and image related tasks. We then conclude and propose future implementations for other labeling tasks.
+
+% -----
 
 
-% \subsection{Why is this important?}
-
-% Multilabel classification problems arise when multiple labels can be
-% assigned during a prediction. For example, we might want to classify media
-% into genres, text, sound, and images often belong to multiple genres.
+% % \textbf{multi-class classification problems are hard}
 
 
-% Currently, research has produced no method to solve multilabel
-% classification with an unknown number of labels. Rather, the literature
-% reframes the problem as a multiclass problem, which effectively treats the
-% classification as mutually exclusive.
+% \paragraph{Problem statement}
+% The examples given above in the domains of cinema and publishing have several things in common: 
+% \begin{enumerate*}[label=(\arabic*)]
+% \item Labels such as \textit{thriller} and \textit{machine learning} are abstract and
+% debatable concepts to a certain degree (as opposed to \textit{featured actor
+% x}, \textit{featured in journal x}). 
+% \item The possibility of attributing more than one label to a single movie or a paper is desirable (i.e. labels are
+% mutually inclusive: one example can have more than one label). 
+% \item The movie or paper as a whole needs to be looked at to label it. It requires an entire
+% viewing of the movie \textit{Tenet} to determine if the label \textit{Romance}
+% might not also be appropriate, as it is arguably the underlying driver of the
+% protagonists. In other words, complex combinations of features in the movie
+% are related to a label. In the contrary, it would be hard to isolate elements
+% within these examples (such as a particular scene in a movie or a particular
+% expression in a paper) as uniquely predictive of a single of their labels.
+% \item The number of labels to attribute to each example is unknown at inference
+% time.
+% \end{enumerate*}
 
-
-% In this article, we are interested in higher-level concepts, for example
-% genres, that can be mutually inclusive as opposed to mutually exhaustive.
-% For example, a scientific journal can be tagged as \emph{machine learning}
-% and \emph{economics}, a movie can be tagged as \emph{romance} and
-% \emph{comedy}, a song might be considered \emph{jazz} and \emph{soul}. Among
-% the candidate class labels, more than one of the candidate labels can be
-% correct and the number of correct labels is unknown a priori.
-
-% \mvm{In the multiclass paradigm, romance and comedy can be "romantic
-% comedy". Why is that worse than having multiple labels? That's what the
-% introductory literature review next should explain}
-
-% \mvm{What is a higher-level concept?}
-
-% There is no reason why the earlier mentioned movie also cannot be an action
-% movie–surely, the era-defining movie Spy is story of love, comedy,
-% \textit{and} action. This article, thus, presents a framework for a problem
-% formulation  SIMPUL, that is \textbf{S}ingle-\textbf{I}nstance
-% \textbf{M}ultilabel \textbf{P}rediction for \textbf{U}nknown \textbf{L}abel
-% counts, and a method to solve this problem, \emph{sigmoidF1}.
-
-% \subsection{Literature}
-
-
-% \begin{itemize}[leftmargin=*]
-
-
-% \item \mvm{Multiclass versus multilabel? }
-
-
-
-% \item \mvm{How does the literature reframe the problem?}
-
-
-% multilabel --> multiclass
-
-
-% \item \mvm{How do you address this in abstract terms? }
-
-
-% Within multilabel training, we introduce the distinction between
-% multi-instance multilabel~\citep[e.g.,][]{multiInstance,
-% multiInstanceMultiLabel} and uni-instance multilabel. The term instance
-% refers to segments in say a text or image that can be isolated as predictive
-% of one or more labels, typically objects in an image. We define uni-instance
-% learning as the case where the whole image / text / sound is predictive of a
-% label; or at least if, with the current methods, it is not possible to
-% isolate segments\footnote{Segments can be understood loosely here: a segment
-% could be a detected interaction between 5 different expressions in the text
-% that are together predictive of a label.} as predictive of certain labels.
-% \daan{I like how we are getting to a clear definition here. I am not sure if
-% the uni vs multi-instance is really of importance. It could also maybe just
-% be one sentence: note that in this work we do not consider the case of
-% multi-instance ...} Multi-instance multilabel classification refers to
-% labelling segments of images or text where training labels are typically
-% only available at the image or document level.
-% \mdr{vague: Multi-instance multilabel classification refers to tasks where
-% elements within each example can be singled-out and assigned one or more
-% labels; examples include objects in an image or tokens in a text.}
-% Uni-stance multilabel classification is \mdr{define it}.
-% \mvm{the distinction between uni-istance and multi-instance also really
-% confuses me and I don't see how it helps your argument}
-
-
-% \item \mvm{How does this fit in the literature}
-% \end{itemize}
-
-
-
-% \subsection{Proposition}
-
-
+% In this paper we focus on such learning problems,  which we call \emph{Single-Instance Multilabel Prediction
+% for Unknown Label counts} (SIMPUL).
+% More precisely, 
 % \begin{itemize}
-% \item technical problem definition
+% \item \mdr{It's good to have a sharp definition of the problem space, whether it is SIMPUL or something else. And no, we do not need to sell it, we just need to identify it in a precise manner.}
+% \item \mdr{a CONCISE definition of the problem, like in the paper by \citet{multilabelMethods}; no discussion, just definition.}
+% \item \mdr{NO DISCUSSION, just a concise statement}
+% \item \mdr{Include a comment that SIMPUL problems are very common in IR, as we sho in the related work sectino below.}
+% \end{itemize}
+
+% \paragraph{Optimization frameworks to SIMPUL}
+% As we explain in Section~\ref{section:background}, previous optimization frameworks for SIMPUL problems come in two flavors. 
 % \begin{itemize}
-%   \item the number of labels is unknown a priori
+% \item flavor  1
+% \item flavor 2
 % \end{itemize}
-
-
-% \end{itemize}
-
-% Mulitlabel classification problems with an unknown label count present
-% numerous challenges.
-
-% The first is that we do not know the number of labels is unknown a priori.
-
-
-% \mvm{parapgraph below should only do one thing}
-
-
-
-
-
-
- %We propose a loss framework based on confusion matrix metrics as losses.
- %They have in common that they require step functions that are not
- %decomposable for SGD. Hence, we propose a soft thresholding method with a
- %sigmoid function to remedy this. \mvm{I would remove this altogether}
-
-
-
-% This is particularly fitting to the new models which are able to learn
-% abstract labels from abstract representations. Some of these
-% metrics-as-losses can be particularly useful for tackling problems
-
-
-
-
-% \mdr{Briefly and concretely describe the abstract labeling task that we are
-% interested in.}
-
-% paper that uses mutually inclusive
-% https://paperswithcode.com/paper/smile-semantically-guided-multi-attribute/review/
-% https://www.diva-portal.org/smash/get/diva2:1324807/FULLTEXT01.pdf
-
-
-
-
-% Coming back to the example of a scientific paper and its tags, it seems now
-% clear that it is a multiclass multilabel learning problem, since several
-% tags can be attributed to the same paper at once from different tag
-% candidates. It is also arguable that it is a single-instance problem because
-% it would be arguably hard to isolate expressions or interactions of
-% expressions in a text that are predictive of a label. The prediction of
-% mutually inclusive scientific paper categories is the main task to of this
-% research.
-
-% \mvm{I don't really see how the above paragraph is relevant, except }
-
+% We introduce a new flavor, 
 % \begin{itemize}
-% \item \mdr{Now explain that the task introduced in the second paragraph is
-% an instance of uni-instance multilabel classification.}
-% \item \mdr{Now make the distinction between fixed label counts and varying
-% label counts}
-% \item \mdr{Little work has been done on the uni-instance, ML MC prediction
-% with a varying number of classes}
-% \item \mdr{Identify the shortcomings o prior work on the task that we care
-% about}
+% \item Why? One sentence about what's wrong with flavors 1 and 2
+% \item Bring in the idea of confusion matrix metrics, etc. Just two sentences. No abstract stuff.
+% \item What? One sentence about The New Thing.
 % \end{itemize}
 
+% \paragraph{Contributions}
+% In this paper, we first propose a class of smooth loss functions that optimize
+% learning in SIMPUL problems. 
+% \mdr{What does this mean? The generalization encompasses different levels
+% of complexity, from the classical cross-entropy loss up to the proposed loss
+% function.} 
+% \mdr{Isn't this too specific for the introduction; you haven't introduced this; how does it connect to confusion matrix metrics: We propose the \emph{sigmoidF1}: an F1 score surrogate, with a sigmoid function acting as a surrogate thresholding step function.} This allows for
+% the use of the F1 metric which implicitly optimizes for label prediction and
+% count simultaneously in a single task and is robust to outliers.
+% \emph{sigmoidF1} and its adaptive \emph{SadF1} and Bayesian \emph{SBayesF1}
+% counterparts are benchmarked against loss functions commonly used in
+% multiclass learning and other existing models that are closely related to the
+% SIMPUL setting. 
+
+% We show that our custom losses improve predictions over the
+% current  state-of-the-art on several different metrics, across text
+% (especially on the arXiv dataset which, to the best of our knowledge, is the
+% first use since its publication in August 2020) and image related tasks.
+
+% \paragraph{The remainder of the paper}
+% The remainder of this paper is structured as follows: first, we introduce
+% our method and define a class of smooth loss functions for SIMPUL problems.
+% Next, we detail our experimental setup and describe the datasets used in our
+% experiments. After presenting the experimental results in the next section,
+% we close the paper with conclusions and propositions for future work.
 
 
-
-% \mdr{Now we have a paragraph in which you clearly describe your proposed
-% line of attack}
-
-% \mdr{Now we have a paragraph that explains the results that we have obtained
-% with our proposed approach}
-
-% \mdr{Now we have a paragraph with our main contributions:}
-% \begin{itemize}[leftmargin=*]
-% \item \mdr{Contribution 1}
-% \item \mdr{Contribution 2}
-% \item \mdr{Contribution 3}
-% \end{itemize}
-
-% \mdr{The remainder of the paper is organized as follows. Expand.}
-
-% \vspace*{3cm}
-% \mdr{Move all of the content to other sections, e.g., to background section
-% or to related work. Also, try to avoid the meandering narrative that touches
-% on many points but sometimes forgets to make explicit what its main point
-% is.}
-
-
-
-% \mdr{Too talkative, too many diverse angles. Make sure that there is a clear
-% point that you are making:} Although multilabel binary prediction (commonly
-% referring to mutually inclusive labels) is a task thoroughly covered in
-% existing literature, there does not seem to exist a framework that deals
-% with different amounts of positive labels in the groundtruth. For example, a
-% scientific journal can be tagged as \emph{machine learning} and
-% \emph{economics}, or a movie can be tagged as \emph{romance} and
-% \emph{comedy}. These instances might as well be assigned only one tag in the
-% groundtruth, or many more within the possible tags (classes).
-
-
-% The particularity of tasks like scientific paper tagging or movie genre
-% classification is that it remains unclear what elements in an image/video or
-% text can be singled out as predictive of a particular tag/genre. Rather, a
-% complex interaction between these elements in the feature space steer the
-% predictions. For example, the sole mention of the term "machine learning" in
-% a paper should not be a sufficient condition to tag it as such. Instead, one
-% could expect from the publisher to get acquainted with the paper enough to
-% determine wether the research is a worthwhile contribution or application of
-% \emph{machine learning} to deserve the tag. This involves thorough
-% understanding of the proposed method and background knowledge on
-% state-of-the-art methods. An analogous argument can be made for movie genre
-% classification for movie posters.
-
-% However, if elements in an image/text can be singled out as predictive of a
-% single tag, the problem reverts back to predicting with the a priori
-% knowledge of the existence of only one true label (i.e. multi-instance
-% multilabel learning).  The reason for distanciating singling-out from
-% uni-instance labels, is that it has been shown that as soon as singling-out
-% is possible, models that work on instances are more accurate \todo{rewrite
-% this paragraph and sources}.
-
-
-
-% Common loss functions such as cross-entropy loss (for mutually inclusive
-% labels) or multinomial logit loss (for mutually exclusive labels) deliver
-% predictions on the unit interval. Thresholding the output to assess the
-% performance of the model against the groundtruth can be done after training
-% for (I), (II), (III) and (IV). \todo{give a very sound reason as to why we'd
-% rather not do things post-training and rather at training-time}. Problem
-% formulations (V), (VI) and (VII) suggest a solution at training time. We
-% think that a custom loss function (VII) is the best alternative.
-% \todo{explain why}
-
-
-
-%%% Local Variables: %% mode: latex %% TeX-master: "../main" %% End:
+% %%% Local Variables: %% mode: latex %% TeX-master: "../main" %% End:
