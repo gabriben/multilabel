@@ -3,41 +3,28 @@
 \section{Experimental Results}
 \label{sec:orgc23a664}
 
-We show results on two different datasets, moviePosters and Arxiv2020.
-
-\subsection{moviePosters}
-
-
-\subsection{Arxiv2020}
-
-Table \ref{tab:arxiv2020} demonstrates that cross-entropy...
-
-varying b in the sigmoid function as if it is an adaptive learning rate \todo{actually try it out}.
-
-one b per class
-
-if we consider \(b\) and \(c\) to be probabilistic, we can then use tensorflow probability to assess their distribution
-
-the batch size has to be relatively large (i.c. 256), in order for meaningful F1 surrogates to be calculated.
+We show results on four different datasets, moviePosters, cancerHallmarks, chemicalExposure and Arxiv2020.
+Interestingly, tencentLoss and focalLoss, which are specifically tailored for sparse data, do not perform well here. Note that macroSoftF1 can be particularly performent without requiring hyperparameter tuning. Across Tables \ref{tab:chemicalExposure, tab:moviePosters, tab:arxiv2020, tab:cancerHallmarks} we see that the smooth sigmoidF1 outperforms other existing losses. Although only the metrics@0.5 are shown, where 0.5 is the dichotomization threshold, the ablation study and our open sourced code further illustrates the consistent good performance of sigmoidF1 versus other losses.
 
 \subsection{Ablation Study - Arxiv2020}
 
-We performed an analysis of sensitivity to different amount of labels. For this, the irrelevance threshold (see definition in Section \ref{sec:orgb44ba25}) $t$ was set to the values 0, 10, 100 and 1000.
+We performed an analysis of sensitivity to different amount of labels. For this, the irrelevance threshold (see definition in Section \ref{sec:orgb44ba25}) $t$ was set to the values 0, 10, 100 and 1000. This time, results are shown with dichotomization thresholds of 0.1 to 0.9. \todo{see if keep it}
 
-We can also look at different thresholding values.
+\todo{sensitivity to hyperparametertuning plot}
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{./images/ablation.pdf}
-\caption{\label{fig:sigmoid}
+\caption{\label{fig:ablation}
 Sigmoid function with different values for $\beta$ (steepness) \& $\eta$ (offset)}
 \end{figure}
 
 
-
+\todo{change to percentage}
 
 \begin{table}
-\caption{Movie posters (CNN). \mdr{Explain what we see.}}
+  \caption{Movie posters (CNN). \mdr{Explain what we see.}}
+  \label{tab:moviePosters}
 \centering
 \begin{tabular}{l ccccc}
 \toprule 
@@ -55,8 +42,8 @@ $\mathcal{L}_{\text {sigmoidF1}}$ & \textbf{0.158} & \textbf{0.224} & \textbf{0.
 
 
 \begin{table}
-\caption{Arxiv (distillBERT 2020), frozen pretrained weights 100 epochs, min-label-thresh: 1000}
-\label{tab:arxiv2020}  
+  \caption{Arxiv (distillBERT 2020), frozen pretrained weights 100 epochs, min-label-thresh: 1000}
+  \label{tab:arxiv2020}  
 \centering
 \begin{tabular}{l ccccc}
 \toprule
@@ -73,7 +60,8 @@ $\mathcal{L}_{\text {sigmoidF1}}$ & \textbf{0.093} & \textbf{0.106} & \textbf{0.
 \end{table}
 
 \begin{table}
-\caption{Cancer Hallmarks}
+  \caption{Cancer Hallmarks}
+  \label{tab:cancerHallmarks}
 \centering
 \begin{tabular}{l ccccc}
 \toprule 
@@ -91,8 +79,8 @@ $\mathcal{L}_{\text {sigmoidF1}}$ & \textbf{0} & \textbf{0} & \textbf{0} & \text
 
 
 \begin{table}
-\caption{Chemical Exposure}
-\label{tab:arxiv2020}  
+  \caption{Chemical Exposure}
+  \label{tab:chemicalExposure}
 \centering
 \begin{tabular}{l ccccc}
 \toprule
@@ -107,8 +95,6 @@ $\mathcal{L}_{\text {sigmoidF1}}$ & \textbf{0} & \textbf{0} & \textbf{0} & \text
 \bottomrule
 \end{tabular}
 \end{table}
-
-justify low numbers in F1. We could have made it hierarchical and be more permissive, but it was not the goal of this paper
 
 
 %%% Local Variables:

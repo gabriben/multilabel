@@ -3,102 +3,75 @@
 \section{Method}
 \label{sec:orga8a42f5}
 
-\mdr{In this section we introduce the Sigmoid F1 Loss. We proceed as follows.}
-\daan{We need some example numbers and/or some figures to explain our approach here.}
+In this section we introduce the smooth confusion matrix and in particular sigmoidF1. 
 
 For a class of multilayer perceptron \(\mathcal{F}(\cdot ; \Theta): \mathcal{X} \rightarrow \mathcal{Y}\), we consider a special case, where \(\mathbf{x} = \{x_1, ..., x_n\}\). Each observation is attributed one or more classes out of a label set \(\mathbf{l} = \{l_1, ..., l_c\}\). Labels \(y_{i}^{j}\) are available for each observation \(i\) and class \(j\). 
 
-For each observation \(i\), label class probabilities can be defined based on predictions as
+% For each observation \(i\), label class probabilities can be defined based on predictions as
 
-\todo{check this formula}
+% \todo{check this formula}
 
-\begin{equation}
-\mathbf{p}_{i}=\left\{\begin{array}{ll}\hat{\mathbf{y}} & \text { if } y=1 \\ 1-\hat{\mathbf{y}} & \text { otherwise }\end{array}\right.
-\end{equation}
+% \begin{equation}
+% \mathbf{p}_{i}=\left\{\begin{array}{ll}\hat{\mathbf{y}} & \text { if } y=1 \\ 1-\hat{\mathbf{y}} & \text { otherwise }\end{array}\right.
+% \end{equation}
 
-Let \(tp\) and \(fp\) be number of true and false positives respectively. It is necessary to define a bound \(b\), at which a prediction is dichotomized:
-
-\todo{note that tn have no effect}
+Let \(tp\), \(fp\), \(fn\), \(tn\) be number of true positives, false positives, false negatives and true negatives respectively. It is necessary to define a bound \(b\), at which a prediction is dichotomized:
 
 \begin{equation}
 \label{eq:conf}
- t p=\sum_{i \in Y^{+}} \mathds{1}_{\mathbf{p_i} \geq b} \quad f p=\sum_{i \in Y^{-}} \mathds{1}_{\mathbf{p_i} \geq b} \quad fn = \sum_{i \in Y^{+}} \mathds{1}_{\mathbf{p_i} < b}
+\begin{array}{ll} tp = \sum \mathds{1}_{\hat{\mathbf{y}} \geq b} \odot \mathbf{y}  & fp = \sum \mathds{1}_{\hat{\mathbf{y}} \geq b} \odot (\mathds{1} - \mathbf{y}) \\ fn = \sum \mathds{1}_{\hat{\mathbf{y}} < b} \odot \mathbf{y} & tn = \sum \mathds{1}_{\hat{\mathbf{y}} < b} \odot (\mathds{1} - \mathbf{y}),
+\end{array}
 \end{equation}
 
-\(\mathds{1}_{\mathbf{p_i} \geq b}\), \(\mathds{1}_{\mathbf{p_i} < b}\) are thus the count of positive and negative predictions at threshold \(b\), 
+%, \(\sum^+\) and \(\sum^-\) corresponding to  \(\sum_{i \in Y^{+}}\) and \(\sum_{i \in Y^{-}}\) respectively
+with \(\odot\) the component-wise multiplication sign. \(\sum \mathds{1}_{\hat{\mathbf{y}} \geq b}\), \(\sum \mathds{1}_{\hat{\mathbf{y}} < b}\) are thus the count of positive and negative predictions at threshold \(b\).
 
-We also define precision and recall
+Note that in the formulation above and the ones that follow, scores are calculated for a single class, therefore the sum is implicitly over all examples \(\sum_i\). This is useful for the binary classification problem but also for the multilabel problem, when micro metrics are calculated (i.e. metric for each class which is then averaged over all classes, see end of this section, where we further refine the micro and macro concepts). In the multilabel setting $\mathbf{y}$ can be substituted by $\mathbf{y}^j$ for each class $j$. Note that vectors could be trivially substituted by matrices ($Y$) in the following expressions to obtain the macro formulation.
+
+\doubt{do you agree that the subscript for the sum is implicit? and do you agree that the matrix formulation is trivial?}
+
+% Note that Equation \ref{eq:conf} represents a macro measure. For example, the micro $tp$ measure (i.e. for each class) would be $\sum \mathds{1}_{\hat{\mathbf{y}} \geq b} \odot \mathbf{y}$ $\sum_{i \in \hat{\mathbf{y}}^{j+}} \mathds{1}_{\hat{y}^{j}_{i} \geq b} \odot y^{j}_{i}$ (see end of this section, where we further refine the micro and macro concepts).
+
+Given the four confusion matrix quadrants, we can generate further metrics like precision and recall (see Table \ref{confusion-matrix}). However none of these metrics are decomposable due to the hard thresholding which is in effect a step function (see Figure \ref{fig:sigmoid}).
+
+A first remedy is to define \emph{unbounded} confusion matrix entries (i.e. \(\overline{tp}\), \(\overline{fp}\), \(\overline{fn}\) and  \(\overline{tn}\) are not natural numbers anymore):
 
 \begin{equation}
-\begin{aligned} P &=\frac{t p}{t p+f p} \\ R &=\frac{t p}{t p+f n}=\frac{t p}{\left|Y^{+}\right|} \end{aligned}
+\label{eq:unbounded}
+\begin{array}{ll} \overline{tp} = \sum \hat{\mathbf{y}} \odot \mathbf{y}  & \overline{fp} = \sum \hat{\mathbf{y}} \odot (\mathds{1} - \mathbf{y}) \\ \overline{fn} = \sum (\mathds{1} - \hat{\mathbf{y}}) \odot \mathbf{y} & \overline{tn} = \sum (\mathds{1} - \hat{\mathbf{y}}) \odot (\mathds{1} - \mathbf{y}),
+\end{array}
 \end{equation}
 
-We can then define \(F_\beta\), which can be expressed as the effectiveness of retrieval with respect to a user who attaches \(\beta\) times as much importance to recall than precision \cite{informationRetrieval}.
+% $$
+% \overline{tp}=\sum \hat{\mathbf{y}} \odot \mathbf{y} \quad \overline{fp} = \sum \hat{\mathbf{y}} \odot (\mathbf{1}- \mathbf{y}) \quad \overline{fn} = \sum (\mathbf{1} - \hat{\mathbf{y}}) \odot \mathbf{y}
+% $$
 
-\doubt{maybe ignore $F_\beta$ and only mention $F_1$}
+\(tp\), \(fp\), \(fn\) and \(tn\) are now replaced by rough surrogates. This method has the advantage of resulting in a linear loss function that avoids the concept of thresholding altogether and is trivial to decompose for stochastic gradient descent. The disadvantages are that (i) \(\hat{\mathbf{y}}\) is unbounded and thus certain examples can have over-proportional effects on the loss, (ii) It is non-saturated. While non-saturation is desirable for activation functions~\cite{saturation}, it would be here desirable to tend towards saturation (i.e. tend to values close to 0 or 1, so as to give the most accurate predictions at any thresholding values at inference time). (iii) The gradiant of that linear function is 1 and therefore backpropagation will not learn depending on different inputs at this stage of the loss function.
+
+
+\subsection{Smooth Confusion Matrix Entries}
+
+We propose the introduction of a sigmoid-based transformation that renders confusion matrix entries decomposable and tackles the three issues above:
 
 \begin{equation}
-F_{\beta}=\left(1+\beta^{2}\right) \frac{P \cdot R}{\beta^{2} P+R}
+\label{eq:smooth}
+\begin{array}{ll} \widetilde{\mathit{tp}} = \sum \mathbf{S}(\hat{\mathbf{y}}) \odot \mathbf{y}  & \widetilde{\mathit{fp}} = \sum \mathbf{S}(\hat{\mathbf{y}}) \odot (\mathds{1} - \mathbf{y}) \\ \widetilde{\mathit{fn}} = \sum (\mathds{1} - \mathbf{S}(\hat{\mathbf{y}})) \odot \mathbf{y} & \widetilde{\mathit{tn}} = \sum (\mathds{1} - \mathbf{S}(\hat{\mathbf{y}})) \odot (\mathds{1} - \mathbf{y}),
+\end{array}
 \end{equation}
 
-Or equivalently:
-
-\begin{equation}
-\begin{aligned} F_{\beta} &=\left(1+\beta^{2}\right) \frac{t p}{\left(1+\beta^{2}\right) t p+\beta^{2} f n+f p} \\ &=\left(1+\beta^{2}\right) \frac{t p}{\beta^{2}|Y+|+t p+f p} \end{aligned}
-\end{equation}
-
-Given the presence of the step indicator function \(\sum \mathds{1}_{\mathbf{p_i} \geq b}\), \(F_\beta\) is not differentiable for gradient based methods. One way of surpassing that problem is to use a smooth surrogate.
-
-\subsection{soft F1 score}
-\label{sec:org3ca83ef}
-
-It is possible define a \emph{soft F1} score \cite{softF1} \doubt{can we cite a Medium post?} with smooth confusion matrix entries (i.e. \(tp\), \(fp\) and \(fn\) are not natural numbers anymore):
-
-$$
-\overline{tp}=\sum \hat{\mathbf{y}} \odot \mathbf{y} \quad \overline{fp} = \sum \hat{\mathbf{y}} \odot (\mathbf{1}- \mathbf{y}) \quad \overline{fn} = \sum (\mathbf{1} - \hat{\mathbf{y}}) \odot \mathbf{y}
-$$
-
-\begin{equation}
-\mathcal{L}_{\text {softF1}}= \frac{\overline{tp}}{2 \overline{tp}+ \overline{fn}+ \overline{fp}}
-\end{equation}
-
-\(tp\), \(fp\) and \(fn\) are now replaced by rough surrogates, this method has the advantage of 
-
-% /softF1/ is
-% $$\mathcal{L}_{\text {Pred}}=\sum_{i, j}\left(\mathbf{y}_{i j}-\hat{\mathbf{y}}_{i j}\right)^{2}$$
-
-\subsection{sigmoidF1 score}
-\label{sec:orgc5d29d7}
-
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.9\linewidth]{./images/sigmoid.pdf}
-\caption{\label{fig:sigmoid}
-Sigmoid function with different values for $\beta$ (steepness) \& $\eta$ (offset)}
-\end{figure}
-
-We define \emph{sigmoidF1}, inspired by the \emph{Maximum F1-score criterion} for automatic mispronunciation detection \cite{sigmoid}. Whereas a sigmoid function \(S(u)\)
+with $\mathbf{S}(\cdot)$ the vectorial form of the sigmoid function $S(\cdot)$:
 
 \begin{equation}
 S(u; \beta, \eta)=\frac{1}{1+\exp (-\beta (u + \eta))},
 \end{equation}
 
-with \(\beta\) and \(\eta\) tunable parameters for slope and offset respectively. Higher \(\beta\) results in steeper slope at the center of the sigmoid and thus more stringent thresholding. At its extreme, \(lim_{\beta\to\infty} S(u; \beta, \eta)\) corresponds to the step function used in Equation \ref{eq:conf}. with \(S(u)\), the confusion matrix entries then become
+with \(\beta\) and \(\eta\) tunable parameters for slope and offset respectively. Higher \(\beta\) results in steeper slope at the center of the sigmoid and thus more stringent thresholding. At its extreme, \(lim_{\beta\to\infty} S(u; \beta, \eta)\) corresponds to the step function used in Equation \ref{eq:conf}.
 
-\begin{equation}\label{eq:sigmoidF1}
-\widetilde{\mathit{tp}}=\sum S(\hat{\mathbf{y}}) \odot \mathbf{y} \quad\widetilde{\mathit{fp}}= \sum S(\hat{\mathbf{y}}) \odot (\mathbf{1} - \mathbf{y}) \quad \widetilde{\mathit{fn}}= \sum (\mathbf{1} - S(\hat{\mathbf{y}})) \odot \mathbf{y}
-\end{equation}
 
-And thus
-
-\begin{equation}
-\mathcal{L}_{\text {sigmoidF1}}= \frac{\widetilde{\mathit{tp}}}{2 \widetilde{\mathit{tp}}+ \widetilde{\mathit{fn}}+ \widetilde{\mathit{fp}}}
-\end{equation}
-
-\doubt{mention smooth hinge loss} \cite{smoothHinge}
+These smooth confusion matrix entries allow to build any related metric (see Table \ref{tab:confusion-matrix}). Furthermore, the surrogate entries are decomposable, bounded, saturated and have a dynamic gradient.
 
 \begin{table*}[]
+\label{tab:confusion-matrix}
 \caption{Confusion matrix with our proposed smoothed confusion matrix entries, $\widetilde{\mathit{tp}}$, $\widetilde{\mathit{fp}}$, $\widetilde{\mathit{fn}}$ and $\widetilde{\mathit{tn}}$ and six derived loss functions that use these smoothed confusion matrix entries, with $\mathcal{L}_{\widetilde{\mathit{F1}}}$ that is used in our experiments.}
 \def\arraystretch{1.1}
 \begin{tabular}{|c||c|c||c|} \cline{2-4}
@@ -112,42 +85,78 @@ And thus
 \multicolumn{1}{l|}{} & & & \\
 \cline{2-4}
 \end{tabular}%
-\label{tab:my-table}
 \end{table*}
 
-For \emph{sigmoidF1} \(\beta\) and \(\eta\) are tuned globally as hyperparameters. \emph{SAdF1} (Sigmoid Adaptive F1), is an alternative where \(\beta\) is first set to a relatively low value and increased after each epoch. This way, a loose threshold first allows Stochastic Gradient Descent (SGD) to broadly scan the parameter space accross several local minima, before narrowing parameter search down to a promissing region (similarily to adaptive learning rates).
+In this paper we focus on $\mathcal{L}_{\widetilde{\mathit{F1}}}$ because it has the ability to implicitly penalize for both inacurate label propensity and label count.
 
-\emph{SBayesF1} (sigmoid Bayes F1) replaces point estimates for \(\beta\) and \(\eta\) with posterior distribution estimates. 
 
-\begin{equation}
-\dot{S}(u_i) = \frac{1}{1+\exp (-\beta_i (u_i + \eta_i))}
-\end{equation}
+\subsection{sigmoidF1 score}
+\label{sec:orgc5d29d7}
 
-$$ \beta_i \sim N(0, \sigma^{2}_{\beta}) $$
-
-$$ \eta_i \sim N(0, \sigma^{2}_{\eta}) $$
-
-\(\beta_i\) and \(\eta_i\) are estimated with MCMC at training time of the neural network. They are therefore implicitely allowed to vary across examples. The \(\dot{tp}\), \(\dot{fp}\) and \(\dot{fn}\) surrogates can be formulated similarly to Equation \ref{eq:sigmoidF1}. We thus have
+Following Equation \ref{eq:unbounded}, it is possible to define an \emph{unbounded F1} score\footnote{see~\cite{softF1} for a similar formulation}:
 
 \begin{equation}
-\mathcal{L}_{\text {SBayesF1}}= \frac{\dot{tp}}{2 \dot{tp}+ \dot{fn}+ \dot{fp}}
+\mathcal{L}_{\overline{\mathit{F1}}}= \frac{\overline{tp}}{2 \overline{tp}+ \overline{fn}+ \overline{fp}}
 \end{equation}
 
+$\mathcal{L}_{\overline{\mathit{F1}}}$ will be used to benchmark against our proposed \emph{smoothF1} loss. Thanks to the definitions of smooth confusion matrix metrics above, we can now write $\mathcal{L}_{\widetilde{\mathit{F1}}}$\footnote{A similar method was proposed outside of the context of neural networks: the \emph{Maximum F1-score criterion} for automatic mispronunciation detection \cite{sigmoid}.}
+
+\begin{equation}\label{eq:sigmoidF1}
+\mathcal{L}_{\widetilde{\mathit{F1}}}= \frac{\widetilde{\mathit{tp}}}{2 \widetilde{\mathit{tp}}+ \widetilde{\mathit{fn}}+ \widetilde{\mathit{fp}}}
+\end{equation}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.9\linewidth]{./images/sigmoid.pdf}
+\caption{\label{fig:sigmoid}
+Sigmoid function with different values for $\beta$ (steepness) \& $\eta$ (offset)}
+\end{figure}
+
+Similarly to the focal loss \cite{focalLoss}, sigmoidF1 loss deals with class imbalance and robustness to outliers.
+
+\todo{statistical robustness assessment}
+
+
+% Given the presence of the step indicator function \(\sum \mathds{1}_{\mathbf{p_i} \geq b}\), \(F_\beta\) is not differentiable for gradient based methods. One way of surpassing that problem is to use a surrogate.
+
+% \subsection{soft F1 score}
+% \label{sec:org3ca83ef}
+
+ % with smooth confusion matrix entries :
+
+
+
+% /softF1/ is
+% $$\mathcal{L}_{\text {Pred}}=\sum_{i, j}\left(\mathbf{y}_{i j}-\hat{\mathbf{y}}_{i j}\right)^{2}$$
+
+% \subsection{sigmoidF1 score}
+% \label{sec:orgc5d29d7}
+
+
+% \begin{figure}[htbp]
+% \centering
+% \includegraphics[width=.9\linewidth]{./images/sigmoid.pdf}
+% \caption{\label{fig:sigmoid}
+% Sigmoid function with different values for $\beta$ (steepness) \& $\eta$ (offset)}
+% \end{figure}
+
+%  with \(S(u)\), the confusion matrix entries then become
+
+% \begin{equation}\label{eq:sigmoidF1}
+% \widetilde{\mathit{tp}}=\sum S(\hat{\mathbf{y}}) \odot \mathbf{y} \quad\widetilde{\mathit{fp}}= \sum S(\hat{\mathbf{y}}) \odot (\mathbf{1} - \mathbf{y}) \quad \widetilde{\mathit{fn}}= \sum (\mathbf{1} - S(\hat{\mathbf{y}})) \odot \mathbf{y}
+% \end{equation}
+
+% And thus
+
+% \begin{equation}
+% \mathcal{L}_{\text {sigmoidF1}}= \frac{\widetilde{\mathit{tp}}}{2 \widetilde{\mathit{tp}}+ \widetilde{\mathit{fn}}+ \widetilde{\mathit{fp}}}
+% \end{equation}
+
+% \doubt{mention smooth hinge loss} \cite{smoothHinge}
 
 % $\doublewidetilde{tp}$
 % https://tex.stackexchange.com/questions/321231/double-widetilde
 % doesn't work
-
-\todo{try SadF1 and SBayesF1 in practice}
-
-
-\subsection{Robustness}
-\label{sec:org6c7c3d0}
-
-
-Similarly to the focal loss \cite{focalLoss}, sigmoidF1 loss deals with class imbalance, robustness to outliers.
-
-\todo{statistical robustness assessment}
 
 
 
@@ -159,17 +168,16 @@ Similarly to the focal loss \cite{focalLoss}, sigmoidF1 loss deals with class im
 The metrics described below are a result of a survey of different common practices for measuring accuracy of multilabel prediction. When true positives and false positives are used, recall that \(t p=\sum_{i \in Y^{+}} \mathds{1}_{\mathbf{p_i} \geq b}\) and \(f p=\sum_{i \in Y^{-}} \mathds{1}_{\mathbf{p_i} \geq b}\), and thus a threshold \(b\) must be set. When \(b = 0.5\), as is commonly done \todo{add source}, a risk remains that a lot of examples remain without predictions.
 
 Extending \(F_1\) to multi-class binary classification amounts to deciding wether to un/pool classes.
-In a first pooled iteration, micro \(F_1\) [SOURCE HERE] equates to creating a single 2x2 confusion matrix for all classes:
+In a first pooled iteration, micro \(F_1\)~\cite{multilabelMetrics} equates to creating a single 2x2 confusion matrix for all classes:
 $$F_1^{micro} = \frac{\sum tp_c}{2 \sum tp_c + \sum fn_c + \sum fp_c} \quad for \quad c \in C$$
 
-Macro \(F_1\) \cite{threshForF1} amounts to creating one confusion matrix per class or unpooling:
+Macro \(F_1\) \cite{threshForF1, multilabelMetrics} amounts to creating one confusion matrix per class or unpooling:
 
 $$F_1^{macro} = \frac{1}{c} \sum_{j=1}^c F_1$$
 
-\doubt{Do we need to justify optimizing for an F1 surrogate at training time and to then use F1 itself as a metric?}
 % $$F_1^{macro} = \frac{\sum tp_c}{2 \sum tp_c + \sum fn_c + \sum fp_c} \quad for \quad c \in C$$
 
-Weighted macro \(F_1\) \todo{find source} is similar but includes weighing to account for class imbalance, i.e. weighing each class by the number of groundtruth positives.
+Weighted macro \(F_1\)~\cite{weightedMetrics} is similar but includes weighing to account for class imbalance, i.e. weighing each class by the number of groundtruth positives.
 \begin{equation}
 F_1^{weighted} = \frac{1}{c} \sum_{j=1}^c n_j F_1 \text{ where } n_j = \sum_i \mathds{1}_{\mathbf{y_i^j} = 1}.
 \end{equation}
@@ -182,53 +190,21 @@ $$
 A c c=\frac{\mathit{tp} + \mathit{tn}}{\mathit{tp} + \mathit{tn} + \mathit{fp} + \mathit{fn}}
 $$
 
-Note that accuracy assigns equal cost to false positives and false negatives. This is particularly problematic in an unbalanced setup like here.
+Note that accuracy assigns equal cost to false positives and false negatives. This is particularly problematic in an unbalanced setup like here. We keep it as an evaluation matrix as it is commonly used in practice. More variations scores exist in the literature, such as hamming loss~\cite{hammingLoss} (the fraction of incorrectly predicted labels), hamming score.
 
 % - 'samples':
 % Calculate metrics for each instance, and find their average (only meaningful for multilabel classification where this differs from accuracy_score).
 
 % $$F_1^{micro} = \frac{\sum tp_c}{2 \sum tp_c + \sum fn_c + \sum fp_c} \quad for \quad c \in C$$
 
-More variations scores exist in the literature, such as hamming loss~\cite{hammingLoss} (the fraction of incorrectly predicted labels), hamming score.q
-
-you can find the tencent loss here: https://github.com/Tencent/tencent-ml-images/blob/master/train.py
-
 
 \todo{compare to this:} \cite{lossComp}
 
 \todo{Hamming Loss}
-\todo{Precision@K, Recall@K, NDCG@K}
+% \todo{Precision@K, Recall@K, NDCG@K}
 \todo{MLTSVM loss and the three-way loss inspired by it} \cite{MLTSVM} and \cite{MLTSVMThreeway}
 
-\todo{explain batch size mathematically for F1 surrogate losses}
-
-
-
-\textbf{Limitations and Future Work}
-
-it is debatable wether any task is intrinsincly multilabel and wether the image / text cannot be decomposed in parts that are single labeled.
-
-not long training and small models, but aibility to demonstrate the statement anyways.
-
-Although we have identified a niche where the proposed loss framework is advantageous, a lot of experimentations in different domains are needed to further assess its performance.
-
-\textbf{Future work}
-
-Apply the loss function to more sophisticated neural network architectures that use F1 score as an evaluation metric such as AC-SUM-GAN \cite{AC-SUM-GAN}.
-
-This model can be adapted for hiarchical multilabel classification \cite{HARAM} or active learning (for both see \cite{activeLearningMultiLabel}).
-
-Combine the proposed loss functions with representation learning \cite{unsupervisedImage,highResRepresentation} or self-supervised learning, in order to model abstract relationships between the labels.
-
-adapt to \emph{extreme} multilabel prediction \cite{extremeMultilabelText}
-
-implement the loss to train a CNN from scratch as was done by \cite{tencent}
-
-we propose to release our results on Kaggle in the weeks to come.
-
-dynamic weight freezing for finetuning~\cite{ULMFit}
-
-Another recently created dataset was made available for \emph{Large Scale Holistic Video Understanding} \cite{holisticVideoData}\footnote{Available at https://github.com/holistic-video-understanding/HVU-Dataset}, as defined in the introduction.
+% \todo{explain batch size mathematically for F1 surrogate losses}
 
 
 %%% Local Variables:

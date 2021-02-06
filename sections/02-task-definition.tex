@@ -19,6 +19,53 @@ We now briefly discuss the \emph{climbing-up} phenomenon described at the beginn
 
 \daan{I am not very convinced by this section. I can see how the three helped shaped your thoughts, but let's discuss whether it helps sell the paper.}
 
+\section{more F1}
+
+\subsection{F Beta}
+
+We also define precision and recall
+
+\begin{equation}
+\begin{aligned} P &=\frac{t p}{t p+f p} \\ R &=\frac{t p}{t p+f n}=\frac{t p}{\left|Y^{+}\right|} \end{aligned}
+\end{equation}
+
+We can then define \(F_\beta\), which can be expressed as the effectiveness of retrieval with respect to a user who attaches \(\beta\) times as much importance to recall than precision~\cite{informationRetrieval}.
+
+\doubt{maybe ignore $F_\beta$ and only mention $F_1$}
+
+\begin{equation}
+F_{\beta}=\left(1+\beta^{2}\right) \frac{P \cdot R}{\beta^{2} P+R}
+\end{equation}
+
+Or equivalently:
+
+\begin{equation}
+\begin{aligned} F_{\beta} &=\left(1+\beta^{2}\right) \frac{t p}{\left(1+\beta^{2}\right) t p+\beta^{2} f n+f p} \\ &=\left(1+\beta^{2}\right) \frac{t p}{\beta^{2}|Y+|+t p+f p} \end{aligned}
+\end{equation}
+
+
+\subsection{sad and bayes F1}
+
+
+
+For \emph{sigmoidF1} \(\beta\) and \(\eta\) are tuned globally as hyperparameters. \emph{SAdF1} (Sigmoid Adaptive F1), is an alternative where \(\beta\) is first set to a relatively low value and increased after each epoch. This way, a loose threshold first allows Stochastic Gradient Descent (SGD) to broadly scan the parameter space accross several local minima, before narrowing parameter search down to a promissing region (similarily to adaptive learning rates).
+
+\emph{SBayesF1} (sigmoid Bayes F1) replaces point estimates for \(\beta\) and \(\eta\) with posterior distribution estimates. 
+
+\begin{equation}
+\dot{S}(u_i) = \frac{1}{1+\exp (-\beta_i (u_i + \eta_i))}
+\end{equation}
+
+$$ \beta_i \sim N(0, \sigma^{2}_{\beta}) $$
+
+$$ \eta_i \sim N(0, \sigma^{2}_{\eta}) $$
+
+\(\beta_i\) and \(\eta_i\) are estimated with MCMC at training time of the neural network. They are therefore implicitely allowed to vary across examples. The \(\dot{tp}\), \(\dot{fp}\) and \(\dot{fn}\) surrogates can be formulated similarly to Equation \ref{eq:sigmoidF1}. We thus have
+
+\begin{equation}
+\mathcal{L}_{\text {SBayesF1}}= \frac{\dot{tp}}{2 \dot{tp}+ \dot{fn}+ \dot{fp}}
+\end{equation}
+
 
 
 % Similarly, recent research has shown that the singled-out elements can be located in the abstract representations (embeddings) of the feature set and might individually predict a single true label (like GPT-3 \todo{source}) \todo{more examples}. This might also carry prospects of generalizability of the model \cite{generalization} \todo{elaborate}.
