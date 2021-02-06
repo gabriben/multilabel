@@ -1,0 +1,78 @@
+% !TEX root = ../main.tex
+
+\section{Experimental Setup}
+\label{sec:orgb44ba25}
+
+sigmoidF1 is tested across different modalities, namely image and text, with a focus on text: the most comparable research was on text data. The dataset have in common that the entire image / text is predictive of its labels.
+
+% \doubt{optional paragraph}
+% In light of the problem definition leading to the sigmoidF1 framework in the introduction and in order to clearly delimit the proposed method, following are a few datasets that are not suitable for the task.
+
+\subsection{data}
+
+\todo{see if related work section comes before this and introduces ML-NET}
+
+For a broad scope in learning for text, we use the newly created \emph{Arxiv dataset}\footnote{Available at \url{https://www.kaggle.com/Cornell-University/arxiv}} with data on abstracts of 1.7 million open source articles and their categories (suitably mutually inclusive and of varying count per example). This dataset is to be distinguished from an earlier long document Arxiv datset: consists of content scraped from a small number of PDFs with 11 classes \cite{oldArxiv} and was used in a recent long transformer publication~\cite{bigBird}. In \textit{Arxiv2020}, we subset the \emph{Arxiv dataset} into its 2020 content, given limited computing power. This results in around 26k abstracts.
+
+
+ML-NET~\cite{multitaskLabel} is the state-of-the-art in \emph{algorithm adaptation} for text to the best of our knowledge. Among the three datasets used for benchmarking ML-NET, the cancerHallmark~\cite{cancerHallmarks}\footnote{Available at \url{https://github.com/sb895/Hallmarks-of-Cancer}} and chemicalExposure~\cite{chemExposure}\footnote{Available at \url{https://github.com/sb895/chemical-exposure-information-corpus}} datasets are of multi-instance multilabel nature: several expressions are annotated within each paper abstracts. The third dataset diagnosisCodes could not be recovered, upon contacting the authors of both ML-NET and the original paper~\cite{diagnosisCode}. 
+
+In the vision domain, a dataset of movie posters\footnote{Labels available at https://tinyurl.com/y7ydyedu and prescraped images from IMDB at https://tinyurl.com/y7lfpvlx} and their genre (e.g. \emph{action}, \emph{comedy}) is used. Similarly, labels are mutually inclusive and of varying count per example. 
+
+\begin{table}
+\caption{Descriptive Statistics}
+\label{tab:arxiv2020}
+\centering
+% \begin{adjustbox}{max width=\textwidth}
+\begin{tabular}{l ccccc}
+\toprule
+Dataset & Type & num classes & avg num labels & sample size\\
+\midrule
+Arxiv2020 & text & 155 & 1.888 (2) & 26558\\ 
+moviePosters & image & 0 & 0 & 0\\
+chemExposure & text & 38 & 6.116 (6) & 3661\\
+cancerHallmarks & text & 302 & 7.317 (6) & 1582\\
+\bottomrule
+\end{tabular}
+% \end{adjustbox}
+\end{table}
+
+\subsection{Hardware and Neural Network Architecture}
+
+We performed our experiments on AWS machines with parallelization on up to 16 GPUs \textit{p2.16xlarge}, with Tensorflow2 as a gradient-descent backend. The learning framework consists of two parts: a pretrained deep neural network and a classification head. Since the focus of this paper is in comparing loss functions and not neural network architectures, efficient  (accuracy / computing time) architectures were chosen, to spare time and energy.
+For the text datasets, the pretrained network Huggingface's pretrained~\cite{distilBert} is used as it is a particularly efficient Bert model\footnote{the pretrained network can be loaded here \url{https://huggingface.co/transformers/model_doc/distilbert.html}}. For the image dataset, we use MobileNetV2~\cite{mobileNet}. It is pretrained on ImageNet~\cite{imagenet} and is typically used for inference on small computing devices (e.g. smartphones). We use a version of MobileNetV2 already stripped off of its original classification head  \footnote{the pretrained network can be loaded here \url{https://tfhub.dev/google/imagenet/mobilenet_v2_100_224/feature_vector/4}}.
+
+In order to make sure that the results of different loss functions are comparable, we fix the model weights of the pretrained CNN and DistilBert and keep the hyperparameter values that were used to train them from scratch. We also use the same Tensorflow2 internal random seeds.
+
+A similar classification head is used for both models. It consists of a latent representation layer connected with a RELU activation. The latter layer is linked to a final classification layer with a linear activation. The dimension of the final layer is equal to the number of classes in the dataset. When computing focalLoss, crossEntropy and tencentLoss\footnote{you can find the original tencent loss here: https://github.com/Tencent/tencent-ml-images/blob/master/train.py. We translated it from a Tensorflow1 to a Tensorflow2 script in our available code.}, a softmax transformation transforms the unbounded last layer to a $[0,1]$ bounded vector. When computing sigmoidF1 loss, a sigmoid transformation is operated instead, which results in a sparser $[0,1]$ vector. At inference time, the last layer is used for prediction and is bounded with a softmax function. A threshold must then be chosen at evaluation time to compute different metrics.
+
+\subsection{Hyperparameters and Reproducibility}
+
+We define a global irrelevance threshold $t$ for classes: any class $c$ that is represented less than $t$ times is considered irrelevant. We decided to set an irrelevance threshold $t$ on all datasets prior to conducting experiments, so as to not finetune for that feature. It was set to 1'000 for \emph{Arxiv2020} (145 classes remaining) and \emph{moviePosters} (14 classes remaining) and at 10 for \emph{chemicalExposure} and \emph{cancerHallmarks}, in proportion to the number of classes and labels in each dataset. The sensitivity study below illustrates what happens when we let $t$ vary over the Arxiv2020 dataset.
+\todo{fill in in remaining classes for medical datasets}
+
+Batch size is set at a high value of 256. We thus increase accuracy over traditional losses~\cite{bigBS}, but also allow heterogeneity in the examples within the batch, thus collecting enough values in  each quadrant of the confusion matrix. In a future research, it would be interesting to establish the minimum required batch size for sigmoidF1.
+
+Regarding sigmoidF1 hyperparameters, namely $\beta$ and $\eta$, we performed a grid search with the values in the regions $[1;30]$ and $[0;2]$ respectively (see Figure \ref{fig:sigmoid} as a reference). Note that negative values of $\beta$ geometrically reflect the sigmoid function across the horizontal line at $0.5$ and thus invert predictions.
+
+We made sure to split the data in the same train/validation/test sets for each different loss function. You can download our code to retrieve the exact train, valid and test sets.
+
+% \subsection{Inference Time}
+
+% As illustrated in the previous section, there are different ways of compounding metrics over each class for multilabel classification (mainly, micro, macro and weighted metrics). Certain loss functions such as focal loss and  For the sake of Macro compounding was used on all loss functions, since certain 
+
+% Cancer can be described according to its complexity with different principles, named hallmarks cite:cancerHallmarks. A corpus of 1580 PubMed abstracts are manually annotated for 10 hallmarks. This is a multi-instance labelling task and will therefore not be used here.
+
+% [[./images/cancerHallmarksAnnotation.jpg]]
+
+% - Multilabel classification for text cite:toxicComments
+
+% - Scenery dataset for images cite:dataScenery.
+
+% \todo{this is an ambitious number of datasets. Add longer description of each dataset, depending on which ones I keep: sample size, number of classes etc. see utils here: https://github.com/ashrefm/multi-label-soft-f1}
+
+
+%%% Local Variables:
+%%% mode: plain-tex
+%%% TeX-master: "../meta"
+%%% End:
