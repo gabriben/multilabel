@@ -1,0 +1,49 @@
+% !TEX root = ../main.tex
+
+\section{Conclusion}
+\label{sec:orged3d8a1}
+\mdr{Structure the conclusion in five paragraphs, devoted to the following questions:}
+\begin{itemize}[leftmargin=*]
+\item What did we do
+\item What did we find
+\item What are the implications
+\item What are the limitations
+\item What should we do next
+\end{itemize}
+
+
+\textbf{Results}
+
+In this paper we defined a new problem in deep learning for mulitple modalities that harness the current advances in abstract representation of the input space. A general loss framework is proposed to locate that solution within the existing multiclass multilabel losses and a specific loss function is formulated. \emph{sigmoidF1} achieves signifiantly better results for different F1 metrics on all datasets.
+
+\textbf{Limitations and Future Work}
+
+it is debatable wether any task is intrinsincly multilabel and wether the image / text cannot be decomposed in parts that are single labeled.
+
+% not long training and small models, but aibility to demonstrate the statement anyways.
+
+Although we have identified a niche where the proposed loss framework is useful, a lot of experimentations in different domains are needed to further assess its performance.
+
+\textbf{Future work}
+
+Apply the loss function to more sophisticated neural network architectures that use F1 score as an evaluation metric such as AC-SUM-GAN \cite{AC-SUM-GAN}.
+
+This model can be adapted for hiarchical multilabel classification \cite{HARAM} or active learning (for both see \cite{activeLearningMultiLabel}). adapt to \emph{extreme} multilabel prediction \cite{extremeMultilabelText, extremeSIGIR}.
+
+Combine the proposed loss functions with representation learning \cite{unsupervisedImage,highResRepresentation} or self-supervised learning, in order to model abstract relationships between the labels.
+
+
+
+implement the loss to train a CNN from scratch as was done by \cite{tencent}
+
+we propose to release our results on Kaggle in the weeks to come.
+
+dynamic weight freezing for finetuning~\cite{ULMFit}
+
+Another recently created dataset was made available for \emph{Large Scale Holistic Video Understanding} \cite{holisticVideoData}\footnote{Available at https://github.com/holistic-video-understanding/HVU-Dataset}, as defined in the introduction.
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../main"
+%%% End:
