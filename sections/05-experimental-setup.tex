@@ -20,19 +20,21 @@ ML-NET~\cite{multitaskLabel} is the state-of-the-art in \emph{algorithm adaptati
 In the vision domain, a dataset of movie posters\footnote{Labels available at https://tinyurl.com/y7ydyedu and prescraped images from IMDB at https://tinyurl.com/y7lfpvlx} and their genre (e.g. \emph{action}, \emph{comedy}) is used. Similarly, labels are mutually inclusive and of varying count per example. 
 
 \begin{table}
-\caption{Datasets}
+\caption{Descriptive Statistics}
 \label{tab:arxiv2020}
 \centering
+% \begin{adjustbox}{max width=\textwidth}
 \begin{tabular}{l ccccc}
 \toprule
-Dataset & Type & \# classes & $\varnothing$ \# labels & sample size\\
+Dataset & Type & num classes & avg num labels & sample size\\
 \midrule
-Arxiv2020 & text & 155 & 1.888 (2.0) & 26558\\ 
+Arxiv2020 & text & 155 & 1.888 (2) & 26558\\ 
 moviePosters & image & 0 & 0 & 0\\
+chemExposure & text & 38 & 6.116 (6) & 3661\\
 cancerHallmarks & text & 302 & 7.317 (6) & 1582\\
-chemExposure & text & 0 & 0 & 0\\
 \bottomrule
 \end{tabular}
+% \end{adjustbox}
 \end{table}
 
 \subsection{Hardware and Neural Network Architecture}

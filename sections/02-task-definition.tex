@@ -21,13 +21,17 @@ We now briefly discuss the \emph{climbing-up} phenomenon described at the beginn
 
 \section{more F1}
 
+\subsection{Accuracy}
+
+Accuracy is the overall fraction of correctly predicted labels \cite{threshForF1}:
+
+$$
+A c c=\frac{\mathit{tp} + \mathit{tn}}{\mathit{tp} + \mathit{tn} + \mathit{fp} + \mathit{fn}}
+$$
+
+Note that accuracy assigns equal cost to false positives and false negatives. This is particularly problematic in an unbalanced setup like here. We keep it as an evaluation matrix as it is commonly used in practice.
+
 \subsection{F Beta}
-
-We also define precision and recall
-
-\begin{equation}
-\begin{aligned} P &=\frac{t p}{t p+f p} \\ R &=\frac{t p}{t p+f n}=\frac{t p}{\left|Y^{+}\right|} \end{aligned}
-\end{equation}
 
 We can then define \(F_\beta\), which can be expressed as the effectiveness of retrieval with respect to a user who attaches \(\beta\) times as much importance to recall than precision~\cite{informationRetrieval}.
 

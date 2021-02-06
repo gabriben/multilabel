@@ -78,9 +78,9 @@ These smooth confusion matrix entries allow to build any related metric (see Tab
 \multicolumn{1}{l|}{} & \textbf{Condition} & \textbf{Condition} & \multirow{2}{*}{$\mathcal{L}_{\widetilde{\mathit{Accuracy}}}= \frac{\widetilde{\mathit{tp}} + \widetilde{\mathit{tn}}}{\widetilde{\mathit{tp}} + \widetilde{\mathit{fp}} + \widetilde{\mathit{tn}} + \widetilde{\mathit{fn}}}$} \\
 \multicolumn{1}{l|}{} & \textbf{positive} &  \textbf{negative} & \\ \hline \hline
 \textbf{~Predicted~} & True positive & False positive & \multirow{2}{*}{$\mathcal{L}_{\widetilde{\mathit{Precision}}}= \frac{\widetilde{\mathit{tp}}}{\widetilde{\mathit{tp}} + \widetilde{\mathit{fp}}}$} \\
-\textbf{positive} & $\widetilde{\mathit{tp}}=\sum S(\hat{\mathbf{y}}) \odot \mathbf{y}$ & $\widetilde{\mathit{fp}}= \sum S(\hat{\mathbf{y}}) \odot (\mathbf{1} - \mathbf{y})$ & \\ \hline
+\textbf{positive} & $\widetilde{\mathit{tp}}=\sum \mathbf{S}(\hat{\mathbf{y}}) \odot \mathbf{y}$ & $\widetilde{\mathit{fp}}= \sum \mathbf{S}(\hat{\mathbf{y}}) \odot (\mathds{1} - \mathbf{y})$ & \\ \hline
 \textbf{Predicted} & False negative & True Negative & \multirow{2}{*}{$\mathcal{L}_{\widetilde{\mathit{NPV}}}= \frac{\widetilde{\mathit{tn}}}{\widetilde{\mathit{tn}} + \widetilde{\mathit{fn}}}$} \\
-\textbf{negative} & $\widetilde{\mathit{fn}}= \sum (\mathbf{1} - S(\hat{\mathbf{y}})) \odot \mathbf{y}$ & $\widetilde{\mathit{tn}}= \sum (\mathbf{1} - S(\hat{\mathbf{y}})) \odot (\mathbf{1} - \mathbf{y})$ & \\ \hline \hline
+\textbf{negative} & $\widetilde{\mathit{fn}}= \sum (\mathds{1} - \mathbf{S}(\hat{\mathbf{y}})) \odot \mathbf{y}$ & $\widetilde{\mathit{tn}}= \sum (\mathds{1} - \mathbf{S}(\hat{\mathbf{y}})) \odot (\mathds{1} - \mathbf{y})$ & \\ \hline \hline
 \multicolumn{1}{l|}{} & \multirow{2}{*}{\hspace{1.2em}$\mathcal{L}_{\widetilde{\mathit{Recall}}}= \frac{\widetilde{\mathit{tp}}}{\widetilde{\mathit{tp}} + \widetilde{\mathit{fn}}}$\hspace{1.2em}}& \multirow{2}{*}{$\mathcal{L}_{\widetilde{\mathit{Specificity}}}= \frac{\widetilde{\mathit{tn}}}{\widetilde{\mathit{fp}} + \widetilde{\mathit{tn}}}$} & \multirow{2}{*}{$\mathcal{L}_{\widetilde{\mathit{F1}}}= \frac{\widetilde{\mathit{tp}}}{2 \widetilde{\mathit{tp}}+ \widetilde{\mathit{fn}}+ \widetilde{\mathit{fp}}}$} \\
 \multicolumn{1}{l|}{} & & & \\
 \cline{2-4}
@@ -109,7 +109,7 @@ $\mathcal{L}_{\overline{\mathit{F1}}}$ will be used to benchmark against our pro
 \centering
 \includegraphics[width=.9\linewidth]{./images/sigmoid.pdf}
 \caption{\label{fig:sigmoid}
-Sigmoid function with different values for $\beta$ (steepness) \& $\eta$ (offset)}
+insert caption here}
 \end{figure}
 
 Similarly to the focal loss \cite{focalLoss}, sigmoidF1 loss deals with class imbalance and robustness to outliers.
@@ -184,25 +184,18 @@ F_1^{weighted} = \frac{1}{c} \sum_{j=1}^c n_j F_1 \text{ where } n_j = \sum_i \m
 
 % $$F_1^{weighted} = \frac{\sum tp_c}{2 \sum tp_c + \sum fn_c + \sum fp_c} \quad for \quad c \in C$$
 
-Accuracy is the overall fraction of correctly predicted labels \cite{threshForF1}:
+We also define precision and recall
 
-$$
-A c c=\frac{\mathit{tp} + \mathit{tn}}{\mathit{tp} + \mathit{tn} + \mathit{fp} + \mathit{fn}}
-$$
+\begin{equation}
+\begin{aligned} P &=\frac{t p}{t p+f p} \\ R &=\frac{t p}{t p+f n}=\frac{t p}{\left|Y^{+}\right|} \end{aligned}
+\end{equation}
 
-Note that accuracy assigns equal cost to false positives and false negatives. This is particularly problematic in an unbalanced setup like here. We keep it as an evaluation matrix as it is commonly used in practice. More variations scores exist in the literature, such as hamming loss~\cite{hammingLoss} (the fraction of incorrectly predicted labels), hamming score.
+More variations scores exist in the literature, such as hamming loss~\cite{hammingLoss} (the fraction of incorrectly predicted labels), hamming score.
 
 % - 'samples':
 % Calculate metrics for each instance, and find their average (only meaningful for multilabel classification where this differs from accuracy_score).
 
 % $$F_1^{micro} = \frac{\sum tp_c}{2 \sum tp_c + \sum fn_c + \sum fp_c} \quad for \quad c \in C$$
-
-
-\todo{compare to this:} \cite{lossComp}
-
-\todo{Hamming Loss}
-% \todo{Precision@K, Recall@K, NDCG@K}
-\todo{MLTSVM loss and the three-way loss inspired by it} \cite{MLTSVM} and \cite{MLTSVMThreeway}
 
 % \todo{explain batch size mathematically for F1 surrogate losses}
 

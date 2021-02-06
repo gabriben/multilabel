@@ -180,6 +180,8 @@ Although predictions and counts explicitly appear in that formulation,
 \(\mathcal{L}_{\text {multilabel}}\) can optimize for both metrics implicitly
 (see proposed \emph{sigmoidF1} below).
 
+\todo{further justify our approach here}
+
 \subsection{Towards smooth loss functions that optimize learning
 in SIMPUL problems}
 In summary, in the case of \emph{problem transformation},
@@ -189,7 +191,7 @@ learning algorithm are changed (such as the backpropagation procedure or the
 tasks). We propose a solution aligned with the algorithm adaptation paradigm,
 where we propose a custom loss formulation to solve SIMPUL problems.
 
-In machine learning prediction tasks, the probabilistic (or a reversible
+In machine learning prediction tasks, the probabilistic measure (or a reversible
 transformation of a probabilistic measure such as a sigmoid or a softmax
 function) are compared to binary values in the case of binary encoding of
 classes. At inference time, if the number $n_i$ of labels to be predicted per
@@ -203,6 +205,20 @@ examples. This threshold can optimize for specificity or
 sensitivity~\cite{decisionThreshold}. We propose a method where this threshold
 is implicitely defined, thanks to the use of metrics that already penalize for
 wrong label counts.
+
+Thresholding accross classes or examples can be an issue as soon as the number of labels to predict is unknown. Certain variants of cross-entropy loss accommodate imbalanced label data  \cite{focalLoss}, but remain agnostic towards the number of labels to predict. Solutions have been tailored to that end, starting with determining an ideal global \emph{threshold} depending on use-cases \cite{threshForF1}, or per-class-thresholding after training \cite{moviePosters} and eventually abstracting the threshold away via a \emph{soft-F1} measure \cite{softF1}. In the latter two cases, the task is to predict genre from movie posters.
+
+The proposed method is positioned in the lineage of \emph{algorithm adaptation}, using \emph{metric as losses} and allowing for dynamic \emph{thresholding}. 
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.9\linewidth]{./images/knee.png}
+\caption{\label{fig:knee}
+\todo{nicer plot on another dataset (this is from RTL)}
+Ordered per-label cross-entropy predictions for each example (each grey line) with the median (orange) and IQR (green \& blue) over all examples. Determining a global threshold can be related to visually finding the ``knee'' in that median curve (dotted line).}
+\end{figure}
+
+\todo{combine the two next paragraphs}
 
 Often, machine learning post-training evaluation metrics (e.g. AUROC, F1) are
 not differentiable. There are motivations \todo{which motivations} for
