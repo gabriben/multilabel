@@ -5,12 +5,54 @@
 
 
 
-% This section will be guided by the previous section's formulation of the multitags problem, we will therefore focus on \emph{algorithm adaptation}, \emph{metrics as losses} and \emph{thresholding}.
+\subsection{fit-data-to-algorithm}
 
-% \subsection{Algorithm adaptation}
+There is also relatively little hierarchical relationships. In a case like prediction of a music genre, there is no theory on how many labels a piece of music should be given.
+
+State-of-the-art CNN and attention based models for text~\cite{XLNet, bigBird, } and image respectively still use the fit-data-to-algorithm framework even when fine-tuning for multilabel classification tasks on datasets like IMDB, Yelp-2, Yelp-5, DBpedia, AG, Amazon-2, and Amazon-5 for text and .  XLNet uses adversarial loss, BigBird uses cross-entropy as most Bert models do...
+
+\subsection{fit-algorithm-to-data}
+
+
+
+
+Early representatives of fit-algorithm-to-data stem from heterogenous
+domains of machine learning. Multi-Label k-Nearest Neighbors \cite{ML-KNN},
+Multi-Label Decision Tree \cite{ML-DT}, Ranking Support Vector Machine
+\cite{multilabelSVM} and Backpropagation for Multi-Label Learning
+\cite{multilabelBackprop}. More recently, two papers introduced the idea of
+multitask learning for \emph{label prediction} and \emph{label count
+prediction} for text (ML\(_{\text{NET}}\)) \cite{multitaskLabel} and image
+\cite{multitaskLabelImages, tencent} data. The latter research is loosely catered
+towards object detection (although not formally presented as such) and is thus
+out-of-scope: elements in a picture are predicted that tend to be unilabel as
+defined by the groundtruth (e.g. cat, flower, vase, person, bottle etc.).
+
+
+\subsection{thresholding}
+
+Thresholding accross classes or examples can be an issue as soon as the number of labels to predict is unknown. Certain variants of cross-entropy loss accommodate imbalanced label data  \cite{focalLoss}, but remain agnostic towards the number of labels to predict. Solutions have been tailored to that end, starting with determining an ideal global \emph{threshold} depending on use-cases \cite{threshForF1}, or per-class-thresholding after training \cite{moviePosters} and eventually abstracting the threshold away via a \emph{soft-F1} measure \cite{softF1}. In the latter two cases, the task is to predict genre from movie posters.
+
+\subsection{Metrics as Losses}
+
+Often, machine learning post-training evaluation metrics (e.g. AUROC, F1) are
+not differentiable. There are motivations \todo{which motivations} for
+optimizing a model directly on a metric at training time. A general framework
+for AUC, AUROC and F1 is presented in \cite{optimizableLosses}, but the
+proposed F1 surrogate remains short of being explicitly derived for stochastic
+gradient descent. Recently, a similar work has been proposed to train a
+Convolutional Neural Network (CNN) from scratch with a few millions of images
+and hundreds of labels specifically for multilabel tasks \cite{tencent}. This
+task is loosely related to object detection, similarly to
+\cite{multitaskLabelImages} mentioned in the previous paragraph.
+
+
+% This section will be guided by the previous section's formulation of the multitags problem, we will therefore focus on \emph{fit-algorithm-to-data}, \emph{metrics as losses} and \emph{thresholding}.
+
+% \subsection{fit-algorithm-to-data}
 % \label{sec:org150a474}
 
-% % Early representatives of \emph{algorithm adaptation} stem from heterogenous domains of machine learning. Multi-Label k-Nearest Neighbors \cite{ML-KNN}, Multi-Label Decision Tree \cite{ML-DT}, Ranking Support Vector Machine \cite{multilabelSVM} and Backpropagation for Multi-Label Learning \cite{multilabelBackprop}. More recently, two papers introduced the idea of multitask learning for \emph{label prediction} and \emph{label count prediction} for text (ML\(_{\text{NET}}\)) \cite{multitaskLabel} and image \cite{multitaskLabelImages} data. The latter research is loosely catered towards object detection (although not formally presented as such) and is thus out-of-scope: elements in a picture are predicted that tend to be unilabel as defined by the groundtruth (e.g. cat, flower, vase, person, bottle etc.).
+% % Early representatives of \emph{fit-algorithm-to-data} stem from heterogenous domains of machine learning. Multi-Label k-Nearest Neighbors \cite{ML-KNN}, Multi-Label Decision Tree \cite{ML-DT}, Ranking Support Vector Machine \cite{multilabelSVM} and Backpropagation for Multi-Label Learning \cite{multilabelBackprop}. More recently, two papers introduced the idea of multitask learning for \emph{label prediction} and \emph{label count prediction} for text (ML\(_{\text{NET}}\)) \cite{multitaskLabel} and image \cite{multitaskLabelImages} data. The latter research is loosely catered towards object detection (although not formally presented as such) and is thus out-of-scope: elements in a picture are predicted that tend to be unilabel as defined by the groundtruth (e.g. cat, flower, vase, person, bottle etc.).
 
 % \subsection{Metrics as losses}
 % \label{sec:orgb0a9d21}
@@ -27,7 +69,7 @@
 
 
 
-% The proposed method is positioned in the lineage of \emph{algorithm adaptation}, using \emph{metric as losses} and allowing for dynamic \emph{thresholding}.
+% The proposed method is positioned in the lineage of \emph{fit-algorithm-to-data}, using \emph{metric as losses} and allowing for dynamic \emph{thresholding}.
 
 % \todo{compare to this:} \cite{lossComp}
 

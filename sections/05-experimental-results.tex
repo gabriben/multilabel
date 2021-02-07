@@ -6,6 +6,9 @@
 We show results on four different datasets, moviePosters, cancerHallmarks, chemicalExposure and Arxiv2020.
 Interestingly, tencentLoss and focalLoss, which are specifically tailored for sparse data, do not perform well here. Note that macroSoftF1 can be particularly performent without requiring hyperparameter tuning. Across Tables \ref{tab:chemicalExposure, tab:moviePosters, tab:arxiv2020, tab:cancerHallmarks} we see that the smooth sigmoidF1 outperforms other existing losses. Although only the metrics@0.5 are shown, where 0.5 is the dichotomization threshold, the ablation study and our open sourced code further illustrates the consistent good performance of sigmoidF1 versus other losses.
 
+
+For the two medical datasets cancerHallmarks and chemicalExposure, information is a lot more sparse, we thus set the evaluation metrics threshold at 0.05 and train for 500 epochs until reaching convergence. 
+
 \subsection{Ablation Study - Arxiv2020}
 
 We performed an analysis of sensitivity to different amount of labels. For this, the irrelevance threshold (see definition in Section \ref{sec:orgb44ba25}) $t$ was set to the values 0, 10, 100 and 1000. This time, results are shown with dichotomization thresholds of 0.1 to 0.9. \todo{see if keep it}
@@ -65,14 +68,13 @@ $\mathcal{L}_{\text {sigmoidF1}}$ & \textbf{0.093} & \textbf{0.106} & \textbf{0.
 \centering
 \begin{tabular}{l ccccc}
 \toprule 
-Loss  & \rotatebox{90}{macroF1 @ 0.5} & \rotatebox{90}{microF1 @ 0.5} & \rotatebox{90}{weightedF1 @ 0.5} & \rotatebox{90}{Precision @ 0.5} & \rotatebox{90}{Recall @ 0.5}\\ 
+Loss  & \rotatebox{90}{macroF1 @ 0.05} & \rotatebox{90}{microF1 @ 0.05} & \rotatebox{90}{weightedF1 @ 0.05} & \rotatebox{90}{Precision @ 0.05} & \rotatebox{90}{Recall @ 0.05}\\ 
 \midrule
-$\mathcal{L}_{\text {CE}}$ & 0 & 0 & 0 & 0 & 0 \\ 
-$\mathcal{L}_{\text {FL}}$ & 0 & 0 & 0 & 0 & 0 \\
+$\mathcal{L}_{\text {CE}}$ & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\ 
+$\mathcal{L}_{\text {FL}}$ & 0.044 & 0.190 & 0.108 & 0.071 & 0.055 \\
 % $\mathcal{L}_{\text {CE+N}}$ & 0 & 0 & 0 & 0 & 0 \\
-$\mathcal{L}_{\text {CE+T}}$ & 0 & 0 & 0 & 0 & 0 \\
-$\mathcal{L}_{\text {macroSoftF1}}$ & 0 & 0 & 0 & 0 & 0 \\
-$\mathcal{L}_{\text {sigmoidF1}}$ & \textbf{0} & \textbf{0} & \textbf{0} & \textbf{0} & \textbf{0} \\ % run aa424792a57e4208ad1805cd6e63f8e6
+$\mathcal{L}_{\text {macroSoftF1}}$ & 0.098 & 0.176 & 0.170 & 0.089 & 0.131 \\
+$\mathcal{L}_{\text {sigmoidF1}}$ & \textbf{0.068} & \textbf{0.269} & \textbf{0.154} & \textbf{0.081} & \textbf{0.144} \\ % run aa424792a57e4208ad1805cd6e63f8e6
 \bottomrule
 \end{tabular}
 \end{table}
@@ -84,14 +86,12 @@ $\mathcal{L}_{\text {sigmoidF1}}$ & \textbf{0} & \textbf{0} & \textbf{0} & \text
 \centering
 \begin{tabular}{l ccccc}
 \toprule
-Loss  & \rotatebox[origin=c]{90}{macroF @ 0.5} & \rotatebox[origin=c]{90}{microF1 @ 0.5} & \rotatebox[origin=c]{90}{weightedF1 @ 0.5} & \rotatebox[origin=c]{90}{Precision @ 0.5} & \rotatebox[origin=c]{90}{Recall @ 0.5}\\ 
+Loss  & \rotatebox{90}{macroF1 @ 0.05} & \rotatebox{90}{microF1 @ 0.05} & \rotatebox{90}{weightedF1 @ 0.05} & \rotatebox{90}{Precision @ 0.05} & \rotatebox{90}{Recall @ 0.05}\\ 
 \midrule
-$\mathcal{L}_{\text {CE}}$ & 0 & 0 & 0 & 0 & 0 \\ % Run 71ef078f975649d5b3d897e504bc638b
-$\mathcal{L}_{\text {FL}}$ & 0 & 0 & 0 & 0 & 0 \\
-% $\mathcal{L}_{\text {CE+N}}$ & 0 & 0 & 0 & 0 & 0 \\
-$\mathcal{L}_{\text {CE+T}}$ & 0 & 0 & 0 & 0 & 0 \\
-$\mathcal{L}_{\text {macroSoftF1}}$ & 0 & 0 & 0 & 0 & 0 \\ % run 405a6e6851e84a89a82313251a7a36e8 (18-19 jan)
-$\mathcal{L}_{\text {sigmoidF1}}$ & \textbf{0} & \textbf{0} & \textbf{0} & \textbf{0} & \textbf{0} \\ % run bd478ca55eb64cc78d9ad0f25accce35 (18-19 jan)
+$\mathcal{L}_{\text {CE}}$ & 0.012 & 0.058 & 0.051 & 0.047 & 0.007 \\ % Run 71ef078f975649d5b3d897e504bc638b
+$\mathcal{L}_{\text {FL}}$ & 0.0934 & 0.348 & 0.268 & 0.130 & 0.091 \\
+$\mathcal{L}_{\text {macroSoftF1}}$ & 0.133 & 0.194 & 0.218 & 0.155 & 0.138 \\ % run 405a6e6851e84a89a82313251a7a36e8 (18-19 jan)
+$\mathcal{L}_{\text {sigmoidF1}}$ & \textbf{0.094} & \textbf{0.423} & \textbf{0.285} & \textbf{0.079} & \textbf{0.154} \\ % run bd478ca55eb64cc78d9ad0f25accce35 (18-19 jan)
 \bottomrule
 \end{tabular}
 \end{table}
