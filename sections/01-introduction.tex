@@ -13,37 +13,27 @@ Parallel, and Cluster Computing (cs.DC)}, and \textit{Machine Learning
 These two examples are representative of a large class of classification problems that have several characteristics in common: 
 \begin{enumerate}[label=(\arabic*),leftmargin=*]
 \item The possibility of assigning more than one label to a single instance is desirable (i.e., labels are not mutually exclusive). 
-\item The instance being labeled needs to inspected or consumed in its entirety before a full set of class labels can be determined. E.g., it requires an entire viewing of the movie \textit{Tenet} to determine if the label \textit{romance} is appropriate, as it is arguably the underlying driver of the protagonists. In other words, it would be hard to isolate a simple characteristic of an instance that is uniquely predictive of a label.
+\item The instance being labeled needs to be inspected or consumed in its entirety before a full set of class labels can be determined. E.g., it requires an entire viewing of the movie \textit{Tenet} to determine if the label \textit{romance} is appropriate, as it is arguably the underlying driver of the protagonists. In other words, it would be hard to isolate a simple characteristic of an instance that is uniquely predictive of a label.
 \item The number of labels to assign to an instance is unknown at inference time.
 \end{enumerate}
 
 \paragraph{Learning task}
 We refer to learning tasks that share the three characteristics listed above as Full-instance, Multi-label Prediction for Unknown Label counts, or FIMPUL, for short. 
 Characteristic (1) is captured by the \emph{multi-label} predicate; characteristic (2) by \emph{full-instance}, and characteristic (3) by \emph{unknown label count}.
-As we show in the experimental results and related work sections below, FIMPUL learning tasks are very common in \ac{IR}.
+As we show in the experimental results and related work sections below, FIMPUL learning tasks are very common in IR. Document and text classification are often a FIMPUL task and have historically focused a lot of attention in IR~\cite{IRClassStat, textCategorization, statTextCategorization, documentClassification}. Other IR related examples are query classification~\cite{queryClassification}, image classification~\cite{imageClassification} and most recently the \textit{multimodal product classification and retrieval challenge} at SIGIR~\footnote{https://sigir-ecom.github.io/data-task.html}.
 
 \paragraph{Previous solutions to FIMPUL tasks}
 To solve multi-label learning tasks, existing optimization frameworks are typically based on variations of the cross-entropy loss, with recently some advances in dealing with sparsity~\citep[see, e.g.,][]{focalLoss,tencent}. 
-Existing algorithmic solutions to deal with FIMPUL tasks can be divided into \emph{fit-data-to-algorithm} solutions, which map FIMPUL problems to a known problem formulation like multi-class uni-label classification, and \emph{fit-algorithm-to-data} solutions, which adapt existing classification algorithms for the problem at hand~\citep{multilabelMethods}. In the fit-data-to-algorithm solutions, cross-entropy losses are used at training time and thresholding is done at inference time to determine how many labels should be assigned to an instance. In the fit-algorithm-to-data solutions, elements of the learning algorithm are changed (such as the back propagation procedure or the tasks). 
-\mdr{An important shortcoming shared by both classes of solutions is XXX.}
+Existing algorithmic solutions to deal with FIMPUL tasks can be divided into \emph{fit-data-to-algorithm} solutions, which map FIMPUL problems to a known problem formulation like multi-class uni-label classification, and \emph{fit-algorithm-to-data} solutions, which adapt existing classification algorithms for the problem at hand~\citep{multilabelMethods}. In the fit-data-to-algorithm solutions, cross-entropy losses are used at training time and thresholding is done at inference time to determine how many labels should be assigned to an instance. In the fit-algorithm-to-data solutions, elements of the learning algorithm are changed (such as the back propagation procedure or the tasks). An important shortcoming shared by both classes of solutions is the lack of a holistic approach for both label count and label prediction.
 
 \paragraph{Our proposed solution to FIMPUL tasks}
-We propose an alternative type of solution that is aimed at \mdr{balancing, the F1 intuition}. Our proposed solution, \mdr{NAME}, is neither of the fit-algorithm-to-data type nor of the fit-data-to-algorithm type. 
+We propose an alternative type of solution that is aimed at balancing prediction of label propensities  and label count prediction. Our proposed solution, \solution (Confusion Matrix Metrics as Losses), is neither of the fit-algorithm-to-data type nor of the fit-data-to-algorithm type. 
 Instead, it is best characterized as a an example of a \emph{design-algorithm-for-data} approach.
-Briefly, \mdr{[description here]}
-
-\if0
-%%% we do not need the next two paragraphs, certainly not in the introduction.
-Machine learning prediction tasks' output are probabilistic (or a reversible transformation of a probabilistic measure such as a sigmoid or a soft max function). At training time, these probabilistic values are compared to binary values in the case of binary encoding of classes. At inference time, if the number $n_i$ of labels to be predicted per example is known a priori, it is natural to assign the $top_{n_i}$ predictions to that example~\cite{lossTopKError, topKmulticlassSVM}. If the number of labels per example is unknown a priori, the question remains at inference time as to how to extract information about the number of labels to assign to each example, aside from the propensity of labels to be assigned. This is generally done via a \emph{decision threshold}, that can be set globally for all examples. This threshold can optimize for specificity or sensitivity~\cite{decisionThreshold}. We propose a method where this threshold is implicitely defined, thanks to the use of metrics that already penalize for wrong label counts.
-
-Learning to Rank (the practice of using Machine Learning to sort documents according to their relevance) lead to the widespread use of certain metrics~\cite{LTR}. In a number of retrieval tasks, a model's out of sample accuracy is measured on metrics such as AUROC, F1 score, etc. These reflect an objective catered towards evaluating the model over an entire ranking. Due to the lack of differentiability, these metrics cannot be directly used as loss functions at training time (in-sample). A seminal study~\cite{optimizableLosses} derived a general framework for deriving decomposable surrogates to some of these metrics. We propose our own decomposable surrogates of classical confusion matrix metrics and in particular sigmoidF1 tailored for the problem at hand.
-\fi
+Briefly, we define design-algorithm-for-data to designate the formulation of a loss function designed for the problem at hand, as opposed to using one existing optimization framework or optimizing over the sum of several loss functions.
 
 \paragraph{Main contributions of the paper}
 We propose a general mathematical formulation of FIMPUL tasks. 
-Our formulation encompasses different levels of complexity, from the classical cross-entropy loss up to the proposed loss function. 
-We propose \mdr{confusion matrix metrics framework}.
-As a specific instance of the framework, we introduce \emph{sigmoidF1}, an F1 score surrogate, with a sigmoid function acting as a surrogate thresholding step function. 
+Our formulation encompasses different levels of complexity, from the classical cross-entropy loss up to the proposed loss function. We propose \solution. As a specific instance of the framework, we introduce \emph{sigmoidF1}, an F1 score surrogate, with a sigmoid function acting as a surrogate thresholding step function. 
 \emph{sigmoidF1} allows for the use of the F1 metric that simultaneously optimizes for label prediction and label counts in a single task.  
 \emph{sigmoidF1} is benchmarked against loss functions commonly used in multi-label learning and other existing models that are closely related to the FIMPUL setting. We show that our custom losses improve predictions over the current state-of-the-art on several different metrics, across text and image related classification tasks. 
 

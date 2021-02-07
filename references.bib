@@ -832,3 +832,75 @@ doi = {10.1109/CVPR.2018.00474}
   pages={220-224},
   doi={10.1109/ICoAC48765.2019.246843}
 }
+
+@inproceedings{queryClassification,
+author = {Kang, In-Ho and Kim, GilChang},
+title = {Query Type Classification for Web Document Retrieval},
+year = {2003},
+isbn = {1581136463},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/860435.860449},
+doi = {10.1145/860435.860449},
+abstract = {The heterogeneous Web exacerbates IR problems and short user queries make them worse. The contents of web documents are not enough to find good answer documents. Link information and URL information compensates for the insufficiencies of content information. However, static combination of multiple evidences may lower the retrieval performance. We need different strategies to find target documents according to a query type. We can classify user queries as three categories, the topic relevance task, the homepage finding task, and the service finding task. In this paper, a user query classification scheme is proposed. This scheme uses the difference of distribution, mutual information, the usage rate as anchor texts, and the POS information for the classification. After we classified a user query, we apply different algorithms and information for the better results. For the topic relevance task, we emphasize the content information, on the other hand, for the homepage finding task, we emphasize the Link information and the URL information. We could get the best performance when our proposed classification method with the OKAPI scoring algorithm was used.},
+booktitle = {Proceedings of the 26th Annual International ACM SIGIR Conference on Research and Development in Informaion Retrieval},
+pages = {64–71},
+numpages = {8},
+keywords = {query classification, URL information, combination of multiple evidences, link information},
+location = {Toronto, Canada},
+series = {SIGIR '03}
+}
+
+@article{textCategorization, year = {2014}, pages = {1356-1364}, DOI = {10.1016/j.proeng.2014.03.129}, keywords = {text documents classification, K-Nearest Neighbor, TF-IDF, framework, machine learning}, journal = {Procedia Engineering}, doi = {10.1016/j.proeng.2014.03.129}, volume = {69}, issn = {1877-7058}, title = {KNN with TF-IDF Based Framework for Text Categorization}, keyword = {text documents classification, K-Nearest Neighbor, TF-IDF, framework, machine learning} }
+
+@article{IRClassStat,
+author = {Hull, David and Friedman, Jerome},
+year = {2000},
+month = {06},
+pages = {},
+title = {Information Retrieval Using Statistical Classification}
+}
+
+@article{statTextCategorization,
+  title={An Evaluation of Statistical Approaches to Text Categorization},
+  author={Yiming Yang},
+  journal={Information Retrieval},
+  year={2004},
+  volume={1},
+  pages={69-90}
+}
+
+@inproceedings{imageClassification,
+author = {Shen, Fumin and Mu, Yadong and Yang, Yang and Liu, Wei and Liu, Li and Song, Jingkuan and Shen, Heng Tao},
+title = {Classification by Retrieval: Binarizing Data and Classifiers},
+year = {2017},
+isbn = {9781450350228},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3077136.3080767},
+doi = {10.1145/3077136.3080767},
+abstract = {This paper proposes a generic formulation that significantly expedites the training and deployment of image classification models, particularly under the scenarios of many image categories and high feature dimensions. As the core idea, our method represents both the images and learned classifiers using binary hash codes, which are simultaneously learned from the training data. Classifying an image thereby reduces to retrieving its nearest class codes in the Hamming space. Specifically, we formulate multiclass image classification as an optimization problem over binary variables. The optimization alternatingly proceeds over the binary classifiers and image hash codes. Profiting from the special property of binary codes, we show that the sub-problems can be efficiently solved through either a binary quadratic program (BQP) or a linear program. In particular, for attacking the BQP problem, we propose a novel bit-flipping procedure which enjoys high efficacy and a local optimality guarantee. Our formulation supports a large family of empirical loss functions and is, in specific, instantiated by exponential and linear losses. Comprehensive evaluations are conducted on several representative image benchmarks. The experiments consistently exhibit reduced computational and memory complexities of model training and deployment, without sacrificing classification accuracy.},
+booktitle = {Proceedings of the 40th International ACM SIGIR Conference on Research and Development in Information Retrieval},
+pages = {595–604},
+numpages = {10},
+keywords = {hashing, classification, binary codes},
+location = {Shinjuku, Tokyo, Japan},
+series = {SIGIR '17}
+}
+
+@inproceedings{documentClassification,
+author = {Blosseville, M. J. and H\'{e}brail, G. and Monteil, M. G. and P\'{e}not, N.},
+title = {Automatic Document Classification: Natural Language Processing, Statistical Analysis, and Expert System Techniques Used Together},
+year = {1992},
+isbn = {0897915232},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/133160.133175},
+doi = {10.1145/133160.133175},
+abstract = {In this paper we describe an automated method of classifying research project descriptions: a human expert classifies a sample set of projects into a set of disjoint and pre-defined classes, and then the computer learns from this sample how to classify new projects into these classes. Both textual and non-textual information associated with the projects are used in the learning and classification phases. Textual information is processed by two methods of analysis: a natural language analysis followed by a statistical analysis. Non-textual information is processed by a symbolic learning technique. We present the results of some experiments done on real data: two different classifications of our research projects.},
+booktitle = {Proceedings of the 15th Annual International ACM SIGIR Conference on Research and Development in Information Retrieval},
+pages = {51–58},
+numpages = {8},
+location = {Copenhagen, Denmark},
+series = {SIGIR '92}
+}
