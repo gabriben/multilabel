@@ -7,6 +7,15 @@ Machine learning prediction tasks' output are probabilistic (or a reversible tra
 
 Learning to Rank (the practice of using Machine Learning to sort documents according to their relevance) lead to the widespread use of certain metrics~\cite{LTR}. In a number of retrieval tasks, a model's out of sample accuracy is measured on metrics such as AUROC, F1 score, etc. These reflect an objective catered towards evaluating the model over an entire ranking. Due to the lack of differentiability, these metrics cannot be directly used as loss functions at training time (in-sample). A seminal study~\cite{optimizableLosses} derived a general framework for deriving decomposable surrogates to some of these metrics. We propose our own decomposable surrogates of classical confusion matrix metrics and in particular sigmoidF1 tailored for the problem at hand.
 
+Beyond identifying object types (see YOLO~\cite{YOLO} and its successors), performing face recognition (see FaceNet\cite{FaceNet} and its successors) on segments of an image, neural networks
+are increasingly becoming better at predicting more abstact concepts via
+deeper networks, representation learning and self-supervision~\citep[see,
+e.g.,][]{SS,Rep}. Towards this goal, there is a significant volume of recent
+work on building neural networks with a high-level of abstract understanding
+in the embedding space~\mdr{REF}. However, research on developing optimization
+frameworks that are adapted for these abstract concepts in the output space is
+limited.
+
 \subsection{fit-data-to-algorithm}
 
 There is also relatively little hierarchical relationships. In a case like prediction of a music genre, there is no theory on how many labels a piece of music should be given.
