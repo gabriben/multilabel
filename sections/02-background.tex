@@ -1,40 +1,25 @@
 % !TEX root = ../main.tex
 
-\section{Background, Learning algorithms for FIMPUL problems}
+\section{Background}
 \label{section:background}
 
-\todo{put this paragraph somewhere, it is a justification for FIMPUL}
- Beyond identifying object types (see YOLO~\cite{YOLO} and its successors), performing face recognition (see FaceNet\cite{FaceNet} and its successors) on segments of an image, neural networks
-are increasingly becoming better at predicting more abstact concepts via
-deeper networks, representation learning and self-supervision~\citep[see,
-e.g.,][]{SS,Rep}. Towards this goal, there is a significant volume of recent
-work on building neural networks with a high-level of abstract understanding
-in the embedding space~\mdr{REF}. However, research on developing optimization
-frameworks that are adapted for these abstract concepts in the output space is
-limited.
+We introduce the terminology, notation, and prior mathematical formulation of solutions for FIMPUL problems.
 
-This section introduces the terminology and our mathematical formulation of solutions to multilabel classification with unknown label count on full instances.
+The \emph{Full-Instance}, \emph{Multi-label Prediction for Unknown Label counts} (FIMPUL) learning task has three key concepts. 
+First, \emph{multi-label learning} refers to \mdr{what}~\cite{multilabelMethods}.
+Second, the term \emph{full-instance} should be understood in contrast to \emph{multi-instance} learning~\citep[e.g.,][]{multiInstance,multiInstanceMultiLabel}, for which it is considered natural to first segment an image, text or sound before performing prediction on each of the segments. In contrast, for full-instance learning problems, we cannot assume that there is an obvious or unique way to segment an instance so that the prediction problem can be decided based on that segment.
+Third, the concept of \emph{unknown label counts} is \mdr{what, just briefly}.
+\mdr{Briefly express the F1 intuition again, balancing prediction and counting}.
 
-% \textbf{we introduce our sub-problem}
+Next, we briefly characterize existing families of solutions to FIMPUL problems. 
+They can be divided into two groups, \emph{fit-data-to-algorithm} solutions (a.k.a.\ \emph{problem tranformation}) and \emph{fit-algorithm-to-data} solutions (a.k.a.\ \emph{algorithm adaptation}) solutions~\cite{multilabelReview}.
+We then identify shortcomings of these solutions and propose a new solution framework. 
+In the next section, we detail a particular instance of this framework.
 
-The FIMPUL problem definition of \textbf{F}ull-\textbf{I}nstance\textsuperscript{(3)} \textbf{M}ultilabel\textsuperscript{(2)} \textbf{P}rediction for \textbf{U}nknown\textsuperscript{(4)} \textbf{L}abel counts is shortly disambiguated here. There seems to exist a consensus over the terms \emph{multiclass learning} and
-\emph{multilabel learning}. They denote settings of mutually exclusive and non-mutually exclusive labels \footnote{non-mutually exclusive means here one example can have more than one label}, respectively~\cite{multilabelMethods}. Multilabel learning can
-therefore be seen as a subdomain of multiclass learning, where more than one
-class can be correct for the same example. We propose the term full-instance
-as opposed to multi-instance learning~\citep[e.g.,][]{multiInstance,
-multiInstanceMultiLabel}, for which it is considered natural to first segment
-an image, text or sound before performing prediction on each of the segments. Most importantly, we propose loss functions suited for situations where the label count for each document / image is unknown.
+\subsection{Fit-data-to-algorithm solutions} 
+Briefly, in the case of \emph{fit-data-to-algorithm}, cross-entropy losses are used at training time and thresholding is done at inference time.
 
-% \textbf{current state of the art, related work}
-The existing optimization frameworks are still largely based on variations of
-the cross-entropy loss, with recently some advances in dealing with
-sparsity in the output space~\citep[see, e.g.,][]{focalLoss,tencent}. Existing measures for multilabel prediction can be
-divided into two fields: the \emph{fit-data-to-algorithm} (a.k.a \emph{problem tranformation}) and \emph{fit-algorithm-to-data} (a.k.a \emph{algorithm adaptation}) approaches~\cite{multilabelReview}. Although it is less in use in the literature, we prefer the former definitions because they are less ambiguous. In the case of fit-data-to-algorithm,
-multilabel classification is reframed as a binary, multiclass classification
-or label ranking problem. In the case of fit-algorithm-to-data, one tries to
-adapt multiclass algorithms to the problem.
-
-\subsection{fit-data-to-algorithm} We define a learning algorithm that maps inputs to outputs given a set of hyperparameters \(\mathcal{F}(\cdot ; \Theta): \mathcal{X} \rightarrow \mathcal{Y}\). For the purpose of fit-data-to-algorithm,
+We define a learning algorithm that maps inputs to outputs given a set of hyperparameters \(\mathcal{F}(\cdot ; \Theta): \mathcal{X} \rightarrow \mathcal{Y}\). For the purpose of fit-data-to-algorithm,
 we define \(\mathcal{L}_{\text {multiclass}}\), a class of loss functions that
 minimize predictions in relative terms. Binary cross-entropy, logistic regression and their
 variants, such as focal loss or hinge loss are common choices when it comes to
@@ -50,14 +35,13 @@ minimizing binary cross-entropy is equivalent to maximizing for log-likelihood
 \end{equation}
 %
 
-This class of loss functions is particularly useful for multiclass unilabel predictions or multiclass multilabel predictions with known amount of labels $k_i$ per example/document $i$. In the former case,  we can select top-1 label predictions and in the latter top-k. Note that one common approach in fit-data-to-algorithm is to establish a hierarchical structure in labels. This way, one can constrain the algorithm to learn only 1 or $k$ labels per group in the hierarchy. For example, DBPedia\footnote{https://wiki.dbpedia.org/develop/datasets/latest-core-dataset-releases} establishes a hierarchical structure in wikipedia infoboxes\footnote{https://en.wikipedia.org/wiki/Help:Infobox} and is commonly used to finetune state-of-the-art NLP models~\citep[see, e.g.,][]{XLNet, ULMFit}.
+This class of loss functions is particularly useful for multi-class unilabel predictions or multiclass multilabel predictions with known amount of labels $k_i$ per example/document $i$. In the former case,  we can select top-1 label predictions and in the latter top-k. Note that one common approach in fit-data-to-algorithm is to establish a hierarchical structure in labels. This way, one can constrain the algorithm to learn only 1 or $k$ labels per group in the hierarchy. For example, DBPedia\footnote{https://wiki.dbpedia.org/develop/datasets/latest-core-dataset-releases} establishes a hierarchical structure in wikipedia infoboxes\footnote{https://en.wikipedia.org/wiki/Help:Infobox} and is commonly used to finetune state-of-the-art NLP models~\citep[see, e.g.,][]{XLNet, ULMFit}.
 
 There are however datasets for which reducing the problem to top-k selection and/or establishing a hierarchical structure would be an oversimplification. Certain datasets have classes that are not mutually exclusive, whether or not they are ordered in a hierarchy (aside from the movie and paper datasets chosen for experiments, we briefly mention music datasets in the related work section). 
 
-\subsection{fit-algorithm-to-data}
-In the context of fit-algorithm-to-data, a combination of existing algorithms are used to deal with non-mutually exclusive classes. The aim is to
-both obtain a propensity of each label being true and a prediction of the
-number of true labels:
+\subsection{Fit-algorithm-to-data solutions}
+In the case of \emph{fit-algorithm-to-data}, elements of the learning algorithm are changed (such as the back propagation procedure or the tasks) to deal with non-mutually exclusive classes. 
+The aim is to both obtain a propensity of each label being true and a prediction of the number of true labels:
 %
 \begin{equation}
 \underset{\mathcal{L}_{\text {multiclass}}, \mathcal{L}_{\text {count}}}
@@ -76,14 +60,7 @@ formulation is most straightfoward but suffers from higher parametrization and
 the lack of modelling of the interactions between label counts and label
 prediction.
 
-
-\subsection{Current Limitations}
-
-In summary, in the case of \emph{fit-data-to-algorithm},
-cross-entropy losses are used at training time and thresholding is done at
-inference time. In the case of \emph{fit-algorithm-to-data}, elements of the
-learning algorithm are changed (such as the backpropagation procedure or the
-tasks).
+\subsection{Limitations of fit-data-algorithm and fit-algorithm-to-data solutions}
 
 In machine learning prediction tasks, the probabilistic measure (or a reversible
 transformation of a probabilistic measure such as a sigmoid or a softmax
@@ -97,7 +74,7 @@ example, aside from the propensity of labels to be assigned. This is generally
 done via a \emph{decision threshold}, that can be set globally for all
 examples. This threshold can optimize for specificity or
 sensitivity~\cite{decisionThreshold}. We propose a method where this threshold
-is implicitely defined, thanks to the use of metrics that already penalize for
+is implicitly defined, thanks to the use of metrics that already penalize for
 wrong label counts.
 
 \todo{reference fig}
@@ -113,7 +90,7 @@ Ordered per-label cross-entropy predictions for each example (each grey line) wi
 \end{figure}
 
 
-\subsection{design-algorithm-for-data}
+\subsection{Design-algorithm-for-data solutions}
 
 With design-algorithm-for-data, we suggest to design loss functions to address FIMPUL problems specifically. We first formulate a unified loss, namely
 %
@@ -155,3 +132,17 @@ The proposed design-algorithm-for-data method is thus an alternative to fit-data
 %%% mode: latex
 %%% TeX-master: "../main"
 %%% End:
+
+
+\section*{STUFF THAT NEEDS TO BE MOVED SOMEWHERE BUT THAT DOES NOT SEEM APPROPRIATE FOR SECTIONS 2 OR 3}
+
+\textcolor{cyan}{\todo{put this paragraph somewhere, it is a justification for FIMPUL}
+ Beyond identifying object types (see YOLO~\cite{YOLO} and its successors), performing face recognition (see FaceNet\cite{FaceNet} and its successors) on segments of an image, neural networks
+are increasingly becoming better at predicting more abstact concepts via
+deeper networks, representation learning and self-supervision~\citep[see,
+e.g.,][]{SS,Rep}. Towards this goal, there is a significant volume of recent
+work on building neural networks with a high-level of abstract understanding
+in the embedding space~\mdr{REF}. However, research on developing optimization
+frameworks that are adapted for these abstract concepts in the output space is
+limited.
+}

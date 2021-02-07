@@ -4,65 +4,51 @@
 \label{sec:org662677c}
 
 
-Many real-world classification problems are challenging because of
-subjectivity issues, unclear (or overlapping) class-boundaries and
-disagreement between annotators. For example, the movie \textit{Tenet} generated 
-debates about which movie genre it belongs to, besides debates on content among the selected few who understood it. IMDB simultaneously categorizes it as \textit{action}
-\textit{sci-fi} and \textit{thriller}. In a different domain, a seminal machine learning publication in which the authors propose to train with bigger batch sizes~\cite{bigBS} is categorized as \textit{Machine Learning (cs.LG)},
+Many real-world classification problems are challenging because of subjectivity issues, unclear (or overlapping) class-boundaries and disagreement between annotators. 
+For example, the movie \textit{Tenet} generated debates about which movie genre it belongs to, besides debates on content among the selected few who understood it. IMDB simultaneously categorizes it as \textit{action}, \textit{sci-fi}, and \textit{thriller}.\footnote{See \url{https://www.imdb.com/title/tt6723592/}.} 
+As a second example, a seminal machine learning publication in which the authors propose to train with bigger batch sizes~\citep{bigBSArxiv} is categorized as \textit{Machine Learning (cs.LG)},
 \textit{Computer Vision and Pattern Recognition (cs.CV)}, \textit{Distributed,
 Parallel, and Cluster Computing (cs.DC)}, and \textit{Machine Learning
-(stat.ML)} on \textit{arXiv}~\cite{bigBSArxiv}.
+(stat.ML)} on \textit{arXiv}.\footnote{See \url{https://arxiv.org/abs/1711.00489}.}
+These two examples are representative of a large class of classification problems that have several characteristics in common: 
+\begin{enumerate}[label=(\arabic*),leftmargin=*]
+\item The possibility of assigning more than one label to a single instance is desirable (i.e., labels are not mutually exclusive). 
+\item The instance being labeled needs to inspected or consumed in its entirety before a full set of class labels can be determined. E.g., it requires an entire viewing of the movie \textit{Tenet} to determine if the label \textit{romance} is appropriate, as it is arguably the underlying driver of the protagonists. In other words, it would be hard to isolate a simple characteristic of an instance that is uniquely predictive of a label.
+\item The number of labels to assign to an instance is unknown at inference time.
+\end{enumerate}
 
-% \textit{Tenet} was a confusing movie. Aside from its complex content, debates are fusing about which movie genre it belongs to. IMDB categorizes it as \{\textit{action; sci-fi; thriller}\}. Also controversial, a seminal Machine Learning publication proposed training with bigger batch sizes as a general recommendation~\cite{bigBS} (the \#GreenAI movement later emerged to condemn delegating more computing power to neural networks at any environmental cost). This paper was categorized on Arxiv as \{\textit{Machine Learning (cs.LG); Computer Vision and Pattern Recognition (cs.CV); Distributed, Parallel, and Cluster Computing (cs.DC); Machine Learning (stat.ML)}\}. In cancer research, an ongoing discourse is concerned with categorizing cells' capabilities (e.g. \{\textit{resistance to immune system, enhanced proliferation}\}): at a certain point to be determined, cells have acquired enough of these capabilities to be malignant~\cite{cancerHallmarks}.
+\paragraph{Learning task}
+We refer to learning tasks that share the three characteristics listed above as Full-instance, Multi-label Prediction for Unknown Label counts, or FIMPUL, for short. 
+Characteristic (1) is captured by the \emph{multi-label} predicate; characteristic (2) by \emph{full-instance}, and characteristic (3) by \emph{unknown label count}.
+As we show in the experimental results and related work sections below, FIMPUL learning tasks are very common in \ac{IR}.
 
-% These examples above in the domains of cinema and publication have several things in common. (I) Labels such as \textit{thriller} and \textit{machine learning} are abstract and debatable concepts to a certain degree (as opposed to \textit{featured actor x}, \textit{featured in journal x}) (II) The possibility of attributing more than one category to a single movie or a paper is desirable (i.e. labels are not mutually exclusive for the benefit of creativity / research). (III) The movie or paper as a whole needs to be looked at to categorize it. It requires an entire viewing of the movie \textit{Tenet} to determine if the label \textit{Romance} might not also be appropriate, as it is arguably the underlying driver of the protagonists. In other words, complex combinations of features in the movie are related to a label. In the contrary, it would be hard to isolate elements within these examples (such as a particular scene in a movie or a particular expression in a paper) as uniquely predictive of a single of their labels. (IV) The number of labels to attribute to each example is unknown at inference time.
+\paragraph{Previous solutions to FIMPUL tasks}
+To solve multi-label learning tasks, existing optimization frameworks are typically based on variations of the cross-entropy loss, with recently some advances in dealing with sparsity~\citep[see, e.g.,][]{focalLoss,tencent}. 
+Existing algorithmic solutions to deal with FIMPUL tasks can be divided into \emph{fit-data-to-algorithm} solutions, which map FIMPUL problems to a known problem formulation like multi-class uni-label classification, and \emph{fit-algorithm-to-data} solutions, which adapt existing classification algorithms for the problem at hand~\citep{multilabelMethods}. In the fit-data-to-algorithm solutions, cross-entropy losses are used at training time and thresholding is done at inference time to determine how many labels should be assigned to an instance. In the fit-algorithm-to-data solutions, elements of the learning algorithm are changed (such as the back propagation procedure or the tasks). 
+\mdr{An important shortcoming shared by both classes of solutions is XXX.}
 
-The examples given above in the domains of cinema and publishing have several things in common: 
-\begin{enumerate*}[label=(\arabic*)]
-\item Labels such as \textit{thriller} and \textit{machine learning} are abstract and
-debatable concepts to a certain degree (as opposed to \textit{featured actor
-x}, \textit{featured in journal x}). 
-\item The possibility of attributing more than one label to a single movie or a paper is desirable (i.e. labels are
-mutually inclusive: one example can have more than one label). 
-\item The movie or paper as a whole needs to be looked at to label it. It requires an entire
-viewing of the movie \textit{Tenet} to determine if the label \textit{Romance}
-might not also be appropriate, as it is arguably the underlying driver of the
-protagonists. In other words, complex combinations of features in the movie
-are related to a label. In the contrary, it would be hard to isolate elements
-within these examples (such as a particular scene in a movie or a particular
-expression in a paper) as uniquely predictive of a single of their labels.
-\item The number of labels to attribute to each example is unknown at inference
-time.
-\end{enumerate*}
+\paragraph{Our proposed solution to FIMPUL tasks}
+We propose an alternative type of solution that is aimed at \mdr{balancing, the F1 intuition}. Our proposed solution, \mdr{NAME}, is neither of the fit-algorithm-to-data type nor of the fit-data-to-algorithm type. 
+Instead, it is best characterized as a an example of a \emph{design-algorithm-for-data} approach.
+Briefly, \mdr{[description here]}
 
-
-These four criteria do not appear together in a single problem definition in the existing literature, to the best of our knowledge. We thus propose to formalize the learning task of \textbf{F}ull-\textbf{I}nstance\textsuperscript{(3)} \textbf{M}ultilabel\textsuperscript{(2)} \textbf{P}rediction for \textbf{U}nknown\textsuperscript{(4)} \textbf{L}abel counts (FIMPUL). [definitions and problem statement] + [this is common n IR]
-
-% Regarding nomenclature, there seems to exist a consensus over the terms \emph{multiclass} and \emph{multilabel learning}, meaning mutually exclusive and non-mutually exclusive labels \footnote{non-mutually exclusive means here one example can have more than one label}, respectively~\cite{multilabelMethods}. Multilabel learning can therefore be seen as a subdomain of multiclass learning, where more than one class can be correct for the same example. We propose the term single-instance as opposed to multi-instance learning~\citep[e.g.,][]{multiInstance, multiInstanceMultiLabel}, for which it is considered natural to first segment an image / text / sound before performing prediction on each of the segments.
-
-% That full/multi instance distinction helps explain why the abstract\textsuperscript{(I)} aspect can be considered implicit in FIMPUL. Beyond identifying object types (see YOLO \cite{YOLO} and its successors), performing face recognition (see FaceNet \cite{FaceNet} and its successors) on segments of an image, neural networks should soon be able to predict genres/categories of text, image and sound at high levels of accuracy. Neural network models are able to learn increasingly more abstract representations via deeper networks, representation learning and self-supervision~\citep[see, e.g.,][]{SS,Rep}. Hence, we would expect that they also get better at predicting more abstract labels. Towards this goal, there is a significant volume of recent work on building neural networks with a high-level of abstract understanding in the embedding space~\mdr{REF}. However, there seems\daan{vague} to be limited research on developing optimization frameworks that are adapted for these abstract concepts in the output space.
-
-To solve multilabel tasks, existing optimization frameworks are still largely based on variations of the cross-entropy loss, with recently some advances in dealing with sparsity~\citep[see, e.g.,][]{focalLoss,tencent}. The existing measures to deal with FIMPUL can be divided into fit-data-to-algorithm (reverting back to a known problem formulation like multiclass unilabel classification) and fit-algorithm-to-data (adapting existing classification algorithms for the problem at hand). In the former case, cross-entropy losses are used at training time and thresholding is done at inference time. In the latter, elements of the learning algorithm are changed (such as the backpropagation procedure or the tasks). We propose a design-algorithm-for-data approach: [description here]
-
+\if0
+%%% we do not need the next two paragraphs, certainly not in the introduction.
 Machine learning prediction tasks' output are probabilistic (or a reversible transformation of a probabilistic measure such as a sigmoid or a soft max function). At training time, these probabilistic values are compared to binary values in the case of binary encoding of classes. At inference time, if the number $n_i$ of labels to be predicted per example is known a priori, it is natural to assign the $top_{n_i}$ predictions to that example~\cite{lossTopKError, topKmulticlassSVM}. If the number of labels per example is unknown a priori, the question remains at inference time as to how to extract information about the number of labels to assign to each example, aside from the propensity of labels to be assigned. This is generally done via a \emph{decision threshold}, that can be set globally for all examples. This threshold can optimize for specificity or sensitivity~\cite{decisionThreshold}. We propose a method where this threshold is implicitely defined, thanks to the use of metrics that already penalize for wrong label counts.
 
-% \begin{figure}[t]
-% \centering
-% \includegraphics[width=.9\linewidth]{./tree/Tree.pdf}
-% \caption{\label{fig:tree}
-% FIMPUL (bold) within the \emph{multiclass} nomenclature
-% % Clarifying ``multiclass'' classification problems.
-% % In this paper we focus on the uni-instance, multilabel, multiclass classification problem with a varying number of labels (the bottom right hand side of the tree).
-% }
-% \end{figure}
-% % \mdr{Image source ...}
-
 Learning to Rank (the practice of using Machine Learning to sort documents according to their relevance) lead to the widespread use of certain metrics~\cite{LTR}. In a number of retrieval tasks, a model's out of sample accuracy is measured on metrics such as AUROC, F1 score, etc. These reflect an objective catered towards evaluating the model over an entire ranking. Due to the lack of differentiability, these metrics cannot be directly used as loss functions at training time (in-sample). A seminal study~\cite{optimizableLosses} derived a general framework for deriving decomposable surrogates to some of these metrics. We propose our own decomposable surrogates of classical confusion matrix metrics and in particular sigmoidF1 tailored for the problem at hand.
+\fi
 
-In this paper, we first propose a general mathematical formulation of FIMPUL tasks and thus place it within the multiclass nomenclature. The generalization encompasses different levels of complexity, from the classical cross-entropy loss up to the proposed loss function. \emph{sigmoidF1} is a F1 score surrogate, with a sigmoid function acting as a surrogate thresholding step function. This allows the use of the F1 metric which implicitly optimizes for label prediction and count simultaneously in a single task.  \emph{sigmoidF1} is benchmarked against loss functions commonly used in multiclass learning and other existing models that are closely related to the SIMPUL setting. We show that our custom losses improve predictions over the current state-of-the-art on several different metrics, across text (especially on the Arxiv dataset which, to the best of our knowledge, is the first use since its publication in August 2020) and image related tasks. We then conclude and propose future implementations for other labeling tasks.
+\paragraph{Main contributions of the paper}
+We propose a general mathematical formulation of FIMPUL tasks. 
+Our formulation encompasses different levels of complexity, from the classical cross-entropy loss up to the proposed loss function. 
+We propose \mdr{confusion matrix metrics framework}.
+As a specific instance of the framework, we introduce \emph{sigmoidF1}, an F1 score surrogate, with a sigmoid function acting as a surrogate thresholding step function. 
+\emph{sigmoidF1} allows for the use of the F1 metric that simultaneously optimizes for label prediction and label counts in a single task.  
+\emph{sigmoidF1} is benchmarked against loss functions commonly used in multi-label learning and other existing models that are closely related to the FIMPUL setting. We show that our custom losses improve predictions over the current state-of-the-art on several different metrics, across text and image related classification tasks. 
 
-% -----
-
+\paragraph{The remainder of the paper}
+The remainder of this paper is structured as follows: first, we introduce our method and define a class of smooth loss functions for FIMPUL problems. Next, we detail our experimental setup and describe the datasets used in our experiments. After presenting the experimental results in the next section, we close the paper with conclusions and suggestions for future work.
 
 % % \textbf{multi-class classification problems are hard}
 
@@ -128,12 +114,6 @@ In this paper, we first propose a general mathematical formulation of FIMPUL tas
 % (especially on the arXiv dataset which, to the best of our knowledge, is the
 % first use since its publication in August 2020) and image related tasks.
 
-% \paragraph{The remainder of the paper}
-% The remainder of this paper is structured as follows: first, we introduce
-% our method and define a class of smooth loss functions for SIMPUL problems.
-% Next, we detail our experimental setup and describe the datasets used in our
-% experiments. After presenting the experimental results in the next section,
-% we close the paper with conclusions and propositions for future work.
 
 
 % %%% Local Variables: %% mode: latex %% TeX-master: "../main" %% End:
