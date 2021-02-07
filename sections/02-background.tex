@@ -8,24 +8,26 @@ We introduce the terminology, notation, and prior mathematical formulation of so
 The \emph{Full-Instance}, \emph{Multi-label Prediction for Unknown Label counts} (FIMPUL) learning task has three key concepts. 
 First, \emph{multi-label learning} refers to the possibility that one example is attributed more than one label~\cite{multilabelMethods}.
 Second, the term \emph{full-instance} should be understood in contrast to \emph{multi-instance} learning~\citep[e.g.,][]{multiInstance,multiInstanceMultiLabel}, for which it is considered natural to first segment an image, text or sound before performing prediction on each of the segments. In contrast, for full-instance learning problems, we cannot assume that there is an obvious or unique way to segment an instance so that the prediction problem can be decided based on that segment.
-Third, the concept of \emph{unknown label counts} illustrates the case where the number of labels is unknown a priori for each example. The smooth surrogate of the F1 score allows to balance the tasks of label prediction and label count into one.
+Third, the concept of \emph{unknown label counts} illustrates the case where the number of labels is unknown a priori for each example. Our proposed smooth surrogate of the F1 score allows to balance the tasks of label prediction and label count into one.
 
 Next, we briefly characterize existing families of solutions to FIMPUL problems. 
-They can be divided into two groups, \emph{fit-data-to-algorithm} solutions (a.k.a.\ \emph{problem tranformation}) and \emph{fit-algorithm-to-data} solutions (a.k.a.\ \emph{algorithm adaptation}) solutions~\cite{multilabelReview}.
-We then identify shortcomings of these solutions and propose a new solution framework. 
-In the next section, we detail a particular instance of this framework.
+They can be divided into two groups, \emph{fit-data-to-algorithm} solutions (a.k.a. \emph{problem tranformation} \todo{cite}) and \emph{fit-algorithm-to-data} solutions (a.k.a.\ \emph{algorithm adaptation}) solutions~\cite{multilabelReview} and will be discussed in \S\ref{section:background:fitdata} and \S\ref{section:background:fitalgorithm} respectively.
+We then discuss shortcomings of these solutions in \S\ref{section:background:limitations} and propose a new solution framework in \S\ref{section:background:solution}. 
+In Section~\ref{section:method}, we then fully detail a particular instance of this framework.
 
 \subsection{Fit-data-to-algorithm solutions} 
-Briefly, in the case of \emph{fit-data-to-algorithm}, cross-entropy losses are used at training time and thresholding is done at inference time.
+\label{section:background:fitdata}
+Briefly, in the case of \emph{fit-data-to-algorithm}, cross-entropy losses are used at training time and thresholding is done at inference time. 
 
-We define a learning algorithm that maps inputs to outputs given a set of hyperparameters \(\mathcal{F}(\cdot ; \Theta): \mathcal{X} \rightarrow \mathcal{Y}\). For the purpose of fit-data-to-algorithm,
+More formally, we define a learning algorithm that maps inputs to outputs given a set of hyperparameters \(\mathcal{F}(\cdot ; \Theta): \mathcal{X} \rightarrow \mathcal{Y}\). For the purpose of fit-data-to-algorithm,
 we define \(\mathcal{L}_{\text {multiclass}}\), a class of loss functions that
 minimize predictions in relative terms. Binary cross-entropy, logistic regression and their
 variants, such as focal loss or hinge loss are common choices when it comes to
-multiclass prediction. Cross-entropy loss can be formulated as
-\(\mathcal{L}_{\text {CE}}=-\sum \log \left(p_{i}\right)\). Note that
-minimizing binary cross-entropy is equivalent to maximizing for log-likelihood
-\cite[Section 4.3.4]{Bishop}. More generally, the fit-data-to-algorithm formulation amounts to minimizing the loss on a class of neural networks, such that
+multiclass prediction. Note that minimizing binary cross-entropy is equivalent to maximizing for log-likelihood
+\cite[Section 4.3.4]{Bishop}. 
+Cross-entropy loss can be formulated as
+\(\mathcal{L}_{\text {CE}}=-\sum \log \left(p_{i}\right)\). 
+More generally, the fit-data-to-algorithm formulation amounts to minimizing the loss on a class of neural networks, such that
 %
 \begin{equation}
 \underset{\mathcal{L}_{\text {multiclass}}} {\min} \mathcal{F}\left(\cdot ;
@@ -34,13 +36,15 @@ minimizing binary cross-entropy is equivalent to maximizing for log-likelihood
 \end{equation}
 %
 
-This class of loss functions is particularly useful for multi-class unilabel predictions or multiclass multilabel predictions with known amount of labels $k_i$ per example/document $i$. In the former case,  we can select top-1 label predictions and in the latter top-k. Note that one common approach in fit-data-to-algorithm is to establish a hierarchical structure in labels. This way, one can constrain the algorithm to learn only 1 or $k$ labels per group in the hierarchy. For example, DBPedia\footnote{https://wiki.dbpedia.org/develop/datasets/latest-core-dataset-releases} establishes a hierarchical structure in wikipedia infoboxes\footnote{https://en.wikipedia.org/wiki/Help:Infobox} and is commonly used to finetune state-of-the-art NLP models~\citep[see, e.g.,][]{XLNet, ULMFit}.
+This class of loss functions is particularly useful for multi-class unilabel predictions, when we can select top-1 label predictions, or multiclass multilabel predictions with known amount of labels $k_i$ per example/document $i$, when we can select the top-k. Note that one common approach in fit-data-to-algorithm is to establish a hierarchical structure in labels. This way, one can constrain the algorithm to learn only 1 or $k$ labels per group in the hierarchy. For example, DBPedia\footnote{\url{https://wiki.dbpedia.org/develop/datasets/latest-core-dataset-releases} \todo{replace with cite?}} establishes a hierarchical structure in Wikipedia infoboxes\footnote{\url{https://en.wikipedia.org/wiki/Help:Infobox} \daan{I do not think we need. a footnote here.}} and is commonly used to finetune state-of-the-art NLP models~\citep[see, e.g.,][]{XLNet, ULMFit}.
 
-There are however datasets for which reducing the problem to top-k selection and/or establishing a hierarchical structure would be an oversimplification. Certain datasets have classes that are not mutually exclusive, whether or not they are ordered in a hierarchy (aside from the movie and paper datasets chosen for experiments, we briefly mention music datasets in the related work section). 
+\daan{I rewrote this paragraph, please check for correctness.}
+For many real world problems and datasets reducing the problem to top-k selection or establishing a hierarchical structure is an oversimplification, especially when classes are not mutually exclusive. Besides the four datasets we use for our experiments, we mention others in the related work section.
 
 \subsection{Fit-algorithm-to-data solutions}
-In the case of \emph{fit-algorithm-to-data}, elements of the learning algorithm are changed (such as the back propagation procedure or the tasks) to deal with non-mutually exclusive classes. 
-The aim is to both obtain a propensity of each label being true and a prediction of the number of true labels:
+\label{section:background:fitalgorithm}
+In the case of \emph{fit-algorithm-to-data} solutions, elements of the learning algorithm are changed to deal with non-mutually exclusive classes, such as the back propagation procedure or the tasks \daan{tasks is vague here. learning tasks is better, but can we be even more precise?}. 
+The aim \daan{Always? Or is this the most common way of approaching this? Or our formalization of either one?} is to both obtain\daan{or "optimize for both"?} a propensity of each label being true and a prediction of the number of true labels:
 %
 \begin{equation}
 \underset{\mathcal{L}_{\text {multiclass}}, \mathcal{L}_{\text {count}}}
@@ -51,34 +55,31 @@ The aim is to both obtain a propensity of each label being true and a prediction
 %
 where \(n_i = \sum_j \mathds{1}_{\mathbf{y_i^j} = 1}\) is the count of
 positive labels per example. We thus impose a constraint for the retrieval of
-label counts. For example, a cross-entropy loss surrogate would penalize for the number of wrongly predicted
+label counts. \daan{retrieval: huh? change to just: "number"? Now that I think of it, it is also not a constraint, right?}
+For example, a \daan{"adapted"?} cross-entropy loss surrogate would penalize for the number of wrongly predicted
 labels \(\mathcal{L}_{\text {CE+N}}= \mathcal{L}_{\text {CE}} + \lambda (\sum
 tp / \sum p)\), with \(t p=\sum_{i \in Y^{+}} \mathds{1}_{\mathbf{p_i} \geq
 b}\) and \(b\) a threshold to be defined. The fit-algorithm-to-data
-formulation is most straightfoward but suffers from higher parametrization and
-the lack of modelling of the interactions between label counts and label
-prediction.
+formulation is most straightforward but suffers from higher parametrization and
+the lack of modeling of the interactions between label counts and label
+prediction. \daan{I am not really getting this last sentence.}
 
 \subsection{Limitations of fit-data-algorithm and fit-algorithm-to-data solutions}
+\label{section:background:limitations}
 
-In machine learning prediction tasks, the probabilistic measure (or a reversible
+In a typical machine learning classification tasks, binary labels are compared to a probabilistic measure (or a reversible
 transformation of a probabilistic measure such as a sigmoid or a softmax
-function) are compared to binary values in the case of binary encoding of
-classes. At training time, if the number $n_i$ of labels to be predicted per
-example is known a priori, it is natural to assign the $top_{n_i}$ predictions
+function). If the number $n_i$ of labels to be predicted per
+example is known a priori, it is natural at training time to assign the $top_{n_i}$ predictions
 to that example~\cite{lossTopKError, topKmulticlassSVM}. If the number of
-labels per example is unknown a priori, the question remains at training and at inference time
-as to how to extract information about the number of labels to assign to each
-example, aside from the propensity of labels to be assigned. This is generally
-done via a \emph{decision threshold}, that can be set globally for all
+labels per example is not known a priori, the question remains at both training and at inference time
+as to how to decide on the number of labels to assign to each
+example. This is generally done via a \emph{decision threshold}, that can be set globally for all
 examples. This threshold can optimize for specificity or
-sensitivity~\cite{decisionThreshold}. We propose a method where this threshold
-is implicitly defined, thanks to the use of metrics that already penalize for
-wrong label counts.
+sensitivity~\cite{decisionThreshold}. We propose an approach where this threshold
+is implicitly defined, by using a loss function that penalizes explicitly for wrong label counts.
 
-\todo{reference fig}
-See figure \ref{fig:knee}.
-
+\todo{reference fig See figure \ref{fig:knee}. \daan{I am not really missing a plot here. Not sure if a nicer knee plot would help.}}
 
 \begin{figure}[htbp]
 \centering
@@ -90,18 +91,21 @@ Ordered per-label cross-entropy predictions for each example (each grey line) wi
 
 
 \subsection{Design-algorithm-for-data solutions}
+\label{section:background:solution}
 
-With design-algorithm-for-data, we suggest to design loss functions to address FIMPUL problems specifically. We first formulate a unified loss, namely
+With our design-algorithm-for-data approach, we design loss functions that address FIMPUL problems specifically, \daan{by optimizing for wrong labels and wrong label count simultaneously.}
+We first formulate a unified loss, namely
 %
 \begin{equation}
+\label{equation:loss:multilabel}
 \underset{\mathcal{L}_{\text {multilabel}}} {\min} \mathcal{F}\left(\cdot ;
 \Theta; \mathcal{L}_{\text {multilabel}} (\mathbf{y}, \hat{\mathbf{y}},
 \mathbf{n}, \hat{\mathbf{n}}) \right),
 \end{equation}
 %
-Although predictions and counts explicitly appear in that formulation,
+Note that although predictions and counts appear explicitly in our Equation~\ref{equation:loss:multilabel},
 \(\mathcal{L}_{\text {multilabel}}\) can optimize for both metrics implicitly
-(see proposed \emph{sigmoidF1} below). This way, the correlation between label count and label predictions is embedded in the loss. Furthermore, we avoid having to mitigate the importance of label prediction VS label count with a regularizer  $\lambda$. For that purpose, we use surrogates of classical statistical and Information Retrieval metrics.
+(see proposed \emph{sigmoidF1} below). This way, the correlation between label count and label predictions is embedded in the loss. Furthermore, we avoid having to mitigate the importance of label prediction relative to label count with a regularizer $\lambda$. For that purpose, we use surrogates of classical statistical and \ac{IR} metrics.
 
 In a number of retrieval tasks, a model's out of sample accuracy is measured
 on metrics such as AUROC, F1 score, etc. These reflect an objective catered
@@ -110,9 +114,9 @@ differentiability, these metrics cannot be directly used as loss functions at
 training time (in-sample). A seminal study~\cite{optimizableLosses} derived a
 general framework for deriving decomposable surrogates to some of these
 metrics. We propose our own decomposable surrogates tailored for the problem
-at hand.
+at hand. \daan{This feels very out of place here. I can imagine it might be a good way to start of 2.4?}
 
-The proposed design-algorithm-for-data method is thus an alternative to fit-data-to-algorithm and fit-algorithm-to-data. design-algorithm-for-data uses metric as losses, allows for dynamic thresholding and implicitly deals with label counts and label predictions.
+The proposed design-algorithm-for-data method is thus an alternative to fit-data-to-algorithm and fit-algorithm-to-data. design-algorithm-for-data uses metric as losses, allows for dynamic thresholding and implicitly deals with label counts and label predictions. \daan{In the next section, we will detail this approach to derive \emph{sigmoidF1} loss as a surrogate to optimize for the F1 metric.}
 
 % \begin{figure}[t]
 % \centering
@@ -134,6 +138,7 @@ The proposed design-algorithm-for-data method is thus an alternative to fit-data
 
 
 \section*{STUFF THAT NEEDS TO BE MOVED SOMEWHERE BUT THAT DOES NOT SEEM APPROPRIATE FOR SECTIONS 2 OR 3}
+\daan{Either related work or the old-sections folder ;-).}
 
 \textcolor{cyan}{\todo{put this paragraph somewhere, it is a justification for FIMPUL}
  Beyond identifying object types (see YOLO~\cite{YOLO} and its successors), performing face recognition (see FaceNet\cite{FaceNet} and its successors) on segments of an image, neural networks
