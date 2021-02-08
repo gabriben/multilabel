@@ -1,5 +1,22 @@
 % !TEX root = ../main.tex
 
+\begin{table*}[]
+\caption{Confusion matrix with our proposed smoothed confusion matrix entries, $\widetilde{\mathit{tp}}$, $\widetilde{\mathit{fp}}$, $\widetilde{\mathit{fn}}$ and $\widetilde{\mathit{tn}}$ and six derived loss functions that use these smoothed confusion matrix entries, with $\mathcal{L}_{\widetilde{\mathit{F1}}}$ that is used in our experiments.}
+\label{tab:confusion-matrix}
+\def\arraystretch{1.1}
+\begin{tabular}{|c||c|c||c|} \cline{2-4}
+\multicolumn{1}{l|}{} & \textbf{Condition} & \textbf{Condition} & \multirow{2}{*}{$\mathcal{L}_{\widetilde{\mathit{Accuracy}}}= \frac{\widetilde{\mathit{tp}} + \widetilde{\mathit{tn}}}{\widetilde{\mathit{tp}} + \widetilde{\mathit{fp}} + \widetilde{\mathit{tn}} + \widetilde{\mathit{fn}}}$} \\
+\multicolumn{1}{l|}{} & \textbf{positive} &  \textbf{negative} & \\ \hline \hline
+\textbf{~Predicted~} & True positive & False positive & \multirow{2}{*}{$\mathcal{L}_{\widetilde{\mathit{Precision}}}= \frac{\widetilde{\mathit{tp}}}{\widetilde{\mathit{tp}} + \widetilde{\mathit{fp}}}$} \\
+\textbf{positive} & $\widetilde{\mathit{tp}}=\sum \mathbf{S}(\hat{\mathbf{y}}) \odot \mathbf{y}$ & $\widetilde{\mathit{fp}}= \sum \mathbf{S}(\hat{\mathbf{y}}) \odot (\mathds{1} - \mathbf{y})$ & \\ \hline
+\textbf{Predicted} & False negative & True Negative & \multirow{2}{*}{$\mathcal{L}_{\widetilde{\mathit{NPV}}}= \frac{\widetilde{\mathit{tn}}}{\widetilde{\mathit{tn}} + \widetilde{\mathit{fn}}}$} \\
+\textbf{negative} & $\widetilde{\mathit{fn}}= \sum (\mathds{1} - \mathbf{S}(\hat{\mathbf{y}})) \odot \mathbf{y}$ & $\widetilde{\mathit{tn}}= \sum (\mathds{1} - \mathbf{S}(\hat{\mathbf{y}})) \odot (\mathds{1} - \mathbf{y})$ & \\ \hline \hline
+\multicolumn{1}{l|}{} & \multirow{2}{*}{\hspace{1.2em}$\mathcal{L}_{\widetilde{\mathit{Recall}}}= \frac{\widetilde{\mathit{tp}}}{\widetilde{\mathit{tp}} + \widetilde{\mathit{fn}}}$\hspace{1.2em}}& \multirow{2}{*}{$\mathcal{L}_{\widetilde{\mathit{Specificity}}}= \frac{\widetilde{\mathit{tn}}}{\widetilde{\mathit{fp}} + \widetilde{\mathit{tn}}}$} & \multirow{2}{*}{$\mathcal{L}_{\widetilde{\mathit{F1}}}= \frac{\widetilde{\mathit{tp}}}{2 \widetilde{\mathit{tp}}+ \widetilde{\mathit{fn}}+ \widetilde{\mathit{fp}}}$} \\
+\multicolumn{1}{l|}{} & & & \\
+\cline{2-4}
+\end{tabular}%
+\end{table*}
+
 \section{Background}
 \label{section:background}
 
@@ -10,9 +27,32 @@ First, \emph{multi-label learning} refers to the possibility that one example is
 Second, the term \emph{full-instance} should be understood in contrast to \emph{multi-instance} learning~\citep[e.g.,][]{multiInstance,multiInstanceMultiLabel}, for which it is considered natural to first segment an image, text or sound before performing prediction on each of the segments. In contrast, for full-instance learning problems, we cannot assume that there is an obvious or unique way to segment an instance so that the prediction problem can be decided based on that segment.
 Third, the concept of \emph{unknown label counts} illustrates the case where the number of labels is unknown a priori for each example. Our proposed smooth surrogate of the F1 score allows to balance the tasks of label prediction and label count into one.
 
+In the following sections, we will first introduce the notion of the smooth confusion matrix and in particular sigmoidF1.
 Next, we briefly characterize existing families of solutions to FIMPUL problems.
 They can be divided into two groups, \emph{fit-data-to-algorithm} solutions (a.k.a. \emph{problem tranformation} \todo{cite}) and \emph{fit-algorithm-to-data} solutions (a.k.a.\ \emph{algorithm adaptation})~\cite{multilabelReview}. These will be discussed in \S\ref{section:background:fitdata} and \S\ref{section:background:fitalgorithm} respectively, followed by discussing shortcomings of these solutions in \S\ref{section:background:limitations} and proposing a new solution framework in \S\ref{section:background:solution}.
 In Section~\ref{section:method}, we then fully detail a particular instance of this framework.
+
+\subsection{Confusion Matrices and FIMPUL problems}
+In this section, we introduce the smooth confusion matrix and in particular sigmoidF1. Confusion matrix metrics are well suited for FIMPUL problems because they implicitly deal with label count.
+
+Let \(tp\), \(fp\), \(fn\), \(tn\) be number of true positives, false positives, false negatives and true negatives respectively. It is necessary to define a threshold \(t\), at which a prediction is dichotomized:
+%
+\begin{equation}
+\label{eq:conf}
+\begin{array}{ll} tp = \sum \mathds{1}_{\hat{\mathbf{y}} \geq t} \odot \mathbf{y}  & fp = \sum \mathds{1}_{\hat{\mathbf{y}} \geq t} \odot (\mathds{1} - \mathbf{y}) \\ fn = \sum \mathds{1}_{\hat{\mathbf{y}} < t} \odot \mathbf{y} & tn = \sum \mathds{1}_{\hat{\mathbf{y}} < t} \odot (\mathds{1} - \mathbf{y}),
+\end{array}
+\end{equation}
+%
+%, \(\sum^+\) and \(\sum^-\) corresponding to  \(\sum_{i \in Y^{+}}\) and \(\sum_{i \in Y^{-}}\) respectively
+with \(\odot\) the component-wise multiplication sign and \(\mathds{1}\) a binary vector. \(\sum \mathds{1}_{\hat{\mathbf{y}} \geq t}\), \(\sum \mathds{1}_{\hat{\mathbf{y}} < t}\) are thus the count of positive and negative predictions at threshold \(t\).
+
+Note that in the formulation above and the ones that follow, scores are calculated for a single class, therefore the sum is implicitly over all examples \(\sum_i\). This is useful for the binary classification problem but also for the multilabel problem, when micro metrics are calculated (i.e. metric for each class which is then averaged over all classes).
+% see end of this section, where we further refine the micro and macro concepts).
+In the multilabel setting $\mathbf{y}$ can be substituted by $\mathbf{y}^j$ for each class $j$. Note that vectors could be trivially substituted by matrices ($Y$) in the following expressions to obtain the macro formulation.
+\doubt{do you agree that the subscript for the sum is implicit? and do you agree that the matrix formulation is trivial?}
+Given the four confusion matrix quadrants, we can generate further metrics like precision and recall (see Table \ref{confusion-matrix}).
+
+\todo{This needs a smoother transition to the next paragraph}
 
 \subsection{Fit-data-to-algorithm solutions}
 \label{section:background:fitdata}
