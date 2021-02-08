@@ -21,7 +21,7 @@ Let \(tp\), \(fp\), \(fn\), \(tn\) be number of true positives, false positives,
 %
 \begin{equation}
 \label{eq:conf}
-\begin{array}{ll} tp = \sum \mathds{1}_{\hat{\mathbf{y}} \geq t} \odot \mathbf{y}  & fp = \sum \mathds{1}_{\hat{\mathbf{y}} \geq t} \odot (\mathds{1} - \mathbf{y}) \\ fn = \sum \mathds{1}_{\hat{\mathbf{y}} < t} \odot \mathbf{y} & tn = \sum \mathds{1}_{\hat{\mathbf{y}} < t} \odot (\mathds{1} - \mathbf{y}),
+\begin{array}{ll}\mathit{tp} = \sum \mathds{1}_{\hat{\mathbf{y}} \geq t} \odot \mathbf{y}  & \mathit{fp} = \sum \mathds{1}_{\hat{\mathbf{y}} \geq t} \odot (\mathds{1} - \mathbf{y}) \\[.5em] \mathit{fn} = \sum \mathds{1}_{\hat{\mathbf{y}} < t} \odot \mathbf{y} & \mathit{tn} = \sum \mathds{1}_{\hat{\mathbf{y}} < t} \odot (\mathds{1} - \mathbf{y}),
 \end{array}
 \end{equation}
 %
@@ -41,7 +41,7 @@ A first remedy is to define \emph{unbounded} confusion matrix entries by replaci
 
 \begin{equation}
 \label{eq:unbounded}
-\begin{array}{ll} \overline{tp} = \sum \hat{\mathbf{y}} \odot \mathbf{y}  & \overline{fp} = \sum \hat{\mathbf{y}} \odot (\mathds{1} - \mathbf{y}) \\ \overline{fn} = \sum (\mathds{1} - \hat{\mathbf{y}}) \odot \mathbf{y} & \overline{tn} = \sum (\mathds{1} - \hat{\mathbf{y}}) \odot (\mathds{1} - \mathbf{y}),
+\begin{array}{ll} \overline{\mathit{tp}} = \sum \hat{\mathbf{y}} \odot \mathbf{y}  & \overline{\mathit{fp}} = \sum \hat{\mathbf{y}} \odot (\mathds{1} - \mathbf{y}) \\[.5em] \overline{\mathit{fn}} = \sum (\mathds{1} - \hat{\mathbf{y}}) \odot \mathbf{y} & \overline{\mathit{tn}} = \sum (\mathds{1} - \hat{\mathbf{y}}) \odot (\mathds{1} - \mathbf{y}),
 \end{array}
 \end{equation}
 
@@ -78,7 +78,7 @@ We propose the introduction of a sigmoid-based transformation that renders confu
 
 \begin{equation}
 \label{eq:smooth}
-\begin{array}{ll} \widetilde{\mathit{tp}} = \sum \mathbf{S}(\hat{\mathbf{y}}) \odot \mathbf{y}  & \widetilde{\mathit{fp}} = \sum \mathbf{S}(\hat{\mathbf{y}}) \odot (\mathds{1} - \mathbf{y}) \\ \widetilde{\mathit{fn}} = \sum (\mathds{1} - \mathbf{S}(\hat{\mathbf{y}})) \odot \mathbf{y} & \widetilde{\mathit{tn}} = \sum (\mathds{1} - \mathbf{S}(\hat{\mathbf{y}})) \odot (\mathds{1} - \mathbf{y}),
+\begin{array}{ll} \widetilde{\mathit{tp}} = \sum \mathbf{S}(\hat{\mathbf{y}}) \odot \mathbf{y}  & \widetilde{\mathit{fp}} = \sum \mathbf{S}(\hat{\mathbf{y}}) \odot (\mathds{1} - \mathbf{y}) \\[.5em] \widetilde{\mathit{fn}} = \sum (\mathds{1} - \mathbf{S}(\hat{\mathbf{y}})) \odot \mathbf{y} & \widetilde{\mathit{tn}} = \sum (\mathds{1} - \mathbf{S}(\hat{\mathbf{y}})) \odot (\mathds{1} - \mathbf{y}),
 \end{array}
 \end{equation}
 
