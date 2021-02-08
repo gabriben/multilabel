@@ -4,7 +4,7 @@
 \label{sec:orgc23a664}
 
 We show results on four different datasets, moviePosters, cancerHallmarks, chemicalExposure and Arxiv2020.
-Interestingly, tencentLoss and focalLoss, which are specifically tailored for sparse data, do not perform well here. Note that macroSoftF1 can be particularly performent without requiring hyperparameter tuning. Across Tables \ref{tab:chemicalExposure, tab:moviePosters, tab:arxiv2020, tab:cancerHallmarks} we see that the smooth sigmoidF1 outperforms other existing losses. Although only the metrics@0.5 are shown, where 0.5 is the dichotomization threshold, the ablation study and our open sourced code further illustrates the consistent good performance of sigmoidF1 versus other losses.
+FocalLoss, which is specifically tailored for sparse data, does not perform well here. Note that macroSoftF1 can be particularly performent without requiring hyperparameter tuning. Across Tables \ref{tab:chemicalExposure, tab:moviePosters, tab:arxiv2020, tab:cancerHallmarks} we see that the smooth sigmoidF1 outperforms other existing losses. Although only the metrics@0.5 are shown, where 0.5 is the dichotomization threshold, the ablation study and our open sourced code further illustrates the consistent good performance of sigmoidF1 versus other losses.
 
 
 For the two medical datasets cancerHallmarks and chemicalExposure, information is a lot more sparse, we thus set the evaluation metrics threshold at 0.05 and train for 500 epochs until reaching convergence. 
@@ -79,6 +79,16 @@ $\mathcal{L}_{\text {sigmoidF1}}$ & \textbf{0.113} & \textbf{0.432} & \textbf{0.
 \bottomrule
 \end{tabular}
 \end{table}
+
+
+\subsection{Sensitivity Analysis}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.9\linewidth]{./images/ablation.pdf}
+\caption{\label{fig:etaBeta}
+weighted F1 score at different threshold (x axis) and for different values of Eta and Beta. Dots connected with a line are from the same experiment.}
+\end{figure}
 
 
 
