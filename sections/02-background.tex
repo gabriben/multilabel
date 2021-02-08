@@ -5,14 +5,14 @@
 
 We introduce the terminology, notation, and prior mathematical formulation of solutions for FIMPUL problems.
 
-The \emph{Full-Instance}, \emph{Multi-label Prediction for Unknown Label counts} (FIMPUL) learning task has three key concepts. 
+The \emph{Full-Instance}, \emph{Multi-label Prediction for Unknown Label counts} (FIMPUL) learning task has three key concepts.
 First, \emph{multi-label learning} refers to the possibility that one example is attributed more than one label~\cite{multilabelMethods}.
 Second, the term \emph{full-instance} should be understood in contrast to \emph{multi-instance} learning~\citep[e.g.,][]{multiInstance,multiInstanceMultiLabel}, for which it is considered natural to first segment an image, text or sound before performing prediction on each of the segments. In contrast, for full-instance learning problems, we cannot assume that there is an obvious or unique way to segment an instance so that the prediction problem can be decided based on that segment.
 Third, the concept of \emph{unknown label counts} illustrates the case where the number of labels is unknown a priori for each example. Our proposed smooth surrogate of the F1 score allows to balance the tasks of label prediction and label count into one.
 
-Next, we briefly characterize existing families of solutions to FIMPUL problems. 
-They can be divided into two groups, \emph{fit-data-to-algorithm} solutions (a.k.a. \emph{problem tranformation} \todo{cite}) and \emph{fit-algorithm-to-data} solutions (a.k.a.\ \emph{algorithm adaptation}) solutions~\cite{multilabelReview} and will be discussed in \S\ref{section:background:fitdata} and \S\ref{section:background:fitalgorithm} respectively.
-We then discuss shortcomings of these solutions in \S\ref{section:background:limitations} and propose a new solution framework in \S\ref{section:background:solution}. 
+In the following sections, we will first introduce the notion of the smooth confusion matrix and in particular sigmoidF1.
+Next, we briefly characterize existing families of solutions to FIMPUL problems.
+They can be divided into two groups, \emph{fit-data-to-algorithm} solutions (a.k.a. \emph{problem tranformation} \todo{cite}) and \emph{fit-algorithm-to-data} solutions (a.k.a.\ \emph{algorithm adaptation})~\cite{multilabelReview}. These will be discussed in \S\ref{section:background:fitdata} and \S\ref{section:background:fitalgorithm} respectively, followed by discussing shortcomings of these solutions in \S\ref{section:background:limitations} and proposing a new solution framework in \S\ref{section:background:solution}.
 In Section~\ref{section:method}, we then fully detail a particular instance of this framework.
 
 \subsection{Fit-data-to-algorithm solutions} 
