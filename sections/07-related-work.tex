@@ -2,10 +2,8 @@
 
 \section{Related Work}
 \label{sec:org2aceb9f}
+\todo{clean-up}
 
-Machine learning prediction tasks' output are probabilistic (or a reversible transformation of a probabilistic measure such as a sigmoid or a soft max function). At training time, these probabilistic values are compared to binary values in the case of binary encoding of classes. At inference time, if the number $n_i$ of labels to be predicted per example is known a priori, it is natural to assign the $top_{n_i}$ predictions to that example~\cite{lossTopKError, topKmulticlassSVM}. If the number of labels per example is unknown a priori, the question remains at inference time as to how to extract information about the number of labels to assign to each example, aside from the propensity of labels to be assigned. This is generally done via a \emph{decision threshold}, that can be set globally for all examples. This threshold can optimize for specificity or sensitivity~\cite{decisionThreshold}. We propose a method where this threshold is implicitely defined, thanks to the use of metrics that already penalize for wrong label counts.
-
-Learning to Rank (the practice of using Machine Learning to sort documents according to their relevance) lead to the widespread use of certain metrics~\cite{LTR}. In a number of retrieval tasks, a model's out of sample accuracy is measured on metrics such as AUROC, F1 score, etc. These reflect an objective catered towards evaluating the model over an entire ranking. Due to the lack of differentiability, these metrics cannot be directly used as loss functions at training time (in-sample). A seminal study~\cite{optimizableLosses} derived a general framework for deriving decomposable surrogates to some of these metrics. We propose our own decomposable surrogates of classical confusion matrix metrics and in particular sigmoidF1 tailored for the problem at hand.
 
 Beyond identifying object types (see YOLO~\cite{YOLO} and its successors), performing face recognition (see FaceNet\cite{FaceNet} and its successors) on segments of an image, neural networks
 are increasingly becoming better at predicting more abstact concepts via
@@ -24,9 +22,6 @@ State-of-the-art CNN and attention based models for text~\cite{XLNet, bigBird, }
 
 \subsection{fit-algorithm-to-data}
 
-
-
-
 Early representatives of fit-algorithm-to-data stem from heterogenous
 domains of machine learning. Multi-Label k-Nearest Neighbors \cite{ML-KNN},
 Multi-Label Decision Tree \cite{ML-DT}, Ranking Support Vector Machine
@@ -42,9 +37,13 @@ defined by the groundtruth (e.g. cat, flower, vase, person, bottle etc.).
 
 \subsection{thresholding}
 
+Machine learning prediction tasks' output are probabilistic (or a reversible transformation of a probabilistic measure such as a sigmoid or a soft max function). At training time, these probabilistic values are compared to binary values in the case of binary encoding of classes. At inference time, if the number $n_i$ of labels to be predicted per example is known a priori, it is natural to assign the $top_{n_i}$ predictions to that example~\cite{lossTopKError, topKmulticlassSVM}. If the number of labels per example is unknown a priori, the question remains at inference time as to how to extract information about the number of labels to assign to each example, aside from the propensity of labels to be assigned. This is generally done via a \emph{decision threshold}, that can be set globally for all examples. This threshold can optimize for specificity or sensitivity~\cite{decisionThreshold}. We propose a method where this threshold is implicitely defined, thanks to the use of metrics that already penalize for wrong label counts.
+
 Thresholding accross classes or examples can be an issue as soon as the number of labels to predict is unknown. Certain variants of cross-entropy loss accommodate imbalanced label data  \cite{focalLoss}, but remain agnostic towards the number of labels to predict. Solutions have been tailored to that end, starting with determining an ideal global \emph{threshold} depending on use-cases \cite{threshForF1}, or per-class-thresholding after training \cite{moviePosters} and eventually abstracting the threshold away via a \emph{soft-F1} measure \cite{softF1}. In the latter two cases, the task is to predict genre from movie posters.
 
 \subsection{Metrics as Losses}
+
+Learning to Rank (the practice of using Machine Learning to sort documents according to their relevance) lead to the widespread use of certain metrics~\cite{LTR}. In a number of retrieval tasks, a model's out of sample accuracy is measured on metrics such as AUROC, F1 score, etc. These reflect an objective catered towards evaluating the model over an entire ranking. Due to the lack of differentiability, these metrics cannot be directly used as loss functions at training time (in-sample). A seminal study~\cite{optimizableLosses} derived a general framework for deriving decomposable surrogates to some of these metrics. We propose our own decomposable surrogates of classical confusion matrix metrics and in particular sigmoidF1 tailored for the problem at hand.
 
 Often, machine learning post-training evaluation metrics (e.g. AUROC, F1) are
 not differentiable. There are motivations \todo{which motivations} for
@@ -57,6 +56,8 @@ and hundreds of labels specifically for multilabel tasks \cite{tencent}. This
 task is loosely related to object detection, similarly to
 \cite{multitaskLabelImages} mentioned in the previous paragraph.
 
+
+The proposed method is positioned in the lineage of \emph{algorithm adaptation}, using \emph{metric as losses} and allowing for dynamic \emph{thresholding}. 
 
 % This section will be guided by the previous section's formulation of the multitags problem, we will therefore focus on \emph{fit-algorithm-to-data}, \emph{metrics as losses} and \emph{thresholding}.
 

@@ -3,20 +3,13 @@
 \section{Experimental Results}
 \label{sec:orgc23a664}
 
+We show results on four different datasets, moviePosters, cancerHallmarks, chemicalExposure and Arxiv2020. Note that for the two medical datasets cancerHallmarks and chemicalExposure, information is a lot more sparse, we thus set the evaluation metrics threshold at 0.05 and train for 500 epochs until reaching convergence. 
 
+In general, we observe that sigmoidF1 performs better on most metrics and across different datasets. In particular, sigmoidF1 always outperforms other losses on our metric of focus (weightedF1) and its non-weighted counterpart (microF1). On moviePosters and Arxiv2020, we observe higher scores on all but the precision metric. On the smaller chemicalExposure and cancerHallmarks datasets, macroSoftF1 delivers good results for macroF1 and precision and sigmoidF1 leads to higher results in the reminder of the metrics. Note that countrary to sigmoidF1, macroSoftF1 can be particularly performent without requiring hyperparameter tuning.
 
+FocalLoss, which is specifically tailored for sparse data, does not perform well here, esxcept for precision on moviePosters. This can be explained by the fact that focal loss is designed for multiclass unilabel problems. Across Tables \ref{tab:chemicalExposure, tab:moviePosters, tab:arxiv2020, tab:cancerHallmarks} we see that the smooth sigmoidF1 outperforms other existing losses.
 
-
-We show results on four different datasets, moviePosters, cancerHallmarks, chemicalExposure and Arxiv2020.
-
-In general, we observe that sigmoidF1 performs better on most metrics and across different datasets. macroSoftF1 however systematically outperforms all other measures on Precision. 
-
-FocalLoss, which is specifically tailored for sparse data, does not perform well here. Note that macroSoftF1 can be particularly performent without requiring hyperparameter tuning. Across Tables \ref{tab:chemicalExposure, tab:moviePosters, tab:arxiv2020, tab:cancerHallmarks} we see that the smooth sigmoidF1 outperforms other existing losses. Although only the metrics@0.5 are shown, where 0.5 is the dichotomization threshold, the ablation study and our open sourced code further illustrates the consistent good performance of sigmoidF1 versus other losses.
-
-
-For the two medical datasets cancerHallmarks and chemicalExposure, information is a lot more sparse, we thus set the evaluation metrics threshold at 0.05 and train for 500 epochs until reaching convergence. 
-
-\todo{change to percentage}
+\todo{change to percentage & change order of metrics}
 
 \begin{table}[htbp]
   \caption{Movie posters (CNN). \mdr{Explain what we see.}}
@@ -26,7 +19,7 @@ For the two medical datasets cancerHallmarks and chemicalExposure, information i
 \toprule 
 Loss  & \rotatebox{90}{macroF1 @ 0.5} & \rotatebox{90}{microF1 @ 0.5} & \rotatebox{90}{weightedF1 @ 0.5} & \rotatebox{90}{Precision @ 0.5} & \rotatebox{90}{Recall @ 0.5}\\ 
 \midrule
-$\mathcal{L}_{\text {CE}}$ & 0.051 & 0.186 & 0.149 & 0.090 & 0.042 \\ 
+$\mathcal{L}_{\text {CE}}$ & 0.051 & 0.186 & 0.149 & 0.090 & 0.042 \\
 $\mathcal{L}_{\text {FL}}$ & 0.055 & 0.192 & 0.154 & 0.115 & – \\
 % $\mathcal{L}_{\text {CE+N}}$ & 0 & 0 & 0 & 0 & 0 \\
 $\mathcal{L}_{\text {macroSoftF1}}$ & 0.136 & 0.207 & 0.243 & \textbf{0.105} & 0.190 \\

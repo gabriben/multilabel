@@ -14,33 +14,41 @@
 
 \textbf{Results}
 
-In this paper we defined a new problem in deep learning for mulitple modalities that harness the current advances in abstract representation of the input space. A general loss framework is proposed to locate that solution within the existing multiclass multilabel losses and a specific loss function is formulated. \emph{sigmoidF1} achieves signifiantly better results for different F1 metrics on all datasets.
+In this paper we defined a new problem in deep learning for mulitple modalities that harness the current advances in abstract representation of the input space. A general loss framework for confusion metrics metrics (CoMMaL) is proposed to locate that solution within the existing multiclass multilabel losses and a specific loss function (sigmoidF1) is formulated. \emph{sigmoidF1} achieves signifiantly better results for most metrics on all datasets. In particular, sigmoidF1 outperforms other losses measured by macroSoftF1.
+
+Our smooth formulation of confusion matrix metrics allows to optimize directly for these metrics that are usually reserved for the evaluation phase. We show conclusive results on full-instance multilabel datasets with unknown label counts.
 
 \textbf{Limitations and Future Work}
 
-it is debatable wether any task is intrinsincly multilabel and wether the image / text cannot be decomposed in parts that are single labeled.
+Although we have identified a niche where the proposed loss framework is useful, a lot of experimentations in different domains are needed to further assess its performance. It is regrettable that we need to tune hyperparameters, but the unboundedF1 formulation can act as a less mathematically robust formulation to guarantee better results than existing multiclass losses.
 
-% not long training and small models, but aibility to demonstrate the statement anyways.
 
-Although we have identified a niche where the proposed loss framework is useful, a lot of experimentations in different domains are needed to further assess its performance.
+
+% It is also debatable whether that niche is 
+% it is debatable wether any task is intrinsincly multilabel and wether the image / text cannot be decomposed in parts that are single labeled.
+
+% % not long training and small models, but aibility to demonstrate the statement anyways.
+
+
 
 \textbf{Future work}
 
-Apply the loss function to more sophisticated neural network architectures that use F1 score as an evaluation metric such as AC-SUM-GAN \cite{AC-SUM-GAN}.
+In future work, we would like to apply CoMMaL to other datasets of the FIMPUL nature. It is possible that other datasets would also , other problem settings, other neural network architectures and other 
 
-This model can be adapted for hiarchical multilabel classification \cite{HARAM} or active learning (for both see \cite{activeLearningMultiLabel}). adapt to \emph{extreme} multilabel prediction \cite{extremeMultilabelText, extremeSIGIR}.
+In the future we propose to tackle other multilabel settings, such as hiarchical multilabel classification \cite{HARAM},  active learning (for both see \cite{activeLearningMultiLabel}) or \emph{extreme} multilabel prediction \cite{extremeMultilabelText, extremeSIGIR}.
 
-Combine the proposed loss functions with representation learning \cite{unsupervisedImage,highResRepresentation} or self-supervised learning, in order to model abstract relationships between the labels.
+For even stronger results, it might be interesting to combine the proposed loss functions with representation learning \cite{unsupervisedImage,highResRepresentation} or self-supervised learning, in order to model abstract relationships between the labels.
+
+In the light of recent advances in transfer learning, the classification head could benefit from more sophisticated training regimes, for example with dynamic weight freezing for finetuning~\cite{ULMFit}
 
 
+Apply the loss function to more sophisticated neural network architectures that use F1 score as an evaluation metric such as AC-SUM-GAN \cite{AC-SUM-GAN}. Another recently created dataset was made available for \emph{Large Scale Holistic Video Understanding} \cite{holisticVideoData}\footnote{Available at https://github.com/holistic-video-understanding/HVU-Dataset}, as defined in the introduction.
 
-implement the loss to train a CNN from scratch as was done by \cite{tencent}
+
+Finally, we would like to implement the smooth losses to train a CNN or a BERT model from scratch as was done by \cite{tencent} and \cite{focalLoss}
 
 we propose to release our results on Kaggle in the weeks to come.
 
-dynamic weight freezing for finetuning~\cite{ULMFit}
-
-Another recently created dataset was made available for \emph{Large Scale Holistic Video Understanding} \cite{holisticVideoData}\footnote{Available at https://github.com/holistic-video-understanding/HVU-Dataset}, as defined in the introduction.
 
 
 %%% Local Variables:
