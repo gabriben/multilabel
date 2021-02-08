@@ -7,7 +7,7 @@ We show results on four different datasets, moviePosters, cancerHallmarks, chemi
 Interestingly, tencentLoss and focalLoss, which are specifically tailored for sparse data, do not perform well here. Note that macroSoftF1 can be particularly performent without requiring hyperparameter tuning. Across Tables \ref{tab:chemicalExposure, tab:moviePosters, tab:arxiv2020, tab:cancerHallmarks} we see that the smooth sigmoidF1 outperforms other existing losses. Although only the metrics@0.5 are shown, where 0.5 is the dichotomization threshold, the ablation study and our open sourced code further illustrates the consistent good performance of sigmoidF1 versus other losses.
 
 
-For the two medical datasets cancerHallmarks and chemicalExposure, information is a lot more sparse, we thus set the evaluation metrics threshold at 0.05 and train for 500 epochs until reaching convergence. 
+For the two medical datasets cancerHallmarks and chemicalExposure, information is a lot more sparse, we thus set the evaluation metrics threshold at 0.05 and train for 500 epochs until reaching convergence.
 
 \subsection{Ablation Study - Arxiv2020}
 
@@ -30,10 +30,10 @@ Sigmoid function with different values for $\beta$ (steepness) \& $\eta$ (offset
   \label{tab:moviePosters}
 \centering
 \begin{tabular}{l ccccc}
-\toprule 
-Loss  & \rotatebox{90}{macroF1 @ 0.5} & \rotatebox{90}{microF1 @ 0.5} & \rotatebox{90}{weightedF1 @ 0.5} & \rotatebox{90}{Precision @ 0.5} & \rotatebox{90}{Recall @ 0.5}\\ 
+\toprule
+Loss  & \rotatebox{90}{macroF1 @ 0.5} & \rotatebox{90}{microF1 @ 0.5} & \rotatebox{90}{weightedF1 @ 0.5} & \rotatebox{90}{Precision @ 0.5} & \rotatebox{90}{Recall @ 0.5}\\
 \midrule
-$\mathcal{L}_{\text {CE}}$ & 0.051 & 0.186 & 0.149 & 0.090 & 0.042 \\ 
+$\mathcal{L}_{\text {CE}}$ & 0.051 & 0.186 & 0.149 & 0.090 & 0.042 \\
 $\mathcal{L}_{\text {FL}}$ & 0.055 & 0.192 & 0.154 & 0.115 & – \\
 % $\mathcal{L}_{\text {CE+N}}$ & 0 & 0 & 0 & 0 & 0 \\
 $\mathcal{L}_{\text {macroSoftF1}}$ & 0.136 & 0.207 & 0.243 & 0.105 & 0.190 \\
@@ -45,11 +45,11 @@ $\mathcal{L}_{\text {sigmoidF1}}$ & \textbf{0.158} & \textbf{0.224} & \textbf{0.
 
 \begin{table}
   \caption{Arxiv (distillBERT 2020), frozen pretrained weights 100 epochs, min-label-thresh: 1000}
-  \label{tab:arxiv2020}  
+  \label{tab:arxiv2020}
 \centering
 \begin{tabular}{l ccccc}
 \toprule
-Loss  & \rotatebox{90}{macroF @ 0.5} & \rotatebox{90}{microF1 @ 0.5} & \rotatebox{90}{weightedF1 @ 0.5} & \rotatebox{90}{Precision @ 0.5} & \rotatebox{90}{Recall @ 0.5}\\ 
+Loss  & \rotatebox{90}{macroF1 @ 0.5} & \rotatebox{90}{microF1 @ 0.5} & \rotatebox{90}{weightedF1 @ 0.5} & \rotatebox{90}{Precision @ 0.5} & \rotatebox{90}{Recall @ 0.5}\\
 \midrule
 $\mathcal{L}_{\text {CE}}$ & 0.093 & 0.106 & 0.106 & 0.096 & – \\ % Run 71ef078f975649d5b3d897e504bc638b
 $\mathcal{L}_{\text {FL}}$ & 0.008 & 0.011 & 0.009 & 0.054 & 0.954 \\
@@ -65,10 +65,10 @@ $\mathcal{L}_{\text {sigmoidF1}}$ & \textbf{0.093} & \textbf{0.106} & \textbf{0.
   \label{tab:cancerHallmarks}
 \centering
 \begin{tabular}{l ccccc}
-\toprule 
-Loss  & \rotatebox{90}{macroF1 @ 0.05} & \rotatebox{90}{microF1 @ 0.05} & \rotatebox{90}{weightedF1 @ 0.05} & \rotatebox{90}{Precision @ 0.05} & \rotatebox{90}{Recall @ 0.05}\\ 
+\toprule
+Loss  & \rotatebox{90}{macroF1 @ 0.05} & \rotatebox{90}{microF1 @ 0.05} & \rotatebox{90}{weightedF1 @ 0.05} & \rotatebox{90}{Precision @ 0.05} & \rotatebox{90}{Recall @ 0.05}\\
 \midrule
-$\mathcal{L}_{\text {CE}}$ & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\ 
+$\mathcal{L}_{\text {CE}}$ & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\
 $\mathcal{L}_{\text {FL}}$ & 0.044 & 0.190 & 0.108 & 0.071 & 0.055 \\
 % $\mathcal{L}_{\text {CE+N}}$ & 0 & 0 & 0 & 0 & 0 \\
 $\mathcal{L}_{\text {macroSoftF1}}$ & 0.098 & 0.176 & 0.170 & 0.089 & 0.131 \\
@@ -84,7 +84,7 @@ $\mathcal{L}_{\text {sigmoidF1}}$ & \textbf{0.068} & \textbf{0.269} & \textbf{0.
 \centering
 \begin{tabular}{l ccccc}
 \toprule
-Loss  & \rotatebox{90}{macroF1 @ 0.05} & \rotatebox{90}{microF1 @ 0.05} & \rotatebox{90}{weightedF1 @ 0.05} & \rotatebox{90}{Precision @ 0.05} & \rotatebox{90}{Recall @ 0.05}\\ 
+Loss  & \rotatebox{90}{macroF1 @ 0.05} & \rotatebox{90}{microF1 @ 0.05} & \rotatebox{90}{weightedF1 @ 0.05} & \rotatebox{90}{Precision @ 0.05} & \rotatebox{90}{Recall @ 0.05}\\
 \midrule
 $\mathcal{L}_{\text {CE}}$ & 0.012 & 0.058 & 0.051 & 0.047 & 0.007 \\ % Run 71ef078f975649d5b3d897e504bc638b
 $\mathcal{L}_{\text {FL}}$ & 0.0934 & 0.348 & 0.268 & 0.130 & 0.091 \\
