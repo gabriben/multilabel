@@ -40,7 +40,15 @@ cancerHallmarks\hspace{-.7em}  & text & 33 & 3.501 & 1582\\
 
 \subsection{Hardware and Neural Network Architecture}
 
-We performed our experiments on AWS machines with parallelization on up to 16 GPUs \textit{p2.16xlarge}, with TensorFlow 2 as a gradient-descent backend. The learning framework consists of two parts: a pretrained deep neural network and a classification head.
+We performed our experiments on AWS machines with parallelization on up to 16 GPUs \textit{p2.16xlarge}, with TensorFlow 2 as a gradient-descent backend. The learning framework consists of two parts: a pretrained deep neural network and a classification head (see Figure \ref{fig:architecture}).
+
+\begin{figure*}[htbp]
+\centering
+\includegraphics[width=.9\linewidth]{./images/architecture.png}
+\caption{\label{fig:architecture}
+Pretrained Network and Classification Head for sigmoidF1 \todo{some tweaks}}
+\end{figure*}
+
 
 Since the focus of this paper is in comparing loss functions and not neural network architectures, efficient  (accuracy / computing time) architectures were chosen.
 For the text datasets, the Huggingface's pretrained network~\cite{distilBert} is used as it is a particularly efficient BERT model\footnote{The pretrained network can be loaded here \url{https://huggingface.co/transformers/model_doc/distilbert.html}}. For the image dataset, we use MobileNetV2~\cite{mobileNet}. It is pretrained on ImageNet~\cite{imagenet} and is typically used for inference on small computing devices (e.g. smartphones). We use a version of MobileNetV2 already stripped off of its original classification head  \footnote{The pretrained network can be loaded here \url{https://tfhub.dev/google/imagenet/mobilenet_v2_100_224/feature_vector/4}}. In both cases, we use the final pretrained layer as an embedding of the input. In order to make sure that the results of different loss functions are comparable, we fix the model weights of the pretrained CNN and DistilBert and keep the hyperparameter values that were used to train them from scratch. We also use the same TensorFlow internal random seeds.

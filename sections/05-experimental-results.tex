@@ -9,20 +9,6 @@ Interestingly, tencentLoss and focalLoss, which are specifically tailored for sp
 
 For the two medical datasets cancerHallmarks and chemicalExposure, information is a lot more sparse, we thus set the evaluation metrics threshold at 0.05 and train for 500 epochs until reaching convergence. 
 
-\subsection{Ablation Study - Arxiv2020}
-
-We performed an analysis of sensitivity to different amount of labels. For this, the irrelevance threshold (see definition in Section \ref{sec:orgb44ba25}) $t$ was set to the values 0, 10, 100 and 1000. This time, results are shown with dichotomization thresholds of 0.1 to 0.9. \todo{see if keep it}
-
-\todo{sensitivity to hyperparametertuning plot}
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.9\linewidth]{./images/ablation.pdf}
-\caption{\label{fig:ablation}
-Sigmoid function with different values for $\beta$ (steepness) \& $\eta$ (offset)}
-\end{figure}
-
-
 \todo{change to percentage}
 
 \begin{table}
@@ -93,6 +79,24 @@ $\mathcal{L}_{\text {sigmoidF1}}$ & \textbf{0.113} & \textbf{0.432} & \textbf{0.
 \bottomrule
 \end{tabular}
 \end{table}
+
+
+
+
+\subsection{Ablation Study - Arxiv2020}
+
+We performed an analysis of sensitivity to different amount of labels. For this, the irrelevance threshold (see definition in Section \ref{sec:orgb44ba25}) $t$ was set to the values 0, 10, 100 and 1000. This time, results are shown with dichotomization thresholds of 0.1 to 0.9. \todo{see if keep it}
+
+\todo{sensitivity to hyperparametertuning plot}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.9\linewidth]{./images/ablation.pdf}
+\caption{\label{fig:ablation}
+Sigmoid function with different values for $\beta$ (steepness) \& $\eta$ (offset)}
+\end{figure}
+
+
 
 
 %%% Local Variables:
