@@ -3,7 +3,14 @@
 \section{Experimental Results}
 \label{sec:orgc23a664}
 
+
+
+
+
 We show results on four different datasets, moviePosters, cancerHallmarks, chemicalExposure and Arxiv2020.
+
+In general, we observe that sigmoidF1 performs better on most metrics and across different datasets. macroSoftF1 however systematically outperforms all other measures on Precision. 
+
 FocalLoss, which is specifically tailored for sparse data, does not perform well here. Note that macroSoftF1 can be particularly performent without requiring hyperparameter tuning. Across Tables \ref{tab:chemicalExposure, tab:moviePosters, tab:arxiv2020, tab:cancerHallmarks} we see that the smooth sigmoidF1 outperforms other existing losses. Although only the metrics@0.5 are shown, where 0.5 is the dichotomization threshold, the ablation study and our open sourced code further illustrates the consistent good performance of sigmoidF1 versus other losses.
 
 
@@ -11,7 +18,7 @@ For the two medical datasets cancerHallmarks and chemicalExposure, information i
 
 \todo{change to percentage}
 
-\begin{table}
+\begin{table}[htbp]
   \caption{Movie posters (CNN). \mdr{Explain what we see.}}
   \label{tab:moviePosters}
 \centering
@@ -29,24 +36,24 @@ $\mathcal{L}_{\text {sigmoidF1}}$ & \textbf{0.158} & \textbf{0.224} & \textbf{0.
 \end{table}
 
 
-\begin{table}
+\begin{table}[htbp]
   \caption{Arxiv (distillBERT 2020), frozen pretrained weights 100 epochs, min-label-thresh: 1000}
   \label{tab:arxiv2020}  
 \centering
 \begin{tabular}{l ccccc}
 \toprule
-Loss  & \rotatebox{90}{macroF @ 0.5} & \rotatebox{90}{microF1 @ 0.5} & \rotatebox{90}{weightedF1 @ 0.5} & \rotatebox{90}{Precision @ 0.5} & \rotatebox{90}{Recall @ 0.5}\\ 
+Loss  & \rotatebox{90}{macroF1 @ 0.5} & \rotatebox{90}{microF1 @ 0.5} & \rotatebox{90}{weightedF1 @ 0.5} & \rotatebox{90}{Precision @ 0.5} & \rotatebox{90}{Recall @ 0.5}\\ 
 \midrule
 $\mathcal{L}_{\text {CE}}$ & 0.093 & 0.106 & 0.106 & 0.096 & – \\ % Run 71ef078f975649d5b3d897e504bc638b
 $\mathcal{L}_{\text {FL}}$ & 0.008 & 0.011 & 0.009 & 0.054 & 0.954 \\
 % $\mathcal{L}_{\text {CE+N}}$ & 0 & 0 & 0 & 0 & 0 \\
-$\mathcal{L}_{\text {macroSoftF1}}$ & 0.077 & 0.088 & 0.087 & 0.100 & – \\ % run 405a6e6851e84a89a82313251a7a36e8 (18-19 jan)
-$\mathcal{L}_{\text {sigmoidF1}}$ & \textbf{0.093} & \textbf{0.106} & \textbf{0.106} & \textbf{0.096} & \textbf{–} \\ % run bd478ca55eb64cc78d9ad0f25accce35 (18-19 jan)
+$\mathcal{L}_{\text {macroSoftF1}}$ & 0.077 & 0.088 & 0.087 & \textbf{0.100} & – \\ % run 405a6e6851e84a89a82313251a7a36e8 (18-19 jan)
+$\mathcal{L}_{\text {sigmoidF1}}$ & \textbf{0.093} & \textbf{0.106} & \textbf{0.106} & 0.096 & \textbf{–} \\ % run bd478ca55eb64cc78d9ad0f25accce35 (18-19 jan)
 \bottomrule
 \end{tabular}
 \end{table}
 
-\begin{table}
+\begin{table}[htbp]
   \caption{Cancer Hallmarks}
   \label{tab:cancerHallmarks}
 \centering
@@ -57,14 +64,14 @@ Loss  & \rotatebox{90}{macroF1 @ 0.05} & \rotatebox{90}{microF1 @ 0.05} & \rotat
 $\mathcal{L}_{\text {CE}}$ & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\ 
 $\mathcal{L}_{\text {FL}}$ & 0.044 & 0.190 & 0.108 & 0.071 & 0.055 \\
 % $\mathcal{L}_{\text {CE+N}}$ & 0 & 0 & 0 & 0 & 0 \\
-$\mathcal{L}_{\text {macroSoftF1}}$ & 0.098 & 0.176 & 0.170 & 0.089 & 0.131 \\
-$\mathcal{L}_{\text {sigmoidF1}}$ & \textbf{0.095} & \textbf{0.313} & \textbf{0.202} & \textbf{0.059} & \textbf{0.264} \\ % run e145056949424b02bfc83cc57af38374
+$\mathcal{L}_{\text {macroSoftF1}}$ & \textbf{0.098} & 0.176 & 0.170 & \textbf{0.089} & 0.131 \\
+$\mathcal{L}_{\text {sigmoidF1}}$ & 0.095 & \textbf{0.313} & \textbf{0.202} & 0.059 & \textbf{0.264} \\ % run e145056949424b02bfc83cc57af38374
 \bottomrule
 \end{tabular}
 \end{table}
 
 
-\begin{table}
+\begin{table}[htbp]
   \caption{Chemical Exposure}
   \label{tab:chemicalExposure}
 \centering
@@ -74,8 +81,8 @@ Loss  & \rotatebox{90}{macroF1 @ 0.05} & \rotatebox{90}{microF1 @ 0.05} & \rotat
 \midrule
 $\mathcal{L}_{\text {CE}}$ & 0.012 & 0.058 & 0.051 & 0.047 & 0.007 \\ % Run 71ef078f975649d5b3d897e504bc638b
 $\mathcal{L}_{\text {FL}}$ & 0.0934 & 0.348 & 0.268 & 0.130 & 0.091 \\
-$\mathcal{L}_{\text {macroSoftF1}}$ & 0.133 & 0.194 & 0.218 & 0.155 & 0.138 \\ % run 405a6e6851e84a89a82313251a7a36e8 (18-19 jan)
-$\mathcal{L}_{\text {sigmoidF1}}$ & \textbf{0.113} & \textbf{0.432} & \textbf{0.319} & \textbf{0.091} & \textbf{0.188} \\ % run a30825efe9c94a24bc46a9c71a5f8646 E: 0.5 S: 0.6
+$\mathcal{L}_{\text {macroSoftF1}}$ & \textbf{0.133} & 0.194 & 0.218 & \textbf{0.155} & 0.138 \\ % run 405a6e6851e84a89a82313251a7a36e8 (18-19 jan)
+$\mathcal{L}_{\text {sigmoidF1}}$ & 0.113 & \textbf{0.432} & \textbf{0.319} & 0.091 & \textbf{0.188} \\ % run a30825efe9c94a24bc46a9c71a5f8646 E: 0.5 S: 0.6
 \bottomrule
 \end{tabular}
 \end{table}
