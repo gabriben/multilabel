@@ -51,7 +51,7 @@ The groundtruth $\mathbf{y}$ is bounded between $[0,1]$ and thus it must be comp
 For the surrogate to be a proper sign function substitute, it is important to often return values close to 1 or 0. Saturation is defined in the context of neural network activation functions and refers to the propensity of iterative backpropagation to progressively lead to values very close to 0 or 1 after a long enough training period. While activation functions should tend to be non-saturated, in order for the derivative at point $u$ to be non-null and information to flow back to the network~\cite{saturation}, our sign function substitute must output values close to 0 or 1, in order to be comparable to a step function.
 
 \begin{prop}
-  Steepness: $f'(u) >> 0 \quad \forall \; u \in [-s, s]$, with $s$ the saturation bound
+  Dynamic Gradient: $f'(u) >> 0 \quad \forall \; u \in [-s, s]$, with $s$ the saturation bound
 \end{prop}
 
 Outside the saturation bounds $[-s, s]$, the derivative should be significantly significantly higher than zero in order to facilitate gradient descent and backpropagation.
@@ -79,7 +79,7 @@ This method though has the advantage of resulting in a linear loss function that
 
 \subsection{Smooth confusion matrix entries}
 
-We propose the introduction of a sigmoid-based transformation that renders confusion matrix entries decomposable and tackles the three issues above:
+We propose the introduction of a sigmoid-based transformation that renders confusion matrix entries decomposable and fulfills the three properties above:
 
 \begin{equation}
 \label{eq:smooth}
