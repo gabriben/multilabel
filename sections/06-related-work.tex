@@ -16,9 +16,9 @@ limited.
 
 \subsection{fit-data-to-algorithm}
 
-There is also relatively little hierarchical relationships. In a case like prediction of a music genre, there is no theory on how many labels a piece of music should be given.
+The \textit{label powerset} approach considers each unique set of labels as one class in the transformed setting~\cite{multilabelComparison} (e.g. an instance labeled \textit{Thriller} and \textit{action}, results in the creation of the class \textit{Thriller and action}). Alternatively, \textit{ranking by pairwise comparison} is a solution where the dataset is duplicated for each possible label pairs. Each duplicated dataset has therefore two classes and only contains instances that have at least one of the labels in the label pair. Different ranking methods exist~\cite{pairwiseBinary, pairwiseNet}. 
 
-State-of-the-art CNN and attention based models for text~\cite{XLNet, bigBird, } and image respectively still use the fit-data-to-algorithm framework even when fine-tuning for multilabel classification tasks on datasets like IMDB, Yelp-2, Yelp-5, DBpedia, AG, Amazon-2, and Amazon-5 for text and .  XLNet uses adversarial loss, BigBird uses cross-entropy as most Bert models do...
+More recently, hierarchical datasets such as DBpedia\footnote{https://wiki.dbpedia.org/develop/datasets/latest-core-dataset-releases} are often used to finetune BERT-based models~\cite{XLNet, bigBird}. In both publications, cross-entropy is used to predict the labels.
 
 \subsection{fit-algorithm-to-data}
 
