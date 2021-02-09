@@ -3,9 +3,9 @@
 \section{Experimental Results}
 \label{sec:orgc23a664}
 
-We show results on four different datasets, moviePosters, cancerHallmarks, chemicalExposure and arXiv2020 in Tables~\ref{tab:moviePosters}, \ref{tab:arxiv2020}, \ref{tab:cancerHallmarks} and \ref{tab:chemicalExposure} respectively. 
+We present classification results on four different datasets, movie\-Posters, cancerHallmarks, chemicalExposure and arXiv2020 in Table~\ref{table:overallresults}. 
 
-\subsection{Overall results}
+\subsection{Overall Classification Results}
 
 In general, we observe that sigmoidF1 performs better on most metrics and across different datasets. In particular, sigmoidF1 always outperforms other losses on our metric of focus (weightedF1 @ 0.5) and its non-weighted counterpart (microF1 @ 0.5). On moviePosters (Table~\ref{tab:moviePosters} and arXiv2020 (Table~\ref{tab:arxiv2020}), we observe higher scores on all but Precision @ 0.5. On the smaller chemicalExposure and cancerHallmarks datasets, unboundedF1 delivers good results for macroF1 @ 0.5 and Precision @ 0.5 and sigmoidF1 leads to higher results in the remainder of the metrics. \todo{Note that contrary to sigmoidF1, unboundedF1 can be particularly performant without requiring hyperparameter tuning.} \daan{Not a very strong point for sigmoidF1. Also not sure if I agree. We focus on weightedF1, that we hopefully succesfully defended in 4. We see substantial improvements for sigmoidF1 over softF1 across the board on that metric. So we should explain that we see that it optimized for a macro metric instead and clearly has success that. Can be a strong metric to consider for such a setting. That should be its on paragraph.}
 
@@ -13,10 +13,12 @@ FocalLoss, which is specifically tailored for sparse data, does not perform well
 
 \todo{change to percentage} \daan{I do not agree.} \todo{change order of metrics} \daan{Yes: weighted, micro, macro, p, r}
 
-\todo{Fix table captions. and force all tables on one page}
-
-\begin{table}[htbp]
-  \caption{MobileNetV2 (CNN) + custom classification head on Movie posters}
+\begin{table*}
+\caption{Multi-label classification performance.}
+\label{table:overallresults}
+\vspace{2mm}
+\begin{subtable}[t]{.95\columnwidth}
+  \caption{Performance of MobileNetV2 (CNN) + custom classification head on Movie posters}
   \label{tab:moviePosters}
 \centering
 \begin{tabular}{l ccccc}
@@ -30,11 +32,10 @@ $\mathcal{L}_{\text {unboundedF1}}$ & 0.136 & 0.207 & 0.243 & \textbf{0.105} & 0
 $\mathcal{L}_{\text {sigmoidF1}}$ & \textbf{0.158} & \textbf{0.224} & \textbf{0.300} & 0.104 & \textbf{0.557} \\ % run aa424792a57e4208ad1805cd6e63f8e6
 \bottomrule
 \end{tabular}
-\end{table}
-
-
-\begin{table}[htbp]
-  \caption{DistilBert (NLP) + custom classification on  arXiv 2020}
+\end{subtable}
+\quad
+\begin{subtable}[t]{.95\columnwidth}
+  \caption{Performance of DistilBert (NLP) + custom classification on  arXiv 2020}
   \label{tab:arxiv2020}  
 \centering
 \begin{tabular}{l ccccc}
@@ -48,9 +49,10 @@ $\mathcal{L}_{\text {unboundedF1}}$ & 0.077 & 0.088 & 0.087 & \textbf{0.100} & �
 $\mathcal{L}_{\text {sigmoidF1}}$ & \textbf{0.093} & \textbf{0.106} & \textbf{0.106} & 0.096 & \textbf{–} \\ % run bd478ca55eb64cc78d9ad0f25accce35 (18-19 jan)
 \bottomrule
 \end{tabular}
-\end{table}
+\end{subtable}
 
-\begin{table}[htbp]
+\vspace{2mm}
+\begin{subtable}[t]{.95\columnwidth}
   \caption{DistilBert (NLP) + custom classification on Cancer Hallmarks}
   \label{tab:cancerHallmarks}
 \centering
@@ -65,10 +67,9 @@ $\mathcal{L}_{\text {unboundedF1}}$ & \textbf{0.098} & 0.176 & 0.170 & \textbf{0
 $\mathcal{L}_{\text {sigmoidF1}}$ & 0.095 & \textbf{0.313} & \textbf{0.202} & 0.059 & \textbf{0.264} \\ % run e145056949424b02bfc83cc57af38374
 \bottomrule
 \end{tabular}
-\end{table}
-
-
-\begin{table}[htbp]
+\end{subtable}
+\quad
+\begin{subtable}[t]{.95\columnwidth}
   \caption{DistilBert (NLP) + custom classification on Chemical Exposure}
   \label{tab:chemicalExposure}
 \centering
@@ -82,7 +83,8 @@ $\mathcal{L}_{\text {unboundedF1}}$ & \textbf{0.133} & 0.194 & 0.218 & \textbf{0
 $\mathcal{L}_{\text {sigmoidF1}}$ & 0.113 & \textbf{0.432} & \textbf{0.319} & 0.091 & \textbf{0.188} \\ % run a30825efe9c94a24bc46a9c71a5f8646 E: 0.5 S: 0.6
 \bottomrule
 \end{tabular}
-\end{table}
+\end{subtable}
+\end{table*}
 
 
 \subsection{Sensitivity Analysis}
@@ -111,9 +113,9 @@ DistilBert on Arxiv2020 – different metrics at different threshold (x axis). D
 
 \gab{I can't have clean plots for the image dataset}
 
-\subsection{Ablation Study - arXiv2020}
+\subsection{\mdr{What's here?}}
 
-We performed an analysis of sensitivity to different amount of labels. For this, the irrelevance threshold (see definition in Section \ref{sec:orgb44ba25}) $t$ was set to the values 0, 10, 100 and 1000. This time, results are shown with dichotomization thresholds of 0.1 to 0.9. \todo{see if keep it}
+We perform an analysis of sensitivity to different amounts of labels. For this, the irrelevance threshold (see definition in Section \ref{sec:orgb44ba25}) $t$ was set to the values 0, 10, 100 and 1000. This time, results are shown with dichotomization thresholds of 0.1 to 0.9. \todo{see if keep it}
 
 \begin{figure}[htbp]
 \centering

@@ -51,6 +51,10 @@ In both cases, we use the final pretrained layer as an embedding of the input. I
 
 A similar classification head is used for both MobileNetV2 and DistilBert. It consists of a latent representation layer (the final pretrained layer mentioned above) connected with a RELU activation. This layer is linked to a final classification layer with a linear activation. The dimension of the final layer is equal to the number of classes in the dataset. When computing focalLoss and crossEntropy, a softmax transformation transforms the unbounded last layer to a $[0,1]$ bounded vector. When computing sigmoidF1 loss, a sigmoid transformation is operated instead, which results in a sparser $[0,1]$ vector. At inference time, the last layer is used for prediction and is bounded with a softmax function. A threshold must then be chosen at evaluation time to compute different metrics. Figure \ref{fig:architecture} depicts this learning framework. Thresholding regimes at inference time are further discussed in Sections~\ref{sec:evalMetrics} and~\ref{subsec:thresh}.
 
+\subsection{Losses Compared}
+\label{section:losssescompared}
+\mdr{Briefly state/summarize which losses we will be comparing and why those.}
+ 
 \subsection{Evaluation Metrics}
 \label{sec:evalMetrics}
 
