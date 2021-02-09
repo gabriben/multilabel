@@ -69,7 +69,7 @@ For the two medical datasets, cancerHallmarks and chemicalExposure, information 
 Extending \(F_1\) to multi-class binary classification amounts to deciding wether or not to pool classes.
 In a first pooled iteration, macro \(F_1\)~\cite{multilabelMetrics} equates to creating a single 2x2 confusion matrix for all classes:
 \begin{equation}
-F_1^{macro} = \frac{\sum tp_c}{2 \sum tp_c + \sum fn_c + \sum fp_c} \quad for \quad c \in C.
+F_1^{macro} = \frac{\sum tp_c}{2 \sum tp_c + \sum fn_c + \sum fp_c} \quad \text{for} \quad c \in C.
 \end{equation}
 Micro \(F_1\) \cite{threshForF1, multilabelMetrics} amounts to creating one confusion matrix per class or unpooling:
 \begin{equation}
