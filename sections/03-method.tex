@@ -26,7 +26,7 @@ Let \(tp\), \(fp\), \(fn\), \(tn\) be number of true positives, false positives,
 \end{equation}
 %
 %, \(\sum^+\) and \(\sum^-\) corresponding to  \(\sum_{i \in Y^{+}}\) and \(\sum_{i \in Y^{-}}\) respectively
-with \(\odot\) the component-wise multiplication sign and \(\mathds{1}\) a binary vector. \(\sum \mathds{1}_{\hat{\mathbf{y}} \geq t}\), \(\sum \mathds{1}_{\hat{\mathbf{y}} < t}\) are thus the count of positive and negative predictions at threshold \(t\).
+with \(\odot\) the component-wise multiplication sign and \(\mathds{1}\) an indicator function. \(\sum \mathds{1}_{\hat{\mathbf{y}} \geq t}\), \(\sum \mathds{1}_{\hat{\mathbf{y}} < t}\) are thus the count of positive and negative predictions at threshold \(t\).
 
 Note that in the formulation above and the ones that follow, scores are calculated for a single class, therefore the sum is implicitly over all examples \(\sum_i\). This is useful for the binary classification problem but also for the multilabel problem, when micro metrics are calculated (i.e. metric for each class which is then averaged over all classes, see end of this section, where we further refine the micro and macro concepts). In the multilabel setting $\mathbf{y}$ can be substituted by $\mathbf{y}^j$ for each class $j$. Note that vectors could be trivially substituted by matrices ($Y$) in the following expressions to obtain the macro formulation.
 \doubt{do you agree that the subscript for the sum is implicit? and do you agree that the matrix formulation is trivial?}
@@ -36,7 +36,31 @@ Note that in the formulation above and the ones that follow, scores are calculat
 
 Given the four confusion matrix quadrants, we can generate further metrics like precision and recall (see Table \ref{confusion-matrix}). \daan{The sentence before should be in the proposed confusion matrix primer, the one after makes sense here.} However none of these metrics are decomposable due to the hard thresholding which is in effect a step function (see Figure \ref{fig:sigmoid}).
 
-A first remedy is to define \emph{unbounded} confusion matrix entries by replacing the dichotomized predictions with prediction probabilities. This way,
+\subsection{Desirable Properties of Decomposable Thresholding}
+
+We thus define desirable properties for a decomposable sign function $f(u)$ as a surrogate of the above indicator function \(\mathds{1}_{\hat{\mathbf{y}} < t}\).
+
+\begin{prop}
+  Boundedness: $|f(u)| < M$, where $M$ is a an upper and lower bound.
+\end{prop}
+The groundtruth $\mathbf{y}$ is bounded between $[0,1]$ and thus it must be compared to a bounded prediction $\mathbf{\hat{y}}$, preferably bounded by $[0,1]$, to avoid further scaling.
+
+\begin{prop}
+  Saturation: $\int_{s}^{\infty} f(u) = \int_{-\infty}^{-s} f(u) = \epsilon$, with $\epsilon$ a number close to zero and $s$ a saturation bound.
+\end{prop}
+For the surrogate to be a proper sign function substitute, it is important to often return values close to 1 or 0. Saturation is defined in the context of neural network activation functions and refers to the propensity of iterative backpropagation to progressively lead to values very close to 0 or 1 after a long enough training period. While activation functions should tend to be non-saturated, in order for the derivative at point $u$ to be non-null and information to flow back to the network~\cite{saturation}, our sign function substitute must output values close to 0 or 1, in order to be comparable to a step function.
+
+\begin{prop}
+  Steepness: $f'(u) >> 0 \quad \forall \; u \in [-s, s]$, with $s$ the saturation bound
+\end{prop}
+
+Outside the saturation bounds $[-s, s]$, the derivative should be significantly significantly higher than zero in order to facilitate gradient descent and backpropagation.
+
+Note that the upper and lower limits of $f(u)$ are sometimes $[-1,1]$ instead of $[0,1]$ along this paper. It is easy to show that the desirable properties above are still valid
+
+\subsection{Unbounded Alternative}
+
+A first trivial remedy to allow for derivation of the sign function, is to define \emph{unbounded} confusion matrix entries by replacing the dichotomized predictions with prediction probabilities. This way,
  (i.e. \(\overline{tp}\), \(\overline{fp}\), \(\overline{fn}\) and  \(\overline{tn}\) are not natural numbers anymore):
 
 \begin{equation}
@@ -49,28 +73,9 @@ A first remedy is to define \emph{unbounded} confusion matrix entries by replaci
 % \overline{tp}=\sum \hat{\mathbf{y}} \odot \mathbf{y} \quad \overline{fp} = \sum \hat{\mathbf{y}} \odot (\mathbf{1}- \mathbf{y}) \quad \overline{fn} = \sum (\mathbf{1} - \hat{\mathbf{y}}) \odot \mathbf{y}
 % $$
 
-\(tp\), \(fp\), \(fn\) and \(tn\) are now replaced by rough surrogates. This method has the advantage of resulting in a linear loss function that avoids the concept of thresholding altogether and is trivial to decompose for stochastic gradient descent. The disadvantages are that (i) \(\hat{\mathbf{y}}\) is unbounded and thus certain examples can have over-proportional effects on the loss, (ii) It is non-saturated. While non-saturation is desirable for activation functions~\cite{saturation}, it would be here desirable to tend towards saturation (i.e. tend to values close to 0 or 1, so as to give the most accurate predictions at any thresholding values at inference time). (iii) The gradiant of that linear function is 1 and therefore backpropagation will not learn depending on different inputs at this stage of the loss function. \daan{I like this discussion of the characteristics of the loss function. Can we promote that to a generic a section above? Kinda like design requirements?}
+\(tp\), \(fp\), \(fn\) and \(tn\) are now replaced by rough surrogates. The disadvantages are that the desirable properties mentioned above are not fulfilled, namely (i) \(\hat{\mathbf{y}}\) is unbounded and thus certain examples can have over-proportional effects on the loss, (ii) It is non-saturated. While non-saturation is desirable for activation functions~\cite{saturation}, it would be here desirable to tend towards saturation (i.e. tend to values close to 0 or 1, so as to give the most accurate predictions at any thresholding values at inference time). (iii) The gradiant of that linear function is 1 and therefore backpropagation will not learn depending on different inputs at this stage of the loss function.
 
-\gab{something like that at the beginning of the section maybe (with mathematical signs)?}
-
-\begin{prop}
-  soft dichotomization should be bounded
-\end{prop}
-this means that ...
-
-\begin{prop}
-  soft dichotomization should be saturated
-\end{prop}
-
-this means that ...
-
-\begin{prop}
-  soft dichotomization should have gradiants favorable for gradiant descent
-\end{prop}
-
-this means that ...
-
-
+This method though has the advantage of resulting in a linear loss function that avoids the concept of thresholding altogether and is trivial to decompose for stochastic gradient descent.
 
 \subsection{Smooth confusion matrix entries}
 
