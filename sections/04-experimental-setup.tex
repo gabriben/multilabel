@@ -53,6 +53,9 @@ A similar classification head is used for both MobileNetV2 and DistilBert. It co
 
 \subsection{Losses Compared}
 \label{section:losssescompared}
+
+We benchmark sigmoidF1 against three other losses. The cross-entropy loss and its variant for sparse datasets, focal loss, are representatives of the fit-data-to-algorithm approach as they are binary classifiers. No implementation of a multitask learning approach (fit-algorithm-to-data) could be found and is therefore left for later research. The third loss function is unboundedF1 and represents a first step towards CoMMaL.
+
 \mdr{Briefly state/summarize which losses we will be comparing and why those.}
  
 \subsection{Evaluation Metrics}
