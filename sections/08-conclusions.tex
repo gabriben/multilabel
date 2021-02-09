@@ -2,25 +2,25 @@
 
 \section{Conclusion}
 \label{sec:orged3d8a1}
-\mdr{Structure the conclusion in five paragraphs, devoted to the following questions:}
-\begin{itemize}[leftmargin=*]
-\item What did we do
-\item What did we find
-\item What are the implications
-\item What are the limitations
-\item What should we do next
-\end{itemize}
+% \mdr{Structure the conclusion in five paragraphs, devoted to the following questions:}
+% \begin{itemize}[leftmargin=*]
+% \item What did we do
+% \item What did we find
+% \item What are the implications
+% \item What are the limitations
+% \item What should we do next
+% \end{itemize}
 
 
-\textbf{Results}
+\paragraph{Results}
+In this paper we defined a new problem in deep learning for mulitple modalities that harness the current advances in abstract representation of the input space (e.g. with models of the BERT and CNN families that can retrieve a final layer embedding). That problem is defined as Full-Instance, Multilabel Prediction for Unknown Label count (FIMPUL). It is a subdomain of multiclass classification where an instance needs to be considered as a whole (movie, paper abstract) in order to be labeled. The available labels are from different classes and can be of different numbers per example.
 
-In this paper we defined a new problem in deep learning for mulitple modalities that harness the current advances in abstract representation of the input space. A general loss framework for confusion metrics metrics (CoMMaL) is proposed to locate that solution within the existing multiclass multilabel losses and a specific loss function (sigmoidF1) is formulated. \emph{sigmoidF1} achieves signifiantly better results for most metrics on all datasets. In particular, sigmoidF1 outperforms other losses measured by unboundedF1.
+A general loss framework for confusion metrics metrics (CoMMaL) is proposed to solve the FIMPUL problem in particular. A specific loss function (sigmoidF1) is formulated within the CoMMaL framework. sigmoidF1 achieves signifiantly better results for most metrics on all datasets. In particular, sigmoidF1 outperforms other losses measured by the weightedF1 metric.
 
-Our smooth formulation of confusion matrix metrics allows to optimize directly for these metrics that are usually reserved for the evaluation phase. We show conclusive results on full-instance multilabel datasets with unknown label counts.
+More generally, CoMMaL, our smooth formulation of confusion matrix metrics allows to optimize directly for these metrics that are usually reserved for the evaluation phase. With its first promising results, CoMMaL can be further extended to other domains.
 
-\textbf{Limitations and Future Work}
-
-Although we have identified a niche where the proposed loss framework is useful, a lot of experimentations in different domains are needed to further assess its performance. It is regrettable that we need to tune hyperparameters, but the unboundedF1 formulation can act as a less mathematically robust formulation to guarantee better results than existing multiclass losses.
+\paragraph{Limitations}
+The caveats of CoMMaL and sigmoidF1 reside in the fact that they were only tested for the FIMPUL niche. A lot of experimentations in different domains are needed to further assess their performance. More experimentation is also needed to find a proper heuristic for finetuning sigmoidF1's hyperparameters. However, the proposed unboundedF1 counterpart does not require tuning and delivered better results than existing multiclass losses on most metrics. It can act as a less mathematically robust substitute of sigmoidF1.
 
 
 
@@ -31,23 +31,27 @@ Although we have identified a niche where the proposed loss framework is useful,
 
 
 
-\textbf{Future work}
+\paragraph{Future work}
+In future work, we would like to test the limits of CoMMaL and sigmoidF1 both within and beyond the FIMPUL setting.
 
-In future work, we would like to apply CoMMaL to other datasets of the FIMPUL nature. It is possible that other datasets would also , other problem settings, other neural network architectures and other 
+%% future work %%
+% datasets
+% labeling setting
+% neural architecture
+% SOTA transfer learning
+% train from scratch
 
-In the future we propose to tackle other multilabel settings, such as hiarchical multilabel classification \cite{HARAM},  active learning (for both see \cite{activeLearningMultiLabel}) or \emph{extreme} multilabel prediction \cite{extremeMultilabelText, extremeSIGIR}.
+A first step within the FIMPUL setting, could be to use more robust transfer learning / finetuning procedures, for example with dynamic weight freezing for finetuning~\cite{ULMFit}. Alternatively, we would like to implement the smooth losses to train a CNN or a BERT model for FIMPUL tasks from scratch as was done by \cite{tencent} and \cite{focalLoss}. If training from scratch, it might then be interesting to combine the proposed loss functions with representation learning \cite{unsupervisedImage,highResRepresentation} or self-supervised learning, in order to model abstract relationships between the labels.
 
-For even stronger results, it might be interesting to combine the proposed loss functions with representation learning \cite{unsupervisedImage,highResRepresentation} or self-supervised learning, in order to model abstract relationships between the labels.
+In the future we propose to tackle other multilabel settings, such as hiarchical multilabel classification \cite{HARAM},  active learning (for both see \cite{activeLearningMultiLabel}) or \emph{extreme} multilabel prediction \cite{extremeMultilabelText, extremeSIGIR}. More generally, sigmoidF1 could be tested on any model that use F1 score as an evaluation metric such as AC-SUM-GAN \cite{AC-SUM-GAN}.
 
-In the light of recent advances in transfer learning, the classification head could benefit from more sophisticated training regimes, for example with dynamic weight freezing for finetuning~\cite{ULMFit}
+The recently emerged \textit{holistic} content labeling tasks might be another promising testing ground for CoMMaL and sigmoidF1. Holistic labeling refers to labels given to an entire content (full-instance) at different levels of abstraction. A dataset was recently released for \emph{Large Scale Holistic Video Understanding} \cite{holisticVideoData}\footnote{Available at https://github.com/holistic-video-understanding/HVU-Dataset}.
+
+\vspace{\baselineskip}
+
+In the mean time, we will release our results on Kaggle website for the Arxiv multi-label text classification task\footnote{https://www.kaggle.com/Cornell-University/arxiv/tasks?taskId=1757} in the months to come.
 
 
-Apply the loss function to more sophisticated neural network architectures that use F1 score as an evaluation metric such as AC-SUM-GAN \cite{AC-SUM-GAN}. Another recently created dataset was made available for \emph{Large Scale Holistic Video Understanding} \cite{holisticVideoData}\footnote{Available at https://github.com/holistic-video-understanding/HVU-Dataset}, as defined in the introduction.
-
-
-Finally, we would like to implement the smooth losses to train a CNN or a BERT model from scratch as was done by \cite{tencent} and \cite{focalLoss}
-
-we propose to release our results on Kaggle in the weeks to come.
 
 
 
