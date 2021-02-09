@@ -36,6 +36,7 @@ defined by the groundtruth (e.g. cat, flower, vase, person, bottle etc.).
 
 
 \subsection{thresholding}
+\label{subsec:thresh}
 
 Machine learning prediction tasks' output are probabilistic (or a reversible transformation of a probabilistic measure such as a sigmoid or a soft max function). At training time, these probabilistic values are compared to binary values in the case of binary encoding of classes. At inference time, if the number $n_i$ of labels to be predicted per example is known a priori, it is natural to assign the $top_{n_i}$ predictions to that example~\cite{lossTopKError, topKmulticlassSVM}. If the number of labels per example is unknown a priori, the question remains at inference time as to how to extract information about the number of labels to assign to each example, aside from the propensity of labels to be assigned. This is generally done via a \emph{decision threshold}, that can be set globally for all examples. This threshold can optimize for specificity or sensitivity~\cite{decisionThreshold}. We propose a method where this threshold is implicitely defined, thanks to the use of metrics that already penalize for wrong label counts.
 
@@ -123,3 +124,8 @@ The proposed method is positioned in the lineage of \emph{algorithm adaptation},
 % /Optimizing directly for macro F1: By introducing the macro soft-F1 loss, we could train the model to directly increase the metric we care about: the macro F1-score @ threshold 0.5. We could clearly observe the alignment during training and evaluation on successive epochs. When using this loss, we do not have to tune the decision threshold any more. Imagine a multi-label classification system with hundreds of labels, how unstable the system will be if we have to continuously update the optimal threshold for each label. The macro soft-F1 loss comes to the rescue. By using it, we can keep all thresholds fixed at 0.5 and still get an optimal performance from the training process./
 
 
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../main"
+%%% End:

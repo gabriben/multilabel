@@ -11,10 +11,10 @@ FocalLoss, which is specifically tailored for sparse data, does not perform well
 
 \todo{change to percentage} \daan{I do not agree.} \todo{change order of metrics} \daan{Yes: weighted, micro, macro, p, r}
 
-\todo{Fix table captions.}
+\todo{Fix table captions. and force all tables on one page}
 
 \begin{table}[htbp]
-  \caption{Movie posters (CNN). \mdr{Explain what we see.}}
+  \caption{MobileNetV2 (CNN) + custom classification head on Movie posters}
   \label{tab:moviePosters}
 \centering
 \begin{tabular}{l ccccc}
@@ -32,7 +32,7 @@ $\mathcal{L}_{\text {sigmoidF1}}$ & \textbf{0.158} & \textbf{0.224} & \textbf{0.
 
 
 \begin{table}[htbp]
-  \caption{arXiv (distillBERT 2020), frozen pretrained weights 100 epochs, min-label-thresh: 1000}
+  \caption{DistilBert (NLP) + custom classification on  arXiv 2020}
   \label{tab:arxiv2020}  
 \centering
 \begin{tabular}{l ccccc}
@@ -49,7 +49,7 @@ $\mathcal{L}_{\text {sigmoidF1}}$ & \textbf{0.093} & \textbf{0.106} & \textbf{0.
 \end{table}
 
 \begin{table}[htbp]
-  \caption{Cancer Hallmarks}
+  \caption{DistilBert (NLP) + custom classification on Cancer Hallmarks}
   \label{tab:cancerHallmarks}
 \centering
 \begin{tabular}{l ccccc}
@@ -67,7 +67,7 @@ $\mathcal{L}_{\text {sigmoidF1}}$ & 0.095 & \textbf{0.313} & \textbf{0.202} & 0.
 
 
 \begin{table}[htbp]
-  \caption{Chemical Exposure}
+  \caption{DistilBert (NLP) + custom classification on Chemical Exposure}
   \label{tab:chemicalExposure}
 \centering
 \begin{tabular}{l ccccc}
@@ -85,21 +85,33 @@ $\mathcal{L}_{\text {sigmoidF1}}$ & 0.113 & \textbf{0.432} & \textbf{0.319} & 0.
 
 \subsection{Sensitivity Analysis}
 
+We show the sensitivity of sigmoidF1 to different parametrizations of $\eta$ and $\beta$. It is clear from Figure \ref{fig:betaEta} that results on test set is very sensible to thresholding.
+
+\gab{write more}
+
+\gab{I am not a fan of this plot after all}
+
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=.9\linewidth]{./images/ablation.pdf}
-\caption{\label{fig:etaBeta}
-weighted F1 score at different threshold (x axis) and for different values of Eta and Beta. Dots connected with a line are from the same experiment.}
+\includegraphics[width=.9\linewidth]{./images/betaEta.png}
+\caption{\label{fig:betaEta}
+DistilBert on Arxiv2020 – weighted F1 score at different threshold (x axis) and for different values of Eta and Beta. Dots connected with a line are from the same experiment.}
 \end{figure}
 
+\gab{I am not sure I have a narrative for thresholds either (below)}
 
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.9\linewidth]{./images/thresh.png}
+\caption{\label{fig:thresh}
+DistilBert on Arxiv2020 – different metrics at different threshold (x axis). Dots connected with a line are from the same experiment.}
+\end{figure}
 
+\gab{I can't have clean plots for the image dataset}
 
 \subsection{Ablation Study - arXiv2020}
 
 We performed an analysis of sensitivity to different amount of labels. For this, the irrelevance threshold (see definition in Section \ref{sec:orgb44ba25}) $t$ was set to the values 0, 10, 100 and 1000. This time, results are shown with dichotomization thresholds of 0.1 to 0.9. \todo{see if keep it}
-
-\todo{sensitivity to hyperparametertuning plot}
 
 \begin{figure}[htbp]
 \centering

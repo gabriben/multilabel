@@ -93,7 +93,7 @@ with $\mathbf{S}(\cdot)$ the vectorial form of the sigmoid function $S(\cdot)$:
 S(u; \beta, \eta)=\frac{1}{1+\exp (-\beta (u + \eta))},
 \end{equation}
 
-with \(\beta\) and \(\eta\) tunable parameters for slope and offset respectively. Higher \(\beta\) results in steeper slope at the center of the sigmoid and thus more stringent thresholding. At its extreme, \(lim_{\beta\to\infty} S(u; \beta, \eta)\) corresponds to the step function used in Equation \ref{eq:conf}.
+with \(\beta\) and \(\eta\) tunable parameters for slope and offset respectively. Higher \(\beta\) results in steeper slope at the center of the sigmoid and thus more stringent thresholding. At its extreme, \(lim_{\beta\to\infty} S(u; \beta, \eta)\) corresponds to the step function used in Equation \ref{eq:conf}. Note that negative values of $\beta$ geometrically reflect the sigmoid function across the horizontal line at $0.5$ and thus invert predictions.
 
 
 These smooth confusion matrix entries allow to build any related metric (see Table \ref{tab:confusion-matrix}). Furthermore, the surrogate entries are decomposable, bounded, saturated and have a dynamic gradient.
@@ -127,7 +127,7 @@ Following Equation \ref{eq:unbounded}, it is possible to define an \emph{unbound
 \mathcal{L}_{\overline{\mathit{F1}}}= \frac{\overline{tp}}{2 \overline{tp}+ \overline{fn}+ \overline{fp}}
 \end{equation}
 
-$\mathcal{L}_{\overline{\mathit{F1}}}$ will be used to benchmark against our proposed \emph{smoothF1} loss. Thanks to the definitions of smooth confusion matrix metrics above, we can now write $\mathcal{L}_{\widetilde{\mathit{F1}}}$\footnote{A similar method was proposed outside of the context of neural networks: the \emph{Maximum F1-score criterion} for automatic mispronunciation detection \cite{sigmoid}.}
+$\mathcal{L}_{\overline{\mathit{F1}}}$ will be used to benchmark against our proposed \emph{sigmoidF1} loss. Thanks to the definitions of smooth confusion matrix metrics above, we can now write $\mathcal{L}_{\widetilde{\mathit{F1}}}$\footnote{A similar method was proposed outside of the context of neural networks: the \emph{Maximum F1-score criterion} for automatic mispronunciation detection \cite{sigmoid}.}
 
 \begin{equation}\label{eq:sigmoidF1}
 \mathcal{L}_{\widetilde{\mathit{F1}}}= \frac{\widetilde{\mathit{tp}}}{2 \widetilde{\mathit{tp}}+ \widetilde{\mathit{fn}}+ \widetilde{\mathit{fp}}}
