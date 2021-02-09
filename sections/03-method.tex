@@ -187,44 +187,6 @@ Similarly to the focal loss \cite{focalLoss}, sigmoidF1 loss deals with class im
 % doesn't work
 
 
-
-\subsection{Evaluation Metrics}
-\label{sec:org23c8447}
-
-\mdr{Should this be here or in the Exp Setup section?}
-
-The metrics described below are a result of a survey of different common practices for measuring accuracy of multilabel prediction. When true positives and false positives are used, recall that \(t p=\sum_{i \in Y^{+}} \mathds{1}_{\mathbf{p_i} \geq t}\) and \(f p=\sum_{i \in Y^{-}} \mathds{1}_{\mathbf{p_i} \geq t}\), and thus a threshold \(t\) must be set. When \(t = 0.5\), as is commonly done \todo{add source}, a risk remains that a lot of examples remain without predictions.
-
-Extending \(F_1\) to multi-class binary classification amounts to deciding wether to un/pool classes.
-In a first pooled iteration, micro \(F_1\)~\cite{multilabelMetrics} equates to creating a single 2x2 confusion matrix for all classes:
-$$F_1^{micro} = \frac{\sum tp_c}{2 \sum tp_c + \sum fn_c + \sum fp_c} \quad for \quad c \in C$$
-
-Macro \(F_1\) \cite{threshForF1, multilabelMetrics} amounts to creating one confusion matrix per class or unpooling:
-
-$$F_1^{macro} = \frac{1}{c} \sum_{j=1}^c F_1$$
-
-% $$F_1^{macro} = \frac{\sum tp_c}{2 \sum tp_c + \sum fn_c + \sum fp_c} \quad for \quad c \in C$$
-
-Weighted macro \(F_1\)~\cite{weightedMetrics} is similar but includes weighing to account for class imbalance, i.e. weighing each class by the number of groundtruth positives.
-\begin{equation}
-F_1^{weighted} = \frac{1}{c} \sum_{j=1}^c n_j F_1 \text{ where } n_j = \sum_i \mathds{1}_{\mathbf{y_i^j} = 1}.
-\end{equation}
-
-% $$F_1^{weighted} = \frac{\sum tp_c}{2 \sum tp_c + \sum fn_c + \sum fp_c} \quad for \quad c \in C$$
-
-We also define precision and recall
-
-\begin{equation}
-\begin{aligned} P &=\frac{t p}{t p+f p} \\ R &=\frac{t p}{t p+f n}=\frac{t p}{\left|Y^{+}\right|} \end{aligned}
-\end{equation}
-
-More variations scores exist in the literature, such as hamming loss~\cite{hammingLoss} (the fraction of incorrectly predicted labels), hamming score.
-
-% - 'samples':
-% Calculate metrics for each instance, and find their average (only meaningful for multilabel classification where this differs from accuracy_score).
-
-% $$F_1^{micro} = \frac{\sum tp_c}{2 \sum tp_c + \sum fn_c + \sum fp_c} \quad for \quad c \in C$$
-
 % \todo{explain batch size mathematically for F1 surrogate losses}
 
 

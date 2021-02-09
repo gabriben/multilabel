@@ -3,13 +3,15 @@
 \section{Experimental Results}
 \label{sec:orgc23a664}
 
-We show results on four different datasets, moviePosters, cancerHallmarks, chemicalExposure and Arxiv2020. Note that for the two medical datasets cancerHallmarks and chemicalExposure, information is a lot more sparse, we thus set the evaluation metrics threshold at 0.05 and train for 500 epochs until reaching convergence. 
+We show results on four different datasets, moviePosters, cancerHallmarks, chemicalExposure and arXiv2020 in Tables~\ref{tab:moviePosters}, \ref{tab:arxiv2020}, \ref{tab:cancerHallmarks} and \ref{tab:chemicalExposure} respectively. 
 
-In general, we observe that sigmoidF1 performs better on most metrics and across different datasets. In particular, sigmoidF1 always outperforms other losses on our metric of focus (weightedF1) and its non-weighted counterpart (microF1). On moviePosters and Arxiv2020, we observe higher scores on all but the precision metric. On the smaller chemicalExposure and cancerHallmarks datasets, macroSoftF1 delivers good results for macroF1 and precision and sigmoidF1 leads to higher results in the reminder of the metrics. Note that countrary to sigmoidF1, macroSoftF1 can be particularly performent without requiring hyperparameter tuning.
+In general, we observe that sigmoidF1 performs better on most metrics and across different datasets. In particular, sigmoidF1 always outperforms other losses on our metric of focus (weightedF1 @ 0.5) and its non-weighted counterpart (microF1 @ 0.5). On moviePosters (Table~\ref{tab:moviePosters} and arXiv2020 (Table~\ref{tab:arxiv2020}), we observe higher scores on all but Precision @ 0.5. On the smaller chemicalExposure and cancerHallmarks datasets, macroSoftF1 delivers good results for macroF1 @ 0.5 and Precision @ 0.5 and sigmoidF1 leads to higher results in the remainder of the metrics. \todo{Note that contrary to sigmoidF1, macroSoftF1 can be particularly performant without requiring hyperparameter tuning.} \daan{Not a very strong point for sigmoidF1. Also not sure if I agree. We focus on weightedF1, that we hopefully succesfully defended in 4. We see substantial improvements for sigmoidF1 over softF1 across the board on that metric. So we should explain that we see that it optimized for a macro metric instead and clearly has success that. Can be a strong metric to consider for such a setting. That should be its on paragraph.}
 
-FocalLoss, which is specifically tailored for sparse data, does not perform well here, esxcept for precision on moviePosters. This can be explained by the fact that focal loss is designed for multiclass unilabel problems. Across Tables \ref{tab:chemicalExposure, tab:moviePosters, tab:arxiv2020, tab:cancerHallmarks} we see that the smooth sigmoidF1 outperforms other existing losses.
+FocalLoss, which is specifically tailored for sparse data, does not perform well here, except for Precision @ 0.5 on moviePosters. This can be explained by the fact that focal loss is designed for multiclass unilabel problems. Across Tables \ref{tab:moviePosters}, \ref{tab:arxiv2020}, \ref{tab:cancerHallmarks} and \ref{tab:chemicalExposure} we see that the smooth sigmoidF1 outperforms other existing losses.
 
-\todo{change to percentage \& change order of metrics}
+\todo{change to percentage} \daan{I do not agree.} \todo{change order of metrics} \daan{Yes: weighted, micro, macro, p, r}
+
+\todo{Fix table captions.}
 
 \begin{table}[htbp]
   \caption{Movie posters (CNN). \mdr{Explain what we see.}}
@@ -30,7 +32,7 @@ $\mathcal{L}_{\text {sigmoidF1}}$ & \textbf{0.158} & \textbf{0.224} & \textbf{0.
 
 
 \begin{table}[htbp]
-  \caption{Arxiv (distillBERT 2020), frozen pretrained weights 100 epochs, min-label-thresh: 1000}
+  \caption{arXiv (distillBERT 2020), frozen pretrained weights 100 epochs, min-label-thresh: 1000}
   \label{tab:arxiv2020}  
 \centering
 \begin{tabular}{l ccccc}
@@ -93,7 +95,7 @@ weighted F1 score at different threshold (x axis) and for different values of Et
 
 
 
-\subsection{Ablation Study - Arxiv2020}
+\subsection{Ablation Study - arXiv2020}
 
 We performed an analysis of sensitivity to different amount of labels. For this, the irrelevance threshold (see definition in Section \ref{sec:orgb44ba25}) $t$ was set to the values 0, 10, 100 and 1000. This time, results are shown with dichotomization thresholds of 0.1 to 0.9. \todo{see if keep it}
 
