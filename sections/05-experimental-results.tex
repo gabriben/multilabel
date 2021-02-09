@@ -89,40 +89,25 @@ $\mathcal{L}_{\text {sigmoidF1}}$ & 0.113 & \textbf{0.432} & \textbf{0.319} & 0.
 
 \subsection{Sensitivity Analysis}
 
-We show the sensitivity of sigmoidF1 to different parametrizations of $\eta$ and $\beta$. It is clear from Figure \ref{fig:betaEta} that results on test set is very sensible to thresholding.
+We show the sensitivity of sigmoidF1 to different parametrizations of $\eta$ and $\beta$. It is clear from Figure \ref{fig:betaEta} that results on test set are sensible to the choice of $\eta$ and $\beta$. 
 
-\gab{write more}
-
-\gab{I am not a fan of this plot after all}
-
-\begin{figure}[htbp]
+\begin{figure*}[htbp]
 \centering
 \includegraphics[width=.9\linewidth]{./images/betaEta.png}
 \caption{\label{fig:betaEta}
-DistilBert on Arxiv2020 – weighted F1 score at different threshold (x axis) and for different values of Eta and Beta. Dots connected with a line are from the same experiment.}
-\end{figure}
+DistilBert on Arxiv2020 – different scores on the test data at a 0.5 threshold for different values of Eta and Beta.}
+\end{figure*}
 
-\gab{I am not sure I have a narrative for thresholds either (below)}
+% \subsection{\mdr{What's here?}}
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.9\linewidth]{./images/thresh.png}
-\caption{\label{fig:thresh}
-DistilBert on Arxiv2020 – different metrics at different threshold (x axis). Dots connected with a line are from the same experiment.}
-\end{figure}
+% We perform an analysis of sensitivity to different amounts of labels. For this, the irrelevance threshold (see definition in Section \ref{sec:orgb44ba25}) $t$ was set to the values 0, 10, 100 and 1000. This time, results are shown with dichotomization thresholds of 0.1 to 0.9. \todo{see if keep it}
 
-\gab{I can't have clean plots for the image dataset}
-
-\subsection{\mdr{What's here?}}
-
-We perform an analysis of sensitivity to different amounts of labels. For this, the irrelevance threshold (see definition in Section \ref{sec:orgb44ba25}) $t$ was set to the values 0, 10, 100 and 1000. This time, results are shown with dichotomization thresholds of 0.1 to 0.9. \todo{see if keep it}
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.9\linewidth]{./images/ablation.pdf}
-\caption{\label{fig:ablation}
-Sigmoid function with different values for $\beta$ (steepness) \& $\eta$ (offset)}
-\end{figure}
+% \begin{figure}[htbp]
+% \centering
+% \includegraphics[width=.9\linewidth]{./images/ablation.pdf}
+% \caption{\label{fig:ablation}
+% Sigmoid function with different values for $\beta$ (steepness) \& $\eta$ (offset)}
+% \end{figure}
 
 
 
