@@ -83,6 +83,49 @@ We made sure to split the data in the same train/validation/test sets for each d
 
 % \todo{this is an ambitious number of datasets. Add longer description of each dataset, depending on which ones I keep: sample size, number of classes etc. see utils here: https://github.com/ashrefm/multi-label-soft-f1}
 
+\subsection{Evaluation Metrics}
+\label{sec:org23c8447}
+
+In our experimental evaluation, we consider a suite of metrics that are commonly used in the evaluation of multilabel classification to measure the effectiveness of multilabel prediction. Such metrics are based on the confusion matrix, which we detailed in Section~\ref{section:method} and for which we provided smoothed surrogates to optimize directly.
+
+When true positives and false positives are used, recall that \(t p=\sum_{i \in Y^{+}} \mathds{1}_{\mathbf{p_i} \geq t}\) and \(f p=\sum_{i \in Y^{-}} \mathds{1}_{\mathbf{p_i} \geq t}\), and thus a threshold \(t\) must be set. When \(t = 0.5\), as is commonly done \todo{add source}, a risk remains that a lot of examples remain without predictions. \daan{Sharpen this end defend our choices.}
+Note that for the two medical datasets cancerHallmarks and chemicalExposure, information is a lot more sparse, we thus set the evaluation metrics threshold at 0.05 and train for 500 epochs until reaching convergence. 
+
+Extending \(F_1\) to multi-class binary classification amounts to deciding wether or not to pool classes.
+In a first pooled iteration, micro \(F_1\)~\cite{multilabelMetrics} equates to creating a single 2x2 confusion matrix for all classes:
+$$F_1^{micro} = \frac{\sum tp_c}{2 \sum tp_c + \sum fn_c + \sum fp_c} \quad for \quad c \in C$$
+
+Macro \(F_1\) \cite{threshForF1, multilabelMetrics} amounts to creating one confusion matrix per class or unpooling:
+
+$$F_1^{macro} = \frac{1}{c} \sum_{j=1}^c F_1$$
+
+% $$F_1^{macro} = \frac{\sum tp_c}{2 \sum tp_c + \sum fn_c + \sum fp_c} \quad for \quad c \in C$$
+
+Weighted macro \(F_1\)~\cite{weightedMetrics} is similar but includes weighing to account for class imbalance, i.e. weighing each class by the number of groundtruth positives.
+\begin{equation}
+F_1^{weighted} = \frac{1}{c} \sum_{j=1}^c n_j F_1 \text{ where } n_j = \sum_i \mathds{1}_{\mathbf{y_i^j} = 1}.
+\end{equation}
+
+% $$F_1^{weighted} = \frac{\sum tp_c}{2 \sum tp_c + \sum fn_c + \sum fp_c} \quad for \quad c \in C$$
+
+We also define precision and recall
+
+\begin{equation}
+\begin{aligned} P &=\frac{t p}{t p+f p} \\ R &=\frac{t p}{t p+f n}=\frac{t p}{\left|Y^{+}\right|} \end{aligned}
+\end{equation}
+
+More variations scores exist in the literature, such as hamming loss~\cite{hammingLoss} (the fraction of incorrectly predicted labels), \todo{hamming score}.\daan{As this is a loss, should it not go to related?}
+
+In our experiments, we report on macroF1, microF1, weightedF1, Precision and Recall. We focus our discussion of experimental result around weightedF1 as we consider this the most representative for success on FIMPUL problems. 
+\daan{I want so say something like below. Please see if you agree.}
+We point out that there is an interaction between our optimization on sigmoidF1 and our evaluation using F1 metrics. If our approach of optimizing for an F1 surrogate succeed, we expect higher values on F1-related metrics during evaluation. For this reason, we consider and discuss not a single, but multiple metrics.
+
+% - 'samples':
+% Calculate metrics for each instance, and find their average (only meaningful for multilabel classification where this differs from accuracy_score).
+
+% $$F_1^{micro} = \frac{\sum tp_c}{2 \sum tp_c + \sum fn_c + \sum fp_c} \quad for \quad c \in C$$
+
+
 
 %%% Local Variables:
 %%% mode: plain-tex
