@@ -63,6 +63,7 @@ Outside the saturation bounds $[-s, s]$, the derivative should be significantly 
 Note that the upper and lower limits of $f(u)$ are sometimes $[-1,1]$ instead of $[0,1]$ along this paper. It is easy to show that the desirable properties above are still valid. \hvk{if its easy, this needs to be shown here.}
 
 \subsection{Unbounded Alternative}
+\label{subsec:unbounded}
 
 A first trivial remedy to allow for derivation of the sign function, is to define \emph{unbounded} confusion matrix entries by replacing the dichotomized predictions with prediction probabilities. This way,
  (i.e. \(\overline{tp}\), \(\overline{fp}\), \(\overline{fn}\) and  \(\overline{tn}\) are not natural numbers anymore):
@@ -125,13 +126,21 @@ In this paper we focus on $\mathcal{L}_{\widetilde{\mathit{F1}}}$ because it has
 \subsection{sigmoidF1 score}
 \label{sec:orgc5d29d7}
 
-Following Equation \ref{eq:unbounded}, it is possible to define an \emph{unbounded F1} score\footnote{see~\cite{softF1} for a similar formulation}:
+Following Equation \ref{eq:unbounded}, it is possible to define an \emph{unbounded F1} score (see~\cite{softF1} for a similar formulation):
 
 \begin{equation}
 \mathcal{L}_{\overline{\mathit{F1}}}= \frac{\overline{tp}}{2 \overline{tp}+ \overline{fn}+ \overline{fp}}
 \end{equation}
 
-$\mathcal{L}_{\overline{\mathit{F1}}}$ will be used to benchmark against our proposed \emph{sigmoidF1} loss. Thanks to the definitions of smooth confusion matrix metrics above, we can now write $\mathcal{L}_{\widetilde{\mathit{F1}}}$. A similar method was proposed outside of the context of neural networks: the \emph{Maximum F1-score criterion} for automatic mispronunciation detection \cite{sigmoid}.  \hvk{ I don't think  this should be a footnote}
+
+unboundedF1 inherits from the properties listed in Section~\ref{subsec:unbounded}. This score requires a high enough number of representatives in the four confusion matrix quadrants to learn from batch to batch. Ideally, each training epoch would have only one batch, so as to have the most representatives.
+
+unboundedF1 and sigmoidF1 below are thought of as macro scores (aggregated over all classes). Given enough representatives of each confusion matrix quadrant for each class, one could consider formulating a microF1. The case where the number of classes is small, the dataset is sizeable and enough memory is available would be favorable to that end.
+
+$\mathcal{L}_{\overline{\mathit{F1}}}$ will be used to benchmark against our proposed \emph{sigmoidF1} loss.
+
+
+Thanks to the definitions of smooth confusion matrix metrics above, we can now write $\mathcal{L}_{\widetilde{\mathit{F1}}}$.
 
 \begin{equation}\label{eq:sigmoidF1}
 \mathcal{L}_{\widetilde{\mathit{F1}}}= \frac{\widetilde{\mathit{tp}}}{2 \widetilde{\mathit{tp}}+ \widetilde{\mathit{fn}}+ \widetilde{\mathit{fp}}}
@@ -143,6 +152,8 @@ $\mathcal{L}_{\overline{\mathit{F1}}}$ will be used to benchmark against our pro
 \caption{\label{fig:sigmoid}
 insert caption here}
 \end{figure}
+
+A similar method was proposed outside of the context of neural networks: the \emph{Maximum F1-score criterion} for automatic mispronunciation detection as an objective function to a Gaussian Mixture Model-hidden Markov model (GMM-HMM)\cite{sigmoid}.
 
 Similarly to the focal loss \cite{focalLoss}, sigmoidF1 loss deals with class imbalance and robustness to outliers.
 
