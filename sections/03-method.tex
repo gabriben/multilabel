@@ -64,7 +64,7 @@ The groundtruth $\mathbf{y}$ is bounded between $[0,1]$ and thus it must be comp
 For the surrogate to be a proper sign function substitute, it is important to often return values close to 1 or 0. Saturation is defined in the context of neural network activation functions and refers to the propensity of iterative backpropagation to progressively lead to values very close to 0 or 1 after a long enough training period. While activation functions should tend to be non-saturated, in order for the derivative at point $u$ to be non-null and information to flow back to the network~\cite{saturation}, our sign function substitute must output values close to 0 or 1, in order to be comparable to a step function.
 
 \begin{prop}
-  Dynamic Gradient: $f'(u) >> 0 \quad \forall \; u \in [-s, s]$, with $s$ the saturation bound
+  Dynamic Gradient: $f'(u) \gg 0 \quad \forall \; u \in [-s, s]$, where $s$ is the saturation bound.
 \end{prop}
 
 Outside the saturation bounds $[-s, s]$, the derivative should be significantly higher than zero in order to facilitate stochastic gradient descent and backpropagation.
@@ -107,7 +107,7 @@ with $\mathbf{S}(\cdot)$ the vectorial form of the sigmoid function $S(\cdot)$:
 S(u; \beta, \eta)=\frac{1}{1+\exp (-\beta (u + \eta))},
 \end{equation}
 %
-with \(\beta\) and \(\eta\) tunable parameters for slope and offset respectively. Higher \(\beta\) results in steeper slope at the center of the sigmoid and thus more stringent thresholding. At its extreme, \(lim_{\beta\to\infty} S(u; \beta, \eta)\) corresponds to the step function used in Equation \ref{eq:conf}. Note that negative values of $\beta$ geometrically reflect the sigmoid function across the horizontal line at $0.5$ and thus invert predictions.
+with \(\beta\) and \(\eta\) tunable parameters for slope and offset respectively. Higher \(\beta\) results in steeper slope at the center of the sigmoid and thus more stringent thresholding. At its extreme, \(\lim_{\beta\to\infty} S(u; \beta, \eta)\) corresponds to the step function used in Equation \ref{eq:conf}. Note that negative values of $\beta$ geometrically reflect the sigmoid function across the horizontal line at $0.5$ and thus invert predictions.
 
 
 These smooth confusion matrix entries allow to build any related metric (see Table \ref{tab:confusion-matrix}). Furthermore, the surrogate entries are decomposable, bounded, saturated and have a dynamic gradient.
@@ -138,7 +138,6 @@ In this paper we focus on $\mathcal{L}_{\widetilde{\mathit{F1}}}$ because it has
 While smoothness is defined above, there is yet a precision to make about micro-averaging versus macro-averaging in multilabel-classification problems. Micro-averaging is biased by class frequency, whereas macro-averaging regards all classes as equally important. unboundedF1 and sigmoidF1 below are thought of as macro scores (aggregated over all classes). These scores require a high enough number of representatives in the four confusion matrix quadrants to learn from batch to batch. Ideally, each training epoch would have only one batch, so as to have the most representatives.
 
 Following Equation \ref{eq:unbounded}, it is possible to define an \emph{unbounded F1} score. A formulation similar to \emph{unboundedF1} was proposed in an unpublished blog post, which was referred to as \emph{softF1}~\cite{softF1}. We define our \emph{unbounded F1} score as follows:
-
 %
 \begin{equation}
 \mathcal{L}_{\overline{\mathit{F1}}}= \frac{\overline{tp}}{2 \overline{tp}+ \overline{fn}+ \overline{fp}}
