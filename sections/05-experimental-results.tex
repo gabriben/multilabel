@@ -5,7 +5,7 @@
 
 We present classification results on four different datasets, movie\-Posters, cancerHallmarks, chemicalExposure and arXiv2020 in Table~\ref{table:overallresults}. 
 
-\subsection{Overall Classification Results}
+\subsection{Overall classification results}
 
 In general, we observe that sigmoidF1 performs better on most metrics and across different datasets. In particular, sigmoidF1 always outperforms other losses on our metric of focus (weightedF1 @ 0.5) and its non-weighted counterpart (microF1 @ 0.5). On moviePosters (Table~\ref{tab:moviePosters}) and arXiv2020 (Table~\ref{tab:arxiv2020}), we observe higher scores on all but Precision @ 0.5. On the smaller chemicalExposure and cancerHallmarks datasets, unboundedF1 delivers good results for macroF1 @ 0.5 and Precision @ 0.5 and sigmoidF1 leads to higher results in the remainder of the metrics.
 
@@ -89,7 +89,7 @@ $\mathcal{L}_{\text {sigmoidF1}}$ & \textbf{0.319} & \textbf{0.432} & 0.113 & 0.
 \end{table*}
 
 
-\subsection{Sensitivity Analysis}
+\subsection{Sensitivity analysis}
 
 We show the sensitivity of sigmoidF1 to different parametrizations of $\eta$ and $\beta$. It is clear from Figure \ref{fig:betaEta} that results on test set are quite sensible to the choice of $\eta$ and $\beta$. Within the sampled values (see section~\ref{subsec:hypers}), we chose to display a parameter space similar to the one illustrated in Figure \ref{fig:sigmoid}. It is here visible that moving the sigmoid to the left allows the algorithm to tend to a (local) optimum.
 

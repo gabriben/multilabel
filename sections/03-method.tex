@@ -49,7 +49,7 @@ Given the four confusion matrix quadrants, we can generate further metrics like 
 In the following sections, we first define desirable properties for decomposable thresholding.
 Next, we define unbounded confusion matrix entries and a notion of sigmoid-based transformation that renders confusion matrix entries decomposable. Finally, we focus on an unbounded F1 score wich we use in our experiments.
 
-\subsection{Desirable Properties of Decomposable Thresholding}
+\subsection{Desirable properties of decomposable thresholding}
 
 We thus define desirable properties for a decomposable sign function $f(u)$ as a surrogate of the above indicator function \(\mathds{1}_{\hat{\mathbf{y}} < t}\).
 
@@ -71,7 +71,7 @@ Outside the saturation bounds $[-s, s]$, the derivative should be significantly 
 
 Note that the upper and lower limits of $f(u)$ are interchangeably $[-1,1]$ or $[0,1]$ along this paper and in the literature. The conditions above still apply by linear transformation.
 
-\subsection{Unbounded Alternative}
+\subsection{Unbounded alternative}
 \label{subsec:unbounded}
 
 A first trivial remedy to allow for derivation of the sign function, is to define \emph{unbounded} confusion matrix entries by replacing the dichotomized predictions with prediction probabilities. This way,
