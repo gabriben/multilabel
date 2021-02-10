@@ -11,6 +11,10 @@ In general, we observe that the sigmoidF1 loss performs better on most metrics a
 On the moviePosters dataset (Table~\ref{tab:moviePosters}) and the arXiv2020 dataset (Table~\ref{tab:arxiv2020}), we observe higher scores for the sigmoidF1 loss on all but Precision. 
 On the smaller chemicalExposure and cancerHallmarks datasets, the unboundedF1 loss delivers good results for macroF1 and Precision and the sigmoidF1 loss leads to higher scores on the remainder of the metrics.
 
+We observe that \emph{unboundedF1} scores higher than \emph{sigmoidF1} on macroF1 on the two small text datasets, namely chemicalExposure and cancerHallmarks. Since \emph{unboundedF1} forgoes thresholding altogether. We hypothesize that \emph{unboundedF1} develops tolerance for sparse datasets with low number of class instances.
+
+Notably for the cancerHallmarks dataset, predictions from a model trained with cross-entropy do not reach high enough values (higher than 0.5) to surpass the threshold and thus all metrics return zero values. This was further observed during experimentation, thus cross-entropy loss might not be a good fit for solving FIMPUL problems.
+
 % \todo{Note that contrary to sigmoidF1, unboundedF1 can be particularly performant without requiring hyperparameter tuning.}\daan{Not a very strong point for sigmoidF1. Also not sure if I agree. We focus on weightedF1, that we hopefully succesfully defended in 4. We see substantial improvements for sigmoidF1 over softF1 across the board on that metric. So we should explain that we see that it optimized for a macro metric instead and clearly has success that. Can be a strong metric to consider for such a setting. That should be its on paragraph.}
 
 % \gab{comment on 0.0 CE for cancer}
@@ -66,7 +70,7 @@ $\mathcal{L}_{\text {sigmoidF1}}$ & \textbf{0.106} & \textbf{0.106} & \textbf{0.
 \toprule 
 Loss  & \rotatebox{45}{weightedF1} & \rotatebox{45}{microF1} & \rotatebox{45}{macroF1} & \rotatebox{45}{Precision}\\% & \rotatebox{90}{Recall}\\ 
 \midrule
-$\mathcal{L}_{\text {CE}}$ & 0.0 & 0.0 & 0.0 & 0.0 &\\% 0.0 \\ 
+$\mathcal{L}_{\text {CE}}$ & 0.000 & 0.000 & 0.000 & 0.000 &\\% 0.0 \\ 
 $\mathcal{L}_{\text {FL}}$ & 0.108 & 0.190 & 0.044 & 0.071 &\\% 0.055 \\
 % $\mathcal{L}_{\text {CE+N}}$ & 0 & 0 & 0 & 0 & 0 \\
 $\mathcal{L}_{\text {unboundedF1}}$ & 0.170 & 0.176 & \textbf{0.098} & \textbf{0.089}\\% & 0.131 \\

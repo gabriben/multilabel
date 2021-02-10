@@ -10,7 +10,7 @@ In this section, we introduce our approach for FIMPUL problems, Confusion Matrix
 \centering
 \includegraphics[width=.9\linewidth]{./images/sigmoid.png}
 \caption{\label{fig:sigmoid}
-Different thresholding regimes: the non-decomposable step function, the unbounded linear function, the sigmoid function at parametrizations}
+Different thresholding regimes: the non-decomposable step function, the unbounded linear function and the sigmoid function at different parametrizations}
 \end{figure*}
 
 For the same class of learning algorithms defined in the previous section \(\mathcal{F}(\cdot ; \Theta): \mathcal{X} \rightarrow \mathcal{Y}\), we consider a particular case, where \(\mathbf{x} = \{x_1, \ldots, x_n\}\) and each observation is assigned $k$ labels (one or more) \(\mathbf{l} = \{l_1, \ldots, l_k\}\) out of a set of classes $C$. \(y_{i}^{j}\) are binary variables, indicating presence of a label for each observation \(i\) and class \(j\).
@@ -113,7 +113,7 @@ with \(\beta\) and \(\eta\) tunable parameters for slope and offset respectively
 These smooth confusion matrix entries allow to build any related metric (see Table \ref{tab:confusion-matrix}). Furthermore, the surrogate entries are decomposable, bounded, saturated and have a dynamic gradient.
 
 \begin{table*}[]
-\caption{Confusion matrix with our proposed smoothed confusion matrix entries, $\widetilde{\mathit{tp}}$, $\widetilde{\mathit{fp}}$, $\widetilde{\mathit{fn}}$ and $\widetilde{\mathit{tn}}$ and six derived loss functions that use these smoothed confusion matrix entries, with $\mathcal{L}_{\widetilde{\mathit{F1}}}$ that is used in our experiments.}
+\caption{Confusion matrix with our proposed smoothed confusion matrix entries, $\widetilde{\mathit{tp}}$, $\widetilde{\mathit{fp}}$, $\widetilde{\mathit{fn}}$ and $\widetilde{\mathit{tn}}$ and six derived loss functions that use these smoothed confusion matrix entries. $\mathcal{L}_{\widetilde{\mathit{F1}}}$ is used in our experiments.}
 \label{tab:confusion-matrix}
 \def\arraystretch{1.1}
 \begin{tabular}{|c||c|c||c|} \cline{2-4}
