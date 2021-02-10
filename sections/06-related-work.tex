@@ -15,52 +15,32 @@
 % concepts in the output space is limited. In the next sections we detail
 % some of this related work and discuss it relation to the research in this paper.
 
-Existing algorithmic solutions to deal with FIMPUL tasks can be divided into
-\emph{fit-data-to-algorithm} solutions, which map FIMPUL problems to a known
-problem formulation like multi-class uni-label classification, and
-\emph{fit-algorithm-to-data} solutions, which adapt existing classification
-algorithms for the problem at hand~\citep{multilabelMethods}.
+Existing algorithmic solutions to deal with FIMPUL tasks can be divided into \emph{fit-data-to-algorithm} solutions, which map FIMPUL problems to a known problem formulation like multi-class uni-label classification, and \emph{fit-algorithm-to-data} solutions, which adapt existing classification
+algorithms to the problem at hand~\citep{multilabelMethods}.
 
 \subsection{Fit-data-to-algorithm}
-Commonly, in fit-data-to-algorithm solutions, cross-entropy losses are used at
-training time and thresholding is done at inference time to determine how many
-labels should be assigned to an instance.
+Commonly, in fit-data-to-algorithm solutions, cross-entropy losses are used at training time and thresholding is done at inference time to determine how many labels should be assigned to an instance.
+The \textit{label powerset} approach considers each unique set of labels as one class in the transformed setting~\cite{multilabelComparison}.
+% (e.g., an instance labeled \textit{Thriller} and \textit{Action}, results in the creation of the class \textit{Thriller and action}). 
+Alternatively, \textit{ranking by pairwise comparison} is a solution where the dataset is duplicated for each possible label pairs. Each duplicated dataset has therefore two classes and only contains instances that have at least one of the labels in the label pair. Different ranking methods exist~\cite{pairwiseBinary, pairwiseNet}.
 
-The \textit{label powerset} approach considers each unique set of labels as
-one class in the transformed setting~\cite{multilabelComparison} (e.g. an
-instance labeled \textit{Thriller} and \textit{Action}, results in the
-creation of the class \textit{Thriller and action}). Alternatively,
-\textit{ranking by pairwise comparison} is a solution where the dataset is
-duplicated for each possible label pairs. Each duplicated dataset has
-therefore two classes and only contains instances that have at least one of
-the labels in the label pair. Different ranking methods
-exist~\cite{pairwiseBinary, pairwiseNet}.
-
-More recently, hierarchical datasets such as
-DBpedia\footnote{\url{https://wiki.dbpedia.org/develop/datasets/latest-core-dataset-releases}}
-are often used to finetune BERT-based models~\cite{XLNet, bigBird}. In both
-publications, cross-entropy is used to predict the labels.
+More recently, hierarchical datasets such as DBpedia\footnote{\url{https://wiki.dbpedia.org/develop/datasets/latest-core-dataset-releases}} are used to finetune BERT-based models~\cite{XLNet, bigBird};  the latter publications use cross-entropy to predict the labels.
 
 \subsection{Fit-algorithm-to-data}
-Conversely, in the fit-algorithm-to-data solutions, elements of the learning
+In the fit-algorithm-to-data solutions, elements of the learning
 algorithm are changed (such as the back propagation procedure or the task).
-
 Early representatives of fit-algorithm-to-data stem from heterogenous domains
 of machine learning. Multi-Label k-Nearest Neighbors \cite{ML-KNN},
 Multi-Label Decision Tree \cite{ML-DT}, Ranking Support Vector Machine
 \cite{multilabelSVM} and Backpropagation for Multi-Label Learning
 \cite{multilabelBackprop}. More recently, two papers introduced the idea of
-multitask learning for \emph{label prediction} and \emph{label count
-prediction} for text (ML\(_{\text{NET}}\)) \cite{multitaskLabel} and image
-\cite{multitaskLabelImages, tencent} data. The latter research is loosely
-catered towards object detection (although not formally presented as such) and
-is thus out-of-scope: elements in a picture are predicted that tend to be
-unilabel as defined by the groundtruth (e.g. cat, flower, vase, person, bottle
+multi-task learning for \emph{label prediction} and \emph{label count
+prediction} for text data \cite[ML\(_{\text{NET}}\)][]{multitaskLabel} and image
+data \cite{multitaskLabelImages, tencent}. The latter research is loosely
+catered towards object detection and is thus out-of-scope: local elements in a picture are predicted that tend to be uni-label as defined by the ground-truth (e.g., cat, flower, vase, person, bottle
 etc.).
 
-An important shortcoming shared by both \emph{fit-data-to-algorithm} and
-\emph{fit-algorithm-to-data} is the lack of a holistic approach for both label
-count and label prediction.
+An important limitation shared by both \emph{fit-data-to-algorithm} and \emph{fit-algorithm-to-data} is the lack of a holistic approach for both label count and label prediction.
 
 \begin{figure*}[t!]
 \centering
@@ -73,56 +53,31 @@ DistilBert (NLP) + classification head on arXiv2020 – different scores at a 0.
 \subsection{Thresholding}
 \label{subsec:thresh}
 
-Machine learning prediction tasks' output are probabilistic (or a reversible
-transformation of a probabilistic measure such as a sigmoid or a soft max
-function). At training time, these probabilistic values are compared to binary
-values in the case of binary encoding of classes. At inference time, if the
-number $n_i$ of labels to be predicted per example is known a priori, it is
-natural to assign the $top_{n_i}$ predictions to that
-example~\cite{lossTopKError, topKmulticlassSVM}. If the number of labels per
-example is unknown a priori, the question remains at inference time as to how
-to extract information about the number of labels to assign to each example,
-aside from the propensity of labels to be assigned. This is generally done via
-a \emph{decision threshold}, that can be set globally for all examples. This
-threshold can optimize for specificity or
-sensitivity~\cite{decisionThreshold}. In our method, this threshold is
-implicitly defined, thanks to the use of metrics that already penalize for
+Machine learning prediction tasks' output are probabilistic (or a reversible transformation of a probabilistic measure such as a sigmoid or a softmax function). 
+At training time, these outputs are compared to binary
+values in the case of binary encoding of classes. 
+At inference time, if the number $n_i$ of labels to be predicted per example is known a priori, it is natural to assign the $top_{n_i}$ predictions to that example~\cite{lossTopKError, topKmulticlassSVM}. 
+If the number of labels per example is unknown a priori,  at inference time the question remains as to how to extract information about the number of labels to assign to each example, aside from the propensity of labels to be assigned. 
+This is generally done via a \emph{decision threshold}, that can be set globally for all examples, and be
+optimized for specificity or sensitivity~\cite{decisionThreshold}. 
+
+Thresholding across classes or examples can be an issue when the number of labels to predict is unknown. Some variants of cross-entropy loss accommodate imbalanced label data~\cite{focalLoss}, but remain agnostic to the number of labels to predict. 
+Solutions include determining an ideal global \emph{threshold} depending on the use-case at hand~\cite{threshForF1}, or per-class-thresholding after training~\cite{moviePosters} and eventually abstracting the threshold away via a \emph{soft-F1} measure~\cite{softF1}. 
+%In the latter two cases, the task is to predict genre from movie posters.
+
+In our method, this threshold is defined implicitly, thanks to the use of metrics that already penalize for
 wrong label counts.
 
-Thresholding across classes or examples can be an issue as soon as the number
-of labels to predict is unknown. Certain variants of cross-entropy loss
-accommodate imbalanced label data  \cite{focalLoss}, but remain agnostic
-towards the number of labels to predict. Solutions have been tailored to that
-end, starting with determining an ideal global \emph{threshold} depending on
-use-cases \cite{threshForF1}, or per-class-thresholding after training
-\cite{moviePosters} and eventually abstracting the threshold away via a
-\emph{soft-F1} measure \cite{softF1}. In the latter two cases, the task is to
-predict genre from movie posters.
 
 \subsection{Metrics as Losses}
 
-Learning to Rank (the practice of using Machine Learning to sort documents
-according to their relevance) lead to the widespread use of certain
-metrics~\cite{LTR}. In a number of retrieval tasks, a model's out of sample
-accuracy is measured on metrics such as AUROC, F1 score, etc. These reflect an
-objective catered towards evaluating the model over an entire ranking. Due to
-the lack of differentiability, these metrics cannot be directly used as loss
-functions at training time (in-sample). A seminal
-study~\cite{optimizableLosses} proposed a general framework for deriving
-decomposable surrogates from some of these metrics. In our research, we
-instead propose decomposable surrogates of the classical confusion matrix
-metrics and in particular sigmoidF1, tailored to the problem at hand.
-
-Often, machine learning post-training evaluation metrics (e.g. AUROC, F1) are
-not differentiable. If they were decomposable, one could
-optimize a model directly on a metric at training time. A general framework
-for AUC, AUROC and F1 is presented in \cite{optimizableLosses}, but the
-proposed F1 surrogate is not explicitly created for stochastic gradient
-descent. Recently, a similar work has been proposed to train a Convolutional
+In a number of learning to rank tasks~\cite{LTR}, a model's out of sample accuracy is measured on metrics such as AUROC, F1 score, etc. These reflect an objective catered towards evaluating the model over an entire ranking. Due to the lack of differentiability, these metrics cannot be directly used as loss
+functions at training time (in-sample). \citet{optimizableLosses} propose a general framework for deriving
+decomposable surrogates from some of these metrics. 
+Recently, a similar work has been proposed to train a Convolutional
 Neural Network (CNN) from scratch with a few millions of images and hundreds
-of labels specifically for multilabel tasks \cite{tencent}. This task is
-loosely related to object detection, similarly to \cite{multitaskLabelImages}
-mentioned in the previous paragraph.
+of labels specifically for multilabel tasks \cite{tencent}; this task is loosely related to object detection, similar to \cite{multitaskLabelImages}.
+In our research, we instead propose decomposable surrogates of the classical confusion matrix metrics and in particular sigmoidF1, tailored to the problem at hand.
 
 % The proposed method is positioned in the lineage of \emph{algorithm
 % adaptation}, using \emph{metric as losses} and allowing for dynamic
