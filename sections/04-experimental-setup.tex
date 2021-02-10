@@ -3,18 +3,10 @@
 \section{Experimental Setup}
 \label{sec:orgb44ba25}
 
-We test multilabel learning using our proposed sigmoidF1 loss function on four datasets across different modalities, image and text. 
-The datasets fit the FIMPUL characteristics. In particular, they are best modeled with full-instance learning as the entire image or the full text is predictive of the instance's labels. The next section and Table~\ref{table:datasets} describe our four datasets. The learning architecture (classification head attached to a pretrained net) is then described before addressing hyperparameter tuning and reproducibility remarks.
+We test multilabel learning using our proposed sigmoidF1 loss function on four datasets across different modalities, consisting of image and text. 
+The datasets each fit the FIMPUL characteristics. In particular, they are best modeled with full-instance learning as the entire image or the full text is predictive of the instance's labels. The next section and Table~\ref{table:datasets} describe our four datasets. The learning architecture, in which a classification head attached to a pretrained net, is then described before addressing hyperparameter tuning and reproducibility remarks.
 
-\subsection{Datasets}
-
-Our first dataset comes from the vision domain and consists of movie posters and their genres (e.g., \emph{action}, \emph{comedy}).\footnote{Labels available at \url{https://tinyurl.com/y7ydyedu} and prescraped images from IMDB at \url{https://tinyurl.com/y7lfpvlx}.} The posters and labels have been extracted from IMDB and the dataset was previously used for per-class, post-training thresholding \citep{moviePosters} (see Section~\ref{sec:org2aceb9f}). The genre labels in this dataset are not mutually exclusive and of varying counts per movie. 
-
-We use the newly created \emph{arXiv dataset}\footnote{Available at \url{https://www.kaggle.com/Cornell-University/arxiv}} with over 1.7 million open source articles and their metadata. Our experiments use the abstracts and categories that are suitably non-mutually exclusive and of varying counts per example. There is a longer history of using arXiv to create research datasets; the dataset we use is not to be confused with an earlier long document dataset that only features 11 classes~\citep{oldarXiv}, but was used in a recent long transformer publication~\cite{bigBird}. The limited number of labeled classes render the older dataset unsuitable for our experiments.  We write \textit{arXiv2020} for the subset of the \emph{arXiv dataset} that only contains documents published in 2020, given limited computing power. This results in around 26k documents.
-
-To the best of our knowledge, ML-NET~\cite{multitaskLabel} is the state-of-the-art among \emph{fit-algorithm-to-data} methods for multilabel learning with unknown label count on text (the work does not differentiate full-instance and multi-instance learning, see Section~\ref{sec:org2aceb9f}). Among the three datasets used for benchmarking ML-NET, the cancerHallmark~\citep{cancerHallmarks}\footnote{Available at \url{https://github.com/sb895/Hallmarks-of-Cancer}} and chemicalExposure~\citep{chemExposure}\footnote{Available at \url{https://github.com/sb895/chemical-exposure-information-corpus}} datasets are of multi-instance multilabel nature: several expressions are annotated within each paper abstracts. The third dataset diagnosisCodes could not be obtained (neither from the authors of ML-NET nor of the original paper~\cite{diagnosisCode}). We treat cancerHallmarks and chemicalExposure as full-instance datasets by aggregating expression labels over each example, as was done for ML-NET.
-
-\begin{table}
+\begin{table}[b]
 \caption{Descriptive statistics of our experimental datasets.}
 \label{table:datasets}
 \centering
@@ -33,11 +25,13 @@ cancerHallmarks\hspace{-.7em}  & text & 33 & 3.501 & 1,582\\
 % \end{adjustbox}
 \end{table}
 
-\subsection{Learning framework}
+\subsection{Datasets}
 
-The learning framework consists of two parts: a pretrained deep neural network and a classification head (see Figure \ref{fig:architecture}); the classification head is where we slot in alternative loss functions.
+Our first dataset comes from the vision domain and consists of movie posters and their genres (e.g., \emph{action}, \emph{comedy}).\footnote{Labels available at \url{https://tinyurl.com/y7ydyedu} and prescraped images from IMDB at \url{https://tinyurl.com/y7lfpvlx}.} The posters and labels have been extracted from IMDB and the dataset was previously used for per-class, post-training thresholding \citep{moviePosters} (see Section~\ref{sec:org2aceb9f}). The genre labels in this dataset are not mutually exclusive and of varying counts per movie. 
 
-\begin{figure*}[htbp]
+We use the newly created \emph{arXiv dataset}\footnote{Available at \url{https://www.kaggle.com/Cornell-University/arxiv}} with over 1.7 million open source articles and their metadata. Our experiments use the abstracts and categories that are suitably non-mutually exclusive and of varying counts per example. There is a longer history of using arXiv to create research datasets; the dataset we use is not to be confused with an earlier long document dataset that only features 11 classes~\citep{oldarXiv}, but was used in a recent long transformer publication~\cite{bigBird}. The limited number of labeled classes render the older dataset unsuitable for our experiments.  We write \textit{arXiv2020} for the subset of the \emph{arXiv dataset} that only contains documents published in 2020, given limited computing power. This results in around 26k documents.
+
+\begin{figure*}[!tp]
 \centering
      \begin{subfigure}{0.6\linewidth}
          \centering
@@ -55,6 +49,12 @@ The learning framework consists of two parts: a pretrained deep neural network a
 \label{fig:architecture}
 \end{figure*}
 
+To the best of our knowledge, ML-NET~\cite{multitaskLabel} is the state-of-the-art among \emph{fit-algorithm-to-data} methods for multilabel learning with unknown label count on text (the work does not differentiate full-instance and multi-instance learning, see Section~\ref{sec:org2aceb9f}). Among the three datasets used for benchmarking ML-NET, the cancerHallmark~\citep{cancerHallmarks}\footnote{Available at \url{https://github.com/sb895/Hallmarks-of-Cancer}} and chemicalExposure~\citep{chemExposure}\footnote{Available at \url{https://github.com/sb895/chemical-exposure-information-corpus}} datasets are of multi-instance multilabel nature: several expressions are annotated within each paper abstracts. The third dataset diagnosisCodes could not be obtained (neither from the authors of ML-NET nor of the original paper~\cite{diagnosisCode}). We treat cancerHallmarks and chemicalExposure as full-instance datasets by aggregating expression labels over each example, as was done for ML-NET.
+
+\subsection{Learning framework}
+
+The learning framework consists of two parts: a pretrained deep neural network and a classification head (see Figure \ref{fig:architecture}); the classification head is where we slot in alternative loss functions.
+
 Since the focus of this paper is in comparing loss functions and not neural network architectures, we chose efficient network architectures in terms of accuracy and computation.
 For the moviePoster image dataset, we use a MobileNetV2~\cite{mobileNet} architecture that was pretrained on ImageNet~\cite{imagenet}. This network architecture is typically used for inference on small computing devices (e.g., smartphones). We use a version of MobileNetV2 already stripped off of its original classification head.\footnote{The pretrained network can be loaded here \url{https://tfhub.dev/google/imagenet/mobilenet_v2_100_224/feature_vector/4}.}
 For the three text datasets, we use DistilBert~\cite{distilBert} as implemented in Hugging Face. This is a particularly efficient instance of the BERT model.\footnote{The pretrained network can be loaded here \url{https://huggingface.co/transformers/model_doc/distilbert.html}.}.
@@ -71,7 +71,7 @@ A similar classification head is used for both MobileNetV2 and DistilBert. It co
 \subsection{Evaluation metrics}
 \label{sec:evalMetrics}
 
-In our experimental evaluation, we consider a suite of metrics that are commonly used in the evaluation of multilabel classification to measure the effectiveness of multilabel prediction. Such metrics are based on the confusion matrix tjat we detailed in Section~\ref{section:method} and for which we provided smoothed surrogates to optimize directly.
+In our experimental evaluation, we consider a suite of metrics that are commonly used in the evaluation of multilabel classification to measure the effectiveness of multilabel prediction. Such metrics are based on the confusion matrix that we detailed in Section~\ref{section:method} and for which we provided smoothed surrogates to optimize directly.
 
 When true positives and false positives are used, recall that \(t p=\sum_{i \in Y^{+}} \mathds{1}_{\mathbf{p_i} \geq t}\) and \(f p=\sum_{i \in Y^{-}} \mathds{1}_{\mathbf{p_i} \geq t}\), and thus a threshold \(t\) must be set. Information on thresholding at inference time is generally hard to find in the recent literature, we thus decide on neutral thresholds before training. For arXiv2020 and moviePosters, we set \(t = 0.5\), as is commonly done in the early literature~\cite{multilabelReview, thresh0.5}.
 For the two medical datasets, cancerHallmarks and chemicalExposure, we saw after a few preparatory training rounds that only sigmoidF1 had non-zero results for \(t = 0.5\). Information is a lot more sparse for these dataset, we thus set the evaluation metrics threshold to a reasonable value of $0.05$ and train for $500$ epochs until reaching convergence. 
@@ -111,7 +111,7 @@ There is an interaction between our optimization on sigmoidF1 and our evaluation
 \subsection{Hyperparameters and reproducibility}
 \label{subsec:hypers}
 
-We choose to ignore classes that are underrepresented, in order to give the model a fair chance at learning from at least a few examples. We define underrepresentation as a global irrelevance threshold $b$ for classes: any class $c$ that is represented less than $b$ times is considered irrelevant. We decided to set an irrelevance threshold $b$ on all datasets prior to conducting experiments, so as to not finetune for that feature. It was set to 1000 for both \emph{arXiv2020} (145 of the original 155 classes remaining) and \emph{moviePosters} (14 of the 28 classes remaining) and at 10 for \emph{chemicalExposure} (all 38 classes remaining) and \emph{cancerHallmarks} (all 33 classes remaining), in proportion to the number of classes and labels in each dataset. The sensitivity study below illustrates what happens when we let $t$ vary over the arXiv2020 dataset.
+We choose to ignore classes that are underrepresented, in order to give the model a fair chance at learning from at least a few examples. We define underrepresentation as a global irrelevance threshold $b$ for classes: any class $c$ that is represented less than $b$ times is considered irrelevant. We decided to set an irrelevance threshold $b$ on all datasets prior to conducting experiments, so as to not finetune for that feature. It was set to 1000 for both \emph{arXiv2020} (145 of the original 155 classes remaining) and \emph{moviePosters} (14 of the 28 classes remaining) and at 10 for \emph{chemicalExposure} (all 38 classes remaining) and \emph{cancerHallmarks} (all 33 classes remaining), in proportion to the number of classes and labels in each dataset.
 
 Batch size is set at a high value of 256. We thus increase accuracy over traditional losses~\cite{bigBS}, but also allow heterogeneity in the examples within the batch, thus collecting enough values in each quadrant of the confusion matrix (see Section \ref{sec:orgc5d29d7} for a discussion on batch sizes).
 
