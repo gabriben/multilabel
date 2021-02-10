@@ -9,9 +9,9 @@ We present classification results on four different datasets, movie\-Posters, ca
 
 In general, we observe that the \emph{sigmoidF1} loss performs better on most metrics and across different datasets. In particular, \emph{sigmoidF1} always outperforms other losses on the metric on which focus (weightedF1) and its non-weighted counterpart (microF1).
 On the moviePosters dataset (Table~\ref{tab:moviePosters}) and the arXiv2020 dataset (Table~\ref{tab:arxiv2020}), we observe higher scores for the \emph{sigmoidF1} loss on all but Precision.
-On the smaller chemicalExposure and cancerHallmarks datasets, the unboundedF1 loss delivers good results for macroF1 and Precision and the \emph{sigmoidF1} loss leads to higher scores on the remainder of the metrics.
+On the smaller chemicalExposure and cancerHallmarks datasets, the \emph{unboundedF1} loss delivers good results for macroF1 and Precision and the \emph{sigmoidF1} loss leads to higher scores on the remainder of the metrics.
 
-% \todo{Note that contrary to sigmoidF1, unboundedF1 can be particularly performant without requiring hyperparameter tuning.}\daan{Not a very strong point for sigmoidF1. Also not sure if I agree. We focus on weightedF1, that we hopefully succesfully defended in 4. We see substantial improvements for sigmoidF1 over softF1 across the board on that metric. So we should explain that we see that it optimized for a macro metric instead and clearly has success that. Can be a strong metric to consider for such a setting. That should be its on paragraph.}
+% \todo{Note that contrary to sigmoidF1, \emph{unboundedF1} can be particularly performant without requiring hyperparameter tuning.}\daan{Not a very strong point for sigmoidF1. Also not sure if I agree. We focus on weightedF1, that we hopefully succesfully defended in 4. We see substantial improvements for sigmoidF1 over softF1 across the board on that metric. So we should explain that we see that it optimized for a macro metric instead and clearly has success that. Can be a strong metric to consider for such a setting. That should be its on paragraph.}
 
 % \gab{comment on 0.0 CE for cancer}
 

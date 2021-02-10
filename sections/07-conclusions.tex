@@ -20,7 +20,7 @@ To address FIMPUL problems, we have proposed a general loss framework for confus
 More generally, CoMMaL, our smooth formulation of confusion matrix metrics allows us to optimize directly for these metrics that are usually reserved for the evaluation phase.
 
 \paragraph{Limitations}
-We evaluate the CoMMaL framework and \emph{sigmoidF1} loss function only on FIMPUL problems. It may be worth to consider the effectiveness of the CoMMaL framework in different domains. More experimentation is also needed to find a proper heuristic for finetuning the hyperparameters of the \emph{sigmoidF1} loss. The proposed unboundedF1 counterpart does not require tuning and delivered better results than existing multiclass losses on most metrics; it can act as a mathematically less robust approximation of \emph{sigmoidF1}.
+We evaluate the CoMMaL framework and \emph{sigmoidF1} loss function only on FIMPUL problems. It may be worth to consider the effectiveness of the CoMMaL framework in different domains. More experimentation is also needed to find a proper heuristic for finetuning the hyperparameters of the \emph{sigmoidF1} loss. The proposed \emph{unboundedF1} counterpart does not require tuning and delivered better results than existing multiclass losses on most metrics; it can act as a mathematically less robust approximation of \emph{sigmoidF1}.
 
 \paragraph{Future work}
 In future work, we want to test the limits of CoMMaL and the \emph{sigmoidF1} loss both within and beyond the FIMPUL setting.

@@ -135,7 +135,7 @@ In this paper we focus on $\mathcal{L}_{\widetilde{\mathit{F1}}}$ because it has
 \subsection{Smooth Macro F1 scores}
 \label{sec:orgc5d29d7}
 
-While smoothness is defined above, there is yet a precision to make about micro-averaging versus macro-averaging in multilabel-classification problems. Micro-averaging is biased by class frequency, whereas macro-averaging regards all classes as equally important. unboundedF1 and \emph{sigmoidF1} below are thought of as macro scores (aggregated over all classes). These scores require a high enough number of representatives in the four confusion matrix quadrants to learn from batch to batch. Ideally, each training epoch would have only one batch, so as to have the most representatives.
+While smoothness is defined above, there is yet a precision to make about micro-averaging versus macro-averaging in multilabel-classification problems. Micro-averaging is biased by class frequency, whereas macro-averaging regards all classes as equally important. \emph{unboundedF1} and \emph{sigmoidF1} below are thought of as macro scores (aggregated over all classes). These scores require a high enough number of representatives in the four confusion matrix quadrants to learn from batch to batch. Ideally, each training epoch would have only one batch, so as to have the most representatives.
 
 Following Equation \ref{eq:unbounded}, it is possible to define an \emph{unbounded F1} score. A formulation similar to \emph{unboundedF1} was proposed in an unpublished blog post, which was referred to as \emph{softF1}~\cite{softF1}. We define our \emph{unbounded F1} score as follows:
 %
@@ -145,7 +145,7 @@ Following Equation \ref{eq:unbounded}, it is possible to define an \emph{unbound
 %
 While this alternative abstracts the thresholding away, which is convenient for fine-tuning purposes, it does not fulfil the desirable properties of a dichotomization threshold surrogate. For more on that see Section~\ref{subsec:unbounded}.
 
-unboundedF1 will be used to benchmark against our proposed \emph{sigmoidF1} loss. Given the definitions of smooth confusion matrix metrics above, we can now write $\mathcal{L}_{\widetilde{\mathit{F1}}}$.
+\emph{unboundedF1} will be used to benchmark against our proposed \emph{sigmoidF1} loss. Given the definitions of smooth confusion matrix metrics above, we can now write $\mathcal{L}_{\widetilde{\mathit{F1}}}$.
 %
 \begin{equation}\label{eq:sigmoidF1}
 \mathcal{L}_{\widetilde{\mathit{F1}}}= \frac{\widetilde{\mathit{tp}}}{2 \widetilde{\mathit{tp}}+ \widetilde{\mathit{fn}}+ \widetilde{\mathit{fp}}}
