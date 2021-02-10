@@ -135,7 +135,7 @@ In this paper we focus on $\mathcal{L}_{\widetilde{\mathit{F1}}}$ because it has
 \subsection{Smooth Macro F1 scores}
 \label{sec:orgc5d29d7}
 
-While smoothness is defined above, there is yet a precision to make about micro-averaging versus macro-averaging in multilabel-classification problems. Micro-averaging is biased by class frequency, whereas macro-averaging regards all classes as equally important. unboundedF1 and sigmoidF1 below are thought of as macro scores (aggregated over all classes). These scores require a high enough number of representatives in the four confusion matrix quadrants to learn from batch to batch. Ideally, each training epoch would have only one batch, so as to have the most representatives.
+While smoothness is defined above, there is yet a precision to make about micro-averaging versus macro-averaging in multilabel-classification problems. Micro-averaging is biased by class frequency, whereas macro-averaging regards all classes as equally important. \emph{unboundedF1} and \emph{sigmoidF1} below are thought of as macro scores (aggregated over all classes). These scores require a high enough number of representatives in the four confusion matrix quadrants to learn from batch to batch. Ideally, each training epoch would have only one batch, so as to have the most representatives.
 
 Following Equation \ref{eq:unbounded}, it is possible to define an \emph{unbounded F1} score. A formulation similar to \emph{unboundedF1} was proposed in an unpublished blog post, which was referred to as \emph{softF1}~\cite{softF1}. We define our \emph{unbounded F1} score as follows:
 %
@@ -145,7 +145,7 @@ Following Equation \ref{eq:unbounded}, it is possible to define an \emph{unbound
 %
 While this alternative abstracts the thresholding away, which is convenient for fine-tuning purposes, it does not fulfil the desirable properties of a dichotomization threshold surrogate. For more on that see Section~\ref{subsec:unbounded}.
 
-unboundedF1 will be used to benchmark against our proposed \emph{sigmoidF1} loss. Given the definitions of smooth confusion matrix metrics above, we can now write $\mathcal{L}_{\widetilde{\mathit{F1}}}$.
+\emph{unboundedF1} will be used to benchmark against our proposed \emph{sigmoidF1} loss. Given the definitions of smooth confusion matrix metrics above, we can now write $\mathcal{L}_{\widetilde{\mathit{F1}}}$.
 %
 \begin{equation}\label{eq:sigmoidF1}
 \mathcal{L}_{\widetilde{\mathit{F1}}}= \frac{\widetilde{\mathit{tp}}}{2 \widetilde{\mathit{tp}}+ \widetilde{\mathit{fn}}+ \widetilde{\mathit{fp}}}
@@ -153,7 +153,7 @@ unboundedF1 will be used to benchmark against our proposed \emph{sigmoidF1} loss
 %
 A similar method was proposed outside of the context of neural networks: the \emph{Maximum F1-score criterion} for automatic mispronunciation detection as an objective function to a Gaussian Mixture Model-hidden Markov model (GMM-HMM)\cite{sigmoid}.
 
-Similarly to the focal loss~\cite{focalLoss}, sigmoidF1 loss deals with class imbalance. sigmoidF1 is particularly suited for the multilabel setting because it is a proper hard thresholding surrogate as defined in the previous sections and because it contains a significant amount of information about label prediction accuracy: $\widetilde{\mathit{tp}}$, $\widetilde{\mathit{fn}}$ and $\widetilde{\mathit{fp}}$ are indicative of the number of predicted labels in each category of the confusion matrix but also contain a notion of certainty, given that they are rational numbers. The built in sigmoid function ensures that certainty increases along training epochs, as outlined by proposition 2. Finally, as the harmonic mean of precision and recall (a property of F1 in general), it weighs in both relevance metrics.
+Similarly to the focal loss~\cite{focalLoss}, \emph{sigmoidF1} loss deals with class imbalance. \emph{sigmoidF1} is particularly suited for the multilabel setting because it is a proper hard thresholding surrogate as defined in the previous sections and because it contains a significant amount of information about label prediction accuracy: $\widetilde{\mathit{tp}}$, $\widetilde{\mathit{fn}}$ and $\widetilde{\mathit{fp}}$ are indicative of the number of predicted labels in each category of the confusion matrix but also contain a notion of certainty, given that they are rational numbers. The built in sigmoid function ensures that certainty increases along training epochs, as outlined by proposition 2. Finally, as the harmonic mean of precision and recall (a property of F1 in general), it weighs in both relevance metrics.
 
 
 % Given the presence of the step indicator function \(\sum \mathds{1}_{\mathbf{p_i} \geq b}\), \(F_\beta\) is not differentiable for gradient based methods. One way of surpassing that problem is to use a surrogate.

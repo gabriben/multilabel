@@ -15,13 +15,13 @@
 % concepts in the output space is limited. In the next sections we detail
 % some of this related work and discuss it relation to the research in this paper.
 
-Existing algorithmic solutions to deal with FIMPUL tasks can be divided into \emph{fit-data-to-algorithm} solutions, which map FIMPUL problems to a known problem formulation like multi-class uni-label classification, and \emph{fit-algorithm-to-data} solutions, which adapt existing classification
+Existing algorithmic solutions to deal with FIMPUL tasks can be divided into \emph{fit-data-to-algorithm} solutions, which map FIMPUL problems to a known problem formulation like multiclass uni-label classification, and \emph{fit-algorithm-to-data} solutions, which adapt existing classification
 algorithms to the problem at hand~\citep{multilabelMethods}.
 
 \subsection{Fit-data-to-algorithm}
 Commonly, in fit-data-to-algorithm solutions, cross-entropy losses are used at training time and thresholding is done at inference time to determine how many labels should be assigned to an instance.
 The \textit{label powerset} approach considers each unique set of labels as one class in the transformed setting~\cite{multilabelComparison}.
-% (e.g., an instance labeled \textit{Thriller} and \textit{Action}, results in the creation of the class \textit{Thriller and action}). 
+% (e.g., an instance labeled \textit{Thriller} and \textit{Action}, results in the creation of the class \textit{Thriller and action}).
 Alternatively, \textit{ranking by pairwise comparison} is a solution where the dataset is duplicated for each possible label pairs. Each duplicated dataset has therefore two classes and only contains instances that have at least one of the labels in the label pair. Different ranking methods exist~\cite{pairwiseBinary, pairwiseNet}.
 
 More recently, hierarchical datasets such as DBpedia~\citep{lehmann2015dbpedia} are used to finetune BERT-based models~\cite{XLNet, bigBird};  the latter publications use cross-entropy to predict the labels.
@@ -30,9 +30,9 @@ More recently, hierarchical datasets such as DBpedia~\citep{lehmann2015dbpedia} 
 In the fit-algorithm-to-data solutions, elements of the learning
 algorithm are changed (such as the back propagation procedure or the task).
 Early representatives of fit-algorithm-to-data stem from heterogenous domains
-of machine learning. Multi-Label k-Nearest Neighbors \cite{ML-KNN},
-Multi-Label Decision Tree \cite{ML-DT}, Ranking Support Vector Machine
-\cite{multilabelSVM} and Backpropagation for Multi-Label Learning
+of machine learning. MultiLabel k-Nearest Neighbors \cite{ML-KNN},
+MultiLabel Decision Tree \cite{ML-DT}, Ranking Support Vector Machine
+\cite{multilabelSVM} and Backpropagation for MultiLabel Learning
 \cite{multilabelBackprop}. More recently, two papers introduced the idea of
 multi-task learning for \emph{label prediction} and \emph{label count
 prediction} for text data \cite[ML\(_{\text{NET}}\)][]{multitaskLabel} and image
@@ -53,16 +53,16 @@ DistilBert (NLP) + classification head on arXiv2020 – different scores at a 0.
 \subsection{Thresholding}
 \label{subsec:thresh}
 
-Machine learning prediction tasks' output are probabilistic (or a reversible transformation of a probabilistic measure such as a sigmoid or a softmax function). 
+Machine learning prediction tasks' output are probabilistic (or a reversible transformation of a probabilistic measure such as a sigmoid or a softmax function).
 At training time, these outputs are compared to binary
-values in the case of binary encoding of classes. 
-At inference time, if the number $n_i$ of labels to be predicted per example is known a priori, it is natural to assign the $top_{n_i}$ predictions to that example~\cite{lossTopKError, topKmulticlassSVM}. 
-If the number of labels per example is unknown a priori,  at inference time the question remains as to how to extract information about the number of labels to assign to each example, aside from the propensity of labels to be assigned. 
+values in the case of binary encoding of classes.
+At inference time, if the number $n_i$ of labels to be predicted per example is known a priori, it is natural to assign the $top_{n_i}$ predictions to that example~\cite{lossTopKError, topKmulticlassSVM}.
+If the number of labels per example is unknown a priori,  at inference time the question remains as to how to extract information about the number of labels to assign to each example, aside from the propensity of labels to be assigned.
 This is generally done via a \emph{decision threshold}, that can be set globally for all examples, and be
-optimized for specificity or sensitivity~\cite{decisionThreshold}. 
+optimized for specificity or sensitivity~\cite{decisionThreshold}.
 
-Thresholding across classes or examples can be an issue when the number of labels to predict is unknown. Some variants of cross-entropy loss accommodate imbalanced label data~\cite{focalLoss}, but remain agnostic to the number of labels to predict. 
-Solutions include determining an ideal global \emph{threshold} depending on the use-case at hand~\cite{threshForF1}, or per-class-thresholding after training~\cite{moviePosters} and eventually abstracting the threshold away via a \emph{soft-F1} measure~\cite{softF1}. 
+Thresholding across classes or examples can be an issue when the number of labels to predict is unknown. Some variants of cross-entropy loss accommodate imbalanced label data~\cite{focalLoss}, but remain agnostic to the number of labels to predict.
+Solutions include determining an ideal global \emph{threshold} depending on the use-case at hand~\cite{threshForF1}, or per-class-thresholding after training~\cite{moviePosters} and eventually abstracting the threshold away via a \emph{soft-F1} measure~\cite{softF1}.
 %In the latter two cases, the task is to predict genre from movie posters.
 
 In our method, this threshold is defined implicitly, thanks to the use of metrics that already penalize for
@@ -73,11 +73,11 @@ wrong label counts.
 
 In a number of learning to rank tasks~\cite{LTR}, a model's out of sample accuracy is measured on metrics such as AUROC, F1 score, etc. These reflect an objective catered towards evaluating the model over an entire ranking. Due to the lack of differentiability, these metrics cannot be directly used as loss
 functions at training time (in-sample). \citet{optimizableLosses} propose a general framework for deriving
-decomposable surrogates from some of these metrics. 
+decomposable surrogates from some of these metrics.
 Recently, a similar work has been proposed to train a Convolutional
 Neural Network (CNN) from scratch with a few millions of images and hundreds
 of labels specifically for multilabel tasks \cite{tencent}; this task is loosely related to object detection, similar to \cite{multitaskLabelImages}.
-In our research, we instead propose decomposable surrogates of the classical confusion matrix metrics and in particular sigmoidF1, tailored to the problem at hand.
+In our research, we instead propose decomposable surrogates of the classical confusion matrix metrics and in particular \emph{sigmoidF1}, tailored to the problem at hand.
 
 % The proposed method is positioned in the lineage of \emph{algorithm
 % adaptation}, using \emph{metric as losses} and allowing for dynamic
