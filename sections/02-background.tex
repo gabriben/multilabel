@@ -28,11 +28,11 @@ multiclass prediction. Note that minimizing binary cross-entropy is equivalent t
 Cross-entropy loss can be formulated as
 \(\mathcal{L}_{\text {CE}}=-\sum \log \left(p_{i}\right)\). 
 More generally, the fit-data-to-algorithm formulation amounts to minimizing the loss on a class of neural networks, such that
-%
+
+% 
 \begin{equation}
-\underset{\mathcal{L}_{\text {multiclass}}} {\min} \mathcal{F}\left(\cdot ;
-\Theta; \mathcal{L}_{\text {multiclass}} (\mathbf{y}, \hat{\mathbf{y}})
-¨bcon\right),
+\underset{\mathcal{L}_{\text {multiclass}}} {\min} \mathcal{F}\big(\cdot ;
+\Theta; \mathcal{L}_{\text {multiclass}} (\mathbf{y}, \hat{\mathbf{y}})\big),
 \end{equation}
 %
 
@@ -43,13 +43,13 @@ For many real world problems and datasets reducing the problem to top-k selectio
 \subsection{Fit-algorithm-to-data solutions}
 \label{section:background:fitalgorithm}
 In the case of \emph{fit-algorithm-to-data} solutions, elements of the learning algorithm are changed to deal with non-mutually exclusive classes. Such elements can be the back propagation algorithm or the summation of losses from different learning tasks.
-The aim \daan{Always? Or is this the most common way of approaching this? Or our formalization of either one?} is to both obtain\daan{or "optimize for both"?} a propensity of each label being true and a prediction of the number of true labels:
+If we focus fit-algorithm-to-data to solving FIMPUL, we can define it as aiming to both optimize for both a propensity of each label being true and a prediction of the number of true labels:
 %
 \begin{equation}
 \underset{\mathcal{L}_{\text {multiclass}}, \mathcal{L}_{\text {count}}}
-{\min} \mathcal{F}\left(\cdot ; \Theta; \mathcal{L}_{\text {multiclass}}
+{\min} \mathcal{F}\big(\cdot ; \Theta; \mathcal{L}_{\text {multiclass}}
 (\mathbf{y}, \hat{\mathbf{y}}) + \lambda \mathcal{L}_{\text {count}}
-(\mathbf{n}, \hat{\mathbf{n}})\right),
+(\mathbf{n}, \hat{\mathbf{n}})\big),
 \end{equation}
 %
 where \(n_i = \sum_j \mathds{1}_{\mathbf{y_i^j} = 1}\) is the count of
@@ -58,9 +58,7 @@ For example, an adapted cross-entropy loss would penalize for the number of wron
 labels \(\mathcal{L}_{\text {CE+N}}= \mathcal{L}_{\text {CE}} + \lambda (\sum
 tp / \sum p)\), with \(t p=\sum_{i \in Y^{+}} \mathds{1}_{\mathbf{p_i} \geq
 b}\) and \(b\) a threshold to be defined. The fit-algorithm-to-data
-formulation is most straightforward but suffers from higher parametrization and
-the lack of modeling of the interactions between label counts and label
-prediction. \daan{I am not really getting this last sentence.}
+formulation is most straightforward but does not model the interactions between label counts and label prediction.
 
 \subsection{Limitations of fit-data-algorithm and fit-algorithm-to-data solutions}
 \label{section:background:limitations}
@@ -76,17 +74,6 @@ example. This is generally done via a \emph{decision threshold}, that can be set
 examples. This threshold can optimize for specificity or
 sensitivity~\cite{decisionThreshold}. We propose an approach where this threshold
 is implicitly defined, by using a loss function that penalizes explicitly for wrong label counts.
-
-\todo{reference fig See figure \ref{fig:knee}. \daan{I am not really missing a plot here. Not sure if a nicer knee plot would help.}}
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.9\linewidth]{./images/knee.png}
-\caption{\label{fig:knee}
-\todo{nicer plot on another dataset (this is from RTL)}
-Ordered per-label cross-entropy predictions for each example (each grey line) with the median (orange) and IQR (green \& blue) over all examples. Determining a global threshold can be related to visually finding the ``knee'' in that median curve (dotted line).}
-\end{figure}
-
 
 \subsection{Design-algorithm-for-data solutions}
 \label{section:background:solution}
@@ -105,9 +92,9 @@ We first formulate a unified loss, namely
 %
 \begin{equation}
 \label{equation:loss:multilabel}
-\underset{\mathcal{L}_{\text {multilabel}}} {\min} \mathcal{F}\left(\cdot ;
+\underset{\mathcal{L}_{\text {multilabel}}} {\min} \mathcal{F}\big(\cdot ;
 \Theta; \mathcal{L}_{\text {multilabel}} (\mathbf{y}, \hat{\mathbf{y}},
-\mathbf{n}, \hat{\mathbf{n}}) \right),
+\mathbf{n}, \hat{\mathbf{n}}) \big),
 \end{equation}
 %
 Note that although predictions and counts appear explicitly in our Equation~\ref{equation:loss:multilabel},

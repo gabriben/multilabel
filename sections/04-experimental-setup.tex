@@ -54,9 +54,7 @@ A similar classification head is used for both MobileNetV2 and DistilBert. It co
 \subsection{Losses Compared}
 \label{section:losssescompared}
 
-We benchmark sigmoidF1 against three other losses. The cross-entropy loss and its variant for sparse datasets, focal loss, are representatives of the fit-data-to-algorithm approach as they are binary classifiers. No implementation of a multitask learning approach (fit-algorithm-to-data) could be found and is therefore left for later research. The third loss function is unboundedF1 and represents a first step towards CoMMaL.
-
-\mdr{Briefly state/summarize which losses we will be comparing and why those.}
+We benchmark sigmoidF1 against three other losses. The cross-entropy loss and its variant for sparse datasets, focal loss, are representatives of the fit-data-to-algorithm approach as they are binary classifiers. The third loss function is unboundedF1 and represents a first step towards CoMMaL.
  
 \subsection{Evaluation Metrics}
 \label{sec:evalMetrics}
@@ -69,35 +67,37 @@ For the two medical datasets, cancerHallmarks and chemicalExposure, information 
 Extending \(F_1\) to multi-class binary classification amounts to deciding wether or not to pool classes.
 In a first pooled iteration, macro \(F_1\)~\cite{multilabelMetrics} equates to creating a single 2x2 confusion matrix for all classes:
 \begin{equation}
-F_1^{macro} = \frac{\sum tp_c}{2 \sum tp_c + \sum fn_c + \sum fp_c} \quad \text{for} \quad c \in C.
+F_1^{macro} = \frac{\sum^c tp_j}{2 \sum^c tp_j + \sum^c fn_j + \sum^c fp_j},
 \end{equation}
+with $\sum^c (\cdot)$ as a short form of $\sum_{j=1}^c(\cdot)$, when summing over each class up to the $c$'th class.
 Micro \(F_1\) \cite{threshForF1, multilabelMetrics} amounts to creating one confusion matrix per class or unpooling:
 \begin{equation}
-F_1^{micro} = \frac{1}{c} \sum_{j=1}^c F_1.
+F_1^{micro} =  \frac{1}{c} \sum_{j=1}^c \frac{tp_j}{2 tp_j + fn_j + fp_j} =  \frac{1}{c} \sum_{j=1}^c F_1^j.
 \end{equation}
 Weighted micro \(F_1\)~\cite{weightedMetrics} is similar but includes weighing to account for class imbalance, i.e., weighing each class by the number of ground-truth positives:
 \begin{equation}
-F_1^{weighted} = \frac{1}{c} \sum_{j=1}^c n_j F_1 \text{ where } n_j = \sum_i \mathds{1}_{\mathbf{y_i^j} = 1}.
+F_1^{weighted} = \frac{1}{c} \sum_{j=1}^c p_j F_1^j \quad \text{, where } p_j = \sum_i \mathds{1}_{\mathbf{y_i^j} = 1}.
 \end{equation}
 %
-We also define precision and recall
+We also define micro precision and micro recall
 %
 \begin{equation}
-\begin{aligned} P &=\frac{t p}{t p+f p} \\ R &=\frac{t p}{t p+f n}=\frac{t p}{\left|Y^{+}\right|} \end{aligned}
+\begin{aligned} P^{micro} &=  \frac{1}{c} \sum_{j=1}^c \frac{tp_j}{tp_j+fp_j} \\ R^{micro} &=  \frac{1}{c} \sum_{j=1}^c \frac{tp_j}{tp_j+fn_j} \end{aligned}
 \end{equation}
 %
-\gab{check if precision and recall is at micro or macro level}
+
 In our experiments, we report on weightedF1, microF1, macroF1, Precision and Recall. Macro scores do not differentiate multiclass unilabel classification from multiclass multilabel classification. Micro scores treat classes separately. The \emph{weighted} micro F1 score is a further refinement where class scores are weighted by their representation in the dataset. We thus focus our discussion of experimental results around weightedF1 as we consider this to be the most representative for success on FIMPUL problems. 
 
 There is an interaction between our optimization on sigmoidF1 and our evaluation using (weighted) F1 metrics. If our approach of optimizing for an F1 surrogate succeeds, we expect higher values on F1-related metrics during evaluation. For this reason, we consider and discuss not a single, but multiple metrics.
 
 \subsection{Hyperparameters and Reproducibility}
+\label{subsec:hypers}
 
-We choose to ignore classes that are underrepresented, in order to give the model a fair chance at learning from at least a few examples. We define underrepresentation as a global irrelevance threshold $b$ for classes: any class $c$ that is represented less than $b$ times is considered irrelevant. We decided to set an irrelevance threshold $b$ on all datasets prior to conducting experiments, so as to not finetune for that feature. It was set to 1000 for both \emph{arXiv2020} (145 of the original 155 classes remaining) and \emph{moviePosters} (14 of the 28 classes remaining) and at 10 for \emph{chemicalExposure} (\todo{XX} of the 38 classes remaining) and \emph{cancerHallmarks} (\todo{XX} of the 33 classes remaining), in proportion to the number of classes and labels in each dataset. The sensitivity study below illustrates what happens when we let $t$ vary over the arXiv2020 dataset.
+We choose to ignore classes that are underrepresented, in order to give the model a fair chance at learning from at least a few examples. We define underrepresentation as a global irrelevance threshold $b$ for classes: any class $c$ that is represented less than $b$ times is considered irrelevant. We decided to set an irrelevance threshold $b$ on all datasets prior to conducting experiments, so as to not finetune for that feature. It was set to 1000 for both \emph{arXiv2020} (145 of the original 155 classes remaining) and \emph{moviePosters} (14 of the 28 classes remaining) and at 10 for \emph{chemicalExposure} (all 38 classes remaining) and \emph{cancerHallmarks} (all 33 classes remaining), in proportion to the number of classes and labels in each dataset. The sensitivity study below illustrates what happens when we let $t$ vary over the arXiv2020 dataset.
 
-Batch size is set at a high value of 256. We thus increase accuracy over traditional losses~\cite{bigBS}, but also allow heterogeneity in the examples within the batch, thus collecting enough values in each quadrant of the confusion matrix. In a future research, it would be interesting to establish the minimum required batch size for sigmoidF1. \daan{I think we should discuss this need for a large batch size in a bit more detail in 3 and then we can reference that here and say we set it sufficiently high. We really should have an experiment with this parameter, but there is no time to still run that.} \gab{I do have few clean experiments with bs: 128}
+Batch size is set at a high value of 256. We thus increase accuracy over traditional losses~\cite{bigBS}, but also allow heterogeneity in the examples within the batch, thus collecting enough values in each quadrant of the confusion matrix (see Section \ref{sec:orgc5d29d7} for a discussion on batch sizes).
 
-Regarding the sigmoidF1 hyperparameters $\beta$ and $\eta$, we performed a grid search with the values in the range $[1, 6, 7, 8, 9, 10, 20,$ $30]$ for $\beta$ and $[0, 0.5, 1, 2]$ for $\eta$.
+Regarding the sigmoidF1 hyperparameters $\beta$ and $\eta$, we performed a grid search with the values in the range $[1,30]$ for $\beta$ and $[0, 2]$ for $\eta$.
 In our experiments, we evaluate the sensitivity of our method to these hyperparameters (see Figure~\ref{fig:sigmoid}).
 
 We made sure to split the data in the same training, validation and test sets for each loss function. Our code, dataset splits and other settings are shared to ensure reproducibility of our results. 

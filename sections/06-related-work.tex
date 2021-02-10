@@ -62,6 +62,13 @@ An important shortcoming shared by both \emph{fit-data-to-algorithm} and
 \emph{fit-algorithm-to-data} is the lack of a holistic approach for both label
 count and label prediction.
 
+\begin{figure*}[t!]
+\centering
+\includegraphics[width=.9\linewidth]{./images/betaEtaResized.png}
+\caption{\label{fig:betaEta}
+DistilBert on Arxiv2020 – different scores at a 0.5 threshold for different values of $\eta$ and $\Beta$ in a sampling region}
+\end{figure*}
+
 \subsection{Thresholding}
 \label{subsec:thresh}
 
@@ -106,8 +113,8 @@ instead propose decomposable surrogates of the classical confusion matrix
 metrics and in particular sigmoidF1, tailored to the problem at hand.
 
 Often, machine learning post-training evaluation metrics (e.g. AUROC, F1) are
-not differentiable. There are motivations \todo{which motivations} for
-optimizing a model directly on a metric at training time. A general framework
+not differentiable. If they were decomposable, one could
+optimize a model directly on a metric at training time. A general framework
 for AUC, AUROC and F1 is presented in \cite{optimizableLosses}, but the
 proposed F1 surrogate is not explicitly created for stochastic gradient
 descent. Recently, a similar work has been proposed to train a Convolutional

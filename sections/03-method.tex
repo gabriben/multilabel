@@ -6,7 +6,14 @@
 
 In this section, we introduce our approach for FIMPUL problems, Confusion Matrix Metrics as Losses (CoMMaL). In evaluation of FIMPUL problems, confusion matrix metrics are a common choice, because they implicitly deal with label count. In CoMMaL, we leverage a smoothed version of the confusion matrix that can be used to directly optimize as a loss function. Before we discuss smoothing the confusion matrix metrics, we first briefly recap our learning setting and define the confusion matrix metrics in this setting more formally.
 
-For the same class of learning algorithms defined in the previous section \(\mathcal{F}(\cdot ; \Theta): \mathcal{X} \rightarrow \mathcal{Y}\), we consider a particular case, where \(\mathbf{x} = \{x_1, \ldots, x_n\}\) and each observation is assigned one or more classes out of a set of labels \(\mathbf{l} = \{l_1, \ldots, l_c\}\). \(y_{i}^{j}\) are binary variables, indicating presence of a label for each observation \(i\) and class \(j\).
+\begin{figure*}[htbp]
+\centering
+\includegraphics[width=.9\linewidth]{./images/sigmoid.png}
+\caption{\label{fig:sigmoid}
+Different thresholding regimes: the non-decomposable step function, the unbounded linear function, the sigmoid function at parametrizations}
+\end{figure*}
+
+For the same class of learning algorithms defined in the previous section \(\mathcal{F}(\cdot ; \Theta): \mathcal{X} \rightarrow \mathcal{Y}\), we consider a particular case, where \(\mathbf{x} = \{x_1, \ldots, x_n\}\) and each observation is assigned $k$ labels (one or more) \(\mathbf{l} = \{l_1, \ldots, l_k\}\) out of a set of classes $C$. \(y_{i}^{j}\) are binary variables, indicating presence of a label for each observation \(i\) and class \(j\).
 
 % For each observation \(i\), label class probabilities can be defined based on predictions as
 
@@ -27,16 +34,17 @@ In a typical binary classification problem, predictions are probabilistic and it
 %, \(\sum^+\) and \(\sum^-\) corresponding to  \(\sum_{i \in Y^{+}}\) and \(\sum_{i \in Y^{-}}\) respectively
 with \(\odot\) the component-wise multiplication sign. 
 
-\daan{Please check.}
-In evaluating multiclass and multilabel classification problems, we can consider both micro-averaged and macro-averaged metrics. A micro-averaged metric computes the metric for each class which is then averaged over all classes. Micro-averaging is biased by class frequency, whereas macro-averaging takes all classes as equally important. Note that in the formulation above and the ones that follow, scores are calculated for a single class, therefore the sum is implicit over all examples \(\sum_i\). In this formulation, we thus compute macro-averages and consider all classes as equally important.
 
-In the multilabel setting $\mathbf{y}$ can be substituted by $\mathbf{y}^j$ for each class $j$. Note that vectors could be trivially substituted by matrices ($Y$) in the following expressions to obtain the macro formulation.
-\doubt{do you agree that the subscript for the sum is implicit? and do you agree that the matrix formulation is trivial?}\hvk{do we really need this paragraph?}
-\daan{I think we should drop this.}
+For simplicity, in the formulation above and the ones that follow scores are calculated for a single class, therefore the sum is implicitly over all examples \(\sum_i\). This is useful for the binary classification problem but also for the multilabel problem, when micro metrics are calculated (i.e. metric for each class which is then averaged over all classes, see end of this section, where we further refine the micro and macro concepts). In the multilabel setting $\mathbf{y}$ can be substituted by $\mathbf{y}^j$ for each class $j$. Note that vectors could be trivially substituted by matrices ($Y$) in the following expressions to obtain the macro formulation.
+
+
+% In the multilabel setting $\mathbf{y}$ can be substituted by $\mathbf{y}^j$ for each class $j$. Note that vectors could be trivially substituted by matrices ($Y$) in the following expressions to obtain the macro formulation.
+% \doubt{do you agree that the subscript for the sum is implicit? and do you agree that the matrix formulation is trivial?}\hvk{do we really need this paragraph?}
+% \daan{I think we should drop this.}
 
 % Note that Equation \ref{eq:conf} represents a macro measure. For example, the micro $tp$ measure (i.e. for each class) would be $\sum \mathds{1}_{\hat{\mathbf{y}} \geq b} \odot \mathbf{y}$ $\sum_{i \in \hat{\mathbf{y}}^{j+}} \mathds{1}_{\hat{y}^{j}_{i} \geq b} \odot y^{j}_{i}$ (see end of this section, where we further refine the micro and macro concepts).
 
-Given the four confusion matrix quadrants, we can generate further metrics like precision and recall (see Table \ref{tab:confusion-matrix}). However none of these metrics are decomposable due to the hard thresholding which is in effect a step function (see Figure \ref{fig:sigmoid}). \daan{Thought for more page filling. Include the normal confusion matrix quadrant. Should be a quick hack from the fancy table.}
+Given the four confusion matrix quadrants, we can generate further metrics like precision and recall (see Table \ref{tab:confusion-matrix}). However none of these metrics are decomposable due to the hard thresholding which is in effect a step function (see Figure \ref{fig:sigmoid}).
 
 In the following sections, we first define desirable properties for decomposable thresholding.
 Next, we define unbounded confusion matrix entries and a notion of sigmoid-based transformation that renders confusion matrix entries decomposable. Finally, we focus on an unbounded F1 score wich we use in our experiments.
@@ -61,7 +69,7 @@ For the surrogate to be a proper sign function substitute, it is important to of
 
 Outside the saturation bounds $[-s, s]$, the derivative should be significantly higher than zero in order to facilitate stochastic gradient descent and backpropagation.
 
-Note that the upper and lower limits of $f(u)$ are sometimes $[-1,1]$ instead of $[0,1]$ along this paper. It is easy to show that the desirable properties above are still valid. \hvk{if its easy, this needs to be shown here.}
+Note that the upper and lower limits of $f(u)$ are interchangeably $[-1,1]$ or $[0,1]$ along this paper and in the literature. The conditions above still apply by linear transformation.
 
 \subsection{Unbounded Alternative}
 \label{subsec:unbounded}
@@ -124,41 +132,28 @@ These smooth confusion matrix entries allow to build any related metric (see Tab
 In this paper we focus on $\mathcal{L}_{\widetilde{\mathit{F1}}}$ because it has the ability to implicitly penalize for both inacurate label propensity and label count.
 
 
-\subsection{sigmoidF1 score}
+\subsection{Smooth Macro F1 scores}
 \label{sec:orgc5d29d7}
 
-Following Equation \ref{eq:unbounded}, it is possible to define an \emph{unbounded F1} score (see~\cite{softF1} for a similar formulation):
+While smoothness is defined above, there is yet a precision to make about micro-averaging versus macro-averaging in multilabel-classification problems. Micro-averaging is biased by class frequency, whereas macro-averaging regards all classes as equally important. unboundedF1 and sigmoidF1 below are thought of as macro scores (aggregated over all classes). These scores require a high enough number of representatives in the four confusion matrix quadrants to learn from batch to batch. Ideally, each training epoch would have only one batch, so as to have the most representatives.
+
+Following Equation \ref{eq:unbounded}, it is possible to define an \emph{unbounded F1} score (see~\cite{softF1} for a similar formulation\footnote{To give tribute to the previous formulation, we specify here that unboundedF1 was called softF1 in this blog post.}):
 
 \begin{equation}
 \mathcal{L}_{\overline{\mathit{F1}}}= \frac{\overline{tp}}{2 \overline{tp}+ \overline{fn}+ \overline{fp}}
 \end{equation}
 
+While this alternative abstracts the thresholding away, which is convenient for fine-tuning purposes, it does not fulfil the desirable properties of a dichotomization threshold surrogate. For more on that see Section~\ref{subsec:unbounded}.
 
-unboundedF1 inherits from the properties listed in Section~\ref{subsec:unbounded}. This score requires a high enough number of representatives in the four confusion matrix quadrants to learn from batch to batch. Ideally, each training epoch would have only one batch, so as to have the most representatives.
-
-unboundedF1 and sigmoidF1 below are thought of as macro scores (aggregated over all classes). Given enough representatives of each confusion matrix quadrant for each class, one could consider formulating a microF1. The case where the number of classes is small, the dataset is sizeable and enough memory is available would be favorable to that end.
-
-$\mathcal{L}_{\overline{\mathit{F1}}}$ will be used to benchmark against our proposed \emph{sigmoidF1} loss.
-
-
-Thanks to the definitions of smooth confusion matrix metrics above, we can now write $\mathcal{L}_{\widetilde{\mathit{F1}}}$.
+unboundedF1 will be used to benchmark against our proposed \emph{sigmoidF1} loss. Given the definitions of smooth confusion matrix metrics above, we can now write $\mathcal{L}_{\widetilde{\mathit{F1}}}$.
 
 \begin{equation}\label{eq:sigmoidF1}
 \mathcal{L}_{\widetilde{\mathit{F1}}}= \frac{\widetilde{\mathit{tp}}}{2 \widetilde{\mathit{tp}}+ \widetilde{\mathit{fn}}+ \widetilde{\mathit{fp}}}
 \end{equation}
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=.9\linewidth]{./images/sigmoid.pdf}
-\caption{\label{fig:sigmoid}
-insert caption here}
-\end{figure}
-
 A similar method was proposed outside of the context of neural networks: the \emph{Maximum F1-score criterion} for automatic mispronunciation detection as an objective function to a Gaussian Mixture Model-hidden Markov model (GMM-HMM)\cite{sigmoid}.
 
-Similarly to the focal loss \cite{focalLoss}, sigmoidF1 loss deals with class imbalance and robustness to outliers.
-
-\todo{statistical robustness assessment}
+Similarly to the focal loss~\cite{focalLoss}, sigmoidF1 loss deals with class imbalance. sigmoidF1 is particularly suited for the multilabel setting because it is a proper hard thresholding surrogate as defined in the previous sections and because it contains a significant amount of information about label prediction accuracy: $\widetilde{\mathit{tp}}$, $\widetilde{\mathit{fn}}$ and $\widetilde{\mathit{fp}}$ are indicative of the number of predicted labels in each category of the confusion matrix but also contain a notion of certainty, given that they are rational numbers. The built in sigmoid function ensures that certainty increases along training epochs, as outlined by proposition 2. Finally, as the harmonic mean of precision and recall (a property of F1 in general), it weighs in both relevance metrics.
 
 
 % Given the presence of the step indicator function \(\sum \mathds{1}_{\mathbf{p_i} \geq b}\), \(F_\beta\) is not differentiable for gradient based methods. One way of surpassing that problem is to use a surrogate.
