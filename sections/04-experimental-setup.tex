@@ -3,7 +3,7 @@
 \section{Experimental Setup}
 \label{sec:orgb44ba25}
 
-We test multilabel learning using our proposed sigmoidF1 loss function on four datasets across different modalities, consisting of image and text. 
+We test multilabel learning using our proposed \emph{sigmoidF1} loss function on four datasets across different modalities, consisting of image and text.
 The datasets each fit the FIMPUL characteristics. In particular, they are best modeled with full-instance learning as the entire image or the full text is predictive of the instance's labels. The next section and Table~\ref{table:datasets} describe our four datasets. The learning architecture, in which a classification head attached to a pretrained net, is then described before addressing hyperparameter tuning and reproducibility remarks.
 
 \begin{table}[b]
@@ -17,7 +17,7 @@ The datasets each fit the FIMPUL characteristics. In particular, they are best m
 & Type & Classes & label count & examples \\
 \midrule
 moviePosters & image & 28 & 2.165 & 37,632\\
-arXiv2020 & text & 155 & 1.888 & 26,558\\ 
+arXiv2020 & text & 155 & 1.888 & 26,558\\
 chemExposure & text & 38 & 6.116 & 3,661\\
 cancerHallmarks\hspace{-.7em}  & text & 33 & 3.501 & 1,582\\
 \bottomrule
@@ -27,7 +27,7 @@ cancerHallmarks\hspace{-.7em}  & text & 33 & 3.501 & 1,582\\
 
 \subsection{Datasets}
 
-Our first dataset comes from the vision domain and consists of movie posters and their genres (e.g., \emph{action}, \emph{comedy}).\footnote{Labels available at \url{https://tinyurl.com/y7ydyedu} and prescraped images from IMDB at \url{https://tinyurl.com/y7lfpvlx}.} The posters and labels have been extracted from IMDB and the dataset was previously used for per-class, post-training thresholding \citep{moviePosters} (see Section~\ref{sec:org2aceb9f}). The genre labels in this dataset are not mutually exclusive and of varying counts per movie. 
+Our first dataset comes from the vision domain and consists of movie posters and their genres (e.g., \emph{action}, \emph{comedy}).\footnote{Labels available at \url{https://tinyurl.com/y7ydyedu} and prescraped images from IMDB at \url{https://tinyurl.com/y7lfpvlx}.} The posters and labels have been extracted from IMDB and the dataset was previously used for per-class, post-training thresholding \citep{moviePosters} (see Section~\ref{sec:org2aceb9f}). The genre labels in this dataset are not mutually exclusive and of varying counts per movie.
 
 We use the newly created \emph{arXiv dataset}\footnote{Available at \url{https://www.kaggle.com/Cornell-University/arxiv}} with over 1.7 million open source articles and their metadata. Our experiments use the abstracts and categories that are suitably non-mutually exclusive and of varying counts per example. There is a longer history of using arXiv to create research datasets; the dataset we use is not to be confused with an earlier long document dataset that only features 11 classes~\citep{oldarXiv}, but was used in a recent long transformer publication~\cite{bigBird}. The limited number of labeled classes render the older dataset unsuitable for our experiments.  We write \textit{arXiv2020} for the subset of the \emph{arXiv dataset} that only contains documents published in 2020, given limited computing power. This results in around 26k documents.
 
@@ -45,7 +45,7 @@ We use the newly created \emph{arXiv dataset}\footnote{Available at \url{https:/
          \caption{During inference, unbounded predictions are transformed to predictions with a Softmax.}
      \end{subfigure}
      \vspace{.5\baselineskip}
-\caption{Learning framework used in the CoMMaL framework and specifically for sigmoidF1 as a loss function.}
+\caption{Learning framework used in the CoMMaL framework and specifically for \emph{sigmoidF1} as a loss function.}
 \label{fig:architecture}
 \end{figure*}
 
@@ -67,14 +67,14 @@ A similar classification head is used for both MobileNetV2 and DistilBert. It co
 % \label{section:losssescompared}
 
 % We benchmark sigmoidF1 against three other losses. The cross-entropy loss and its variant for sparse datasets, focal loss, are representatives of the fit-data-to-algorithm approach as they are binary classifiers. The third loss function is unboundedF1 and represents a first step towards CoMMaL.
- 
+
 \subsection{Evaluation metrics}
 \label{sec:evalMetrics}
 
 In our experimental evaluation, we consider a suite of metrics that are commonly used in the evaluation of multilabel classification to measure the effectiveness of multilabel prediction. Such metrics are based on the confusion matrix that we detailed in Section~\ref{section:method} and for which we provided smoothed surrogates to optimize directly.
 
 When true positives and false positives are used, recall that \(t p=\sum_{i \in Y^{+}} \mathds{1}_{\mathbf{p_i} \geq t}\) and \(f p=\sum_{i \in Y^{-}} \mathds{1}_{\mathbf{p_i} \geq t}\), and thus a threshold \(t\) must be set. Information on thresholding at inference time is generally hard to find in the recent literature, we thus decide on neutral thresholds before training. For arXiv2020 and moviePosters, we set \(t = 0.5\), as is commonly done in the early literature~\cite{multilabelReview, thresh0.5}.
-For the two medical datasets, cancerHallmarks and chemicalExposure, we saw after a few preparatory training rounds that only sigmoidF1 had non-zero results for \(t = 0.5\). Information is a lot more sparse for these dataset, we thus set the evaluation metrics threshold to a reasonable value of $0.05$ and train for $500$ epochs until reaching convergence. 
+For the two medical datasets, cancerHallmarks and chemicalExposure, we saw after a few preparatory training rounds that only \emph{sigmoidF1} had non-zero results for \(t = 0.5\). Information is a lot more sparse for these dataset, we thus set the evaluation metrics threshold to a reasonable value of $0.05$ and train for $500$ epochs until reaching convergence.
 
 Extending \(F_1\) to multi-class binary classification amounts to deciding wether or not to pool classes.
 In a first pooled iteration, macro \(F_1\)~\cite{multilabelMetrics} equates to creating a single 2x2 confusion matrix for all classes:
@@ -104,9 +104,9 @@ We also define micro precision% and micro recall
 \end{equation}
 %
 In our experiments, we report on weightedF1, microF1, macroF1, Precision% and Recall
-. Macro scores do not differentiate multiclass unilabel classification from multiclass multilabel classification. Micro scores treat classes separately. The \emph{weighted} micro F1 score is a further refinement where class scores are weighted by their representation in the dataset. We thus focus our discussion of experimental results around weightedF1 as we consider this to be the most representative for success on FIMPUL problems. 
+. Macro scores do not differentiate multiclass unilabel classification from multiclass multilabel classification. Micro scores treat classes separately. The \emph{weighted} micro F1 score is a further refinement where class scores are weighted by their representation in the dataset. We thus focus our discussion of experimental results around weightedF1 as we consider this to be the most representative for success on FIMPUL problems.
 
-There is an interaction between our optimization on sigmoidF1 and our evaluation using (weighted) F1 metrics. If our approach of optimizing for an F1 surrogate succeeds, we expect higher values on F1-related metrics during evaluation. For this reason, we consider and discuss not a single, but multiple metrics.
+There is an interaction between our optimization on \emph{sigmoidF1} and our evaluation using (weighted) F1 metrics. If our approach of optimizing for an F1 surrogate succeeds, we expect higher values on F1-related metrics during evaluation. For this reason, we consider and discuss not a single, but multiple metrics.
 
 \subsection{Hyperparameters and reproducibility}
 \label{subsec:hypers}
@@ -115,9 +115,9 @@ We choose to ignore classes that are underrepresented, in order to give the mode
 
 Batch size is set at a high value of 256. We thus increase accuracy over traditional losses~\cite{bigBS}, but also allow heterogeneity in the examples within the batch, thus collecting enough values in each quadrant of the confusion matrix (see Section \ref{sec:orgc5d29d7} for a discussion on batch sizes).
 
-Regarding the sigmoidF1 hyperparameters $\beta$ and $\eta$, we performed a grid search with the values in the range $[1,30]$ for $\beta$ and $[0, 2]$ for $\eta$.
+Regarding the \emph{sigmoidF1} hyperparameters $\beta$ and $\eta$, we performed a grid search with the values in the range $[1,30]$ for $\beta$ and $[0, 2]$ for $\eta$.
 In our experiments, we evaluate the sensitivity of our method to these hyperparameters (see Figure~\ref{fig:sigmoid}).
 
-We made sure to split the data in the same training, validation and test sets for each loss function. Our code, dataset splits and other settings are shared to ensure reproducibility of our results. 
+We made sure to split the data in the same training, validation and test sets for each loss function. Our code, dataset splits and other settings are shared to ensure reproducibility of our results.
 
 We performed our experiments on Amazon Web Services cloud machines with parallelization on up to 16 GPUs \textit{p2.16xlarge}, with TensorFlow 2 as a gradient-descent backend.
