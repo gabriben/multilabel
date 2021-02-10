@@ -1,6 +1,6 @@
 % !TEX root = ../main.tex
 
-\section{Conclusion}
+\section{Conclusions}
 \label{sec:orged3d8a1}
 % \mdr{Structure the conclusion in five paragraphs, devoted to the following questions:}
 % \begin{itemize}[leftmargin=*]
@@ -13,11 +13,13 @@
 
 
 \paragraph{Results}
-In this paper, we have defined a new problem that we call Full-Instance, Multilabel Prediction for Unknown Label count (FIMPUL). It is a specific type of multiclass classification where an instance needs to be considered as a whole (movie, paper abstract) in order to be labeled. The available labels are from different classes and can be of different numbers per example. This problem is being addressed more frequently with advances in deep learning providing abstract representations of the input space for multiple modalities that can be used to effectively solve downstream tasks (e.g., with models of the BERT and CNN families).
+In this paper, we framed a new problem that we call Full-Instance, Multilabel Prediction for Unknown Label count (FIMPUL). FIMPUL is a specific type of multiclass classification problem in which 1) labels are not mutually exclusive, 2) instances need to be consumed in its entirety to be labelled,
+and 3) the number of labels to assign at inference time unknown.
+% Advances in deep learning research facilitate more abstract representations of the input space for multiple modalities, these can be used to effectively solve downstream tasks (e.g., with models of the BERT and CNN model families) that relate to FIMPUL problems.
+To solve multilabel learning tasks, existing optimization frameworks are typically based on variations of the cross-entropy loss.
 
-To address FIMPUL problems, we have proposed a general loss framework for confusion matrix metrics (CoMMaL). We perform experiments with a specific loss function from the CoMMaL framework, the \emph{sigmoidF1} loss. We find that the \emph{sigmoidF1} loss can achieve significantly better results for most metrics on four diverse datasets and that the \emph{sigmoidF1} loss outperforms other losses on the weightedF1 metric.
-
-More generally, CoMMaL, our smooth formulation of confusion matrix metrics allows us to optimize directly for these metrics that are usually reserved for the evaluation phase.
+To address FIMPUL problems, we propse a general loss framework for confusion matrix metrics (CoMMaL), and perform experiments with a specific loss function from the CoMMaL framework: the \emph{sigmoidF1} loss. We find that the \emph{sigmoidF1} loss can achieve significantly better results for most metrics on four diverse datasets and that the \emph{sigmoidF1} loss outperforms other losses on the weightedF1 metric.
+More generally, our smooth formulation of confusion matrix metrics allows us to optimize directly for these metrics that are usually reserved for the evaluation phase.
 
 \paragraph{Limitations}
 We evaluate the CoMMaL framework and \emph{sigmoidF1} loss function only on FIMPUL problems. It may be worth to consider the effectiveness of the CoMMaL framework in different domains. More experimentation is also needed to find a proper heuristic for finetuning the hyperparameters of the \emph{sigmoidF1} loss. The proposed \emph{unboundedF1} counterpart does not require tuning and delivered better results than existing multiclass losses on most metrics; it can act as a mathematically less robust approximation of \emph{sigmoidF1}.
