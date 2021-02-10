@@ -85,13 +85,15 @@ Weighted micro \(F_1\)~\cite{weightedMetrics} is similar but includes weighing t
 F_1^{weighted} = \frac{1}{c} \sum_{j=1}^c p_j F_1^j \quad \text{, where } p_j = \sum_i \mathds{1}_{\mathbf{y_i^j} = 1}.
 \end{equation}
 %
-We also define micro precision and micro recall
+We also define micro precision% and micro recall
 %
 \begin{equation}
-\begin{aligned} P^{micro} &=  \frac{1}{c} \sum_{j=1}^c \frac{tp_j}{tp_j+fp_j} \\ R^{micro} &=  \frac{1}{c} \sum_{j=1}^c \frac{tp_j}{tp_j+fn_j} \end{aligned}
+\begin{aligned} P^{micro} &=  \frac{1}{c} \sum_{j=1}^c \frac{tp_j}{tp_j+fp_j}% \\ R^{micro} &=  \frac{1}{c} \sum_{j=1}^c \frac{tp_j}{tp_j+fn_j}
+\end{aligned}
 \end{equation}
 %
-In our experiments, we report on weightedF1, microF1, macroF1, Precision and Recall. Macro scores do not differentiate multiclass unilabel classification from multiclass multilabel classification. Micro scores treat classes separately. The \emph{weighted} micro F1 score is a further refinement where class scores are weighted by their representation in the dataset. We thus focus our discussion of experimental results around weightedF1 as we consider this to be the most representative for success on FIMPUL problems. 
+In our experiments, we report on weightedF1, microF1, macroF1, Precision% and Recall
+. Macro scores do not differentiate multiclass unilabel classification from multiclass multilabel classification. Micro scores treat classes separately. The \emph{weighted} micro F1 score is a further refinement where class scores are weighted by their representation in the dataset. We thus focus our discussion of experimental results around weightedF1 as we consider this to be the most representative for success on FIMPUL problems. 
 
 There is an interaction between our optimization on sigmoidF1 and our evaluation using (weighted) F1 metrics. If our approach of optimizing for an F1 surrogate succeeds, we expect higher values on F1-related metrics during evaluation. For this reason, we consider and discuss not a single, but multiple metrics.
 
