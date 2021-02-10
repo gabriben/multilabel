@@ -7,15 +7,15 @@ We present classification results on four different datasets, movie\-Posters, ca
 
 \subsection{Overall classification results}
 
-In general, we observe that the sigmoidF1 loss performs better on most metrics and across different datasets. In particular, sigmoidF1 always outperforms other losses on the metric on which focus (weightedF1 @ 0.5) and its non-weighted counterpart (microF1 @ 0.5). 
-On the moviePosters dataset (Table~\ref{tab:moviePosters}) and the arXiv2020 dataset (Table~\ref{tab:arxiv2020}), we observe higher scores for the sigmoidF1 loss on all but Precision @ 0.5. 
-On the smaller chemicalExposure and cancerHallmarks datasets, the unboundedF1 loss delivers good results for macroF1 @ 0.5 and Precision @ 0.5 and the sigmoidF1 loss leads to higher scores on the remainder of the metrics.
+In general, we observe that the sigmoidF1 loss performs better on most metrics and across different datasets. In particular, sigmoidF1 always outperforms other losses on the metric on which focus (weightedF1) and its non-weighted counterpart (microF1). 
+On the moviePosters dataset (Table~\ref{tab:moviePosters}) and the arXiv2020 dataset (Table~\ref{tab:arxiv2020}), we observe higher scores for the sigmoidF1 loss on all but Precision. 
+On the smaller chemicalExposure and cancerHallmarks datasets, the unboundedF1 loss delivers good results for macroF1 and Precision and the sigmoidF1 loss leads to higher scores on the remainder of the metrics.
 
 % \todo{Note that contrary to sigmoidF1, unboundedF1 can be particularly performant without requiring hyperparameter tuning.}\daan{Not a very strong point for sigmoidF1. Also not sure if I agree. We focus on weightedF1, that we hopefully succesfully defended in 4. We see substantial improvements for sigmoidF1 over softF1 across the board on that metric. So we should explain that we see that it optimized for a macro metric instead and clearly has success that. Can be a strong metric to consider for such a setting. That should be its on paragraph.}
 
 % \gab{comment on 0.0 CE for cancer}
 
-FocalLoss, which is specifically tailored for sparse data, does not perform well in our experiments, except for the Precision @ 0.5 metric on the moviePosters dataset. This can be explained by the fact that FocalLoss is designed for multi-class uni-label problems. 
+FocalLoss, which is specifically tailored for sparse data, does not perform well in our experiments, except for the Precision metric on the moviePosters dataset. This can be explained by the fact that FocalLoss is designed for multi-class uni-label problems. 
 % We have already said the following:
 %Across Tables~\ref{tab:moviePosters}, \ref{tab:arxiv2020}, \ref{tab:cancerHallmarks} and \ref{tab:chemicalExposure} we see that the smooth sigmoidF1 loss outperforms other existing losses.
 
@@ -95,7 +95,7 @@ $\mathcal{L}_{\text {sigmoidF1}}$ & \textbf{0.319} & \textbf{0.432} & 0.113 & 0.
 
 \subsection{Sensitivity analysis}
 
-In Figure \ref{fig:betaEta} we show the sensitivity of sigmoidF1 to different parametrizations of $\eta$ and $\beta$. It is clear from Figure \ref{fig:betaEta} that results on the test set are quite sensitive to the choice of $\eta$ and $\beta$. Within the sampled values (see Section~\ref{subsec:hypers}), we chose to display a parameter space similar to the one illustrated in Figure~\ref{fig:sigmoid}. Moving the sigmoid to the left allows the learning algorithm to tend to a (local) optimum.
+In Figure \ref{fig:betaEta}, we show the sensitivity of sigmoidF1 to different parametrizations of $\eta$ and $\beta$. It is clear from Figure \ref{fig:betaEta} that results on the test set are sensitive to the choice of $\eta$ and $\beta$. Within the sampled values (see Section~\ref{subsec:hypers}), we chose to display a parameter space similar to the one illustrated in Figure~\ref{fig:sigmoid}. Moving the sigmoid to the left allows the learning algorithm to tend to a (local) optimum.
 
 In general and across datasets, when sampling for $\eta$, we noticed how the optimum tended towards positive values. Offsetting the sigmoid curve to the left has the effect of pushing more candidate predictions to the rank of positive instance (or at least close to 1). We also note how $\beta$ (which cannot be negative or otherwise the sigmoid function would flip around the horizontal axis) is at best close to a value close to 0 on this dataset (we show discrete values here for display purposes). The sigmoid is thus relatively flat, which involves dynamic gradients over different batches. The idea is similar to a high learning rate. In our experiments, this rarely lead to divergent behavior in the loss function (learning curve).
 
