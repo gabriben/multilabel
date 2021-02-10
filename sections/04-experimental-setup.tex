@@ -33,15 +33,26 @@ cancerHallmarks\hspace{-.7em}  & text & 33 & 3.501 & 1,582\\
 % \end{adjustbox}
 \end{table}
 
-\subsection{Learning Framework}
+\subsection{Learning framework}
 
 The learning framework consists of two parts: a pretrained deep neural network and a classification head (see Figure \ref{fig:architecture}); the classification head is where we slot in alternative loss functions.
 
 \begin{figure*}[htbp]
 \centering
-\includegraphics[width=.9\linewidth]{./images/architecture.png}
-\caption{\label{fig:architecture}
-Pretrained Network and Classification Head used to test the performance of sigmoidF1}
+     \begin{subfigure}{0.6\linewidth}
+         \centering
+         \includegraphics[page=1,width=\linewidth,trim=80 100 110 0,clip]{images/SIGIR2021 Loss Diagram.pdf}
+         \caption{Finetuning of a pretrained neural network with an adapted classification head and using sigmoidF1 as a loss function..}
+     \end{subfigure}
+     \hspace{.02\linewidth}
+     \begin{subfigure}{0.36\linewidth}
+         \centering
+         \includegraphics[page=2,width=\linewidth,trim=190 100 210 0,clip]{images/SIGIR2021 Loss Diagram.pdf}
+         \caption{During inference, unbounded predictions are transformed to predictions with a Softmax.}
+     \end{subfigure}
+     \vspace{.5\baselineskip}
+\caption{Learning framework used in the CoMMaL framework and specifically for sigmoidF1 as a loss function.}
+\label{fig:architecture}
 \end{figure*}
 
 Since the focus of this paper is in comparing loss functions and not neural network architectures, we chose efficient network architectures in terms of accuracy and computation.
@@ -57,7 +68,7 @@ A similar classification head is used for both MobileNetV2 and DistilBert. It co
 
 % We benchmark sigmoidF1 against three other losses. The cross-entropy loss and its variant for sparse datasets, focal loss, are representatives of the fit-data-to-algorithm approach as they are binary classifiers. The third loss function is unboundedF1 and represents a first step towards CoMMaL.
  
-\subsection{Evaluation Metrics}
+\subsection{Evaluation metrics}
 \label{sec:evalMetrics}
 
 In our experimental evaluation, we consider a suite of metrics that are commonly used in the evaluation of multilabel classification to measure the effectiveness of multilabel prediction. Such metrics are based on the confusion matrix tjat we detailed in Section~\ref{section:method} and for which we provided smoothed surrogates to optimize directly.
@@ -97,7 +108,7 @@ In our experiments, we report on weightedF1, microF1, macroF1, Precision% and Re
 
 There is an interaction between our optimization on sigmoidF1 and our evaluation using (weighted) F1 metrics. If our approach of optimizing for an F1 surrogate succeeds, we expect higher values on F1-related metrics during evaluation. For this reason, we consider and discuss not a single, but multiple metrics.
 
-\subsection{Hyperparameters and Reproducibility}
+\subsection{Hyperparameters and reproducibility}
 \label{subsec:hypers}
 
 We choose to ignore classes that are underrepresented, in order to give the model a fair chance at learning from at least a few examples. We define underrepresentation as a global irrelevance threshold $b$ for classes: any class $c$ that is represented less than $b$ times is considered irrelevant. We decided to set an irrelevance threshold $b$ on all datasets prior to conducting experiments, so as to not finetune for that feature. It was set to 1000 for both \emph{arXiv2020} (145 of the original 155 classes remaining) and \emph{moviePosters} (14 of the 28 classes remaining) and at 10 for \emph{chemicalExposure} (all 38 classes remaining) and \emph{cancerHallmarks} (all 33 classes remaining), in proportion to the number of classes and labels in each dataset. The sensitivity study below illustrates what happens when we let $t$ vary over the arXiv2020 dataset.

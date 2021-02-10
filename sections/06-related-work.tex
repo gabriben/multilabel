@@ -37,7 +37,7 @@ the labels in the label pair. Different ranking methods
 exist~\cite{pairwiseBinary, pairwiseNet}.
 
 More recently, hierarchical datasets such as
-DBpedia\footnote{https://wiki.dbpedia.org/develop/datasets/latest-core-dataset-releases}
+DBpedia\footnote{\url{https://wiki.dbpedia.org/develop/datasets/latest-core-dataset-releases}}
 are often used to finetune BERT-based models~\cite{XLNet, bigBird}. In both
 publications, cross-entropy is used to predict the labels.
 
@@ -64,9 +64,10 @@ count and label prediction.
 
 \begin{figure*}[t!]
 \centering
-\includegraphics[width=.9\linewidth]{./images/betaEtaResized.png}
+\includegraphics[width=.8\linewidth]{./images/betaEtaResized.png}
+\vspace{.5\baselineskip}
 \caption{\label{fig:betaEta}
-DistilBert on Arxiv2020 – different scores at a 0.5 threshold for different values of $\eta$ and $\beta$ in a sampling region}
+DistilBert on Arxiv2020 – different scores at a 0.5 threshold for different values of $\eta$ and $\beta$ in a sampling region.}
 \end{figure*}
 
 \subsection{Thresholding}
