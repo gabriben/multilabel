@@ -24,7 +24,7 @@ The \textit{label powerset} approach considers each unique set of labels as one 
 % (e.g., an instance labeled \textit{Thriller} and \textit{Action}, results in the creation of the class \textit{Thriller and action}). 
 Alternatively, \textit{ranking by pairwise comparison} is a solution where the dataset is duplicated for each possible label pairs. Each duplicated dataset has therefore two classes and only contains instances that have at least one of the labels in the label pair. Different ranking methods exist~\cite{pairwiseBinary, pairwiseNet}.
 
-More recently, hierarchical datasets such as DBpedia\footnote{\url{https://wiki.dbpedia.org/develop/datasets/latest-core-dataset-releases}} are used to finetune BERT-based models~\cite{XLNet, bigBird};  the latter publications use cross-entropy to predict the labels.
+More recently, hierarchical datasets such as DBpedia~\citep{lehmann2015dbpedia} are used to finetune BERT-based models~\cite{XLNet, bigBird};  the latter publications use cross-entropy to predict the labels.
 
 \subsection{Fit-algorithm-to-data}
 In the fit-algorithm-to-data solutions, elements of the learning
