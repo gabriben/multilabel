@@ -22,7 +22,8 @@ Multiclass multilabel classification refers to the task of attributing labels to
 
 We take a design-algorithm-for-data approach tailored specifically for the FIMPUL problem and propose a new framework (CoMMaL) for loss functions based on confusion matrix metrics. With CoMMaL, we propose smooth surrogates to confusion matrix metrics that are decomposable for optimization methods such as Stochastic Gradient Descent. Within the CoMMaL framework, we specifically evaluate the effectiveness of sigmoidF1, a smooth surrogate F1 loss, on both text and image data. We embed sigmoidF1 in a classification head that is attached to state-of-the-art pretrained neural networks MobileNetV2 and DistilBERT.
 
-Our experiments show that sigmoidF1 outperforms other existing losses in four datasets on several metrics and show the importance of using traditional inference-time metrics as losses at training time. \hvk{a bit vague, what is the importance?}
+Our experiments show that sigmoidF1 outperforms other existing losses in four datasets on several metrics and show the importance of using traditional inference-time metrics as losses at training time. 
+%\hvk{a bit vague, what is the importance?}
 % \mdr{Multilabel classification is the task of classifying XXX.}
 % \mdr{In multilabel classification with unknown label counts we do not know XXX.}
 % \mdr{Multilabel classification with unknown label counts are very common in IR.}
