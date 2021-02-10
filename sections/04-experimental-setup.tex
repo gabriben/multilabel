@@ -41,7 +41,7 @@ The learning framework consists of two parts: a pretrained deep neural network a
 \centering
 \includegraphics[width=.9\linewidth]{./images/architecture.png}
 \caption{\label{fig:architecture}
-Pretrained Network and Classification Head for sigmoidF1 \todo{some tweaks}}
+Pretrained Network and Classification Head used to test the performance of sigmoidF1}
 \end{figure*}
 
 Since the focus of this paper is in comparing loss functions and not neural network architectures, we chose efficient network architectures in terms of accuracy and computation.
@@ -51,30 +51,36 @@ In both cases, we use the final pretrained layer as an embedding of the input. I
 
 A similar classification head is used for both MobileNetV2 and DistilBert. It consists of a latent representation layer (the final pretrained layer mentioned above) connected with a RELU activation. This layer is linked to a final classification layer with a linear activation. The dimension of the final layer is equal to the number of classes in the dataset. When computing focalLoss and crossEntropy, a softmax transformation transforms the unbounded last layer to a $[0,1]$ bounded vector. When computing sigmoidF1 loss, a sigmoid transformation is operated instead, which results in a sparser $[0,1]$ vector. At inference time, the last layer is used for prediction and is bounded with a softmax function. A threshold must then be chosen at evaluation time to compute different metrics. Figure \ref{fig:architecture} depicts this learning framework. Thresholding regimes at inference time are further discussed in Sections~\ref{sec:evalMetrics} and~\ref{subsec:thresh}.
 
-\subsection{Losses Compared}
-\label{section:losssescompared}
+% \gab{ev. remove losses compared}
+% \subsection{Losses Compared}
+% \label{section:losssescompared}
 
-We benchmark sigmoidF1 against three other losses. The cross-entropy loss and its variant for sparse datasets, focal loss, are representatives of the fit-data-to-algorithm approach as they are binary classifiers. The third loss function is unboundedF1 and represents a first step towards CoMMaL.
+% We benchmark sigmoidF1 against three other losses. The cross-entropy loss and its variant for sparse datasets, focal loss, are representatives of the fit-data-to-algorithm approach as they are binary classifiers. The third loss function is unboundedF1 and represents a first step towards CoMMaL.
  
 \subsection{Evaluation Metrics}
 \label{sec:evalMetrics}
 
 In our experimental evaluation, we consider a suite of metrics that are commonly used in the evaluation of multilabel classification to measure the effectiveness of multilabel prediction. Such metrics are based on the confusion matrix tjat we detailed in Section~\ref{section:method} and for which we provided smoothed surrogates to optimize directly.
 
-When true positives and false positives are used, recall that \(t p=\sum_{i \in Y^{+}} \mathds{1}_{\mathbf{p_i} \geq t}\) and \(f p=\sum_{i \in Y^{-}} \mathds{1}_{\mathbf{p_i} \geq t}\), and thus a threshold \(t\) must be set. We set \(t = 0.5\), as is commonly done \todo{add source}.
-For the two medical datasets, cancerHallmarks and chemicalExposure, information is a lot more sparse, we thus set the evaluation metrics threshold at 0.05 and train for 500 epochs until reaching convergence. 
+When true positives and false positives are used, recall that \(t p=\sum_{i \in Y^{+}} \mathds{1}_{\mathbf{p_i} \geq t}\) and \(f p=\sum_{i \in Y^{-}} \mathds{1}_{\mathbf{p_i} \geq t}\), and thus a threshold \(t\) must be set. Information on thresholding at inference time is generally hard to find in the recent literature, we thus decide on neutral thresholds before training. For arXiv2020 and moviePosters, we set \(t = 0.5\), as is commonly done in the early literature~\cite{multilabelReview, thresh0.5}.
+For the two medical datasets, cancerHallmarks and chemicalExposure, we saw after a few preparatory training rounds that only sigmoidF1 had non-zero results for \(t = 0.5\). Information is a lot more sparse for these dataset, we thus set the evaluation metrics threshold to a reasonable value of $0.05$ and train for $500$ epochs until reaching convergence. 
 
 Extending \(F_1\) to multi-class binary classification amounts to deciding wether or not to pool classes.
 In a first pooled iteration, macro \(F_1\)~\cite{multilabelMetrics} equates to creating a single 2x2 confusion matrix for all classes:
+%
 \begin{equation}
 F_1^{macro} = \frac{\sum^c tp_j}{2 \sum^c tp_j + \sum^c fn_j + \sum^c fp_j},
 \end{equation}
+%
 with $\sum^c (\cdot)$ as a short form of $\sum_{j=1}^c(\cdot)$, when summing over each class up to the $c$'th class.
 Micro \(F_1\) \cite{threshForF1, multilabelMetrics} amounts to creating one confusion matrix per class or unpooling:
+%
 \begin{equation}
 F_1^{micro} =  \frac{1}{c} \sum_{j=1}^c \frac{tp_j}{2 tp_j + fn_j + fp_j} =  \frac{1}{c} \sum_{j=1}^c F_1^j.
 \end{equation}
+%
 Weighted micro \(F_1\)~\cite{weightedMetrics} is similar but includes weighing to account for class imbalance, i.e., weighing each class by the number of ground-truth positives:
+%
 \begin{equation}
 F_1^{weighted} = \frac{1}{c} \sum_{j=1}^c p_j F_1^j \quad \text{, where } p_j = \sum_i \mathds{1}_{\mathbf{y_i^j} = 1}.
 \end{equation}
@@ -85,7 +91,6 @@ We also define micro precision and micro recall
 \begin{aligned} P^{micro} &=  \frac{1}{c} \sum_{j=1}^c \frac{tp_j}{tp_j+fp_j} \\ R^{micro} &=  \frac{1}{c} \sum_{j=1}^c \frac{tp_j}{tp_j+fn_j} \end{aligned}
 \end{equation}
 %
-
 In our experiments, we report on weightedF1, microF1, macroF1, Precision and Recall. Macro scores do not differentiate multiclass unilabel classification from multiclass multilabel classification. Micro scores treat classes separately. The \emph{weighted} micro F1 score is a further refinement where class scores are weighted by their representation in the dataset. We thus focus our discussion of experimental results around weightedF1 as we consider this to be the most representative for success on FIMPUL problems. 
 
 There is an interaction between our optimization on sigmoidF1 and our evaluation using (weighted) F1 metrics. If our approach of optimizing for an F1 surrogate succeeds, we expect higher values on F1-related metrics during evaluation. For this reason, we consider and discuss not a single, but multiple metrics.

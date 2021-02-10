@@ -16,12 +16,12 @@ FocalLoss, which is specifically tailored for sparse data, does not perform well
 \label{table:overallresults}
 \vspace{2mm}
 \begin{subtable}[t]{.95\columnwidth}
-  \caption{Performance of MobileNetV2 (CNN) + custom classification head on Movie posters}
+  \caption{Performance@0.5 of MobileNetV2 (CNN) + custom classification head on Movie posters}
   \label{tab:moviePosters}
 \centering
 \begin{tabular}{l ccccc}
 \toprule 
-Loss  & \rotatebox{90}{weightedF1 @ 0.5} & \rotatebox{90}{microF1 @ 0.5} & \rotatebox{90}{macroF1 @ 0.5} & \rotatebox{90}{Precision @ 0.5} & \rotatebox{90}{Recall @ 0.5}\\ 
+Loss  & \rotatebox{90}{weightedF1} & \rotatebox{90}{microF1} & \rotatebox{90}{macroF1} & \rotatebox{90}{Precision} & \rotatebox{90}{Recall}\\ 
 \midrule
 $\mathcal{L}_{\text {CE}}$ & 0.149 & 0.186 & 0.051 & 0.090 & 0.042 \\
 $\mathcal{L}_{\text {FL}}$ & 0.154 & 0.192 & 0.055 & 0.115 & – \\
@@ -33,12 +33,12 @@ $\mathcal{L}_{\text {sigmoidF1}}$ & \textbf{0.300} & \textbf{0.224} & \textbf{0.
 \end{subtable}
 \quad
 \begin{subtable}[t]{.95\columnwidth}
-  \caption{Performance of DistilBert (NLP) + custom classification head on  arXiv 2020}
+  \caption{Performance@0.5 of DistilBert (NLP) + custom classification head on  arXiv 2020}
   \label{tab:arxiv2020}  
 \centering
 \begin{tabular}{l ccccc}
 \toprule
-Loss  & \rotatebox{90}{weightedF1 @ 0.5} & \rotatebox{90}{microF1 @ 0.5} & \rotatebox{90}{macroF1 @ 0.5} & \rotatebox{90}{Precision @ 0.5} & \rotatebox{90}{Recall @ 0.5}\\ 
+Loss  & \rotatebox{90}{weightedF1} & \rotatebox{90}{microF1} & \rotatebox{90}{macroF1} & \rotatebox{90}{Precision} & \rotatebox{90}{Recall}\\ 
 \midrule
 $\mathcal{L}_{\text {CE}}$ & 0.106 & 0.106 & 0.093 & 0.096 & – \\ % Run 71ef078f975649d5b3d897e504bc638b
 $\mathcal{L}_{\text {FL}}$ & 0.009 & 0.011 & 0.008 & 0.054 & 0.954 \\
@@ -51,12 +51,12 @@ $\mathcal{L}_{\text {sigmoidF1}}$ & \textbf{0.106} & \textbf{0.106} & \textbf{0.
 
 \vspace{2mm}
 \begin{subtable}[t]{.95\columnwidth}
-  \caption{DistilBert (NLP) + custom classification head on Cancer Hallmarks}
+  \caption{Performance@0.5 of DistilBert (NLP) + custom classification head on Cancer Hallmarks}
   \label{tab:cancerHallmarks}
 \centering
 \begin{tabular}{l ccccc}
 \toprule 
-Loss  & \rotatebox{90}{weightedF1 @ 0.5} & \rotatebox{90}{microF1 @ 0.5} & \rotatebox{90}{macroF1 @ 0.5} & \rotatebox{90}{Precision @ 0.5} & \rotatebox{90}{Recall @ 0.5}\\ 
+Loss  & \rotatebox{90}{weightedF1} & \rotatebox{90}{microF1} & \rotatebox{90}{macroF1} & \rotatebox{90}{Precision} & \rotatebox{90}{Recall}\\ 
 \midrule
 $\mathcal{L}_{\text {CE}}$ & 0.0 & 0.0 & 0.0 & 0.0 & 0.0 \\ 
 $\mathcal{L}_{\text {FL}}$ & 0.108 & 0.190 & 0.044 & 0.071 & 0.055 \\
@@ -68,12 +68,12 @@ $\mathcal{L}_{\text {sigmoidF1}}$ & \textbf{0.202} & \textbf{0.313} & 0.095 & 0.
 \end{subtable}
 \quad
 \begin{subtable}[t]{.95\columnwidth}
-  \caption{DistilBert (NLP) + custom classification head on Chemical Exposure}
+  \caption{Performance@0.5 of DistilBert (NLP) + custom classification head on Chemical Exposure}
   \label{tab:chemicalExposure}
 \centering
 \begin{tabular}{l ccccc}
 \toprule
-Loss  & \rotatebox{90}{weightedF1 @ 0.5} & \rotatebox{90}{microF1 @ 0.5} & \rotatebox{90}{macroF1 @ 0.5} & \rotatebox{90}{Precision @ 0.5} & \rotatebox{90}{Recall @ 0.5}\\ 
+Loss  & \rotatebox{90}{weightedF1} & \rotatebox{90}{microF1} & \rotatebox{90}{macroF1} & \rotatebox{90}{Precision} & \rotatebox{90}{Recall}\\ 
 \midrule
 $\mathcal{L}_{\text {CE}}$ & 0.051 & 0.058 & 0.012 & 0.047 & 0.007 \\ % Run 71ef078f975649d5b3d897e504bc638b
 $\mathcal{L}_{\text {FL}}$ & 0.268 & 0.348 & 0.0934 & 0.130 & 0.091 \\
