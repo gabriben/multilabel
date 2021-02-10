@@ -13,7 +13,8 @@ Parallel, and Cluster Computing (cs.DC)}, and \textit{Machine Learning
 These two examples are representative of a large class of classification problems that share several characteristics:
 \begin{enumerate}[label=(\arabic*),leftmargin=*]
 \item The possibility of assigning more than one label to a single instance is desirable (i.e., labels are not mutually exclusive).
-\item The instance being labeled needs to be inspected or consumed in its entirety before a full set of class labels can be determined. For example, it requires an entire viewing of the movie \textit{Tenet} to determine if the label \textit{romance} is appropriate, as it is arguably the underlying driver of the protagonists. Instead, it would be hard to isolate a simple characteristic of an instance that is uniquely predictive of a label.
+\item The instance being labeled needs to be inspected or consumed in its entirety before a full set of class labels can be determined. For example, it requires an entire viewing of the movie \textit{Tenet} to determine if the label \textit{romance} is appropriate, as it is arguably the underlying driver of the protagonists.
+% Instead, it would be hard to isolate a simple characteristic of an instance that is uniquely predictive of a label.
 \item The number of labels differs per instance, making the number of labels to assign at inference time unknown.
 \end{enumerate}
 
@@ -27,7 +28,7 @@ To solve multi-label learning tasks, existing optimization frameworks are typica
 Existing algorithmic solutions to deal with FIMPUL tasks can be divided into \emph{fit-data-to-algorithm} solutions, which map FIMPUL problems to a known problem formulation like multi-class uni-label classification, and \emph{fit-algorithm-to-data} solutions, which adapt existing classification algorithms for the problem at hand~\citep{multilabelMethods}. In the fit-data-to-algorithm solutions, cross-entropy losses are used at training time and thresholding is done at inference time to determine how many labels should be assigned to an instance. In the fit-algorithm-to-data solutions, elements of the learning algorithm are changed (such as the back propagation procedure or the tasks). An important shortcoming shared by both classes of solutions is the lack of a holistic approach for both label count and label prediction.
 
 \paragraph{Our proposed solution to FIMPUL tasks}
-We propose an alternative type of solution that is aimed at balancing prediction of label propensities and label count prediction. Our proposed solution, \solution (Confusion Matrix Metrics as Losses), is neither of the fit-algorithm-to-data type nor of the fit-data-to-algorithm type.
+We propose an alternative type of solution that is aimed at balancing prediction of label propensities and label count prediction. Our proposed solution, Confusion Matrix Metrics as Losses (\solution), is neither of the fit-algorithm-to-data type nor of the fit-data-to-algorithm type.
 Instead, it is best characterized as an example of a \emph{design-algorithm-for-data} approach: the formulation of a loss function designed for the problem at hand, as opposed to using one existing optimization framework or optimizing over the sum of several loss functions.
 
 \paragraph{Main contributions of the paper}
