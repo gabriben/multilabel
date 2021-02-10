@@ -25,7 +25,7 @@ As we show in our experiments and the related work discussed below, FIMPUL learn
 
 \paragraph{Previous solutions to FIMPUL tasks}
 To solve multilabel learning tasks, existing optimization frameworks are typically based on variations of the cross-entropy loss, with some recent advances dealing with specific aspects such as sparsity~\citep[see, e.g.,][]{focalLoss,tencent}.
-Existing algorithmic solutions to deal with FIMPUL tasks can be divided into \emph{fit-data-to-algorithm} solutions, which map FIMPUL problems to a known problem formulation like multi-class uni-label classification, and \emph{fit-algorithm-to-data} solutions, which adapt existing classification algorithms for the problem at hand~\citep{multilabelMethods}. In the fit-data-to-algorithm solutions, cross-entropy losses are used at training time and thresholding is done at inference time to determine how many labels should be assigned to an instance. In the fit-algorithm-to-data solutions, elements of the learning algorithm are changed (such as the back propagation procedure or the tasks). An important shortcoming shared by both classes of solutions is the lack of a holistic approach for both label count and label prediction.
+Existing algorithmic solutions to deal with FIMPUL tasks can be divided into \emph{fit-data-to-algorithm} solutions, which map FIMPUL problems to a known problem formulation like multiclass uni-label classification, and \emph{fit-algorithm-to-data} solutions, which adapt existing classification algorithms for the problem at hand~\citep{multilabelMethods}. In the fit-data-to-algorithm solutions, cross-entropy losses are used at training time and thresholding is done at inference time to determine how many labels should be assigned to an instance. In the fit-algorithm-to-data solutions, elements of the learning algorithm are changed (such as the back propagation procedure or the tasks). An important shortcoming shared by both classes of solutions is the lack of a holistic approach for both label count and label prediction.
 
 \paragraph{Our proposed solution to FIMPUL tasks}
 We propose an alternative type of solution that is aimed at balancing prediction of label propensities and label count prediction. Our proposed solution, Confusion Matrix Metrics as Losses (\solution), is neither of the fit-algorithm-to-data type nor of the fit-data-to-algorithm type.
@@ -40,7 +40,7 @@ Our formulation encompasses different levels of complexity, from the classical c
 \paragraph{The remainder of the paper}
 The remainder of this paper is structured as follows: first, we introduce our method and define a class of smooth loss functions for FIMPUL problems. Next, we detail our experimental setup and describe the datasets used in our experiments. After presenting the experimental results in the next section, we close the paper with conclusions and suggestions for future work.
 
-% % \textbf{multi-class classification problems are hard}
+% % \textbf{multiclass classification problems are hard}
 
 
 % \paragraph{Problem statement}
