@@ -32,7 +32,7 @@ In a typical binary classification problem, predictions are probabilistic and it
 \end{equation}
 %
 %, \(\sum^+\) and \(\sum^-\) corresponding to  \(\sum_{i \in Y^{+}}\) and \(\sum_{i \in Y^{-}}\) respectively
-with \(\odot\) the component-wise multiplication sign. 
+with \(\odot\) the component-wise multiplication sign.
 
 
 For simplicity, in the formulation above and the ones that follow scores are calculated for a single class, therefore the sum is implicitly over all examples \(\sum_i\). This is useful for the binary classification problem but also for the multilabel problem, when micro metrics are calculated (i.e. metric for each class which is then averaged over all classes, see end of this section, where we further refine the micro and macro concepts). In the multilabel setting $\mathbf{y}$ can be substituted by $\mathbf{y}^j$ for each class $j$. Note that vectors could be trivially substituted by matrices ($Y$) in the following expressions to obtain the macro formulation.
@@ -137,7 +137,8 @@ In this paper we focus on $\mathcal{L}_{\widetilde{\mathit{F1}}}$ because it has
 
 While smoothness is defined above, there is yet a precision to make about micro-averaging versus macro-averaging in multilabel-classification problems. Micro-averaging is biased by class frequency, whereas macro-averaging regards all classes as equally important. unboundedF1 and sigmoidF1 below are thought of as macro scores (aggregated over all classes). These scores require a high enough number of representatives in the four confusion matrix quadrants to learn from batch to batch. Ideally, each training epoch would have only one batch, so as to have the most representatives.
 
-Following Equation \ref{eq:unbounded}, it is possible to define an \emph{unbounded F1} score (see~\cite{softF1} for a similar formulation\footnote{To give tribute to the previous formulation, we specify here that unboundedF1 was called softF1 in this blog post.}):
+Following Equation \ref{eq:unbounded}, it is possible to define an \emph{unbounded F1} score. A formulation similar to \emph{unboundedF1} was proposed in an unpublished blog post, which was referred to as \emph{softF1}~\cite{softF1}. We define our \emph{unbounded F1} score as follows:
+
 %
 \begin{equation}
 \mathcal{L}_{\overline{\mathit{F1}}}= \frac{\overline{tp}}{2 \overline{tp}+ \overline{fn}+ \overline{fp}}
