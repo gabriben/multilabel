@@ -16,7 +16,7 @@
 In this paper, we defined a new problem that we call Full-Instance, Multilabel Prediction for Unknown Label count (FIMPUL). It is a subdomain of multiclass classification where an instance needs to be considered as a whole (movie, paper abstract) in order to be labeled. The available labels are from different classes and can be of different numbers per example. This problem is getting addressed more frequently with advances in deep learning providing abstract representation of the input space for multiple modalities that can be used to effectively solve downstream tasks (e.g. with models of the BERT and CNN families). 
 
 To address FIMPUL problems, we proposed a general loss framework for confusion metrics metrics (CoMMaL). We performed  experiments with a specific loss function from the CoMMaL framework, sigmoidF1. We found that sigmoidF1 can achieve significantly better results for most metrics on four diverse datasets and that sigmoidF1 outperforms other losses on the weightedF1 metric.
-
+b
 More generally, CoMMaL, our smooth formulation of confusion matrix metrics allows to optimize directly for these metrics that are usually reserved for the evaluation phase. 
 
 \paragraph{Limitations}
