@@ -11,7 +11,9 @@ In general, we observe that the \emph{sigmoidF1} loss performs better on most me
 On the moviePosters dataset (Table~\ref{tab:moviePosters}) and the arXiv2020 dataset (Table~\ref{tab:arxiv2020}), we observe higher scores for the \emph{sigmoidF1} loss on all but Precision.
 On the smaller chemicalExposure and cancerHallmarks datasets, the \emph{unboundedF1} loss delivers good results for macroF1 and Precision and the \emph{sigmoidF1} loss leads to higher scores on the remainder of the metrics.
 
-% \todo{Note that contrary to sigmoidF1, \emph{unboundedF1} can be particularly performant without requiring hyperparameter tuning.}\daan{Not a very strong point for sigmoidF1. Also not sure if I agree. We focus on weightedF1, that we hopefully succesfully defended in 4. We see substantial improvements for sigmoidF1 over softF1 across the board on that metric. So we should explain that we see that it optimized for a macro metric instead and clearly has success that. Can be a strong metric to consider for such a setting. That should be its on paragraph.}
+We observe that \emph{unboundedF1} scores higher than \emph{sigmoidF1} on macroF1 on the two small text datasets, namely chemicalExposure and cancerHallmarks. Since \emph{unboundedF1} forgoes thresholding altogether. We hypothesize that \emph{unboundedF1} develops tolerance for sparse datasets with low number of class instances.
+
+Notably for the cancerHallmarks dataset, predictions from a model trained with cross-entropy do not reach high enough values (higher than 0.5) to surpass the threshold and thus all metrics return zero values. This was further observed during experimentation, thus cross-entropy loss might not be a good fit for solving FIMPUL problems.
 
 % \gab{comment on 0.0 CE for cancer}
 
@@ -29,7 +31,7 @@ FocalLoss, which is specifically tailored for sparse data, does not perform well
 \centering
 \begin{tabular}{l ccccc}
 \toprule
-Loss  & \rotatebox{45}{weightedF1} & \rotatebox{45}{microF1} & \rotatebox{45}{macroF1} & \rotatebox{45}{Precision}\\% & \rotatebox{90}{Recall}\\
+Loss  & \rotatebox{90}{weightedF1} & \rotatebox{90}{microF1} & \rotatebox{90}{macroF1} & \rotatebox{90}{Precision}\\% & \rotatebox{90}{Recall}\\
 \midrule
 $\mathcal{L}_{\text {CE}}$ & 0.149 & 0.186 & 0.051 & 0.090\\% & 0.042 \\
 $\mathcal{L}_{\text {FL}}$ & 0.154 & 0.192 & 0.055 & 0.115\\% & – \\
@@ -46,7 +48,7 @@ $\mathcal{L}_{\text {sigmoidF1}}$ & \textbf{0.300} & \textbf{0.224} & \textbf{0.
 \centering
 \begin{tabular}{l ccccc}
 \toprule
-Loss  & \rotatebox{45}{weightedF1} & \rotatebox{45}{microF1} & \rotatebox{45}{macroF1} & \rotatebox{45}{Precision}\\% & \rotatebox{90}{Recall}\\
+Loss  & \rotatebox{90}{weightedF1} & \rotatebox{90}{microF1} & \rotatebox{90}{macroF1} & \rotatebox{90}{Precision}\\% & \rotatebox{90}{Recall}\\
 \midrule
 $\mathcal{L}_{\text {CE}}$ & 0.106 & 0.106 & 0.093 & 0.096\\% & – \\ % Run 71ef078f975649d5b3d897e504bc638b
 $\mathcal{L}_{\text {FL}}$ & 0.009 & 0.011 & 0.008 & 0.054\\% & 0.954 \\
@@ -64,9 +66,9 @@ $\mathcal{L}_{\text {sigmoidF1}}$ & \textbf{0.106} & \textbf{0.106} & \textbf{0.
 \centering
 \begin{tabular}{l ccccc}
 \toprule
-Loss  & \rotatebox{45}{weightedF1} & \rotatebox{45}{microF1} & \rotatebox{45}{macroF1} & \rotatebox{45}{Precision}\\% & \rotatebox{90}{Recall}\\
+Loss  & \rotatebox{90}{weightedF1} & \rotatebox{90}{microF1} & \rotatebox{90}{macroF1} & \rotatebox{90}{Precision}\\% & \rotatebox{90}{Recall}\\
 \midrule
-$\mathcal{L}_{\text {CE}}$ & 0.0 & 0.0 & 0.0 & 0.0 &\\% 0.0 \\
+$\mathcal{L}_{\text {CE}}$ & 0.000 & 0.000 & 0.000 & 0.000 &\\% 0.0 \\ 
 $\mathcal{L}_{\text {FL}}$ & 0.108 & 0.190 & 0.044 & 0.071 &\\% 0.055 \\
 % $\mathcal{L}_{\text {CE+N}}$ & 0 & 0 & 0 & 0 & 0 \\
 $\mathcal{L}_{\text {unboundedF1}}$ & 0.170 & 0.176 & \textbf{0.098} & \textbf{0.089}\\% & 0.131 \\
@@ -81,7 +83,7 @@ $\mathcal{L}_{\text {sigmoidF1}}$ & \textbf{0.202} & \textbf{0.313} & 0.095 & 0.
 \centering
 \begin{tabular}{l ccccc}
 \toprule
-Loss  & \rotatebox{45}{weightedF1} & \rotatebox{45}{microF1} & \rotatebox{45}{macroF1} & \rotatebox{45}{Precision}\\% & \rotatebox{90}{Recall}\\
+Loss  & \rotatebox{90}{weightedF1} & \rotatebox{90}{microF1} & \rotatebox{90}{macroF1} & \rotatebox{90}{Precision}\\% & \rotatebox{90}{Recall}\\
 \midrule
 $\mathcal{L}_{\text {CE}}$ & 0.051 & 0.058 & 0.012 & 0.047\\% & 0.007 \\ % Run 71ef078f975649d5b3d897e504bc638b
 $\mathcal{L}_{\text {FL}}$ & 0.268 & 0.348 & 0.0934 & 0.130\\% & 0.091 \\

@@ -44,10 +44,10 @@ An important limitation shared by both \emph{fit-data-to-algorithm} and \emph{fi
 
 \begin{figure*}[t!]
 \centering
-\includegraphics[width=.8\linewidth]{./images/betaEtaResized.png}
-\vspace{.5\baselineskip}
+\includegraphics[width=.9\linewidth]{./images/betaEtaResized.png}
+\vspace{1\baselineskip}
 \caption{\label{fig:betaEta}
-DistilBert (NLP) + classification head on arXiv2020 – different scores at a 0.5 threshold for different values of $\eta$ and $\beta$ in a sampling region.}
+DistilBert (NLP) + classification head on arXiv2020 – different scores at a 0.5 threshold for different values of $\eta$ and $\beta$ in a sampling region similar to Figure~\ref{fig:sigmoid}}
 \end{figure*}
 
 \subsection{Thresholding}
@@ -56,10 +56,10 @@ DistilBert (NLP) + classification head on arXiv2020 – different scores at a 0.
 Machine learning prediction tasks' output are probabilistic (or a reversible transformation of a probabilistic measure such as a sigmoid or a softmax function).
 At training time, these outputs are compared to binary
 values in the case of binary encoding of classes.
+
 At inference time, if the number $n_i$ of labels to be predicted per example is known a priori, it is natural to assign the $top_{n_i}$ predictions to that example~\cite{lossTopKError, topKmulticlassSVM}.
 If the number of labels per example is unknown a priori,  at inference time the question remains as to how to extract information about the number of labels to assign to each example, aside from the propensity of labels to be assigned.
-This is generally done via a \emph{decision threshold}, that can be set globally for all examples, and be
-optimized for specificity or sensitivity~\cite{decisionThreshold}.
+This is generally done via a \emph{decision threshold}, that can be set globally for all examples, and be optimized for specificity or sensitivity~\cite{decisionThreshold}.
 
 Thresholding across classes or examples can be an issue when the number of labels to predict is unknown. Some variants of cross-entropy loss accommodate imbalanced label data~\cite{focalLoss}, but remain agnostic to the number of labels to predict.
 Solutions include determining an ideal global \emph{threshold} depending on the use-case at hand~\cite{threshForF1}, or per-class-thresholding after training~\cite{moviePosters} and eventually abstracting the threshold away via a \emph{soft-F1} measure~\cite{softF1}.
