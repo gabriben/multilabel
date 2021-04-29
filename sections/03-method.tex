@@ -132,7 +132,7 @@ These smooth confusion matrix entries allow to build any related metric (see Tab
 In this paper we focus on $\mathcal{L}_{\widetilde{\mathit{F1}}}$ because it has the ability to implicitly penalize for both inacurate label propensity and label count.
 
 
-\subsection{Smooth Macro F1 scores}
+\subsection{Smooth macro F1 scores}
 \label{sec:orgc5d29d7}
 
 While smoothness is defined above, there is yet a precision to make about micro-averaging versus macro-averaging in multilabel-classification problems. Micro-averaging is biased by class frequency, whereas macro-averaging regards all classes as equally important. \emph{unboundedF1} and \emph{sigmoidF1} below are thought of as macro scores (aggregated over all classes). These scores require a high enough number of representatives in the four confusion matrix quadrants to learn from batch to batch. Ideally, each training epoch would have only one batch, so as to have the most representatives.

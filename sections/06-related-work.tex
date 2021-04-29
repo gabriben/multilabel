@@ -69,7 +69,7 @@ In our method, this threshold is defined implicitly, thanks to the use of metric
 wrong label counts.
 
 
-\subsection{Metrics as Losses}
+\subsection{Metrics as losses}
 
 In a number of learning to rank tasks~\cite{LTR}, a model's out of sample accuracy is measured on metrics such as AUROC, F1 score, etc. These reflect an objective catered towards evaluating the model over an entire ranking. Due to the lack of differentiability, these metrics cannot be directly used as loss
 functions at training time (in-sample). \citet{optimizableLosses} propose a general framework for deriving
