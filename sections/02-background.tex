@@ -3,63 +3,75 @@
 \section{Background}
 \label{section:background}
 
-We introduce the terminology, notation, and prior mathematical formulation of solutions for FIMPUL problems.
+In this section, we use a traditional statistical framework as a guideline for multilabel methods~\citep{tukey} \gab{needs a bit more explanation}. We distinguish the desired theoretical statistic (the estimand), its functional form (the estimator) and its approximation (the estimate). We show how multilabel reductions tend to reformulate the estimand and treat labels independently (i.e. change the assumptions about the data). However, with an appropriate estimator, it is possible to directly model the estimand. Our proposed loss function, multilabel blend, accommodates for the true estimand.
 
-The \emph{Full-Instance}, \emph{Multilabel Prediction for Unknown Label counts} (FIMPUL) learning task has three key concepts.
-First, \emph{multilabel learning} refers to the possibility that one example is attributed more than one label~\cite{multilabelMethods}.
-Second, the term \emph{full-instance} should be understood in contrast to \emph{multi-instance} learning~\citep[e.g.,][]{multiInstance,multiInstanceMultiLabel}, for which it is considered natural to first segment an image, text or sound before performing prediction on each of the segments. In contrast, for full-instance learning problems, we cannot assume that there is an obvious or unique way to segment an instance so that the prediction problem can be decided based on that segment.
-Third, the concept of \emph{unknown label counts} illustrates the case where the number of labels is unknown a priori for each example. Our proposed smooth surrogate of the F1 score allows to balance the tasks of label prediction and label count into one.
+More formally, we define a learning algorithm that maps inputs to outputs given a set of hyperparameters \(\mathcal{F}(\cdot ; \Theta): \mathcal{X} \rightarrow \mathcal{Y}\). 
 
-In the following sections, we will first introduce the notion of the smooth confusion matrix and in particular \emph{sigmoidF1}.
-Next, we briefly characterize existing families of solutions to FIMPUL problems.
-They can be divided into two groups, \emph{fit-data-to-algorithm} solutions (a.k.a. \emph{problem tranformation}) and \emph{fit-algorithm-to-data} solutions (a.k.a.\ \emph{algorithm adaptation})~\cite{multilabelReview, multilabelReview2}. These will be discussed in Section~\ref{section:background:fitdata} and Section~\ref{section:background:fitalgorithm} respectively, followed by discussing shortcomings of these solutions in Section~\ref{section:background:limitations} and proposing a new solution framework in Section~\ref{section:background:solution}.
-In Section~\ref{section:method}, we then fully detail a particular instance of this framework.
+\subsection{Estimand}
+\label{section:background:estimand}
 
-\subsection{Fit-data-to-algorithm solutions}
-\label{section:background:fitdata}
-Briefly, in the case of \emph{fit-data-to-algorithm}, cross-entropy losses are used at training time and thresholding is done at inference time.
+Take a classification setting with $C$ classes. Two scenarios are described in the literature, the multilabel and the mutliclass scenario. In the former, a single example can be attributed more than one label of each class (e.g. movie genres). In the latter, a single example has per definition only one label stemming from a class (e.g. classification of an animal on a picture). The multilabel risk can be written as
 
-More formally, we define a learning algorithm that maps inputs to outputs given a set of hyperparameters \(\mathcal{F}(\cdot ; \Theta): \mathcal{X} \rightarrow \mathcal{Y}\). For the purpose of fit-data-to-algorithm,
-we define \(\mathcal{L}_{\text {multiclass}}\), a class of loss functions that
-minimize predictions in relative terms. Binary cross-entropy, logistic regression and their
-variants, such as focal loss are common choices when it comes to
-multiclass prediction. Note that minimizing binary cross-entropy is equivalent to maximizing for log-likelihood
-\cite[Section 4.3.4]{Bishop}.
-Cross-entropy loss can be formulated as
-\(\mathcal{L}_{\text {CE}}=-\sum \log \left(p_{i}\right)\).
-More generally, the fit-data-to-algorithm formulation amounts to minimizing the loss on a class of neural networks, such that
-%
 \begin{equation}
-\underset{\mathcal{L}_{\text {multiclass}}} {\min} \mathcal{F}\big(\cdot ;
-\Theta; \mathcal{L}_{\text {multiclass}} (\mathbf{y}, \hat{\mathbf{y}})\big),
+R_{\mathrm{ML}}(\mathcal{F}) = \mathbb{E}_{(x, y)}\left[\ell_{\mathrm{ML}}(y, \mathcal{F}(x))\right]
 \end{equation}
-%
-This class of loss functions is particularly useful for multiclass unilabel predictions, when we can select top-1 label predictions, or multiclass multilabel predictions with known amount of labels $k_i$ per example/document $i$, when we can select the top-k. Note that one common approach in fit-data-to-algorithm is to establish a hierarchical structure in labels. This way, one can constrain the algorithm to learn only 1 or $k$ labels per group in the hierarchy. For example, DBPedia~\citep{lehmann2015dbpedia} establishes a hierarchical structure in Wikipedia infoboxes and is commonly used to finetune state-of-the-art NLP models~\citep[see, e.g.,][]{XLNet, ULMFit}.
 
-For many real world problems and datasets reducing the problem to top-k selection or establishing a hierarchical structure is an oversimplification, especially when classes are not mutually exclusive. Besides the four datasets we use for our experiments, we mention others in the related work section.
 
-\subsection{Fit-algorithm-to-data solutions}
-\label{section:background:fitalgorithm}
-In the case of \emph{fit-algorithm-to-data} solutions, elements of the learning algorithm are changed to deal with non-mutually exclusive classes. Such elements can be the back propagation algorithm or the summation of losses from different learning tasks.
-If we focus fit-algorithm-to-data to solving FIMPUL, we can define it as aiming to both optimize for both a propensity of each label being true and a prediction of the number of true labels:
-%
+\subsection{Estimator}
+\label{section:background:estimator}
+
+The estimator $f \in \mathcal{F}$ is any minimizer of the risk $R_{ML}$. 
+Menon et. al. ~\citep{multilabelReduction} define the multiclass setting as any setting that 
+
+proposition: the multilabel estimator of $y_i$ shall be dependent on the input and other labels,
 \begin{equation}
-\underset{\mathcal{L}_{\text {multiclass}}, \mathcal{L}_{\text {count}}}
-{\min} \mathcal{F}\big(\cdot ; \Theta; \mathcal{L}_{\text {multiclass}}
-(\mathbf{y}, \hat{\mathbf{y}}) + \lambda \mathcal{L}_{\text {count}}
-(\mathbf{n}, \hat{\mathbf{n}})\big),
+  y_i = \mathcal{F}(x, y_1, ..., y_C) = P(y_i | x, y_1, ..., y_C) \forall y_j not in y_i
 \end{equation}
-%
-where \(n_i = \sum_j \mathds{1}_{\mathbf{y_i^j} = 1}\) is the count of
-positive labels per example. We thus impose a regularize the multiclass loss with the accuracy of retrieval of label counts.
-For example, an adapted cross-entropy loss would penalize for the number of wrongly predicted
-labels \(\mathcal{L}_{\text {CE+N}}= \mathcal{L}_{\text {CE}} + \lambda (\sum
-tp / \sum p)\), with \(t p=\sum_{i \in Y^{+}} \mathds{1}_{\mathbf{p_i} \geq
-b}\) and \(b\) a threshold to be defined. The fit-algorithm-to-data
-formulation is most straightforward but does not model the interactions between label counts and label prediction.
+Predicting multiple labels per example comes with the assumption that labels are non-mutually exclusive. By proposing this general formulation, we entrench that characteristic in the estimator.
 
-\subsection{Limitations of fit-data-algorithm and fit-algorithm-to-data solutions}
-\label{section:background:limitations}
+Contrary to Menon et. al. ~\citep{multilabelReduction}, we propose an estimator that models interdependence between labels and deals with thresholding for the estimate for free (see next section).
+
+Multilabel reduction methods are characterized by their way of reformulating the estimand, the resulting estimator and the estimate. In particular , this allows the use of existing losses: logistic loss, sigmoid loss or softmax cross-entropy loss.
+
+
+\subsection{Loss of the Estimate}
+\label{section:background:estimate}
+
+One-versus-all
+
+\begin{equation}
+\ell_{\mathrm{OVA}}(y, f) \doteq \sum_{i \in[L]} \ell_{\mathrm{BC}}\left(y_{i}, f_{i}\right)=\sum_{i \in[L]}\left\{y_{i} \cdot \ell_{\mathrm{BC}}\left(1, f_{i}\right)+\left(1-y_{i}\right) \cdot \ell_{\mathrm{BC}}\left(0, f_{i}\right)\right\}
+\end{equation}
+
+with $\ell_{\mathrm{BC}}$ some binary classification loss, most often logistic loss.  Note that minimizing binary cross-entropy is equivalent to maximizing for log-likelihood
+\cite[Section 4.3.4]{Bishop}. Cross-entropy loss can be formulated as \(\mathcal{L}_{\text {CE}}=-\sum \log \left(p_{i}\right)\).
+
+Pick-all-labels
+
+\begin{equation}
+\ell_{\mathrm{PAL}}(y, f) \doteq \sum_{i \in[L]} y_{i} \cdot \ell_{\mathrm{MC}}(i, f)
+\end{equation}
+
+Pick-one-label
+
+For this reduction, given an example $(x,y)$, a single random positive label is chosen as the true label of $x$
+
+
+OVA and PAL have each a form normalised by the number of positive labels, 
+
+
+Conveniently, these multilabel reductions allow the use of known losses such as logistic loss (for binary classification formulations), sigmoid loss or softmax crosss-entropy loss (for multiclass formulations). Note that all these reductions imply a reformulation of the estimand and the estimator as follows:
+
+Estimand:
+
+
+Estimator:
+
+\begin{equation}
+  y_i = \mathcal{F}(x) = P(y_i | x)
+\end{equation}
+
+This time, we assume independence of labels propensities.
 
 In a typical machine learning classification tasks, binary labels are compared to a probabilistic measure (or a reversible
 transformation of a probabilistic measure such as a sigmoid or a softmax
@@ -73,8 +85,46 @@ examples. This threshold can optimize for specificity or
 sensitivity~\cite{decisionThreshold}. We propose an approach where this threshold
 is implicitly defined, by using a loss function that penalizes explicitly for wrong label counts.
 
-\subsection{Design-algorithm-for-data solutions}
-\label{section:background:solution}
+
+Note that multilabel reductions was earlier sometimes referred to as \emph{fit-data-to-algorithm} solutions (a.k.a. \emph{problem tranformation}) as opposed to \emph{fit-algorithm-to-data} solutions (a.k.a.\ \emph{algorithm adaptation})~\cite{multilabelReview, multilabelReview2}. In Section~\ref{section:background:fitdata} we propose a fit-algorithm-to-data solution (i.e. a loss function), where the estimand and assumptions about the data are not reformulated.
+
+Note the special case of hierarchical labeling. With a hierarchical structure in labels, one can constrain the algorithm to learn only 1 or $k$ labels per group in the hierarchy. For example, DBPedia~\citep{lehmann2015dbpedia} establishes a hierarchical structure in Wikipedia infoboxes and is commonly used to finetune state-of-the-art NLP models~\citep[see, e.g.,][]{XLNet, ULMFit}. Hierarchical labeling thus comes with different predicates than other multilabel classification problems and are out of scope.
+
+Note that for many real world problems and datasets reducing the problem to top-k selection or establishing a hierarchical structure is an oversimplification, especially when classes are not mutually exclusive. Besides the four datasets we use for our experiments, we mention others in the related work section.
+
+\subsection{Evaluation Metrics}
+\label{section:background:metrics}
+
+There is a consensus around the use of confusion matrix metrics (CMM) to evaluate multilabel classification models (at inference time). Notably Precision and Recall. CMMs come with caveats: most of these measures (I) require a hard thresholding, (II) they are very sensitive to the choice of the number top labels to include $k$~\footnote{In the case of unilabel prediction, top-k becomes a top-1 problem, which essentially eliminates caveats I and II.} and (III) they require choices to be made in terms of  micro / macro / weighted metrics.
+
+
+
+
+
+Some common CMMs are Precision, Recall, F1-score, hinge-loss or one-error-loss. Numerous others can be found on the confusion matrix Wikipedia page.
+
+
+We propose a generic loss which does not require hard thresholding decisions, , 
+
+
+\textbf{consistency}
+
+Similarly to Menon et. al. ~\citep{multilabelReduction} and in the lineage of ~\citep{consistency-surrogates, consistency-multiclassSVM, consistency-lossAnalysis}, we can define consistency as
+
+\begin{equation}
+\operatorname{reg}\left(f_{n} ; \ell_{\mathrm{ML}}\right) \rightarrow 0 \Longrightarrow \operatorname{reg}\left(f_{n} ; \ell_{\mathrm{top}-k}\right) \rightarrow 0
+\end{equation}
+
+with $reg(f)$ the regret of an estimator with respect to its loss $l_{MC}$ is $\operatorname{reg}\left(f ; \ell_{\mathrm{ML}}\right) \doteq R_{\mathrm{ML}}(f)-\inf _{g: x \rightarrow \mathbb{R}^{L}} R_{\mathrm{ML}}(g)$
+
+a metric is defined as consistent if w
+
+
+\subsection{Metrics as Losses}
+\label{section:background:metricsAsLosses}
+
+This is our contribution. Similar to lambdaLoss and others... It implicitly deals with label counts and label predictions.
+
 
 In a number of retrieval tasks, a model's out of sample accuracy is measured
 on metrics such as AUROC, F1 score, etc. These reflect an objective catered
@@ -85,21 +135,18 @@ general framework for deriving decomposable surrogates to some of these
 metrics. We propose our own decomposable surrogates tailored for the problem
 at hand.
 
-With our design-algorithm-for-data approach, we design loss functions that address FIMPUL problems specifically, by optimizing for correct label predictions and correct label count simultaneously.
-We first formulate a unified loss, namely
-%
-\begin{equation}
-\label{equation:loss:multilabel}
-\underset{\mathcal{L}_{\text {multilabel}}} {\min} \mathcal{F}\big(\cdot ;
-\Theta; \mathcal{L}_{\text {multilabel}} (\mathbf{y}, \hat{\mathbf{y}},
-\mathbf{n}, \hat{\mathbf{n}}) \big),
-\end{equation}
-%
-Note that although predictions and counts appear explicitly in our Equation~\ref{equation:loss:multilabel},
-\(\mathcal{L}_{\text {multilabel}}\) can optimize for both metrics implicitly
-(see proposed \emph{sigmoidF1} below). This way, the correlation between label count and label predictions is embedded in the loss. Furthermore, we avoid having to mitigate the importance of label prediction relative to label count with a regularizer $\lambda$. For that purpose, we use surrogates of classical statistical and \ac{IR} metrics.
+Since we
 
-The proposed design-algorithm-for-data method is thus an alternative to fit-data-to-algorithm and fit-algorithm-to-data. design-algorithm-for-data uses metric as losses, allows for dynamic thresholding and implicitly deals with label counts and label predictions. In the next section, we will detail this approach to derive the \emph{sigmoidF1} loss as a surrogate to optimize for the F1 metric.
+\subsection{Multiclass classification}
+\label{section:background:multiclassClassification}
+
+Multiclass classification, can be seen as a subdomain of multilabel classification~\citep{multilabelReduction}, where Y = {0, 1}, is arguably more straightforward. Existing loss functions, such as sigmoid loss or softmax cross-entropy loss are already suited to the purpose \gab{explain why}. Note that certain loss functions such as the focal loss accommodate for cases with unbalanced class distributions. 
+
+\begin{equation}
+R_{\mathrm{MC}}(\mathcal{F}) = \mathbb{E}_{(x, z)}\left[\ell_{\mathrm{MC}}(z, \mathcal{F}(x))\right]
+\end{equation}
+
+
 
 % \begin{figure}[t]
 % \centering

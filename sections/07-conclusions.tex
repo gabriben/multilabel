@@ -35,6 +35,10 @@ In future work, we want to test the limits of CoMMaL and the \emph{sigmoidF1} lo
 % neural architecture
 % SOTA transfer learning
 % train from scratch
+
+
+\emph{multi-instance} learning~\citep[e.g.,][]{multiInstance,multiInstanceMultiLabel}, for which it is considered natural to first segment an image, text or sound before performing prediction on each of the segments
+
 A first step within the FIMPUL setting, could be to use more robust transfer learning / finetuning procedures, for example with dynamic weight freezing for finetuning~\cite{ULMFit}. Alternatively, we would like to implement the smooth losses to train a CNN or a BERT model for FIMPUL tasks from scratch (c.f., \cite{tencent} and \cite{focalLoss}). If training from scratch, it might then be interesting to combine the proposed loss functions with representation learning \cite{unsupervisedImage,highResRepresentation} or self-supervised learning, in order to model abstract relationships between the labels.
 
 Furthermore, we propose to tackle other multilabel settings, such as hierarchical multilabel classification \cite{HARAM}, active learning \cite{activeLearningMultiLabel}, or extreme multilabel prediction \cite{extremeMultilabelText, extremeSIGIR}, where the number of classes ranges in the tens of thousands. More generally, the \emph{sigmoidF1} loss could be tested on any model that uses F1 score as an evaluation metric such as AC-SUM-GAN \cite{AC-SUM-GAN}.

@@ -11,12 +11,15 @@ As a second example, a seminal machine learning publication that proposes to tra
 Parallel, and Cluster Computing (cs.DC)}, and \textit{Machine Learning
 (stat.ML)}.\footnote{See \url{https://arxiv.org/abs/1711.00489}.}
 These two examples are representative of a large class of classification problems that share several characteristics:
+
+\begin{comment}
 \begin{enumerate}[label=(\arabic*),leftmargin=*]
 \item The possibility of assigning more than one label to a single instance is desirable (i.e., labels are not mutually exclusive).
 \item The instance being labeled needs to be inspected or consumed in its entirety before a full set of class labels can be determined. For example, it requires an entire viewing of the movie \textit{Tenet} to determine if the label \textit{romance} is appropriate, as it is arguably the underlying driver of the protagonists.
 % Instead, it would be hard to isolate a simple characteristic of an instance that is uniquely predictive of a label.
 \item The number of labels differs per instance, making the number of labels to assign at inference time unknown.
 \end{enumerate}
+\end{comment}
 
 \paragraph{Learning task}
 We refer to learning tasks that share the three characteristics listed above as Full-instance, Multilabel Prediction for Unknown Label counts, or FIMPUL, for short.
@@ -40,70 +43,15 @@ Our formulation encompasses different levels of complexity, from the classical c
 \paragraph{The remainder of the paper}
 The remainder of this paper is structured as follows: first, we introduce our method and define a class of smooth loss functions for FIMPUL problems. Next, we detail our experimental setup and describe the datasets used in our experiments. After presenting the experimental results in the next section, we close the paper with conclusions and suggestions for future work.
 
-% % \textbf{multiclass classification problems are hard}
+bayes optimal classifier: true probability
 
+using the same loss and metric: we are not the first ones to do that (lambdaloss) and it is not a problem theoretically.
 
-% \paragraph{Problem statement}
-% The examples given above in the domains of cinema and publishing have several things in common:
-% \begin{enumerate*}[label=(\arabic*)]
-% \item Labels such as \textit{thriller} and \textit{machine learning} are abstract and
-% debatable concepts to a certain degree (as opposed to \textit{featured actor
-% x}, \textit{featured in journal x}).
-% \item The possibility of attributing more than one label to a single movie or a paper is desir{IR}able (i.e. labels are
-% mutually inclusive: one example can have more than one label).
-% \item The movie or paper as a whole needs to be looked at to label it. It requires an entire
-% viewing of the movie \textit{Tenet} to determine if the label \textit{Romance}
-% might not also be appropriate, as it is arguably the underlying driver of the
-% protagonists. In other words, complex combinations of features in the movie
-% are related to a label. In the contrary, it would be hard to isolate elements
-% within these examples (such as a particular scene in a movie or a particular
-% expression in a paper) as uniquely predictive of a single of their labels.
-% \item The number of labels to attribute to each example is unknown at inference
-% time.
-% \end{enumerate*}
+what is the metric that cross-entropy / softmax directly optimize for? what is the loss that optimizes for the metrics?
 
-% In this paper we focus on such learning problems,  which we call \emph{Single-Instance Multilabel Prediction
-% for Unknown Label counts} (SIMPUL).
-% More precisely,
-% \begin{itemize}
-% \item \mdr{It's good to have a sharp definition of the problem space, whether it is SIMPUL or something else. And no, we do not need to sell it, we just need to identify it in a precise manner.}
-% \item \mdr{a CONCISE definition of the problem, like in the paper by \citet{multilabelMethods}; no discussion, just definition.}
-% \item \mdr{NO DISCUSSION, just a concise statement}
-% \item \mdr{Include a comment that SIMPUL problems are very common in \ac{IR}, as we sho in the related work sectino below.}
-% \end{itemize}
+The google Neurips paper formulates how different multilabel reductions 
 
-% \paragraph{Optimization frameworks to SIMPUL}
-% As we explain in Section~\ref{section:background}, previous optimization frameworks for SIMPUL problems come in two flavors.
-% \begin{itemize}
-% \item flavor  1
-% \item flavor 2
-% \end{itemize}
-% We introduce a new flavor,
-% \begin{itemize}
-% \item Why? One sentence about what's wrong with flavors 1 and 2
-% \item Bring in the idea of confusion matrix metrics, etc. Just two sentences. No abstract stuff.
-% \item What? One sentence about The New Thing.
-% \end{itemize}
-
-% \paragraph{Contributions}
-% In this paper, we first propose a class of smooth loss functions that optimize
-% learning in SIMPUL problems.
-% \mdr{What does this mean? The generalization encompasses different levels
-% of complexity, from the classical cross-entropy loss up to the proposed loss
-% function.}
-% \mdr{Isn't this too specific for the introduction; you haven't introduced this; how does it connect to confusion matrix metrics: We propose the \emph{sigmoidF1}: an F1 score surrogate, with a sigmoid function acting as a surrogate thresholding step function.} This allows for
-% the use of the F1 metric which implicitly optimizes for label prediction and
-% count simultaneously in a single task and is robust to outliers.
-% \emph{sigmoidF1} and its adaptive \emph{SadF1} and Bayesian \emph{SBayesF1}
-% counterparts are benchmarked against loss functions commonly used in
-% multiclass learning and other existing models that are closely related to the
-% SIMPUL setting.
-
-% We show that our custom losses improve predictions over the
-% current  state-of-the-art on several different metrics, across text
-% (especially on the arXiv dataset which, to the best of our knowledge, is the
-% first use since its publication in August 2020) and image related tasks.
-
-
-
-% %%% Local Variables: %% mode: latex %% TeX-master: "../main" %% End:
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../main"
+%%% End:
