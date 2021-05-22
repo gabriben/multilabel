@@ -1029,3 +1029,122 @@ http://proceedings.mlr.press/v119/yang20f.html
 },
   abstract = 	 {The top-$k$ error is often employed to evaluate performance for challenging classification tasks in computer vision as it is designed to compensate for ambiguity in ground truth labels. This practical success motivates our theoretical analysis of consistent top-$k$ classification. To this end, we provide a characterization of Bayes optimality by defining a top-$k$ preserving property, which is new and fixes a non-uniqueness gap in prior work. Then, we define top-$k$ calibration and show it is necessary and sufficient for consistency. Based on the top-$k$ calibration analysis, we propose a rich class of top-$k$ calibrated Bregman divergence surrogates. Our analysis continues by showing previously proposed hinge-like top-$k$ surrogate losses are not top-$k$ calibrated and thus inconsistent. On the other hand, we propose two new hinge-like losses, one which is similarly inconsistent, and one which is consistent. Our empirical results highlight theoretical claims, confirming our analysis of the consistency of these losses.}
 }
+
+@book{introIR, place={Cambridge}, title={Introduction to Information Retrieval}, DOI={10.1017/CBO9780511809071}, publisher={Cambridge University Press}, author={Manning, Christopher D. and Raghavan, Prabhakar and Schütze, Hinrich}, year={2008}}
+
+@INPROCEEDINGS{faceDetection,
+  author={Xiao, Jianxiong and Hays, James and Ehinger, Krista A. and Oliva, Aude and Torralba, Antonio},
+  booktitle={2010 IEEE Computer Society Conference on Computer Vision and Pattern Recognition}, 
+  title={SUN database: Large-scale scene recognition from abbey to zoo}, 
+  year={2010},
+  volume={},
+  number={},
+  pages={3485-3492},
+  doi={10.1109/CVPR.2010.5539970}}
+
+@inproceedings{OVA1,
+author = {Brinker, Klaus and F\"{u}rnkranz, Johannes and H\"{u}llermeier, Eyke},
+title = {A Unified Model for Multilabel Classification and Ranking},
+year = {2006},
+isbn = {1586036424},
+publisher = {IOS Press},
+address = {NLD},
+abstract = {Label ranking studies the problem of learning a mapping from instances to rankings over a predefined set of labels. Hitherto existing approaches to label ranking implicitly operate on an underlying (utility) scale which is not calibrated in the sense that it lacks a natural zero point. We propose a suitable extension of label ranking that incorporates the calibrated scenario and substantially extends the expressive power of these approaches. In particular, our extension suggests a conceptually novel technique for extending the common learning by pairwise comparison approach to the multilabel scenario, a setting previously not being amenable to the pairwise decomposition technique. We present empirical results in the area of text categorization and gene analysis, underscoring the merits of the calibrated model in comparison to state-of-the-art multilabel learning methods.},
+booktitle = {Proceedings of the 2006 Conference on ECAI 2006: 17th European Conference on Artificial Intelligence August 29 -- September 1, 2006, Riva Del Garda, Italy},
+pages = {489–493},
+numpages = {5}
+}
+
+@inproceedings{OVA2,
+author = {Dembczy\'{n}ski, Krzysztof and Cheng, Weiwei and H\"{u}llermeier, Eyke},
+title = {Bayes Optimal Multilabel Classification via Probabilistic Classifier Chains},
+year = {2010},
+isbn = {9781605589077},
+publisher = {Omnipress},
+address = {Madison, WI, USA},
+abstract = {In the realm of multilabel classification (MLC), it has become an opinio communis that optimal predictive performance can only be achieved by learners that explicitly take label dependence into account. The goal of this paper is to elaborate on this postulate in a critical way. To this end, we formalize and analyze MLC within a probabilistic setting. Thus, it becomes possible to look at the problem from the point of view of risk minimization and Bayes optimal prediction. Moreover, inspired by our probabilistic setting, we propose a new method for MLC that generalizes and outperforms another approach, called classifier chains, that was recently introduced in the literature.},
+booktitle = {Proceedings of the 27th International Conference on International Conference on Machine Learning},
+pages = {279–286},
+numpages = {8},
+location = {Haifa, Israel},
+series = {ICML'10}
+}
+
+@article{labelPowerset,
+title = {Learning multi-label scene classification},
+journal = {Pattern Recognition},
+volume = {37},
+number = {9},
+pages = {1757-1771},
+year = {2004},
+issn = {0031-3203},
+doi = {https://doi.org/10.1016/j.patcog.2004.03.009},
+url = {https://www.sciencedirect.com/science/article/pii/S0031320304001074},
+author = {Matthew R. Boutell and Jiebo Luo and Xipeng Shen and Christopher M. Brown},
+keywords = {Image understanding, Semantic scene classification, Multi-label classification, Multi-label training, Multi-label evaluation, Image organization, Cross-training, Jaccard similarity},
+abstract = {In classic pattern recognition problems, classes are mutually exclusive by definition. Classification errors occur when the classes overlap in the feature space. We examine a different situation, occurring when the classes are, by definition, not mutually exclusive. Such problems arise in semantic scene and document classification and in medical diagnosis. We present a framework to handle such problems and apply it to the problem of semantic scene classification, where a natural scene may contain multiple objects such that the scene can be described by multiple class labels (e.g., a field scene with a mountain in the background). Such a problem poses challenges to the classic pattern recognition paradigm and demands a different treatment. We discuss approaches for training and testing in this scenario and introduce new metrics for evaluating individual examples, class recall and precision, and overall accuracy. Experiments show that our methods are suitable for scene classification; furthermore, our work appears to generalize to other classification problems of the same nature.}
+}
+
+@inproceedings{extremeClassification,
+author = {Jernite, Yacine and Choromanska, Anna and Sontag, David},
+title = {Simultaneous Learning of Trees and Representations for Extreme Classification and Density Estimation},
+year = {2017},
+publisher = {JMLR.org},
+abstract = {We consider multi-class classification where the predictor has a hierarchical structure that allows for a very large number of labels both at train and test time. The predictive power of such models can heavily depend on the structure of the tree, and although past work showed how to learn the tree structure, it expected that the feature vectors remained static. We provide a novel algorithm to simultaneously perform representation learning for the input data and learning of the hierarchical predictor. Our approach optimizes an objective function which favors balanced and easily-separable multi-way node partitions. We theoretically analyze this objective, showing that it gives rise to a boosting style property and a bound on classification error. We next show how to extend the algorithm to conditional density estimation. We empirically validate both variants of the algorithm on text classification and language modeling, respectively, and show that they compare favorably to common baselines in terms of accuracy and running time.},
+booktitle = {Proceedings of the 34th International Conference on Machine Learning - Volume 70},
+pages = {1665–1674},
+numpages = {10},
+location = {Sydney, NSW, Australia},
+series = {ICML'17}
+}
+
+@inproceedings{PAL,
+    title = "Bag of Tricks for Efficient Text Classification",
+    author = "Joulin, Armand  and
+      Grave, Edouard  and
+      Bojanowski, Piotr  and
+      Mikolov, Tomas",
+    booktitle = "Proceedings of the 15th Conference of the {E}uropean Chapter of the Association for Computational Linguistics: Volume 2, Short Papers",
+    month = apr,
+    year = "2017",
+    address = "Valencia, Spain",
+    publisher = "Association for Computational Linguistics",
+    url = "https://www.aclweb.org/anthology/E17-2068",
+    pages = "427--431",
+    abstract = "This paper explores a simple and efficient baseline for text classification. Our experiments show that our fast text classifier fastText is often on par with deep learning classifiers in terms of accuracy, and many orders of magnitude faster for training and evaluation. We can train fastText on more than one billion words in less than ten minutes using a standard multicore CPU, and classify half a million sentences among 312K classes in less than a minute.",
+}
+
+@article{multiclassToBinary1,
+author = {Tong Zhang},
+title = {{Statistical behavior and consistency of classification methods based on convex risk minimization}},
+volume = {32},
+journal = {The Annals of Statistics},
+number = {1},
+publisher = {Institute of Mathematical Statistics},
+pages = {56 -- 85},
+keywords = {boosting, ‎classification‎, consistency, kernel methods, large margin methods},
+year = {2004},
+doi = {10.1214/aos/1079120130},
+URL = {https://doi.org/10.1214/aos/1079120130}
+}
+
+@InProceedings{multiclassToBinary2,
+author="Tewari, Ambuj
+and Bartlett, Peter L.",
+editor="Auer, Peter
+and Meir, Ron",
+title="On the Consistency of Multiclass Classification Methods",
+booktitle="Learning Theory",
+year="2005",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="143--157",
+abstract="Binary classification methods can be generalized in many ways to handle multiple classes. It turns out that not all generalizations preserve the nice property of Bayes consistency. We provide a necessary and sufficient condition for consistency which applies to a large class of multiclass classification methods. The approach is illustrated by applying it to some multiclass methods proposed in the literature.",
+isbn="978-3-540-31892-7"
+}
+
+@InProceedings{multiclassToBinary3, title = {On the Consistency of Output Code Based Learning Algorithms for Multiclass Learning Problems}, author = {Harish G. Ramaswamy and Balaji Srinivasan Babu and Shivani Agarwal and Robert C. Williamson}, booktitle = {Proceedings of The 27th Conference on Learning Theory}, pages = {885--902}, year = {2014}, editor = {Maria Florina Balcan and Vitaly Feldman and Csaba Szepesvári}, volume = {35}, series = {Proceedings of Machine Learning Research}, address = {Barcelona, Spain}, month = {13--15 Jun}, publisher = {PMLR}, pdf = {http://proceedings.mlr.press/v35/ramaswamy14.pdf}, url = {http://proceedings.mlr.press/v35/ramaswamy14.html}, abstract = {A popular approach to solving multiclass learning problems is to reduce them to a set of binary classification problems through some output code matrix: the widely used one-vs-all and all-pairs methods, and the error-correcting output code methods of Dietterich and Bakiri (1995), can all be viewed as special cases of this approach. In this paper, we consider the question of statistical consistency of such methods. We focus on settings where the binary problems are solved by minimizing a binary surrogate loss, and derive general conditions on the binary surrogate loss under which the one-vs-all and all-pairs code matrices yield consistent algorithms with respect to the multiclass 0-1 loss. We then consider general multiclass learning problems defined by a general multiclass loss, and derive conditions on the output code matrix and binary surrogates under which the resulting algorithm is consistent with respect to the target multiclass loss. We also consider \emphprobabilistic code matrices, where one reduces a multiclass problem to a set of \emphclass probability labeled binary problems, and show that these can yield benefits in the sense of requiring a smaller number of binary problems to achieve overall consistency. Our analysis makes interesting connections with the theory of proper composite losses (Buja et al., 2005; Reid and Williamson, 2010); these play a role in constructing the right ‘decoding’ for converting the predictions on the binary problems to the final multiclass prediction. To our knowledge, this is the first work that comprehensively studies consistency properties of output code based methods for multiclass learning.} }
+
+@misc{OVATheory, title={A no-regret generalization of hierarchical softmax to extreme multi-label classification}, author={Wydmuch, Marek and Jasinska, Kalina and Kuznetsov, Mikhail and Busa-Fekete, Róbert and Dembczyński, Krzysztof}, year={2018} }
+
+@InProceedings{unifiedView, title = {A Unified View of Multi-Label Performance Measures}, author = {Xi-Zhu Wu and Zhi-Hua Zhou}, booktitle = {Proceedings of the 34th International Conference on Machine Learning}, pages = {3780--3788}, year = {2017}, editor = {Precup, Doina and Teh, Yee Whye}, volume = {70}, series = {Proceedings of Machine Learning Research}, month = {06--11 Aug}, publisher = {PMLR}, pdf = {http://proceedings.mlr.press/v70/wu17a/wu17a.pdf}, url = { http://proceedings.mlr.press/v70/wu17a.html }, abstract = {Multi-label classification deals with the problem where each instance is associated with multiple class labels. Because evaluation in multi-label classification is more complicated than single-label setting, a number of performance measures have been proposed. It is noticed that an algorithm usually performs differently on different measures. Therefore, it is impor tant to understand which algorithms perform well on which measure(s) and why. In this paper, we propose a unified margin view to revisit eleven performance measures in multi-label classification. In particular, we define label-wise margin and instance-wise margin, and prove that through maximizing these margins, different corresponding performance measures are to be optimized. Based on the defined margins, a max-margin approach called LIMO is designed and empirical results validate our theoretical findings.} }

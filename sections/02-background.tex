@@ -72,7 +72,8 @@ Conveniently, these multilabel reductions allow the use of known losses such as 
   y_i = \mathcal{F}(x) = P(y_i | x)
 \end{equation}
 
-This time, we assume independence of labels propensities. \gab{the reformulation of the estimator also implies a reformulation of the estimand like so...}
+This time, we assume independence of labels propensities. \gab{the reformulation of the estimator also implies a reformulation of the estimand like so...}.
+In other words the loss function is any monotone transformation of the marginal label probabilities $ P(y_i | x) = 1$ ~\cite{OVA2, multilabelMetrics, unifiedView}
 
 
 Note that multilabel reductions was earlier sometimes referred to as \emph{fit-data-to-algorithm} solutions (a.k.a. \emph{problem tranformation}) as opposed to \emph{fit-algorithm-to-data} solutions (a.k.a.\ \emph{algorithm adaptation})~\cite{multilabelReview, multilabelReview2}. In Section~\ref{section:background:fitdata} we propose a fit-algorithm-to-data solution (i.e. a loss function), where the estimand and assumptions about the data are not reformulated.
@@ -137,7 +138,7 @@ is implicitly defined, by using a loss function that penalizes explicitly for wr
 \subsection{Multiclass classification}
 \label{section:background:multiclassClassification}
 
-Multiclass classification, can be seen as a subdomain of multilabel classification~\citep{multilabelReduction}, where Y = {0, 1}, is arguably more straightforward. Existing loss functions, such as sigmoid loss or softmax cross-entropy loss are already suited to the purpose \gab{explain why}. Note that certain loss functions such as the focal loss accommodate for cases with unbalanced class distributions. 
+Multiclass classification, can be seen as a subdomain of multilabel classification~\citep{multilabelReduction}, where Y = {0, 1}, is arguably more straightforward. Existing loss functions, such as sigmoid loss or softmax cross-entropy loss are already suited to the purpose \gab{explain why}. The softmax cross-entropy and other losses have been shown to be consistent \cite{consistency-multiclassSVM, consistency-lossAnalysis, consistency-surrogates}. Note that certain loss functions such as the focal loss accommodate for cases with unbalanced class distributions. 
 
 The multiclass risk can be defined as:
 
@@ -147,6 +148,7 @@ R_{\mathrm{MC}}(\mathcal{F}) = \mathbb{E}_{(x, z)}\left[\ell_{\mathrm{MC}}(z, \m
 
 As we work our way down to the estimator and the estimate, it is clear that existing loss functions are able to deal with the problem at hand without any need of reformulations. \gab{elaborate}
 
+\cite{multiclassToBinary1}
 
 
 % \begin{figure}[t]

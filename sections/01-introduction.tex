@@ -22,9 +22,14 @@ These two examples are representative of a large class of classification problem
 \end{comment}
 
 \paragraph{Learning task}
+
+multilabel classification is ... ~\citep{hammingLoss} ~\citep{multilabelReview} 
+
 We refer to learning tasks that share the three characteristics listed above as Full-instance, Multilabel Prediction for Unknown Label counts, or FIMPUL, for short.
 Characteristic (1) is captured by the \emph{multilabel} predicate; characteristic (2) by \emph{full-instance}, and characteristic (3) by \emph{unknown label count}.
-As we show in our experiments and the related work discussed below, FIMPUL learning tasks are very common in \ac{IR}. Document and text classification are often a FIMPUL task and have historically focused a lot of attention in \ac{IR}~\cite{IRClassStat, textCategorization, statTextCategorization, documentClassification}. Other \ac{IR} related examples are query classification~\cite{queryClassification}, image classification~\cite{imageClassification} and most recently the \textit{multimodal product classification and retrieval challenge} at SIGIR 2020~\cite{Amoualian2020SIGIR2E}.
+As we show in our experiments and the related work discussed below, FIMPUL learning tasks are very common in \ac{IR}. Document and text classification are often a FIMPUL task and have historically focused a lot of attention in \ac{IR}~\cite{IRClassStat, textCategorization, statTextCategorization, documentClassification}. Other \ac{IR} related examples are query classification~\cite{queryClassification, introIR}, image classification~\cite{imageClassification, faceDetection} and most recently the \textit{multimodal product classification and retrieval challenge} at SIGIR 2020~\cite{Amoualian2020SIGIR2E}.
+
+[Agrawal et al., 2013, Yu et al., 2014, Bhatia et al., 2015, Jain et al., 2016, Babbar and Schölkopf, 2017, Yen et al., 2017, Prabhu et al., 2018, Jain et al., 2019, Reddi et al., 2019].
 
 \paragraph{Previous solutions to FIMPUL tasks}
 To solve multilabel learning tasks, existing optimization frameworks are typically based on variations of the cross-entropy loss, with some recent advances dealing with specific aspects such as sparsity~\citep[see, e.g.,][]{focalLoss,tencent}.
