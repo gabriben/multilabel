@@ -4,7 +4,7 @@
 \label{sec:orga8a42f5}
 \label{section:method}
 
-In this section, we introduce our approach for FIMPUL problems, Confusion Matrix Metrics as Losses (CoMMaL). In evaluation of FIMPUL problems, confusion matrix metrics are a common choice, because they implicitly deal with label count. In CoMMaL, we leverage a smoothed version of the confusion matrix that can be used to directly optimize as a loss function. Before we discuss smoothing the confusion matrix metrics, we first briefly recap our learning setting and define the confusion matrix metrics in this setting more formally.
+In this section, we introduce our approach for multilabel problems, with a Confusion Matrix Metric as a loss. In evaluation of multilabel or multiclass problems, confusion matrix metrics are a common choice, because they implicitly deal with label count. In our framework, we leverage a smoothed version of the confusion matrix that can be used to directly optimize as a loss function. Before we discuss smoothing the confusion matrix metrics, we first briefly recap our learning setting and define the confusion matrix metrics in this setting more formally.
 
 \begin{figure*}[htbp]
 \centering
@@ -53,19 +53,19 @@ Next, we define unbounded confusion matrix entries and a notion of sigmoid-based
 
 We thus define desirable properties for a decomposable sign function $f(u)$ as a surrogate of the above indicator function \(\mathds{1}_{\hat{\mathbf{y}} < t}\).
 
-\begin{prop}
+\begin{property}
   Boundedness: $|f(u)| < M$, where $M$ is a an upper and lower bound.
-\end{prop}
+\end{property}
 The groundtruth $\mathbf{y}$ is bounded between $[0,1]$ and thus it must be compared to a bounded prediction $\mathbf{\hat{y}}$, preferably bounded by $[0,1]$, to avoid further scaling.
 
-\begin{prop}
+\begin{property}
   Saturation: $\int_{s}^{\infty} f^{-1}(u) = \int_{-\infty}^{-s} f(u) = \epsilon$, with $\epsilon$ a number close to zero and $s$ a saturation bound.
-\end{prop}
+\end{property}
 For the surrogate to be a proper sign function substitute, it is important to often return values close to 1 or 0. Saturation is defined in the context of neural network activation functions and refers to the propensity of iterative backpropagation to progressively lead to values very close to 0 or 1 after a long enough training period. While activation functions should tend to be non-saturated, in order for the derivative at point $u$ to be non-null and information to flow back to the network~\cite{saturation}, our sign function substitute must output values close to 0 or 1, in order to be comparable to a step function.
 
-\begin{prop}
+\begin{property}
   Dynamic Gradient: $f'(u) \gg 0 \quad \forall \; u \in [-s, s]$, where $s$ is the saturation bound.
-\end{prop}
+\end{property}
 
 Outside the saturation bounds $[-s, s]$, the derivative should be significantly higher than zero in order to facilitate stochastic gradient descent and backpropagation.
 
