@@ -31,26 +31,24 @@ These two examples are representative of a large class of multilabel classificat
 As we show in our experiments and the related work discussed below, multilabel learning tasks are very common in \ac{IR}. Document and text classification are often a FIMPUL task and have historically focused a lot of attention in \ac{IR}~\cite{IRClassStat, textCategorization, statTextCategorization, documentClassification}. Other \ac{IR} related examples are query classification~\cite{queryClassification, introIR}, image classification~\cite{imageClassification, faceDetection} and most recently the \textit{multimodal product classification and retrieval challenge} at SIGIR 2020~\cite{Amoualian2020SIGIR2E}. 
 
 \paragraph{Previous solutions to multilabel tasks}
-To solve multilabel learning tasks, existing optimization frameworks are typically based on variations of the cross-entropy or sigmoid loss, One-Versus-All (OVA), Pick-All-Labels (PAL), Pick-One-Label (POL).
+To solve multilabel learning tasks, existing optimization frameworks are typically based on variations of the cross-entropy, logistic or sigmoid loss. Menon et. al. define these as multilabel reduction techniques: One-Versus-All (OVA), Pick-All-Labels (PAL) and Pick-One-Label (POL)~\cite{multilabelReduction}. These methods come with the assumption that marginal probabilities of the suitability of a label for an example (a.k.a. Bayes Optimal Classifier) are independent of other label propensities. An important shortcoming shared by both classes of solutions is the lack of a holistic approach for both label count and label prediction and the distance from the real evaluation task.
 
-\gab{mention the bayes optimal classifier: true probability ?}
+There are recent advances dealing with specific aspects of multiclass classification such as sparsity~\citep[see, e.g.,][]{focalLoss,tencent}. Regarding the specific multilabel setting, modern solutions often veer towards the extreme multilabel case. That setting with tens of thousands~\cite{extremeClassification} or even millions~\cite{millionsOfLabels, extremeMilliionsSlice} of labels requires solutions of their own, such as label embeddings~\cite{extremeMultilabelEmbeddings} or negative mining~\cite{stochasticNegativeMining}. Importantly, we do not tackle extreme multilabel classification. \gab{I think this distinction is important, seeing how most papers cited are extreme labeling papers in \cite{multilabelReduction}}
 
-what is the metric that cross-entropy / softmax directly optimize for? what is the loss that optimizes for the metrics?
-
-with some recent advances dealing with specific aspects such as sparsity~\citep[see, e.g.,][]{focalLoss,tencent}.
-Using familiar losses also comes at a cost, namely the reformulation of the assumptions about the data.  
-
-adapt existing classification algorithms for the problem at hand~\citep{multilabelMethods}.
-
-An important shortcoming shared by both classes of solutions is the lack of a holistic approach for both label count and label prediction.
-
-Modern solutions tailored to the multilabel settings often veer towards the extreme multilabel case. But there is few literature that solve the issue of common multilabel problems (up to a few hundreds of labels) with custom losses. Instead variations of the cross-entropy or sigmoid loss (multiclass and binary classification losses) are used (a.k.a. multilabel reductions~\cite{multilabelReduction}).
-
-Importantly, we do not tackle extreme multilabel classification. That setting with tens of thousands~\cite{extremeClassification} or even millions~\cite{millionsOfLabels, extremeMilliionsSlice} of labels requires solutions of their own, such as label embeddings~\cite{extremeMultilabelEmbeddings} or negative mining~\cite{stochasticNegativeMining}.
+On the other hand, we could find little literature on endeavors to adapt existing classification algorithms for the problem at hand~\citep{multilabelMethods}.
 
 \paragraph{Our proposed solution to multilabel tasks}
-We propose an alternative type of solution that is aimed at balancing prediction of label propensities and label count prediction, while modeling interactions between label propensities. Our proposed solution, F1 Metric as a Loss, does not reformulate our assumptions about data: it is the formulation of a loss function designed for the problem at hand, as opposed to using one existing optimization framework or optimizing over the sum of several loss functions.
-Using a metric as a loss function is not uncommon, but is unpopular for metrics that require a form of thresholding (e.g. counting the number of true positives): minimizing a step loss function is intractable~\cite{stochasticNegativeMining}. In the ranking domain, lambdaloss has been proposed to optimize directly for the lambdaRank metric. We propose the analog endeavour for the multilabel classification domain.
+We propose an alternative type of loss function that is aimed at balancing prediction of label propensities and label count prediction, while modeling interactions between label propensities. Our proposed solution, F1 metric as a loss, does not reformulate our assumptions about data: it is the formulation of a loss function designed for the problem at hand, as opposed to using one existing optimization framework or optimizing over the sum of several loss functions.
+Using a metric as a loss function is not uncommon, but is unpopular for metrics that require a form of thresholding (e.g. counting the number of true positives): minimizing a step loss function is intractable~\cite{stochasticNegativeMining}. In the ranking domain, lambdaloss has been proposed to optimize directly for the lambdaRank metric~\cite{lambdaLoss}. We propose the analog endeavor for the multilabel classification domain. \gab{name-dropping lambdaloss because it is a CIKM paper. Not sure it is the best place.}
+
+\gab{alternative formulations for Our proposed solution to multilabel tasks:}
+\begin{itemize}
+\item{What is the metric that is optimized for here? While it has been shown that some of these formulations are consistent (as defined by..) with the metrics precision\@K and recall\@K, there is little evidence that the underlying deterministic formulation of multilabel classification is approximated.}
+\item{We know that we can formulate metrics that are tailored to the multilabel setting. Why not formulate tailored losses as well
+We propose to ask the opposite question: what is the loss that optimizes for the metrics at hand?}
+\item{But there is few literature that solve the issue of common multilabel problems (up to a few hundreds of labels) with custom losses. Instead variations of the cross-entropy or sigmoid loss (multiclass and binary classification losses) are used (a.k.a. multilabel reductions~\cite{multilabelReduction}).}
+\end{itemize}
+
 
 \paragraph{Main contributions of the paper}
 We propose a general mathematical formulation of multilabel tasks.
