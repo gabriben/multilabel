@@ -1148,3 +1148,157 @@ isbn="978-3-540-31892-7"
 @misc{OVATheory, title={A no-regret generalization of hierarchical softmax to extreme multi-label classification}, author={Wydmuch, Marek and Jasinska, Kalina and Kuznetsov, Mikhail and Busa-Fekete, Róbert and Dembczyński, Krzysztof}, year={2018} }
 
 @InProceedings{unifiedView, title = {A Unified View of Multi-Label Performance Measures}, author = {Xi-Zhu Wu and Zhi-Hua Zhou}, booktitle = {Proceedings of the 34th International Conference on Machine Learning}, pages = {3780--3788}, year = {2017}, editor = {Precup, Doina and Teh, Yee Whye}, volume = {70}, series = {Proceedings of Machine Learning Research}, month = {06--11 Aug}, publisher = {PMLR}, pdf = {http://proceedings.mlr.press/v70/wu17a/wu17a.pdf}, url = { http://proceedings.mlr.press/v70/wu17a.html }, abstract = {Multi-label classification deals with the problem where each instance is associated with multiple class labels. Because evaluation in multi-label classification is more complicated than single-label setting, a number of performance measures have been proposed. It is noticed that an algorithm usually performs differently on different measures. Therefore, it is impor tant to understand which algorithms perform well on which measure(s) and why. In this paper, we propose a unified margin view to revisit eleven performance measures in multi-label classification. In particular, we define label-wise margin and instance-wise margin, and prove that through maximizing these margins, different corresponding performance measures are to be optimized. Based on the defined margins, a max-margin approach called LIMO is designed and empirical results validate our theoretical findings.} }
+
+@inproceedings{millionsOfLabels,
+author = {Agrawal, Rahul and Gupta, Archit and Prabhu, Yashoteja and Varma, Manik},
+title = {Multi-Label Learning with Millions of Labels: Recommending Advertiser Bid Phrases for Web Pages},
+year = {2013},
+isbn = {9781450320351},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/2488388.2488391},
+doi = {10.1145/2488388.2488391},
+abstract = {Recommending phrases from web pages for advertisers to bid on against search engine queries is an important research problem with direct commercial impact. Most approaches have found it infeasible to determine the relevance of all possible queries to a given ad landing page and have focussed on making recommendations from a small set of phrases extracted (and expanded) from the page using NLP and ranking based techniques. In this paper, we eschew this paradigm, and demonstrate that it is possible to efficiently predict the relevant subset of queries from a large set of monetizable ones by posing the problem as a multi-label learning task with each query being represented by a separate label.We develop Multi-label Random Forests to tackle problems with millions of labels. Our proposed classifier has prediction costs that are logarithmic in the number of labels and can make predictions in a few milliseconds using 10 Gb of RAM. We demonstrate that it is possible to generate training data for our classifier automatically from click logs without any human annotation or intervention. We train our classifier on tens of millions of labels, features and training points in less than two days on a thousand node cluster. We develop a sparse semi-supervised multi-label learning formulation to deal with training set biases and noisy labels harvested automatically from the click logs. This formulation is used to infer a belief in the state of each label for each training ad and the random forest classifier is extended to train on these beliefs rather than the given labels. Experiments reveal significant gains over ranking and NLP based techniques on a large test set of 5 million ads using multiple metrics.},
+booktitle = {Proceedings of the 22nd International Conference on World Wide Web},
+pages = {13–24},
+numpages = {12},
+keywords = {multi-label learning, large scale learning, bid phrase recommendation, semi-supervised learning, random forests},
+location = {Rio de Janeiro, Brazil},
+series = {WWW '13}
+}
+
+@inproceedings{exteremeMissing,
+author = {Yu, Hsiang-Fu and Jain, Prateek and Kar, Purushottam and Dhillon, Inderjit S.},
+title = {Large-Scale Multi-Label Learning with Missing Labels},
+year = {2014},
+publisher = {JMLR.org},
+abstract = {The multi-label classification problem has generated significant interest in recent years. However, existing approaches do not adequately address two key challenges: (a) scaling up to problems with a large number (say millions) of labels, and (b) handling data with missing labels. In this paper, we directly address both these problems by studying the multi-label problem in a generic empirical risk minimization (ERM) framework. Our framework, despite being simple, is surprisingly able to encompass several recent label-compression based methods which can be derived as special cases of our method. To optimize the ERM problem, we develop techniques that exploit the structure of specific loss functions - such as the squared loss function - to obtain efficient algorithms. We further show that our learning framework admits excess risk bounds even in the presence of missing labels. Our bounds are tight and demonstrate better generalization performance for low-rank promoting trace-norm regularization when compared to (rank insensitive) Frobenius norm regularization. Finally, we present extensive empirical results on a variety of benchmark datasets and show that our methods perform significantly better than existing label compression based methods and can scale up to very large datasets such as a Wikipedia dataset that has more than 200,000 labels.},
+booktitle = {Proceedings of the 31st International Conference on International Conference on Machine Learning - Volume 32},
+pages = {I–593–I–601},
+location = {Beijing, China},
+series = {ICML'14}
+}
+
+@inproceedings{extremeMultilabelEmbeddings,
+ author = {Bhatia, Kush and Jain, Himanshu and Kar, Purushottam and Varma, Manik and Jain, Prateek},
+ booktitle = {Advances in Neural Information Processing Systems},
+ editor = {C. Cortes and N. Lawrence and D. Lee and M. Sugiyama and R. Garnett},
+ pages = {},
+ publisher = {Curran Associates, Inc.},
+ title = {Sparse Local Embeddings for Extreme Multi-label Classification},
+ url = {https://proceedings.neurips.cc/paper/2015/file/35051070e572e47d2c26c241ab88307f-Paper.pdf},
+ volume = {28},
+ year = {2015}
+}
+
+@inproceedings{exteremeMissingApplications,
+author = {Jain, Himanshu and Prabhu, Yashoteja and Varma, Manik},
+title = {Extreme Multi-Label Loss Functions for Recommendation, Tagging, Ranking; Other Missing Label Applications},
+year = {2016},
+isbn = {9781450342322},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/2939672.2939756},
+doi = {10.1145/2939672.2939756},
+abstract = {The choice of the loss function is critical in extreme multi-label learning where the objective is to annotate each data point with the most relevant subset of labels from an extremely large label set. Unfortunately, existing loss functions, such as the Hamming loss, are unsuitable for learning, model selection, hyperparameter tuning and performance evaluation. This paper addresses the issue by developing propensity scored losses which: (a) prioritize predicting the few relevant labels over the large number of irrelevant ones; (b) do not erroneously treat missing labels as irrelevant but instead provide unbiased estimates of the true loss function even when ground truth labels go missing under arbitrary probabilistic label noise models; and (c) promote the accurate prediction of infrequently occurring, hard to predict, but rewarding tail labels. Another contribution is the development of algorithms which efficiently scale to extremely large datasets with up to 9 million labels, 70 million points and 2 million dimensions and which give significant improvements over the state-of-the-art. This paper's results also apply to tagging, recommendation and ranking which are the motivating applications for extreme multi-label learning. They generalize previous attempts at deriving unbiased losses under the restrictive assumption that labels go missing uniformly at random from the ground truth. Furthermore, they provide a sound theoretical justification for popular label weighting heuristics used to recommend rare items. Finally, they demonstrate that the proposed contributions align with real world applications by achieving superior clickthrough rates on sponsored search advertising in Bing.},
+booktitle = {Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining},
+pages = {935–944},
+numpages = {10},
+keywords = {tagging, extreme classification, recommendation, ranking, multi-label learning},
+location = {San Francisco, California, USA},
+series = {KDD '16}
+}
+
+@inproceedings{extremeDiSMEC,
+author = {Babbar, Rohit and Sch\"{o}lkopf, Bernhard},
+title = {DiSMEC: Distributed Sparse Machines for Extreme Multi-Label Classification},
+year = {2017},
+isbn = {9781450346757},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3018661.3018741},
+doi = {10.1145/3018661.3018741},
+abstract = {Extreme multi-label classification refers to supervised multi-label learning involving hundreds of thousands or even millions of labels. Datasets in extreme classification exhibit fit to power-law distribution, i.e. a large fraction of labels have very few positive instances in the data distribution. Most state-of-the-art approaches for extreme multi-label classification attempt to capture correlation among labels by embedding the label matrix to a low-dimensional linear sub-space. However, in the presence of power-law distributed extremely large and diverse label spaces, structural assumptions such as low rank can be easily violated.In this work, we present DiSMEC, which is a large-scale distributed framework for learning one-versus-rest linear classifiers coupled with explicit capacity control to control model size. Unlike most state-of-the-art methods, DiSMEC does not make any low rank assumptions on the label matrix. Using double layer of parallelization, DiSMEC can learn classifiers for datasets consisting hundreds of thousands labels within few hours. The explicit capacity control mechanism filters out spurious parameters which keep the model compact in size, without losing prediction accuracy. We conduct extensive empirical evaluation on publicly available real-world datasets consisting upto 670,000 labels. We compare DiSMEC with recent state-of-the-art approaches, including - SLEEC which is a leading approach for learning sparse local embeddings, and FastXML which is a tree-based approach optimizing ranking based loss function. On some of the datasets, DiSMEC can significantly boost prediction accuracies - 10% better compared to SLECC and 15% better compared to FastXML, in absolute terms.},
+booktitle = {Proceedings of the Tenth ACM International Conference on Web Search and Data Mining},
+pages = {721–729},
+numpages = {9},
+keywords = {extreme classification, large-scale classification, multi-label learning},
+location = {Cambridge, United Kingdom},
+series = {WSDM '17}
+}
+
+@inproceedings{extremePPDsparse,
+author = {Yen, Ian E.H. and Huang, Xiangru and Dai, Wei and Ravikumar, Pradeep and Dhillon, Inderjit and Xing, Eric},
+title = {PPDsparse: A Parallel Primal-Dual Sparse Method for Extreme Classification},
+year = {2017},
+isbn = {9781450348874},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3097983.3098083},
+doi = {10.1145/3097983.3098083},
+abstract = {Extreme Classification comprises multi-class or multi-label prediction where there is a large number of classes, and is increasingly relevant to many real-world applications such as text and image tagging. In this setting, standard classification methods, with complexity linear in the number of classes, become intractable, while enforcing structural constraints among classes (such as low-rank or tree-structure) to reduce complexity often sacrifices accuracy for efficiency. The recent PD-Sparse method addresses this via an algorithm that is sub-linear in the number of variables, by exploiting primal-dual sparsity inherent in a specific loss function, namely the max-margin loss. In this work, we extend PD-Sparse to be efficiently parallelized in large-scale distributed settings. By introducing separable loss functions, we can scale out the training, with network communication and space efficiency comparable to those in one-versus-all approaches while maintaining an overall complexity sub-linear in the number of classes. On several large-scale benchmarks our proposed method achieves accuracy competitive to the state-of-the-art while reducing the training time from days to tens of minutes compared with existing parallel or sparse methods on a cluster of 100 cores.},
+booktitle = {Proceedings of the 23rd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining},
+pages = {545–553},
+numpages = {9},
+keywords = {extreme classification, sparse optimization, primal dual method},
+location = {Halifax, NS, Canada},
+series = {KDD '17}
+}
+
+@inproceedings{extremeParabel,
+author = {Prabhu, Yashoteja and Kag, Anil and Harsola, Shrutendra and Agrawal, Rahul and Varma, Manik},
+title = {Parabel: Partitioned Label Trees for Extreme Classification with Application to Dynamic Search Advertising},
+year = {2018},
+isbn = {9781450356398},
+publisher = {International World Wide Web Conferences Steering Committee},
+address = {Republic and Canton of Geneva, CHE},
+url = {https://doi.org/10.1145/3178876.3185998},
+doi = {10.1145/3178876.3185998},
+abstract = {This paper develops the Parabel algorithm for extreme multi-label learning where the objective is to learn classifiers that can annotate each data point with the most relevant subset of labels from an extremely large label set. The state-of-the-art 1-vs-All based DiSMEC and PPDSparse algorithms are the most accurate but can take upto months for training and prediction as they learn and apply an independent linear classifier per label. Consequently, they do not scale to large datasets with millions of labels. Parabel addresses both limitations by learning a balanced label hierarchy such that: (a) the 1-vs-All classifiers in the leaf nodes of the label hierarchy can be trained on a small subset of the training set thereby reducing the training time to a few hours on a single core of a standard desktop and (b) novel points can be classified by traversing the learned hierarchy in logarithmic time and applying the 1-vs-All classifiers present in just the leaf thereby reducing the prediction time to a few milliseconds per test point. This allows Parabel to scale to tasks considered infeasible for DiSMEC and PPDSparse such as predicting the subset of 7 million Bing queries that might lead to a click on a given ad-landing page for dynamic search advertising. Experiments on multiple benchmark datasets revealed that Parabel could be almost as accurate as PPDSparse and DiSMEC while being upto 1,000x faster at training and upto 40x-10,000x faster at prediction. Furthermore, Parabel was demonstrated to significantly improve dynamic search advertising on Bing by more than doubling the ad recall and improving the click-through rate by 20%. Source code for Parabel can be downloaded from [1].},
+booktitle = {Proceedings of the 2018 World Wide Web Conference},
+pages = {993–1002},
+numpages = {10},
+keywords = {dynamic search advertising, extreme classification},
+location = {Lyon, France},
+series = {WWW '18}
+}
+
+@InProceedings{extremeMilliionsSlice,
+author = {Jain, Himanshu and Balasubramanian, Venkatesh and Chunduri, Bhanu and Varma, Manik},
+title = {Slice: Scalable Linear Extreme Classifiers trained on 100 Million Labels for Related Searches},
+booktitle = {WSDM ’19, February 11–15, 2019, Melbourne, VIC, Australia},
+year = {2019},
+month = {February},
+abstract = {This paper reformulates the problem of recommending related queries on a search engine as an extreme multi-label learning task. Extreme multi-label learning aims to annotate each data point with the most relevant subset of labels from an extremely large label set. Each of the top 100 million queries on Bing was treated as a separate label in the proposed reformulation and an extreme classifier was learnt which took the user’s query as input and predicted the relevant subset of 100 million queries as output. Unfortunately, state-of-the-art extreme classifiers have not been shown to scale beyond 10 million labels and have poor prediction accuracies for queries. This paper, therefore, develops the Slice algorithm which can be accurately trained on low-dimensional, dense deep learning features popularly used to represent queries and which efficiently scales to 100 million labels and 240 million training points. Slice achieves this by reducing the training and prediction times from linear to logarithmic in the number of labels based on a novel negative sampling technique. This allows the proposed reformulation to address some of the limitations of traditional related searches approaches in terms of coverage, density and quality.
+
+Experiments on publically available extreme classification datasets with low-dimensional dense features as well as related searches datasets mined from the Bing logs revealed that Slice could be more accurate than leading extreme classifiers while also scaling to 100 million labels. Furthermore, Slice was found to improve the accuracy of recommendations by 10% as compared to state-of-the-art related searches techniques. Finally, when added to the ensemble in production in Bing, Slice was found to increase the trigger coverage by 52%, the suggestion density by 33%, the overall success rate by 2.6% and the success rate for tail queries by 12.6%. Slice’s source code can be downloaded from [21].},
+publisher = {ACM},
+url = {https://www.microsoft.com/en-us/research/publication/slice-scalable-linear-extreme-classifiers-trained-on-100-million-labels-for-related-searches/},
+note = {Best Paper Award at WSDM '19},
+}
+
+
+@InProceedings{stochasticNegativeMining,
+  title = 	 {Stochastic Negative Mining for Learning with Large Output Spaces},
+  author =       {Reddi, Sashank J. and Kale, Satyen and Yu, Felix and Holtmann-Rice, Daniel and Chen, Jiecao and Kumar, Sanjiv},
+  booktitle = 	 {Proceedings of the Twenty-Second International Conference on Artificial Intelligence and Statistics},
+  pages = 	 {1940--1949},
+  year = 	 {2019},
+  editor = 	 {Chaudhuri, Kamalika and Sugiyama, Masashi},
+  volume = 	 {89},
+  series = 	 {Proceedings of Machine Learning Research},
+  month = 	 {16--18 Apr},
+  publisher =    {PMLR},
+  pdf = 	 {http://proceedings.mlr.press/v89/reddi19a/reddi19a.pdf},
+  url = 	 {http://proceedings.mlr.press/v89/reddi19a.html},
+  abstract = 	 {We consider the problem of retrieving the most relevant labels for a given input when the size of the output space is very large. Retrieval methods are modeled as set-valued classifiers which output a small set of classes for each input, and a mistake is made if the label is not in the output set. Despite its practical importance, a statistically principled, yet practical solution to this problem is largely missing. To this end, we first define a family of surrogate losses and show that they are calibrated and convex under certain conditions on the loss parameters and data distribution, thereby establishing a statistical and analytical basis for using these losses. Furthermore, we identify a particularly intuitive class of loss functions in the aforementioned family and show that they are amenable to practical implementation in the large output space setting (i.e. computation is possible without evaluating scores of all labels) by developing a technique called Stochastic Negative Mining. We also provide generalization error bounds for the losses in the family. Finally, we conduct experiments which demonstrate that Stochastic Negative Mining yields benefits over commonly used negative sampling approaches.}
+}
+
+@inproceedings{lambdaLoss,
+title	= {The LambdaLoss Framework for Ranking Metric Optimization},
+author	= {Xuanhui Wang and Cheng Li and Nadav Golbandi and Mike Bendersky and Marc Najork},
+year	= {2018},
+booktitle	= {Proceedings of The 27th ACM International Conference on Information and Knowledge Management (CIKM '18)},
+pages	= {1313-1322}
+}
+
