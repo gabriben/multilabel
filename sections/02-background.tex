@@ -3,16 +3,16 @@
 \section{Background}
 \label{section:background}
 
-In this section, we use a traditional statistical framework as a guideline for multilabel classificaton methods~\citep{tukey}. We distinguish the desired theoretical statistic (the \textbf{estimand}), its functional form (the \textbf{estimator}) and its approximation (the \textbf{estimate}); the latter estimates can be benchmarked with \textbf{metrics}. We show how multilabel reductions tend to reformulate the estimand and treat labels independently (i.e. change the assumptions about the data). However, with an appropriate estimator, it is possible to directly model the estimand. Our proposed loss function, \textbf{multilabel blend}, accommodates for the true estimand. This section ends with a mention of the multiclasss setting, where the estimand-estiomator-estimate triad is more straightforward.
+In this section, we use a traditional statistical framework as a guideline for multilabel classificaton methods~\citep{tukey}. We distinguish the desired theoretical statistic (the \textbf{estimand}), its functional form (the \textbf{estimator}) and its approximation (the \textbf{estimate}); the latter estimates can be benchmarked with \textbf{metrics}. We show how multilabel reductions tend to reformulate the estimand and treat labels independently (i.e. change\daan{or make addtional?} the assumptions about the data). However, with an appropriate\daan{well-chosen? well-designed? properly formulated?} estimator, it is possible to directly model the estimand. Our proposed loss function, \textbf{multilabel blend}\daan{introducing a new name here}, accommodates for the true estimand. This section ends with a mention of the multiclass setting, where the estimand-estiomator-estimate triad is more straightforward.\daan{Last sentence seems out of line here.} \daan{If multiclass is so straightforward, could we use it here to illustrate the background before we cover multilabel?}
 
-We define a learning algorithm that maps inputs to outputs given a set of hyperparameters \(\mathcal{F}(\cdot ; \Theta): \mathcal{X} \rightarrow \mathcal{Y}\). 
+We define a learning algorithm that maps inputs to outputs given a set of hyperparameters \(\mathcal{F}(\cdot ; \Theta): \mathcal{X} \rightarrow \mathcal{Y}\). \todo{$\mathcal{F}$ is the estimator that produces   the estimate $\mathcal{Y}$.}
 
 \subsection{Estimand: definition of the risk}
 \label{section:background:estimand}
 
 We consider a classification setting with $C$ classes and distinguish between two scenarios: the \emph{multilabel} and the \emph{multiclass} scenario. 
-In the multilabel scenario, a single example can be attributed more than one class label (e.g., movie genres). 
-In the multiclass scenario, a single example has only one class label stemming from an example (e.g., classification of an animal on a picture). 
+In the multilabel scenario, a single example can be assigned more than one class label (e.g., movie genres). 
+In the multiclass scenario, a single example has only one class label \todo{?stemming from an example?} (e.g., classification of an animal on a picture). 
 %Multiclass classification deserves a mention towards the end, as it illustrates a straightforward relationship between estimand-estimator-estimate. 
 We focus on the multilabel scenario; its risk formulation can be written as in ~\citep{multilabelReduction}:
 %
@@ -20,7 +20,9 @@ We focus on the multilabel scenario; its risk formulation can be written as in ~
 R_{\mathrm{ML}}(\mathcal{F}) = \mathbb{E}_{(x, y)}\left[\ell_{\mathrm{ML}}(y, \mathcal{F}(x))\right].
 \end{equation}
 %
-We define \emph{risk} as the estimand: the theoretical statistic. For example, there is a finite number of animals ($y_{corn}$) that eat corn ($x_{corn}$), assuming animals belong to a finite set of living beings. The theoretical risk (estimand) defines that exact deterministic quantity $y_{corn}$. In practice, statistical models do output probabilities via an estimator and its estimate (also called propensities or suitabilities~\citep{multilabelReduction}). The solution to that stochastic-deterministic incompatibility is either to reformulate the estimand as a stochastic measure (our multilabel blend proposal), to convert the estimator to a deterministic measure via decision thresholds (traditional cross-entropy loss).
+We define \emph{risk} as the estimand: the theoretical statistic. For example, there is a finite number of animals ($y_{corn}$) that eat corn ($x_{corn}$), assuming animals belong to a finite set of living beings. The theoretical risk (estimand) defines that exact deterministic quantity $y_{corn}$. 
+\daan{Wait, x is not features?}
+In practice, statistical models do output probabilities via an estimator and its estimate (also called propensities or suitabilities~\citep{multilabelReduction}). The solution to that stochastic-deterministic incompatibility is either to convert the estimator to a deterministic measure via decision thresholds (traditional cross-entropy loss), or to reformulate the estimand as a stochastic measure (our multilabel blend proposal).
 
 \subsection{Estimator: the functional form of the risk}
 \label{section:background:estimator}
@@ -99,9 +101,9 @@ Note that for many real world problems and datasets reducing the problem to top-
 
 There is a consensus around the use of confusion matrix metrics (CMM) to evaluate multilabel classification models (at inference time) \gab{sources here}. Notably Precision and Recall. CMMs come with caveats: most of these measures 
 \begin{enumerate*}
-\item require a hard thresholding (i.e. non-differentiable for Stochastic Gadiant Descent), 
+\item require a hard thresholding, and that makes them non-differentiable for Stochastic Gadiant Descent, 
 \item they are very sensitive to the choice of the number top labels to include $k$\footnote{In the case of unilabel prediction, top-k becomes a top-1 problem, which essentially eliminates caveats I and II.} and 
-\item they require choices to be made in terms of  micro / macro / weighted metrics.
+\item they require aggregation choices to be made in terms of micro / macro / weighted metrics.
 \end{enumerate*}
 Some common CMMs are Precision, Recall, F1-score, hinge-loss or one-error-loss. Numerous others can be found on the confusion matrix Wikipedia page.
 \mdr{Wikipedia is not a credible source of formal definitions in a CS paper.}
@@ -118,7 +120,7 @@ with $reg(f)$ the regret of an estimator with respect to its loss $l_{MC}$ is $\
 
 a metric is defined as consistent if \gab{elaborate}.
 
-It has been shown that OVA, PAL, POL and their normalized counterparts are consistent with either precision or recall~\cite{multilabelReduction}. 
+\citet{multilabelReduction} show that OVA, PAL, POL and their normalized counterparts are consistent with either precision or recall. 
 
 
 \subsection{Multilabel blend estimate: F1 Metric as a Loss}
