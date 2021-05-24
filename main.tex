@@ -14,29 +14,17 @@
 
 
 
-\title[Multilabel Blend Loss: Beyond multilabel reductions]{Multilabel Blend Loss: Beyond multilabel reductions}
+\title[Multilabel Blend Loss: Beyond Multilabel Reductions]{Multilabel Blend Loss: Beyond Multilabel Reductions}
 
   % SIMPUL: A Loss Framework to Learn Abstract Labels from Abstract Representations: Single-Instance Multiclass Multilabel Prediction with Unknown Label Count}
 
 \begin{abstract}
 
-  Multiclass multilabel classification refers to the task of attributing multiple labels to examples via predictions. Current models formulate a reduction of that multilabel setting into either multiple binary classifications or multiclass classification, allowing for the use of existing loss functions (sigmoid, cross-entropy, logistic, etc.). Empirically, these methods have been reported to achieve good performance on different metrics (F1 score, Recall, Precision, etc.). Theoretically though, there are two limitiations: (i) the multiple binary classification reduction does not model interactions between label propensities and (ii) the multiclass classification reduction does not allow to predict varying amount of labels per example, \todo{both?} because the underlying losses are distant estimates of the performance metrics.
+  Multiclass multilabel classification refers to the task of attributing multiple labels to examples via predictions. Current models formulate a reduction of that multilabel setting into either multiple binary classifications or multiclass classification, allowing for the use of existing loss functions (sigmoid, cross-entropy, logistic, etc.). Empirically, these methods have been reported to achieve good performance on different metrics (F1 score, Recall, Precision, etc.). Theoretically though, there are two limitiations: (i) the multiple binary classification reduction does not model interactions between label propensities and (ii) the multiclass classification reduction does not allow one to predict varying numbers of labels per example, because the underlying losses are distant estimates of the performance metrics.
 
-  We propose a loss function that is a close approximation of the F1 score and that is tailored to realistic multilabel settings. \gab{optional: [More generally, we show that any confusion matrix metric can be formulated with a smooth surrogate.]} We evaluate the loss function on different text and image datasets, and with a variety of metrics, to account for the complexity of mutilabel classification evaluation. In our experiments, we embed our loss sigmoidF1 in a classification head that is attached to state-of-the-art pretrained neural networks MobileNetV2 and DistilBERT.
+  We propose a loss function, sigmoidF1, that is a close approximation of the F1 score and that is tailored to realistic multilabel settings. More generally, we show that any confusion matrix metric can be formulated with a smooth surrogate. We evaluate the proposed loss function on different text and image datasets, and with a variety of metrics, to account for the complexity of mutilabel classification evaluation. In our experiments, we embed the sigmoidF1 loss in a classification head that is attached to state-of-the-art pretrained neural networks MobileNetV2 and DistilBERT.
 
-Our experiments show that sigmoidF1 outperforms other existing loss functions on four datasets and several metrics. These results show the effectiveness of using traditional \daan{traditional has a bit of a negative connotation, maybe time-tested?} inference-time metrics as loss function at training time in general and show their potency on non-trivial classification problems like multilabel classification.
-  
-
-\if0
-Multiclass multilabel classification refers to the task of attributing labels to examples. A particular challenging setting is when both the number of labels for each example is unknown a priori and the example must be consumed in its entirety to be labeled. We refer to this problem setting as Full-Instance, Multilabel Prediction for Unknown Label count (FIMPUL). Current approaches to tackle FIMPUL problems tend to re-frame the problem as a multiclass unilabel classification problem. Two commonly used approaches are (i) optimizing for variations of the traditional cross-entropy loss (the fit-data-to-algorithm approach), or (ii) adapt existing algorithms to the problem at hand (the fit-algorithm-to-data approach).
-
-We take a design-algorithm-for-data approach tailored specifically for the FIMPUL problem and propose a new framework (CoMMaL) for loss functions based on confusion matrix metrics. With CoMMaL, we propose smooth surrogates to confusion matrix metrics that are decomposable for optimization methods such as Stochastic Gradient Descent. Within the CoMMaL framework, we specifically evaluate the effectiveness of sigmoidF1, a smooth surrogate F1 loss, on both text and image data. We embed sigmoidF1 in a classification head that is attached to state-of-the-art pretrained neural networks MobileNetV2 and DistilBERT.
-
-Our experiments show that sigmoidF1 outperforms other existing loss functions in four datasets on several metrics. These results show the effectiveness of using traditional inference-time metrics as loss function at training time.
-\fi
-
-
-
+Our experiments show that sigmoidF1 outperforms other loss functions on four datasets and several metrics. These results show the effectiveness of using inference-time metrics as loss function at training time in general and their potential on non-trivial classification problems like multilabel classification.
 
 % \mdr{Multilabel classification is the task of classifying XXX.}
 % \mdr{In multilabel classification with unknown label counts we do not know XXX.}
