@@ -75,8 +75,7 @@ Thresholding across classes or examples can be an issue when the number of label
 Solutions include determining an ideal global \emph{threshold} depending on the use-case at hand~\cite{threshForF1}, or per-class-thresholding after training~\cite{moviePosters} and eventually abstracting the threshold away via a \emph{soft-F1} measure~\cite{softF1}.
 %In the latter two cases, the task is to predict genre from movie posters.
 
-In our method, this threshold is defined implicitly, thanks to the use of metrics that already penalize for
-wrong label counts.
+In our method, this threshold is defined implicitly at training time, thanks to the use of surrogate metrics that already penalize for wrong label counts.
 
 
 \subsection{Metrics as losses}

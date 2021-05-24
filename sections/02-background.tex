@@ -12,7 +12,7 @@ We define a learning algorithm that maps inputs to outputs given a set of hyperp
 
 We consider a classification setting with $C$ classes and distinguish between two scenarios: the \emph{multilabel} and the \emph{multiclass} scenario. 
 In the multilabel scenario, a single example can be attributed more than one class label (e.g., movie genres). 
-In the multiclass scenario, a single example has only one class label stemming (e.g., classification of an animal on a picture). 
+In the multiclass scenario, a single example has only one class label stemming from an example (e.g., classification of an animal on a picture). 
 %Multiclass classification deserves a mention towards the end, as it illustrates a straightforward relationship between estimand-estimator-estimate. 
 We focus on the multilabel scenario; its risk formulation can be written as in ~\citep{multilabelReduction}:
 %
@@ -20,7 +20,7 @@ We focus on the multilabel scenario; its risk formulation can be written as in ~
 R_{\mathrm{ML}}(\mathcal{F}) = \mathbb{E}_{(x, y)}\left[\ell_{\mathrm{ML}}(y, \mathcal{F}(x))\right].
 \end{equation}
 %
-We define \emph{risk} as the estimand: the theoretical statistic. For example, there is a finite number of animals ($y_{corn}$) that eat corn ($x_{corn}$), assuming animals belong to a finite set of living beings. The theoretical risk (estimand) defines that exact deterministic quantity $y_{corn}$. In practice, statistical models do output probabilities via an estimator and its estimate (also called propensities or suitabilities~\citep{multilabelReduction}). The solution \mdr{to what} is either to reformulate the estimand as a stochastic measure or to convert the estimator to a deterministic measure, via decision thresholds.
+We define \emph{risk} as the estimand: the theoretical statistic. For example, there is a finite number of animals ($y_{corn}$) that eat corn ($x_{corn}$), assuming animals belong to a finite set of living beings. The theoretical risk (estimand) defines that exact deterministic quantity $y_{corn}$. In practice, statistical models do output probabilities via an estimator and its estimate (also called propensities or suitabilities~\citep{multilabelReduction}). The solution to that stochastic-deterministic incompatibility is either to reformulate the estimand as a stochastic measure (our multilabel blend proposal), to convert the estimator to a deterministic measure via decision thresholds (traditional cross-entropy loss).
 
 \subsection{Estimator: the functional form of the risk}
 \label{section:background:estimator}
@@ -28,15 +28,15 @@ We define \emph{risk} as the estimand: the theoretical statistic. For example, t
 The estimator $f \in \mathcal{F}$ is any minimizer of the risk $R_{ML}$. 
 
 \begin{proposition}
-The multilabel estimator of $y_i$ shall be dependent on the input and other labels,
+  The multilabel estimator of $y_i$ is dependent on the input and other labels for that example,
+%
 \begin{equation}
   \hat{y}_i = \mathcal{F}(x, y_1, \ldots, y_C) = P(y_i = 1 | x, y_1, \ldots, y_C) \, \forall y_j \, not \, in \, y_i
 \end{equation}
 \label{eq:estimand}
-\mdr{I am confused by the use of the word ``shall'' in the statement of the proposition. A proposition is meant to establish a (minor) mathematical fact; a modality such as ``shall'' does not fit such statements.}
 \end{proposition}
-
-Predicting multiple labels per example comes with the assumption that labels are non-mutually exclusive. By proposing this general formulation, we entrench that characteristic in the estimator. Contrary to \citet{multilabelReduction}, we propose an estimator that models interdependence between labels and deals with thresholding for the estimate for free (see next section).
+%
+Predicting multiple labels per example comes with the assumption that labels are non-mutually exclusive. By proposing this general formulation, we entrench that characteristic in the estimator. Contrary to \citet{multilabelReduction}, we propose an estimator that models interdependence between labels and deals with thresholding for the estimate at training time for free (see next section).
 
 
 \subsection{Estimate: approximation via a loss function}
@@ -44,31 +44,31 @@ Predicting multiple labels per example comes with the assumption that labels are
 
 \gab{this section has too many "notes", requires more links between elements.}
 
-Most of the literature found on multilabel classification can be characterized as multilabel reductions~\cite{multilabelReduction}. Given the general non-convex optimization context, the surrogate loss function $\ell(y_i, hat{y_i})$ can take different forms. 
+Most of the literature found on multilabel classification can be characterized as multilabel reductions~\cite{multilabelReduction}. Given the general non-convex optimization context, the surrogate loss function $\mathcal{L}(y_i, \hat{y_i})$ can take different forms. 
 
-\subsubsection*{One-versus-all}
-We put
+\subsubsection*{One-versus-all (OVA)}
+We write
 %
 \begin{equation}
 \begin{aligned}
-\ell_{\mathrm{OVA}}(y, f) &\doteq \sum_{i \in[L]} \ell_{\mathrm{BC}}\left(y_{i}, f_{i}\right)\\
-&=\sum_{i \in[L]}\left\{y_{i} \cdot \ell_{\mathrm{BC}}\left(1, f_{i}\right)+\left(1-y_{i}\right) \cdot \ell_{\mathrm{BC}}\left(0, f_{i}\right)\right\},
+\mathcal{L}_{\mathrm{OVA}}(y, f) &= \sum_{i \in[L]} \mathcal{L}_{\mathrm{BC}}\left(y_{i}, f_{i}\right)\\
+&=\sum_{i \in[L]}\left\{y_{i} \cdot \mathcal{L}_{\mathrm{BC}}\left(1, f_{i}\right)+\left(1-y_{i}\right) \cdot \mathcal{L}_{\mathrm{BC}}\left(0, f_{i}\right)\right\},
 \end{aligned}
 \end{equation}
 %
-where $\ell_{\mathrm{BC}}$ is some binary classification loss (a.k.a.\ binary relevance \cite{OVA1, hammingLoss, OVA2}), most often logistic loss.  Note that minimizing binary cross-entropy is equivalent to maximizing for log-likelihood~\cite[Section 4.3.4]{Bishop}.
+where $\mathcal{L}_{\mathrm{BC}}$ is some binary classification loss (a.k.a.\ binary relevance \cite{OVA1, hammingLoss, OVA2}), most often logistic loss.  Note that minimizing binary cross-entropy is equivalent to maximizing for log-likelihood~\cite[Section 4.3.4]{Bishop}.
 
-\subsubsection*{Pick-all-labels}
+\subsubsection*{Pick-all-labels (PAL)}
 The loss function we set here is
 %
 \begin{equation}
-\ell_{\mathrm{PAL}}(y, f) \doteq \sum_{i \in[L]} y_{i} \cdot \ell_{\mathrm{MC}}(i, f).
+\mathcal{L}_{\mathrm{PAL}}(y, f) = \sum_{i \in[L]} y_{i} \cdot \mathcal{L}_{\mathrm{MC}}(i, f).
 \end{equation}
 %
 \mdr{Not all of the notation is explained.}
 In this formulation, each example $(x_i, y_i)$ is converted to a multiclass framework, with one observation per positive label. The sum of inherently multiclass losses is used to represent the multilabel estimand, using for example softmax cross entropy. Note that cross-entropy loss can be formulated as \(\mathcal{L}_{\text {CE}}=-\sum \log \left(p_{i}\right)\).
 
-\subsubsection*{Pick-one-label}
+\subsubsection*{Pick-one-label (POL)}
 
 For this reduction, given an example $(x,y)$, a single random positive label is chosen as the true label of $x$
 
@@ -99,7 +99,7 @@ Note that for many real world problems and datasets reducing the problem to top-
 
 There is a consensus around the use of confusion matrix metrics (CMM) to evaluate multilabel classification models (at inference time) \gab{sources here}. Notably Precision and Recall. CMMs come with caveats: most of these measures 
 \begin{enumerate*}
-\item require a hard thresholding, 
+\item require a hard thresholding (i.e. non-differentiable for Stochastic Gadiant Descent), 
 \item they are very sensitive to the choice of the number top labels to include $k$\footnote{In the case of unilabel prediction, top-k becomes a top-1 problem, which essentially eliminates caveats I and II.} and 
 \item they require choices to be made in terms of  micro / macro / weighted metrics.
 \end{enumerate*}
