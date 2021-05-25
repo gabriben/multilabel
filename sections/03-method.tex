@@ -13,7 +13,7 @@ In this section, we introduce our approach for multilabel problems, with a Confu
 Different thresholding regimes: the non-decomposable step function, the unbounded linear function and the sigmoid function at different parametrizations}
 \end{figure*}
 
-For the same class of learning algorithms defined in the previous section \(\mathcal{F}(\cdot ; \Theta): \mathcal{X} \rightarrow \mathcal{Y}\), we consider a particular case, where \(\mathbf{x} = \{x_1, \ldots, x_n\}\) and each observation is assigned $k$ labels (one or more) \(\mathbf{l} = \{l_1, \ldots, l_C\}\) out of a set of classes $C$. \(y_{i}^{j}\) are binary variables, indicating presence of a label for each observation \(i\) and class \(j\).
+% For the same class of learning algorithms defined in the previous section \(\mathcal{F}(\cdot ; \Theta): \mathcal{X} \rightarrow \mathcal{Y}\), we consider a particular case, where \(\mathbf{x} = \{x_1, \ldots, x_n\}\) and each observation is assigned $k$ labels (one or more) \(\mathbf{l} = \{l_1, \ldots, l_C\}\) out of a set of classes $C$. \(y_{i}^{j}\) are binary variables, indicating presence of a label for each observation \(i\) and class \(j\).
 
 % For each observation \(i\), label class probabilities can be defined based on predictions as
 
@@ -23,7 +23,8 @@ For the same class of learning algorithms defined in the previous section \(\mat
 % \mathbf{p}_{i}=\left\{\begin{array}{ll}\hat{\mathbf{y}} & \text { if } y=1 \\ 1-\hat{\mathbf{y}} & \text { otherwise }\end{array}\right.
 % \end{equation}
 
-In a typical binary classification problem, predictions are probabilistic and it is necessary to define a threshold \(t\), at which a prediction is dichotomized. With \(\mathds{1}\) as an indicator function, \(Y^+ = \sum \mathds{1}_{\hat{\mathbf{y}} \geq t}\), \(Y^- = \sum \mathds{1}_{\hat{\mathbf{y}} < t}\) are thus the count of positive and negative predictions at threshold \(t\). Let \(tp\), \(fp\), \(fn\), \(tn\) be number of true positives, false positives, false negatives and true negatives respectively:
+\gab{Specify: We use the binary classification setting (two classes) as it simplifies the notation and prevents further use of subscripts}
+In a typical binary classification problem with the label vector $\mathbf{y} = {y_1 , \cdot, y_n}$, predictions are probabilistic and it is necessary to define a threshold \(t\), at which a prediction is dichotomized. With \(\mathds{1}\) as an indicator function, \(Y^+ = \sum \mathds{1}_{\hat{\mathbf{y}} \geq t}\), \(Y^- = \sum \mathds{1}_{\hat{\mathbf{y}} < t}\) are thus the count of positive and negative predictions at threshold \(t\). Let \(tp\), \(fp\), \(fn\), \(tn\) be number of true positives, false positives, false negatives and true negatives respectively:
 %
 \begin{equation}
 \label{eq:conf}
@@ -54,7 +55,7 @@ Next, we define unbounded confusion matrix entries and a notion of sigmoid-based
 We thus define desirable properties for a decomposable sign function $f(u)$ as a surrogate of the above indicator function \(\mathds{1}_{\hat{\mathbf{y}} < t}\).
 
 \begin{property}
-  Boundedness: $|f(u)| < M$, where $M$ is a an upper and lower bound.
+  Boundedness: $|f(u)| < M$, where $M$ is an upper and lower bound.
 \end{property}
 The groundtruth $\mathbf{y}$ is bounded between $[0,1]$ and thus it must be compared to a bounded prediction $\mathbf{\hat{y}}$, preferably bounded by $[0,1]$, to avoid further scaling.
 
@@ -70,6 +71,8 @@ For the surrogate to be a proper sign function substitute, it is important to of
 Inside the saturation bounds $[-s, s]$, the derivative should be significantly higher than zero in order to facilitate stochastic gradient descent and backpropagation.
 
 Note that the upper and lower limits of $f(u)$ are interchangeably $[-1,1]$ or $[0,1]$ along this paper and in the literature. The conditions above still apply by linear transformation.
+
+\gab{Let's look at the unbounded case and we show it doesn't fulfill the properties.} 
 
 \subsection{Unbounded alternative}
 \label{subsec:unbounded}
@@ -155,7 +158,7 @@ A similar method was proposed outside of the context of neural networks: the \em
 
 \emph{sigmoidF1} loss deals with class imbalance, similarly to the focal loss~\cite{focalLoss} (used as a benchmark due to its popularity)
 \begin{equation}
-  \mathcal{L}_{FL} = -\alpha_{\mathrm{j}}\left(1-\hat{y}_{\mathrm{j}}\right)^{\gamma} \log \left(\hat{y}_{\mathrm{j}}\right),
+  \mathcal{L}_{FL} = -\alpha^{\mathrm{j}}\left(1-\hat{y}^{\mathrm{j}}\right)^{\gamma} \log \left(\hat{y}^{\mathrm{j}}\right),
 \end{equation}
 
 with $\alpha_j$ and $\gamma$ hyperparameters. \emph{sigmoidF1} is particularly suited for the multilabel setting because it is a proper hard thresholding surrogate as defined in the previous sections and because it contains a significant amount of information about label prediction accuracy: $\widetilde{\mathit{tp}}$, $\widetilde{\mathit{fn}}$ and $\widetilde{\mathit{fp}}$ are indicative of the number of predicted labels in each category of the confusion matrix but also contain a notion of certainty, given that they are rational numbers. The built in sigmoid function ensures that certainty increases along training epochs, as outlined by proposition 2. Finally, as the harmonic mean of precision and recall (a property of F1 in general), it weighs in both relevance metrics.
