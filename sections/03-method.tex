@@ -12,6 +12,7 @@ In this section, we introduce our approach for multilabel problems, with a Confu
 \caption{\label{fig:sigmoid}
 Different thresholding regimes: the non-decomposable step function, the unbounded linear function and the sigmoid function at different parametrizations}
 \end{figure*}
+\label{fig:sigmoid}
 
 % For the same class of learning algorithms defined in the previous section \(\mathcal{F}(\cdot ; \Theta): \mathcal{X} \rightarrow \mathcal{Y}\), we consider a particular case, where \(\mathbf{x} = \{x_1, \ldots, x_n\}\) and each observation is assigned $k$ labels (one or more) \(\mathbf{l} = \{l_1, \ldots, l_C\}\) out of a set of classes $C$. \(y_{i}^{j}\) are binary variables, indicating presence of a label for each observation \(i\) and class \(j\).
 
@@ -51,6 +52,7 @@ In the following sections, we first define desirable properties for decomposable
 Next, we define unbounded confusion matrix entries and a notion of sigmoid-based transformation that renders confusion matrix entries decomposable. Finally, we focus on an unbounded F1 score wich we use in our experiments.
 
 \subsection{Desirable properties of decomposable thresholding}
+\label{subsection:properties}
 
 We thus define desirable properties for a decomposable sign function $f(u)$ as a surrogate of the above indicator function \(\mathds{1}_{\hat{\mathbf{y}} < t}\).
 

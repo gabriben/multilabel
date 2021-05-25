@@ -5,7 +5,7 @@
 
 To build up to our approach, we use a traditional statistical framework as a guideline for multilabel classificaton methods~\citep{tukey}. We distinguish the desired theoretical statistic (the \textbf{estimand}), its functional form (the \textbf{estimator}) and its approximation (the \textbf{estimate}); the latter estimates can be benchmarked with \textbf{metrics}. We show how multilabel reductions tend to reformulate the estimand and treat labels independently (i.e. change our assumptions about the data). However, with a proper estimator, it is possible to directly model the estimand. Our proposed loss function, \textbf{sigmoidF1}, accommodates for the true estimand.
 
-We define a learning algorithm $\mathcal{F}$ (i.e. a class of estimators) that maps inputs to outputs given a set of hyperparameters \(\mathcal{F}(\cdot ; \Theta): \mathcal{X} \rightarrow \mathcal{Y}\). We consider a particular case, with the input vector \(\mathbf{x} = \{x_1, \ldots, x_n\}\) and each observation is assigned $k$ labels (one\daan{zero?} or more) \(\mathbf{l} = \{l_1, \ldots, l_C\}\) out of a set of $C$ classes. \(y_{i}^{j}\) are binary variables, indicating presence of a label for each observation \(i\) and class \(j\). Together they form the matrix output $Y$.
+We define a learning algorithm $\mathcal{F}$ (i.e. a class of estimators) that maps inputs to outputs given a set of hyperparameters \(\mathcal{F}(\cdot ; \Theta): \mathcal{X} \rightarrow \mathcal{Y}\). We consider a particular case, with the input vector \(\mathbf{x} = \{x_1, \ldots, x_n\}\) and each observation is assigned $k$ labels (one or more) \(\mathbf{l} = \{l_1, \ldots, l_C\}\) out of a set of $C$ classes. \(y_{i}^{j}\) are binary variables, indicating presence of a label for each observation \(i\) and class \(j\). Together they form the matrix output $Y$.
 
 \subsection{Estimand and definition of the risk}
 \label{section:background:estimand}
@@ -14,7 +14,7 @@ We distinguish between two scenarios: the \emph{multiclass} and the \emph{multil
 In the multiclass scenario, a single example is attributed one class label (e.g., classification of an animal on a picture). 
 In the multilabel scenario, a single example can be assigned more than one class label (e.g., movie genres). 
 %Multiclass classification deserves a mention towards the end, as it illustrates a straightforward relationship between estimand-estimator-estimate. 
-We focus on the multilabel scenario. More formally, for a particular input $\mathbf{x}$ (e.g. paper abstracts) and output $Y$ (e.g. scientific field) its risk formulation can be written as in ~\citep{multilabelReduction}:
+We focus on the multilabel scenario. More formally, for a particular input $\mathbf{x}$ (e.g. paper abstracts) and output $Y$ (e.g. scientific field(s) ) its risk formulation can be written as in ~\citep{multilabelReduction}:
 %
 \begin{equation}
 R_{\mathrm{ML}}(\mathcal{F}) = \mathbb{E}_{(\mathbf{x}, Y)}\left[\mathcal{L}_{\mathrm{ML}}(Y, \mathcal{F}(\mathbf{x}))\right].
@@ -39,7 +39,7 @@ The estimator $f \in \mathcal{F}$ is any minimizer of the risk $R_{ML}$. Predict
 \begin{equation}
   \hat{y}_i^j = f(x, y_{i}^{1}, \ldots, y_{i}^{j-1}) = P(y_i^j = 1 | x, y_{i}^{1}, \ldots, y_{i}^{j-1})
 \end{equation}
-\label{eq:estimand}
+\label{eq:estimator}
 \end{proposition}
 %
  By proposing this general formulation, we entrench that characteristic in the estimator. Contrary to \citet{multilabelReduction}, we propose an estimator that models interdependence between labels and deals with thresholding for the estimate at training time for free (see next section).
@@ -48,29 +48,28 @@ The estimator $f \in \mathcal{F}$ is any minimizer of the risk $R_{ML}$. Predict
 \subsection{Estimate: approximation via a loss function}
 \label{section:background:estimate}
 
-Most of the literature found on multilabel classification can be characterized as multilabel reductions~\cite{multilabelReduction}. Given the general non-convex optimization context, the surrogate loss function $\mathcal{L}(\mathbf{y}_i, \hat{\mathbf{y}}_i)$ can take different forms. 
+Most of the literature found on multilabel classification can be characterized as multilabel reductions~\cite{multilabelReduction}. Given the general non-convex optimization context, the surrogate loss function $\mathcal{L}(\mathbf{y}_i, f)$ can take different forms. 
 
 \subsubsection*{One-versus-all (OVA)}
-We write\daan{textual glue needed here. Also: they write, not we, right?}
+OVA consists of a reformulation of the multilabel classification task to a sequence of $C$ binary classifications ($f^1, \ldots, f^C$), with $C$ the number of classes:
 %
 \begin{equation}
 \begin{aligned}
-\mathcal{L}_{\mathrm{OVA}}(y, f) &= \sum_{i \in[L]} \mathcal{L}_{\mathrm{BC}}\left(y_{i}, f_{i}\right)\\
-&=\sum_{i \in[L]}\left\{y_{i} \cdot \mathcal{L}_{\mathrm{BC}}\left(1, f_{i}\right)+\left(1-y_{i}\right) \cdot \mathcal{L}_{\mathrm{BC}}\left(0, f_{i}\right)\right\},
+\mathcal{L}_{\mathrm{OVA}}(\mathbf{y}_i, f) &= \sum_{c = 1}^C \mathcal{L}_{\mathrm{BC}}\left(y_i^{c}, f^{c}\right)\\
+&=\sum_{c = 1}^C \left\{y_{i}^c \cdot \mathcal{L}_{\mathrm{BC}}\left(1, f^c \right)+\left(1-y_{i}^c \right) \cdot \mathcal{L}_{\mathrm{BC}}\left(0, f^c \right)\right\},
 \end{aligned}
 \end{equation}
 %
 where $\mathcal{L}_{\mathrm{BC}}$ is some binary classification loss (a.k.a.\ binary relevance \cite{OVA1, hammingLoss, OVA2}), most often logistic loss.  Note that minimizing binary cross-entropy is equivalent to maximizing for log-likelihood~\cite[Section 4.3.4]{Bishop}.
 
 \subsubsection*{Pick-all-labels (PAL)}
-The loss function we set here is
+The loss function set here is
 %
 \begin{equation}
-\mathcal{L}_{\mathrm{PAL}}(y, f) = \sum_{i \in[L]} y_{i} \cdot \mathcal{L}_{\mathrm{MC}}(i, f).
+\mathcal{L}_{\mathrm{PAL}}(\mathbf{y}_i, f) = \sum_{c = 1}^C y_{i}^c \cdot \mathcal{L}_{\mathrm{MC}}(y_i^c, f),
 \end{equation}
 %
-\mdr{Not all of the notation is explained.}
-In this formulation, each example $(x_i, y_i)$ is converted to a multiclass framework, with one observation per positive label. The sum of inherently multiclass losses is used to represent the multilabel estimand, using for example softmax cross entropy. Note that cross-entropy loss can be formulated as \(\mathcal{L}_{\text {CE}}=-\sum \log \left(p_{i}\right)\). \daan{$p_i$ is not explained.}
+with $\mathcal{L}_{MC} : C \times \mathbb{R}^{C} \rightarrow \mathbb{R}_{+}$, a multiclass loss (e.g. softmax cross-entropy). In this formulation, each example $(x_i, \mathbf{y}_i)$ is converted to a multiclass framework, with one observation per positive label. The sum of inherently multiclass losses is used to represent the multilabel estimand. Note that cross-entropy loss can be formulated as \(\mathcal{L}_{\text {CE}}=-\sum \log \left(f \right)\).
 
 \subsubsection*{Pick-one-label (POL)}
 \daan{drop POL?}
@@ -83,10 +82,10 @@ Note that OVA and PAL have each a form normalised by the number of positive labe
 Multilabel reduction methods are characterized by their way of reformulating the estimand, the resulting estimator and the estimate. In particular, this allows the use of existing losses: logistic loss (for binary classification formulations), sigmoid loss or softmax cross-entropy loss (for multiclass formulations). These reductions imply a reformulation of the estimator (a.k.a. Bayes Optimal) as follows:
 %
 \begin{equation}
-  y_i = \mathcal{F}(x) = P(y_i = 1 | x)
+  \hat{y}_i^j = f(x) = P(y_i^j = 1 | x_i)
 \end{equation}
 %
-Contrary to our definition of the original multilabel estimand (Eq.~\ref{eq:estimand}), independence of labels propensities is assumed. \gab{the reformulation of the estimator also implies a reformulation of the estimand like so...}. In other words the loss function becomes any monotone transformation of the marginal label probabilities $ P(y_i = 1 | x)$ ~\cite{OVA2, multilabelMetrics, unifiedView}
+Contrary to our definition of the original multilabel estimator (Eq.~\ref{eq:estimator}), independence of label propensities is assumed. The reformulation of the estimator also implies a reformulation of the estimand. For example, for PAL the estimand would be \gab{estimand reformulation here}. In other words the loss function becomes any monotone transformation of the marginal label probabilities $ P(y_i^j = 1 | x)$ ~\cite{OVA2, multilabelMetrics, unifiedView}
 
 OVA and PAL have been shown to optimize for either precision or recall (see next section and the definition of consistency)~\cite{multilabelReduction}.
 

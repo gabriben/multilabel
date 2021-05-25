@@ -7,6 +7,8 @@ We test multilabel learning using our proposed \emph{sigmoidF1} loss function on
 
 This experimental part is a comparison of loss functions. A such, state-of-the-art given a certain model is trivial to produce: take any popular / state-of-the-art model that generates an embedding layer and attach a softmax cross-entropy or a sigmoid loss to it. It is harder to find benchmarks in the literature where similar purely multilabel experiments were made, in particular because multilabel reduction choices were made in previous literature: only keeping the top-n occuring classes (often 4-10) \gab{source here}, multiclass classification on each entity within an example (objects in an image, expressions in a text) \gab{source here}. The datasets in these experiments are deliberatively small so as to showcase sigmoidF1 as a loss functions against other types of loss functions in an efficient manner. Work on bigger datasets (where multilabel reduction is still the norm) is left for future work.
 
+\gab{people usually implement multilabel deep learning directly with softmax cross-entropy (a simplification of OVA and PAL), we follow in their footsteps.}
+
 The next section and Table~\ref{table:datasets} describe our four datasets. The learning architecture, in which a classification head attached to a pretrained net, is then described before addressing hyperparameter tuning and reproducibility remarks.
 
 \begin{table}[b]
