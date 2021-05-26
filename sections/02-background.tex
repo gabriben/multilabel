@@ -81,19 +81,14 @@ Multilabel reduction methods are characterized by their way of reformulating the
   \hat{y}_i^j = f(x) = P(y_i^j = 1 | x_i)
 \end{equation}
 %
-Contrary to our definition of the original multilabel estimator (Eq.~\ref{eq:estimator}), independence of label propensities is assumed. The reformulation of the estimator also implies a reformulation of the estimand. For example, for PAL the estimand would be \gab{estimand reformulation here}. In other words the loss function becomes any monotone transformation of the marginal label probabilities $ P(y_i^j = 1 | x)$ ~\cite{OVA2, multilabelMetrics, unifiedView}
+Contrary to our definition of the original multilabel estimator (Eq.~\ref{eq:estimator}), independence of label propensities is assumed. In other words the loss function becomes any monotone transformation of the marginal label probabilities $P(y_i^j = 1 | x)$ ~\cite{OVA2, multilabelMetrics, unifiedView}.
 
-OVA and PAL have been shown to optimize for either precision or recall (see next section and the definition of consistency)~\cite{multilabelReduction}.
-
-\daan{next two paragraphs does not help anymore. Either integrate in story or remove.}
-Multilabel reductions has previously been referred to as \emph{fit-data-to-algorithm} solutions (a.k.a. \emph{problem tranformation}) as opposed to \emph{fit-algorithm-to-data} solutions (a.k.a.\ \emph{algorithm adaptation})~\cite{multilabelReview, multilabelReview2}. In Section~\ref{section:background:fitdata} we propose a fit-algorithm-to-data solution (i.e. a loss function), where the estimand and assumptions about the data are not reformulated.
-
-Note that for many real world problems and datasets reducing the problem to top-k selection or establishing a hierarchical structure is an oversimplification, especially when classes are not mutually exclusive. Besides the four datasets we use for our experiments, we mention others in the related work section.
+\citet{multilabelReduction} show that OVA, PAL and their normalized counterparts are consistent~\citep{consistency-surrogates, consistency-multiclassSVM, consistency-lossAnalysis} with either precision or recall. A learning algorithm is defined as consistent if the expected risk given $f$ and $\mathcal{L}$ approximates the original estimator (Bayes risk), as the input sample size grows~\cite{consistencyMultilabel}.
 
 \subsection{Metrics: evaluation at inference time}
 \label{section:background:metrics}
 
-There is a consensus around the use of confusion matrix  and ranking metrics to evaluate multilabel classification models (at inference time)~\cite{multilabelMetrics, weightedMetrics, unifiedView}. Notably Precision and Recall. CMMs come with caveats: most of these measures 
+There is a consensus around the use of confusion matrix  and ranking metrics to evaluate multilabel classification models (at inference time)~\cite{multilabelMetrics, weightedMetrics, unifiedView}. Notably Precision and Recall. Confusion matrix metrics come with caveats: most of these measures 
 \begin{enumerate*}
 \item require a hard thresholding, and that makes them non-differentiable for Stochastic Gadiant Descent, 
 \item they are very sensitive to the choice of the number top labels to include $k$\footnote{In the case of unilabel prediction, top-k becomes a top-1 problem, which essentially eliminates caveats I and II.} and 
@@ -101,43 +96,12 @@ There is a consensus around the use of confusion matrix  and ranking metrics to 
 \end{enumerate*}
 Some common confusion matrix metrics are Precision, Recall, F1-score, hinge-loss or one-error-loss. Numerous others can be formulated~\cite{unifiedView}.
 
-% \citet{multilabelReduction} show that OVA, PAL, POL and their normalized counterparts are consistent~\citep{consistency-surrogates, consistency-multiclassSVM, consistency-lossAnalysis} with either precision or recall. A loss is defined as consistent if it approximates the original metric.
 
-
-
-\subsection{Multilabel blend estimate: F1 Metric as a Loss}
+\subsection{Multilabel estimate: F1 Metric as a Loss}
 \label{section:background:metricsAsLosses}
 
-To begin, we recall the definitions of precision, recall and F1 score:
-%
-\begin{equation}
-	\begin{aligned} 
-		\text { Precision } &=\frac{t p}{t p+f p} \\ 
-		\text{ Recall } &=\frac{t p}{t p+f n} 
-	\end{aligned}
-\end{equation}
-%
-With F1 score the harmonic mean of precision and recall:
-%
-\begin{equation}
-F_1=2 \cdot \frac{\text { precision } \cdot \text { recall }}{\text { precision }+\text { recall }}
-\end{equation}
-%
-\mdr{What is: }This is our contribution. Similar to lambdaLoss and others... It implicitly deals with label counts and label predictions. It also balances precision and recall
 
-\gab{TODO: show that}
-%
-\begin{equation}
-\operatorname{reg}\left(f ; \mathcal{L}_{\mathrm{F_1}}\right) \rightarrow 0 \Longrightarrow \operatorname{reg}\left(f ; \mathrm{F_1}\right) \rightarrow 0
-\end{equation}
-%
-We propose a generic loss which does not require hard thresholding decisions, , 
-\todo{Missing stuff here!}
-In a number of retrieval tasks, a model's out of sample accuracy is measured
-on metrics such as AUROC, F1 score, etc. These reflect an objective catered
-towards evaluating the model over an entire ranking. Due to the lack of
-differentiability, these metrics cannot be directly used as loss functions at
-training time (in-sample). A seminal study~\cite{optimizableLosses} derived a general framework for deriving decomposable surrogates to some of these metrics. We propose our own decomposable surrogates tailored for the problem at hand.
+In a number of retrieval tasks, a model's out of sample accuracy is measured on metrics such as AUROC, F1 score, etc. These reflect an objective catered towards evaluating the model over an entire ranking. Due to the lack of differentiability, these metrics cannot be directly used as loss functions at training time (in-sample). A seminal study~\cite{optimizableLosses} derived a general framework for deriving decomposable surrogates to some of these metrics. We propose our own decomposable surrogates tailored for the problem at hand.
 
 In a typical machine learning classification tasks, binary labels are compared to a probabilistic measure (or a reversible
 transformation of a probabilistic measure such as a sigmoid or a softmax
@@ -148,7 +112,10 @@ labels per example is not known a priori, the question remains at both training 
 as to how to decide on the number of labels to assign to each
 example. This is generally done via a \emph{decision threshold}, that can be set globally for all
 examples. This threshold can optimize for specificity or
-sensitivity~\cite{decisionThreshold}. We propose an approach where this threshold is implicitly defined, by using a loss function that penalizes explicitly for wrong label counts.
+sensitivity~\cite{decisionThreshold}. We propose an approach where this threshold is implicitly defined, by using a loss function that penalizes explicitly for wrong label counts and fits to the original estimand in Proposition 1.
+
+That loss function is a surrogate of the F1 score, the harmonic mean of precision and recall (see formal definition in section \ref{section:method}). It implicitly deals with label counts and label predictions by including confusion matrix count data. It also balances precision and recall. In the next section, we show how $F_1$ is formulated into a surrogate loss $\mathcal{L}_{\widetilde{\mathit{F1}}}$.
+
 
 
 % \begin{figure}[t]
