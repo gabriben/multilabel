@@ -79,7 +79,7 @@ In our experimental evaluation, we consider a suite of metrics that are commonly
 When true positives and false positives are used, recall that \(t p=\sum_{i \in Y^{+}} \mathds{1}_{\mathbf{p_i} \geq t}\) and \(f p=\sum_{i \in Y^{-}} \mathds{1}_{\mathbf{p_i} \geq t}\), and thus a threshold \(t\) must be set. Information on thresholding at inference time is generally hard to find in the recent literature, we thus decide on neutral thresholds before training. For arXiv2020 and moviePosters, we set \(t = 0.5\), as is commonly done in the early literature~\cite{multilabelReview, ML-DT}.
 For the two medical datasets, cancerHallmarks and chemicalExposure, we saw after a few preparatory training rounds that only sigmoidF1 had non-zero results for \(t = 0.5\). Information is a lot more sparse for these dataset, we thus set the evaluation metrics threshold to a reasonable value of $0.05$ and train for $500$ epochs until reaching convergence.
 
-Extending \(F_1\) to multiclass binary classification amounts to deciding wether or not to pool classes.
+Extending \(F_1\) to multiclass binary classification means deciding whether to pool classes.
 In a first pooled iteration, macro \(F_1\)~\cite{multilabelMetrics} equates to creating a single 2x2 confusion matrix for all classes:
 %
 \begin{equation}

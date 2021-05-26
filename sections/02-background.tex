@@ -58,15 +58,16 @@ OVA consists of a reformulation of the multilabel classification task to a seque
 \begin{equation}
 \begin{aligned}
 \mathcal{L}_{\mathrm{OVA}}(\mathbf{y}_i, f) &= \sum_{c = 1}^C \mathcal{L}_{\mathrm{BC}}\left(y_i^{c}, f^{c}\right)\\
-&=\sum_{c = 1}^C \left\{y_{i}^c \cdot \mathcal{L}_{\mathrm{BC}}\left(1, f^c \right)+\left(1-y_{i}^c \right) \cdot \mathcal{L}_{\mathrm{BC}}\left(0, f^c \right)\right\},
+&=\sum_{c = 1}^C \left\{y_{i}^c \cdot \mathcal{L}_{\mathrm{BC}}\left(1, f^c \right)+\left(1-y_{i}^c \right) \cdot \mathcal{L}_{\mathrm{BC}}\left(0, f^c \right)\right\}
 \end{aligned}
 \end{equation}
 %
-where $\mathcal{L}_{\mathrm{BC}}$ is some binary classification loss (a.k.a.\ binary relevance \cite{OVA1, hammingLoss, OVA2}), most often logistic loss.  Note that minimizing binary cross-entropy is equivalent to maximizing for log-likelihood~\cite[Section 4.3.4]{Bishop}.
+where $\mathcal{L}_{\mathrm{BC}}$ is a binary classification loss (binary relevance \cite{OVA1, hammingLoss, OVA2}), most often logistic loss.  Note that minimizing binary cross-entropy is equivalent to maximizing for log-likelihood~\cite[\S4.3.4]{Bishop}.
 
 \subsubsection*{Pick-all-labels (PAL)}
 The loss function set here is
 %
+\vspace{-0.5\baselineskip}
 \begin{equation}
 \mathcal{L}_{\mathrm{PAL}}(\mathbf{y}_i, f) = \sum_{c = 1}^C y_{i}^c \cdot \mathcal{L}_{\mathrm{MC}}(y_i^c, f),
 \end{equation}
@@ -75,7 +76,7 @@ with $\mathcal{L}_{MC} : C \times \mathbb{R}^{C} \rightarrow \mathbb{R}_{+}$, a 
 
 \vspace{\baselineskip}
 
-Multilabel reduction methods are characterized by their way of reformulating the estimand, the resulting estimator and the estimate. In particular, this allows the use of existing losses: logistic loss (for binary classification formulations), sigmoid loss or softmax cross-entropy loss (for multiclass formulations). These reductions imply a reformulation of the estimator (a.k.a. Bayes Optimal) as follows:
+Multilabel reduction methods are characterized by their way of reformulating the estimand, the resulting estimator and the estimate. This allows the use of existing losses: logistic loss (for binary classification formulations), sigmoid loss or softmax cross-entropy loss (for multiclass formulations). These reductions imply a reformulation of the estimator (a.k.a. Bayes Optimal) as follows:
 %
 \begin{equation}
   \hat{y}_i^j = f(x) = P(y_i^j = 1 | x_i)
@@ -114,7 +115,7 @@ example. This is generally done via a \emph{decision threshold}, that can be set
 examples. This threshold can optimize for specificity or
 sensitivity~\cite{decisionThreshold}. We propose an approach where this threshold is implicitly defined, by using a loss function that penalizes explicitly for wrong label counts and fits to the original estimand in Proposition 1.
 
-That loss function is a surrogate of the F1 score, the harmonic mean of precision and recall (see formal definition in section \ref{section:method}). It implicitly deals with label counts and label predictions by including confusion matrix count data. It also balances precision and recall. In the next section, we show how $F_1$ is formulated into a surrogate loss $\mathcal{L}_{\widetilde{\mathit{F1}}}$.
+That loss function is a surrogate of the F1 score, the harmonic mean of precision and recall (formal definition below). It implicitly deals with label counts and label predictions by including confusion matrix count data. It also balances precision and recall. In the next section, we show how $F_1$ is formulated into a surrogate loss $\mathcal{L}_{\widetilde{\mathit{F1}}}$.
 
 
 
