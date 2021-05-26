@@ -22,10 +22,10 @@ To address multilabel problems, we propose the \emph{sigmoidF1} loss, as part of
 More generally, our smooth formulation of confusion matrix metrics allows us to optimize directly for these metrics that are usually reserved for the evaluation phase.
 
 \paragraph{Limitations}
-We evaluate the CoMMaL framework and \emph{sigmoidF1} loss function only on FIMPUL problems. It may be worth considering the effectiveness of the CoMMaL framework in different domains. \gab{Maybe leave out the next sentence} More experimentation is also needed to find a proper heuristic for finetuning the hyperparameters of the \emph{sigmoidF1} loss. The proposed \emph{unboundedF1} counterpart does not require tuning and delivered better results than existing multiclass losses on most metrics; it can act as a mathematically less robust approximation of \emph{sigmoidF1}.
+More experimentation is needed to find a proper heuristic for finetuning the hyperparameters of the \emph{sigmoidF1} loss. The proposed \emph{unboundedF1} counterpart does not require tuning and delivered better results than existing multiclass losses on most metrics; it can act as a mathematically less robust approximation of \emph{sigmoidF1}.
 
 \paragraph{Future work}
-In future work, we want to test the limits of CoMMaL and the \emph{sigmoidF1} loss both within and beyond the FIMPUL setting.
+In future work, we want to test the limits of \emph{sigmoidF1} loss both within and beyond our generic multilabel setting.
 %But first, if provided enough computing power, one could perform the same experiments with micro losses: given enough representatives of each confusion matrix quadrant for each class, one could consider formulating a micro F1 as a loss.
 %The case where the number of classes is small, the dataset is sizeable and enough memory is available (especially with the recent advances in model parallelism) would be favorable to that end.
 %
@@ -36,13 +36,10 @@ In future work, we want to test the limits of CoMMaL and the \emph{sigmoidF1} lo
 % SOTA transfer learning
 % train from scratch
 
+A first step within the multilabel setting, could be to use more robust transfer learning / finetuning procedures, for example with dynamic weight freezing for finetuning~\cite{ULMFit}. Alternatively, we would like to implement the smooth losses to train a CNN or a BERT model for multilabel tasks from scratch (c.f., \cite{tencent} and \cite{focalLoss}). If training from scratch, it might then be interesting to combine the proposed loss functions with representation learning \cite{unsupervisedImage,highResRepresentation} or self-supervised learning, in order to model abstract relationships between the labels.
 
-\emph{multi-instance} learning~\citep[e.g.,][]{multiInstance,multiInstanceMultiLabel}, for which it is considered natural to first segment an image, text or sound before performing prediction on each of the segments
-
-A first step within the FIMPUL setting, could be to use more robust transfer learning / finetuning procedures, for example with dynamic weight freezing for finetuning~\cite{ULMFit}. Alternatively, we would like to implement the smooth losses to train a CNN or a BERT model for FIMPUL tasks from scratch (c.f., \cite{tencent} and \cite{focalLoss}). If training from scratch, it might then be interesting to combine the proposed loss functions with representation learning \cite{unsupervisedImage,highResRepresentation} or self-supervised learning, in order to model abstract relationships between the labels.
-
-Furthermore, we propose to tackle other multilabel settings, such as hierarchical multilabel classification \cite{HARAM}, active learning \cite{activeLearningMultiLabel}, or extreme multilabel prediction \cite{extremeMultilabelText, extremeSIGIR, extremeClassification, millionsOfLabels, extremeDiSMEC, extremePPDsparse, extremeParabel} (with missing labels~\cite{exteremeMissing, exteremeMissingApplications}), where the number of classes ranges in the tens of thousands. \gab{move this sentence to the background?} More generally, the \emph{sigmoidF1} loss could be tested on any model that uses F1 score as an evaluation metric such as AC-SUM-GAN \cite{AC-SUM-GAN}.
-Recently emerging \textit{holistic} content labeling tasks might be another promising testing ground for CoMMaL and \emph{sigmoidF1}. Holistic labeling refers to labels given to an entire content (full-instance) at different levels of abstraction. A dataset was recently released for \emph{Large Scale Holistic Video Understanding}~\cite{holisticVideoData}.\footnote{Available at \url{https://github.com/holistic-video-understanding/HVU-Dataset}}
+Furthermore, we propose to tackle other multilabel settings, such as hierarchical multilabel classification \cite{HARAM}, active learning \cite{activeLearningMultiLabel}, \emph{multi-instance} learning~\citep[e.g.,][]{multiInstance,multiInstanceMultiLabel} (for which it is considered natural to first segment an image, text or sound before performing prediction on each of the segments), or extreme multilabel prediction \cite{extremeMultilabelText, extremeSIGIR, extremeClassification, millionsOfLabels, extremeDiSMEC, extremePPDsparse, extremeParabel} (with missing labels~\cite{exteremeMissing, exteremeMissingApplications}), where the number of classes ranges in the tens of thousands. More generally, the \emph{sigmoidF1} loss could be tested on any model that uses F1 score as an evaluation metric such as AC-SUM-GAN \cite{AC-SUM-GAN}.
+Recently emerging \textit{holistic} content labeling tasks might be another promising testing ground for \emph{sigmoidF1}. Holistic labeling refers to labels given to an entire document at different levels of abstraction. A dataset was recently released for \emph{Large Scale Holistic Video Understanding}~\cite{holisticVideoData}.\footnote{Available at \url{https://github.com/holistic-video-understanding/HVU-Dataset}}
 \if0
 \vspace{\baselineskip}
 
