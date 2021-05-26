@@ -6,12 +6,12 @@
 
 In this section, we introduce our approach for multilabel problems, with a Confusion Matrix Metric as a loss. In evaluation of multilabel or multiclass problems, confusion matrix metrics are a common choice, because they implicitly deal with label count. In our framework, we leverage a smoothed version of the confusion matrix that can be used to directly optimize as a loss function (the original confusion matrix metrics rely on step functions and are therefore intractable). Before we discuss smoothing the confusion matrix metrics, we first briefly recap our learning setting and define the confusion matrix metrics in this setting more formally.
 
-\begin{figure*}[htbp]
+\begin{figure}[tbp]
 \centering
-\includegraphics[width=.95\linewidth]{./images/sigmoid.png}
+\includegraphics[width=\linewidth]{./images/sigmoid.png}
 \caption{\label{fig:sigmoid}
-Different thresholding regimes: the non-decomposable step function, the unbounded linear function and the sigmoid function at different parametrizations}
-\end{figure*}
+Different thresholding regimes: the non-decomposable step function, the unbounded linear function and the sigmoid function at different parametrizations}\todo{Redraw for single column.}
+\end{figure}
 \label{fig:sigmoid}
 
 % For the same class of learning algorithms defined in the previous section \(\mathcal{F}(\cdot ; \Theta): \mathcal{X} \rightarrow \mathcal{Y}\), we consider a particular case, where \(\mathbf{x} = \{x_1, \ldots, x_n\}\) and each observation is assigned $k$ labels (one or more) \(\mathbf{l} = \{l_1, \ldots, l_C\}\) out of a set of classes $C$. \(y_{i}^{j}\) are binary variables, indicating presence of a label for each observation \(i\) and class \(j\).

@@ -33,6 +33,7 @@ In practice, statistical models do output probabilities $\mathbf{\hat{y}}_{i}$ v
 
 The estimator $f \in \mathcal{F}$ is any minimizer of the risk $R_{ML}$. Predicting multiple labels per example comes with the assumption that labels are non-mutually exclusive.
 
+\vspace{-.5\baselineskip}
 \begin{proposition}
   The multilabel estimator of $y_{i}^{j}$ is dependent on the input and other labels for that example,
 %
@@ -41,8 +42,9 @@ The estimator $f \in \mathcal{F}$ is any minimizer of the risk $R_{ML}$. Predict
 \end{equation}
 \label{eq:estimator}
 \end{proposition}
+\vspace{-1.5\baselineskip}
 %
- By proposing this general formulation, we entrench that characteristic in the estimator. Contrary to \citet{multilabelReduction}, we propose an estimator that models interdependence between labels and deals with thresholding for the estimate at training time for free (see next section).
+ By proposing this general formulation, we entrench that characteristic in the estimator. Contrary to \citet{multilabelReduction}, we propose an estimator that models interdependence between labels and deals with thresholding for the estimate at training time for free.
 
 
 \subsection{Estimate: approximation via a loss function}
@@ -71,13 +73,9 @@ The loss function set here is
 %
 with $\mathcal{L}_{MC} : C \times \mathbb{R}^{C} \rightarrow \mathbb{R}_{+}$, a multiclass loss (e.g. softmax cross-entropy). In this formulation, each example $(x_i, \mathbf{y}_i)$ is converted to a multiclass framework, with one observation per positive label. The sum of inherently multiclass losses is used to represent the multilabel estimand. Note that cross-entropy loss can be formulated as \(\mathcal{L}_{\text {CE}}=-\sum \log \left(f \right)\).
 
-\subsubsection*{Pick-one-label (POL)}
-\daan{drop POL?}
-For this reduction, given an example $(x,y)$, a single random positive label is chosen as the true label of $x$
-
 \vspace{\baselineskip}
 
-Note that OVA and PAL have each a form normalised by the number of positive labels~\cite{multilabelReduction}.
+Note that OVA and PAL have each a form normalised by the number of positive labels~\cite{multilabelReduction}. \daan{loose sentence}
 
 Multilabel reduction methods are characterized by their way of reformulating the estimand, the resulting estimator and the estimate. In particular, this allows the use of existing losses: logistic loss (for binary classification formulations), sigmoid loss or softmax cross-entropy loss (for multiclass formulations). These reductions imply a reformulation of the estimator (a.k.a. Bayes Optimal) as follows:
 %
@@ -149,7 +147,7 @@ F_1=2 \cdot \frac{\text { precision } \cdot \text { recall }}{\text { precision 
 \end{equation}
 %
 We propose a generic loss which does not require hard thresholding decisions, , 
-
+\todo{Missing stuff here!}
 In a number of retrieval tasks, a model's out of sample accuracy is measured
 on metrics such as AUROC, F1 score, etc. These reflect an objective catered
 towards evaluating the model over an entire ranking. Due to the lack of
@@ -172,6 +170,7 @@ sensitivity~\cite{decisionThreshold}. We propose an approach where this threshol
 is implicitly defined, by using a loss function that penalizes explicitly for wrong label counts.
 
 \cite{multiclassToBinary1}
+\todo{Cite something here.}
 
 
 % \begin{figure}[t]
