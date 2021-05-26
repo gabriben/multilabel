@@ -50,7 +50,7 @@ The estimator $f \in \mathcal{F}$ is any minimizer of the risk $R_{ML}$. Predict
 \subsection{Estimate: approximation via a loss function}
 \label{section:background:estimate}
 
-Most of the literature found on multilabel classification can be characterized as multilabel reductions~\cite{multilabelReduction}. Given the general non-convex optimization context, the surrogate loss function $\mathcal{L}(\mathbf{y}_i, f)$ can take different forms. 
+Most of the literature found on multilabel classification can be characterized as multilabel reductions~\cite{multilabelReduction}. Given the general non-convex optimization context, the surrogate loss function $\mathcal{L}(\mathbf{y}_i, f)$ can take different forms\footnote{Note that OVA and PAL have each a form normalised by the number of positive labels~\cite{multilabelReduction}. We leave out pick-one-label, as it is further removed from our discussion.}. 
 
 \subsubsection*{One-versus-all (OVA)}
 OVA consists of a reformulation of the multilabel classification task to a sequence of $C$ binary classifications ($f^1, \ldots, f^C$), with $C$ the number of classes:
@@ -75,8 +75,6 @@ with $\mathcal{L}_{MC} : C \times \mathbb{R}^{C} \rightarrow \mathbb{R}_{+}$, a 
 
 \vspace{\baselineskip}
 
-Note that OVA and PAL have each a form normalised by the number of positive labels~\cite{multilabelReduction}. \daan{loose sentence}
-
 Multilabel reduction methods are characterized by their way of reformulating the estimand, the resulting estimator and the estimate. In particular, this allows the use of existing losses: logistic loss (for binary classification formulations), sigmoid loss or softmax cross-entropy loss (for multiclass formulations). These reductions imply a reformulation of the estimator (a.k.a. Bayes Optimal) as follows:
 %
 \begin{equation}
@@ -95,30 +93,15 @@ Note that for many real world problems and datasets reducing the problem to top-
 \subsection{Metrics: evaluation at inference time}
 \label{section:background:metrics}
 
-There is a consensus around the use of confusion matrix metrics (CMM) to evaluate multilabel classification models (at inference time) \gab{sources here}. Notably Precision and Recall. CMMs come with caveats: most of these measures 
+There is a consensus around the use of confusion matrix  and ranking metrics to evaluate multilabel classification models (at inference time)~\cite{multilabelMetrics, weightedMetrics, unifiedView}. Notably Precision and Recall. CMMs come with caveats: most of these measures 
 \begin{enumerate*}
 \item require a hard thresholding, and that makes them non-differentiable for Stochastic Gadiant Descent, 
 \item they are very sensitive to the choice of the number top labels to include $k$\footnote{In the case of unilabel prediction, top-k becomes a top-1 problem, which essentially eliminates caveats I and II.} and 
 \item they require aggregation choices to be made in terms of micro / macro / weighted metrics.
 \end{enumerate*}
-Some common CMMs are Precision, Recall, F1-score, hinge-loss or one-error-loss. Numerous others can be found on the confusion matrix Wikipedia page.
-\mdr{Wikipedia is not a credible source of formal definitions in a CS paper.}
+Some common confusion matrix metrics are Precision, Recall, F1-score, hinge-loss or one-error-loss. Numerous others can be formulated~\cite{unifiedView}.
 
-\textbf{consistency}
-
-Similarly to \citet{multilabelReduction} and in the lineage of~\citep{consistency-surrogates, consistency-multiclassSVM, consistency-lossAnalysis}, we can define consistency as
-%
-\begin{equation}
-\operatorname{reg}\left(f ; \mathcal{L}_{\mathrm{ML}}\right) \rightarrow 0 \Longrightarrow \operatorname{reg}\left(f ; \mathcal{L}\right) \rightarrow 0
-\end{equation}
-%
-with $reg(f)$ the regret of an estimator with respect to its loss $l_{MC}$ is $\operatorname{reg}\left(f ; \mathcal{L}_{\mathrm{ML}}\right) = R_{\mathrm{ML}}(f)-\inf _{g: x \rightarrow \mathbb{R}^{L}} R_{\mathrm{ML}}(g)$
-
-a loss is defined as consistent if it approximates the original metric.
-
-\citet{multilabelReduction} show that OVA, PAL, POL and their normalized counterparts are consistent with either precision or recall. 
-
-Note that loss functions, such as sigmoid loss or softmax cross-entropy loss are already suited to the multiclass purpose. The softmax cross-entropy and other losses have been shown to be consistent \cite{consistency-multiclassSVM, consistency-lossAnalysis, consistency-surrogates}.
+% \citet{multilabelReduction} show that OVA, PAL, POL and their normalized counterparts are consistent~\citep{consistency-surrogates, consistency-multiclassSVM, consistency-lossAnalysis} with either precision or recall. A loss is defined as consistent if it approximates the original metric.
 
 
 
@@ -140,7 +123,9 @@ With F1 score the harmonic mean of precision and recall:
 F_1=2 \cdot \frac{\text { precision } \cdot \text { recall }}{\text { precision }+\text { recall }}
 \end{equation}
 %
-\mdr{What is: }This is our contribution. Similar to lambdaLoss and others... It implicitly deals with label counts and label predictions. It is also consistent and balances precision and recall \gab{TODO: show that}
+\mdr{What is: }This is our contribution. Similar to lambdaLoss and others... It implicitly deals with label counts and label predictions. It also balances precision and recall
+
+\gab{TODO: show that}
 %
 \begin{equation}
 \operatorname{reg}\left(f ; \mathcal{L}_{\mathrm{F_1}}\right) \rightarrow 0 \Longrightarrow \operatorname{reg}\left(f ; \mathrm{F_1}\right) \rightarrow 0
@@ -152,10 +137,7 @@ In a number of retrieval tasks, a model's out of sample accuracy is measured
 on metrics such as AUROC, F1 score, etc. These reflect an objective catered
 towards evaluating the model over an entire ranking. Due to the lack of
 differentiability, these metrics cannot be directly used as loss functions at
-training time (in-sample). A seminal study~\cite{optimizableLosses} derived a
-general framework for deriving decomposable surrogates to some of these
-metrics. We propose our own decomposable surrogates tailored for the problem
-at hand.
+training time (in-sample). A seminal study~\cite{optimizableLosses} derived a general framework for deriving decomposable surrogates to some of these metrics. We propose our own decomposable surrogates tailored for the problem at hand.
 
 In a typical machine learning classification tasks, binary labels are compared to a probabilistic measure (or a reversible
 transformation of a probabilistic measure such as a sigmoid or a softmax
@@ -166,11 +148,7 @@ labels per example is not known a priori, the question remains at both training 
 as to how to decide on the number of labels to assign to each
 example. This is generally done via a \emph{decision threshold}, that can be set globally for all
 examples. This threshold can optimize for specificity or
-sensitivity~\cite{decisionThreshold}. We propose an approach where this threshold
-is implicitly defined, by using a loss function that penalizes explicitly for wrong label counts.
-
-\cite{multiclassToBinary1}
-\todo{Cite something here.}
+sensitivity~\cite{decisionThreshold}. We propose an approach where this threshold is implicitly defined, by using a loss function that penalizes explicitly for wrong label counts.
 
 
 % \begin{figure}[t]
