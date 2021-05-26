@@ -5,11 +5,11 @@
 
 
 Many real-world classification problems are challenging because of unclear (or overlapping) class-boundaries, subjectivity issues, and disagreement between annotators.
-For example, the movie \textit{Tenet} generated not just debates about its content, but also about which movie genre it belongs to. IMDB simultaneously categorizes it as \textit{action}, \textit{sci-fi}, and \textit{thriller}.\footnote{See \url{https://www.imdb.com/title/tt6723592/}.}
+For example, the movie \textit{Tenet} generated not just debates about its content, but also about which movie genre it belongs to. IMDB simultaneously categorizes it as \textit{action}, \textit{sci-fi}, and \textit{thriller}.\footnote{\url{https://www.imdb.com/title/tt6723592/}.}
 As a second example, a seminal machine learning paper that proposes to train with bigger batch sizes~\citep{bigBSArxiv} is categorized on \textit{arXiv} as \textit{Machine Learning (cs.LG)},
 \textit{Computer Vision and Pattern Recognition (cs.CV)}, \textit{Distributed,
 Parallel, and Cluster Computing (cs.DC)}, and \textit{Machine Learning
-(stat.ML)}.\footnote{See \url{https://arxiv.org/abs/1711.00489}.}
+(stat.ML)}.\footnote{\url{https://arxiv.org/abs/1711.00489}.}
 These two examples are representative of a large class of multilabel classification problems.
 %
 \begin{comment}
@@ -29,10 +29,10 @@ In \ac{IR}, multilabel learning tasks are very common, e.g., document and text c
 As we show in our experiments and the related work discussed below, multilabel learning tasks are very common in \ac{IR}. Document and text classification are often a \todo{FIMPUL} task and have historically focused a lot of attention in \ac{IR}~\cite{IRClassStat, textCategorization, statTextCategorization, documentClassification}. Other \ac{IR} related examples are query classification~\cite{queryClassification, introIR}, image classification~\cite{imageClassification, faceDetection} and most recently the \textit{multimodal product classification and retrieval challenge} at SIGIR 2020~\cite{Amoualian2020SIGIR2E}. 
 \fi
 
-\paragraph{Previous solutions to multilabel tasks}
+%\paragraph{Previous solutions to multilabel tasks}
 To solve multilabel learning tasks, existing optimization frameworks are typically based on variations of the cross-entropy, logistic, or sigmoid loss. \citeauthor{multilabelReduction} define these as \emph{multilabel reduction} techniques, with an emphasis on two: One-Versus-All (OVA) and Pick-All-Labels (PAL)~\cite{multilabelReduction}. OVA and PAL reformulate the multilabel problem respectively to $C$ binary classification and $C$ multiclass classification problems, with $C$ the number of possible classes for labels (see \todo{section} for more details). These methods come with the assumption that marginal probabilities of the suitability of a label for an example (a.k.a. Bayes Optimal Classifier \todo{cite}) are independent of other label propensities. Consequently, there is a gap between the approximated quantity and the real multilabel evaluation task. The other shortcoming shared by OVA and PAL is the lack of a holistic approach for both label count and label prediction.
 
-Within the multilabel reduction framework, the particular settings of extreme multilabel classification is studied intensely. That setting with tens of thousands~\cite{extremeClassification} or even millions~\cite{millionsOfLabels, extremeMilliionsSlice} of labels requires specific solutions, such as label embeddings~\cite{extremeMultilabelEmbeddings} or negative mining~\cite{stochasticNegativeMining}. Another prolific subfield of multilabel reduction, hierarchical labeling, allows one to constrain the algorithm to learn only 1 or $K$ labels per group in the hierarchy. For example, DBPedia~\citep{lehmann2015dbpedia} establishes a hierarchical structure in Wikipedia infoboxes and is commonly used to finetune state-of-the-art NLP models~\citep[see, e.g.,][]{XLNet, ULMFit}. 
+Within the multilabel reduction framework, the particular settings of extreme multilabel classification is studied intensely. With thousands~\cite{extremeClassification} or even millions~\cite{millionsOfLabels, extremeMilliionsSlice} of labels specific solutions are required, such as label embeddings~\cite{extremeMultilabelEmbeddings} or negative mining~\cite{stochasticNegativeMining}. Another prolific subfield of multilabel reduction, hierarchical labeling, allows one to constrain the algorithm to learn only 1 or $K$ labels per group in the hierarchy. For example, DBPedia~\citep{lehmann2015dbpedia} establishes a hierarchical structure in Wikipedia infoboxes and is commonly used to finetune state-of-the-art NLP models~\citep[see, e.g.,][]{XLNet, ULMFit}. 
 
 Parallel to the multilabel reduction approaches, recent advances in dealing with sparse class representation for multiclass classification~\citep{focalLoss,tencent}, seem promising for the multilabel setting. Also recently, a multi-task approach to predicting both label propensity and the number of labels was proposed to solve the multilabel prediction setting~\cite{multitaskLabel}.
 
@@ -61,7 +61,8 @@ Our formulation encompasses different levels of complexity, from the classical c
 \emph{sigmoidF1} allows for the use of the F1 metric that simultaneously optimizes for label prediction and label counts in a single task.
 \emph{sigmoidF1} is benchmarked against loss functions commonly used in multilabel learning and other existing multilabel models. We show that our custom losses improve predictions over the current state-of-the-art on several different metrics, across text and image classification tasks.
 
-\paragraph{The remainder of the paper}
+%\paragraph{The remainder of the paper}
+\vspace{0.5\baselineskip}
 The remainder of this paper is structured as follows. First, we introduce background material and cover related work. We then introduce our method and define a class of smooth loss functions for multilabel problems. Next, we detail our experimental setup and describe the datasets used in our experiments. After presenting the experimental results in the next section, we conclude the paper with conclusions and suggestions for future work.
 
 
