@@ -13,12 +13,9 @@
 
 
 \paragraph{Results}
-In this paper, we framed a new problem that we call Full-Instance, Multilabel Prediction for Unknown Label count (FIMPUL). FIMPUL is a specific type of multiclass classification problem in which 1) labels are not mutually exclusive, 2) instances need to be consumed in its entirety to be labelled,
-and 3) the number of labels to assign at inference time unknown.
-% Advances in deep learning research facilitate more abstract representations of the input space for multiple modalities, these can be used to effectively solve downstream tasks (e.g., with models of the BERT and CNN model families) that relate to FIMPUL problems.
-To solve multilabel learning tasks, existing optimization frameworks are typically based on variations of the cross-entropy loss.
 
-To address multilabel problems, we propose the \emph{sigmoidF1} loss, as part of a general loss framework for confusion matrix metrics. We find that the \emph{sigmoidF1} loss can achieve significantly better results for most metrics on four diverse datasets and that the \emph{sigmoidF1} loss outperforms other losses on the weightedF1 metric.
+% Advances in deep learning research facilitate more abstract representations of the input space for multiple modalities, these can be used to effectively solve downstream tasks (e.g., with models of the BERT and CNN model families) that relate to FIMPUL problems.
+To solve multilabel learning tasks, existing optimization frameworks are typically based on variations of the cross-entropy loss. Instead, we propose the \emph{sigmoidF1} loss, as part of a general loss framework for confusion matrix metrics. We find that the \emph{sigmoidF1} loss can achieve significantly better results for most metrics on four diverse datasets and that the \emph{sigmoidF1} loss outperforms other losses on the weightedF1 metric.
 More generally, our smooth formulation of confusion matrix metrics allows us to optimize directly for these metrics that are usually reserved for the evaluation phase.
 
 \paragraph{Limitations}

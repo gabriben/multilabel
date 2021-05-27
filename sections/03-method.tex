@@ -24,7 +24,7 @@ Different thresholding regimes: the non-decomposable step function, the unbounde
 % \mathbf{p}_{i}=\left\{\begin{array}{ll}\hat{\mathbf{y}} & \text { if } y=1 \\ 1-\hat{\mathbf{y}} & \text { otherwise }\end{array}\right.
 % \end{equation}
 
-We use the binary classification setting (two classes) as it simplifies the notation and prevents further use of subscripts or matrix operations, without loss of generalization to the multiclass case.
+We use the binary classification setting (two classes) as it simplifies the notation and prevents further use of subscripts or matrix operations, without loss of generalization to the multilabel case.
 In a typical binary classification problem with the label vector $\mathbf{y} = \{y_1 , \ldots, y_n\}$, predictions are probabilistic and it is necessary to define a threshold \(t\), at which a prediction is dichotomized. With \(\mathds{1}\) as an indicator function, \(Y^+ = \sum \mathds{1}_{\hat{\mathbf{y}} \geq t}\), \(Y^- = \sum \mathds{1}_{\hat{\mathbf{y}} < t}\) are thus the count of positive and negative predictions at threshold \(t\). Let \(tp\), \(fp\), \(fn\), \(tn\) be number of true positives, false positives, false negatives and true negatives respectively:
 %
 \begin{equation}
@@ -37,7 +37,7 @@ In a typical binary classification problem with the label vector $\mathbf{y} = \
 with \(\odot\) the component-wise multiplication sign.
 
 
-For simplicity, in the formulation above and the ones that follow scores are calculated for a single class, therefore the sum is implicitly over all examples \(\sum_i\). This is useful for the binary classification problem but also for the multilabel problem, when micro metrics are calculated (i.e. metric for each class which is then averaged over all classes, see end of this section, where we further refine the micro and macro concepts). In the multilabel setting $\mathbf{y}$ can be substituted by $\mathbf{y}^j$ for each class $j$. Note that vectors could be trivially substituted by matrices ($Y$) in the following expressions to obtain the macro formulation.
+For simplicity, in the formulation above and the ones that follow scores are calculated for a single class, therefore the sum is implicitly over all examples \(\sum_i\). This is useful for the binary classification problem but also for the multilabel problem, when micro metrics are calculated (i.e. metric for each class which is then averaged over all classes, we later further refine the micro and macro concepts). In the multilabel setting $\mathbf{y}$ can be substituted by $\mathbf{y}^j$ for each class $j$. Note that vectors could be trivially substituted by matrices ($Y$) in the following expressions to obtain the macro formulation.
 
 
 % In the multilabel setting $\mathbf{y}$ can be substituted by $\mathbf{y}^j$ for each class $j$. Note that vectors could be trivially substituted by matrices ($Y$) in the following expressions to obtain the macro formulation.
@@ -135,7 +135,7 @@ These smooth confusion matrix entries allow to build any related metric (see Tab
 \end{tabular}%
 \end{table*}
 
-In this paper we focus on sigmoidF1 ($\mathcal{L}_{\widetilde{\mathit{F1}}}$) because it has the ability to implicitly penalize for both inacurate label propensity and label count.
+In this paper we focus on \emph{sigmoidF1} ($\mathcal{L}_{\widetilde{\mathit{F1}}}$) because it has the ability to implicitly penalize for both inacurate label propensity and label count.
 
 
 \subsection{Smooth macro F1 scores}
@@ -148,6 +148,7 @@ Following Equation \ref{eq:unbounded}, it is possible to define an \emph{unbound
 \begin{equation}
 \mathcal{L}_{\overline{\mathit{F1}}}= \frac{\overline{tp}}{2 \overline{tp}+ \overline{fn}+ \overline{fp}}
 \end{equation}
+\label{eq:unboundedF1}
 %
 While this alternative abstracts the thresholding away, which is convenient for fine-tuning purposes, it does not fulfil the desirable properties of a dichotomization threshold surrogate. For more on that see Section~\ref{subsec:unbounded}.
 

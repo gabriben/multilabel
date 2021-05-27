@@ -14,7 +14,7 @@ We distinguish between two scenarios: the \emph{multiclass} and the \emph{multil
 In the multiclass scenario, a single example is attributed one class label (e.g., classification of an animal on a picture). 
 In the multilabel scenario, a single example can be assigned more than one class label (e.g., movie genres). 
 %Multiclass classification deserves a mention towards the end, as it illustrates a straightforward relationship between estimand-estimator-estimate. 
-We focus on the multilabel scenario. More formally, for a particular input $\mathbf{x}$ (e.g. paper abstracts) and output $Y$ (e.g. scientific field(s) ) its risk formulation can be written as in ~\citep{multilabelReduction}:
+We focus on the multilabel scenario. More formally, for a particular set of input $\mathbf{x}$ (e.g. paper abstracts) and output $Y$ (e.g. scientific field(s) ) its risk formulation can be written as in ~\citep{multilabelReduction}:
 %
 \begin{equation}
 R_{\mathrm{ML}}(\mathcal{F}) = \mathbb{E}_{(\mathbf{x}, Y)}\left[\mathcal{L}_{\mathrm{ML}}(Y, \mathcal{F}(\mathbf{x}))\right].
@@ -26,7 +26,7 @@ We define $\mathcal{F}$ as the estimand: the theoretical statistic. For one item
 For example, corn ($x_{corn}$) is eaten by a finite number of animals that can digest it ($\mathbf{y}_{corn} = {y_{corn}^{horse}, \ldots, y_{corn}^{sheep}} $), assuming animals belong to a finite set of living beings. If one were to predict which food is eaten by which animals, the theoretical risk (estimand) defines how close we can get to that deterministic vector $\mathbf{y}_{corn}$, given $x_{corn}$.
 \fi
 
-In practice, statistical models do output probabilities $\mathbf{\hat{y}}_{i}$ via an estimator and its estimate (also called propensities or suitabilities~\citep{multilabelReduction}). The solution to that stochastic-deterministic incompatibility is either to convert the estimator to a deterministic measure via decision thresholds (e.g. traditional cross-entropy loss), or to reformulate the estimand as a stochastic measure (our sigmoidF1 loss proposal). \daan{So we also reformulate the problem? I think this explanation is clear, so just to be sure of the storyline.}
+In practice, statistical models do output probabilities $\mathbf{\hat{y}}_{i}$ via an estimator and its estimate (also called propensities or suitabilities~\citep{multilabelReduction}). The solution to that stochastic-deterministic incompatibility is either to convert the estimator to a deterministic measure via decision thresholds (e.g. traditional cross-entropy loss), or to treat the estimand as a stochastic measure (our sigmoidF1 loss proposal).
 
 \subsection{Estimator: the functional form}
 \label{section:background:estimator}
@@ -84,7 +84,7 @@ Multilabel reduction methods are characterized by their way of reformulating the
 %
 Contrary to our definition of the original multilabel estimator (Eq.~\ref{eq:estimator}), independence of label propensities is assumed. In other words the loss function becomes any monotone transformation of the marginal label probabilities $P(y_i^j = 1 | x)$ ~\cite{OVA2, multilabelMetrics, unifiedView}.
 
-\citet{multilabelReduction} show that OVA, PAL and their normalized counterparts are consistent~\citep{consistency-surrogates, consistency-multiclassSVM, consistency-lossAnalysis} with either precision or recall. A learning algorithm is defined as consistent if the expected risk given $f$ and $\mathcal{L}$ approximates the original estimator (Bayes risk), as the input sample size grows~\cite{consistencyMultilabel}.
+% \citet{multilabelReduction} show that OVA, PAL and their normalized counterparts are consistent~\citep{consistency-surrogates, consistency-multiclassSVM, consistency-lossAnalysis} with either precision or recall. A learning algorithm is defined as consistent if the expected risk given $f$ and $\mathcal{L}$ approximates the original estimator (Bayes risk), as the input sample size grows~\cite{consistencyMultilabel}.
 
 \subsection{Metrics: evaluation at inference time}
 \label{section:background:metrics}
@@ -102,9 +102,9 @@ Some common confusion matrix metrics are Precision, Recall, F1-score, hinge-loss
 \label{section:background:metricsAsLosses}
 
 
-In a number of retrieval tasks, a model's out of sample accuracy is measured on metrics such as AUROC, F1 score, etc. These reflect an objective catered towards evaluating the model over an entire ranking. Due to the lack of differentiability, these metrics cannot be directly used as loss functions at training time (in-sample). A seminal study~\cite{optimizableLosses} derived a general framework for deriving decomposable surrogates to some of these metrics. We propose our own decomposable surrogates tailored for the problem at hand.
+In a number of retrieval tasks, a model's out of sample accuracy is measured on metrics such as AUROC, F1 score, etc. These reflect an objective catered towards evaluating the model over an entire ranking. Due to the lack of differentiability, these metrics cannot be directly used as loss functions at training time (in-sample). A seminal Study~\cite{optimizableLosses} derived a general framework for deriving decomposable surrogates to some of these metrics. We propose our own decomposable surrogates tailored for the problem at hand.
 
-In a typical machine learning classification tasks, binary labels are compared to a probabilistic measure (or a reversible
+In a typical machine learning classification task, binary labels are compared to a probabilistic measure (or a reversible
 transformation of a probabilistic measure such as a sigmoid or a softmax
 function). If the number $n_i$ of labels to be predicted per
 example is known a priori, it is natural at training time to assign the $top_{n_i}$ predictions
