@@ -22,7 +22,7 @@ These two examples are representative of a large class of multilabel classificat
 \end{comment}
 %
 %\paragraph{Learning task}
-In \ac{IR}, multilabel learning tasks are very common, e.g., document and text classification often deal with multilabel and multiclass (a subfield of multilabel classification where only a single label is attributed to an example) problems~\cite{IRClassStat, textCategorization, statTextCategorization, documentClassification}, as do query classification~\cite{queryClassification, introIR}, image classification~\cite{imageClassification, faceDetection} and product classification~\cite{Amoualian2020SIGIR2E}. 
+In \ac{IR}, multilabel learning tasks are very common, e.g., document and text classification often deal with multilabel and multiclass (a subfield of multilabel classification where a single label is attributed to an example) problems~\cite{IRClassStat, textCategorization, statTextCategorization, documentClassification}, as do query classification~\cite{queryClassification, introIR}, image classification~\cite{imageClassification, faceDetection} and product classification~\cite{Amoualian2020SIGIR2E}. 
 
 
 \if0
@@ -36,7 +36,7 @@ Within the multilabel reduction framework, the particular settings of extreme mu
 
 Parallel to the multilabel reduction approaches, recent advances in dealing with sparse class representation for multiclass classification~\citep{focalLoss,tencent}, seem promising for the multilabel setting. Also recently, a multi-task approach to predicting both label propensity and the number of labels was proposed to solve the multilabel prediction setting~\cite{multitaskLabel}.
 
-The methods above either reformulate the problem (multilabel reduction) or deal with subfields\footnote{In most of this work, the term \emph{multilabel classification} excludes \emph{extreme}, \emph{hierarchical} or \emph{multiclass} subfields.} (extreme / hierarchical multilabel classification). While we found the multi-task approach tailored to multilabel problems, to the best of our knowledge, there is no generic loss function to deal with multilabel classification in a modern deep learning setting in a single task.
+The methods above either reformulate the problem (multilabel reduction) or deal with subfields\footnote{In most of this work, the term \emph{multilabel classification} excludes \emph{extreme}, \emph{hierarchical} or \emph{multiclass} subfields.} (extreme / hierarchical multilabel classification). While we found the multi-task approach~\cite{multitaskLabel} tailored to multilabel problems, to the best of our knowledge, there is no generic loss function to deal with multilabel classification in a modern deep learning setting in a single task.
 
 
 
@@ -58,7 +58,7 @@ We propose to ask the opposite question: what is the loss that optimizes for the
 \paragraph{Main contributions of the paper}
 We introduce \emph{sigmoidF1}, an F1 score surrogate, with a sigmoid function acting as a surrogate thresholding step function.
 \emph{sigmoidF1} allows for the use of the F1 metric that simultaneously optimizes for label prediction and label counts in a single task.
-\emph{sigmoidF1} is benchmarked against loss functions commonly used in multilabel learning and other existing multilabel models. We show that our custom losses improve predictions over the current state-of-the-art on several different metrics, across text and image classification tasks.
+\emph{sigmoidF1} is benchmarked against loss functions commonly used in multilabel learning and other existing multilabel models. We show that our custom losses improve predictions over current solutions on several different metrics, across text and image classification tasks.
 
 %\paragraph{The remainder of the paper}
 \vspace{0.5\baselineskip}

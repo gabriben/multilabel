@@ -3,9 +3,9 @@
 \section{Background}
 \label{section:background}
 
-To build up to our approach, we use a traditional statistical framework as a guideline for multilabel classificaton methods~\citep{tukey}. We distinguish the desired theoretical statistic (the \textbf{estimand}), its functional form (the \textbf{estimator}) and its approximation (the \textbf{estimate}); the latter estimates can be benchmarked with \textbf{metrics}. We show how multilabel reductions tend to reformulate the estimand and treat labels independently (i.e. change our assumptions about the data). However, with a proper estimator, it is possible to directly model the estimand. Our proposed loss function, \textbf{sigmoidF1}, accommodates for the true estimand.
+To build up to our approach, we use a traditional statistical framework as a guideline for multilabel classificaton methods~\citep{tukey}. We distinguish the desired theoretical statistic (the \textbf{estimand}), its functional form (the \textbf{estimator}) and its approximation (the \textbf{estimate}); the latter estimates can be benchmarked with \textbf{metrics}. We show how multilabel reductions tend to reformulate the estimand and treat labels independently (i.e. change our assumptions about the data). However, with a proper estimator, it is possible to directly model the estimand. Our proposed loss function, \emph{sigmoidF1}, accommodates for the true estimand.
 
-We define a learning algorithm $\mathcal{F}$ (i.e. a class of estimators) that maps inputs to outputs given a set of hyperparameters \(\mathcal{F}(\cdot ; \Theta): \mathcal{X} \rightarrow \mathcal{Y}\). We consider a particular case, with the input vector \(\mathbf{x} = \{x_1, \ldots, x_n\}\) and each observation is assigned $k$ labels (one or more) \(\mathbf{l} = \{l_1, \ldots, l_C\}\) out of a set of $C$ classes. \(y_{i}^{j}\) are binary variables, indicating presence of a label for each observation \(i\) and class \(j\). Together they form the matrix output $Y$.
+We define a learning algorithm $\mathcal{F}$ (i.e. a class of estimators) that maps inputs to outputs given a set of hyperparameters \(\mathcal{F}(\cdot ; \Theta): \mathcal{X} \rightarrow \mathcal{Y}\). We consider a particular case, with the input vector \(\mathbf{x} = \{x_1, \ldots, x_n\}\) and each observation is assigned $k$ labels (one or more) \(\mathbf{l} = \{l_1, \ldots, l_C\}\) out of a set of $C$ classes. \(y_{i}^{j}\) are binary variables, indicating presence of a label for each observation \(i\) and class \(j\). Together they form the matrix output $\mathbf{Y}$.
 
 \subsection{Estimand and definition of the risk}
 \label{section:background:estimand}
@@ -14,10 +14,10 @@ We distinguish between two scenarios: the \emph{multiclass} and the \emph{multil
 In the multiclass scenario, a single example is attributed one class label (e.g., classification of an animal on a picture). 
 In the multilabel scenario, a single example can be assigned more than one class label (e.g., movie genres). 
 %Multiclass classification deserves a mention towards the end, as it illustrates a straightforward relationship between estimand-estimator-estimate. 
-We focus on the multilabel scenario. More formally, for a particular set of input $\mathbf{x}$ (e.g. paper abstracts) and output $Y$ (e.g. scientific field(s) ) its risk formulation can be written as in ~\citep{multilabelReduction}:
+We focus on the multilabel scenario. More formally, for a particular set of input $\mathbf{x}$ (e.g. paper abstracts) and output $\mathbf{Y}$ (e.g. scientific field(s) ) its risk formulation can be written as in ~\citep{multilabelReduction}:
 %
 \begin{equation}
-R_{\mathrm{ML}}(\mathcal{F}) = \mathbb{E}_{(\mathbf{x}, Y)}\left[\mathcal{L}_{\mathrm{ML}}(Y, \mathcal{F}(\mathbf{x}))\right].
+R_{\mathrm{ML}}(\mathcal{F}) = \mathbb{E}_{(\mathbf{x}, \mathbf{Y})}\left[\mathcal{L}_{\mathrm{ML}}(\mathbf{Y}, \mathcal{F}(\mathbf{x}))\right].
 \end{equation}
 %
 We define $\mathcal{F}$ as the estimand: the theoretical statistic. For one item $x_i$, the theoretical risk defines how close the estimand can get to that deterministic output vector $\mathbf{y}_{i}$.
@@ -26,12 +26,7 @@ We define $\mathcal{F}$ as the estimand: the theoretical statistic. For one item
 For example, corn ($x_{corn}$) is eaten by a finite number of animals that can digest it ($\mathbf{y}_{corn} = {y_{corn}^{horse}, \ldots, y_{corn}^{sheep}} $), assuming animals belong to a finite set of living beings. If one were to predict which food is eaten by which animals, the theoretical risk (estimand) defines how close we can get to that deterministic vector $\mathbf{y}_{corn}$, given $x_{corn}$.
 \fi
 
-<<<<<<< HEAD
 In practice, statistical models do output probabilities $\mathbf{\hat{y}}_{i}$ via an estimator and its estimate (also called propensities or suitabilities~\citep{multilabelReduction}). The solution to that stochastic-deterministic incompatibility is either to convert the estimator to a deterministic measure via decision thresholds (e.g. traditional cross-entropy loss), or to treat the estimand as a stochastic measure (our sigmoidF1 loss proposal).
-=======
-In practice, statistical models do output probabilities $\mathbf{\hat{y}}_{i}$ via an estimator and its estimate (also called propensities or suitabilities~\citep{multilabelReduction}). The solution to that stochastic-deterministic incompatibility is either to convert the estimator to a deterministic measure via decision thresholds (e.g. traditional cross-entropy loss), or to reformulate the estimand as a stochastic measure (our sigmoidF1 loss proposal). 
-%\daan{So we also reformulate the problem? I think this explanation is clear, so just to be sure of the storyline.}
->>>>>>> e1a3e8f6671f1363dcd990577e4524b0d2e1f5f0
 
 \subsection{Estimator: the functional form}
 \label{section:background:estimator}
@@ -40,7 +35,7 @@ The estimator $f \in \mathcal{F}$ is any minimizer of the risk $R_{ML}$. Predict
 
 \vspace{-.5\baselineskip}
 \begin{proposition}
-  The multilabel estimator of $y_{i}^{j}$ is dependent on the input and other labels for that example,
+  The multilabel estimator of $y_{i}^{j}$ is dependent on the input and other groundtruth labels for that example,
 %
 \begin{equation}
   \hat{y}_i^j = f(x, y_{i}^{1}, \ldots, y_{i}^{j-1}) = P(y_i^j = 1 | x, y_{i}^{1}, \ldots, y_{i}^{j-1})
@@ -49,7 +44,7 @@ The estimator $f \in \mathcal{F}$ is any minimizer of the risk $R_{ML}$. Predict
 \end{proposition}
 \vspace{-1.5\baselineskip}
 %
- By proposing this general formulation, we entrench that characteristic in the estimator. Contrary to \citet{multilabelReduction}, we propose an estimator that models interdependence between labels and deals with thresholding for the estimate at training time for free.
+ By proposing this general formulation, we entrench that characteristic in the estimator. Contrary to \citet{multilabelReduction}, our proposal above models interdependence between labels and deals with thresholding for the estimate at training time for free.
 
 
 \subsection{Estimate: approximation via a loss function}
@@ -77,7 +72,7 @@ The loss function set here is
 \mathcal{L}_{\mathrm{PAL}}(\mathbf{y}_i, f) = \sum_{c = 1}^C y_{i}^c \cdot \mathcal{L}_{\mathrm{MC}}(y_i^c, f),
 \end{equation}
 %
-with $\mathcal{L}_{MC} : C \times \mathbb{R}^{C} \rightarrow \mathbb{R}_{+}$, a multiclass loss (e.g. softmax cross-entropy). In this formulation, each example $(x_i, \mathbf{y}_i)$ is converted to a multiclass framework, with one observation per positive label. The sum of inherently multiclass losses is used to represent the multilabel estimand. Note that cross-entropy loss can be formulated as \(\mathcal{L}_{\text {CE}}=-\sum \log \left(f \right)\).
+with $\mathcal{L}_{MC}$ a multiclass loss (e.g. softmax cross-entropy). In this formulation, each example $(x_i, \mathbf{y}_i)$ is converted to a multiclass framework, with one observation per positive label. The sum of inherently multiclass losses is used to represent the multilabel estimand. Note that cross-entropy loss can be formulated as \(\mathcal{L}_{\text {CE}}=-\sum \log \left(f \right)\).
 
 \vspace{\baselineskip}
 
@@ -97,7 +92,7 @@ Contrary to our definition of the original multilabel estimator (Eq.~\ref{eq:est
 There is a consensus around the use of confusion matrix  and ranking metrics to evaluate multilabel classification models (at inference time)~\cite{multilabelMetrics, weightedMetrics, unifiedView}. Notably Precision and Recall. Confusion matrix metrics come with caveats: most of these measures 
 \begin{enumerate*}
 \item require a hard thresholding, and that makes them non-differentiable for Stochastic Gadiant Descent, 
-\item they are very sensitive to the choice of the number top labels to include $k$\footnote{In the case of unilabel prediction, top-k becomes a top-1 problem, which essentially eliminates caveats I and II.} and 
+\item they are very sensitive to the choice of the number top labels to include $k$\footnote{In the case of unilabel prediction, top-k becomes a top-1 problem, which essentially eliminates caveats I and II.} ~\cite{decisionThreshold} and 
 \item they require aggregation choices to be made in terms of micro / macro / weighted metrics.
 \end{enumerate*}
 Some common confusion matrix metrics are Precision, Recall, F1-score, hinge-loss or one-error-loss. Numerous others can be formulated~\cite{unifiedView}.

@@ -27,7 +27,7 @@ Different thresholding regimes: the non-decomposable step function, the unbounde
 % \end{equation}
 
 We use the binary classification setting (two classes) as it simplifies the notation and prevents further use of subscripts or matrix operations, without loss of generalization to the multilabel case.
-In a typical binary classification problem with the label vector $\mathbf{y} = \{y_1 , \ldots, y_n\}$, predictions are probabilistic and it is necessary to define a threshold \(t\), at which a prediction is dichotomized. With \(\mathds{1}\) as an indicator function, \(Y^+ = \sum \mathds{1}_{\hat{\mathbf{y}} \geq t}\), \(Y^- = \sum \mathds{1}_{\hat{\mathbf{y}} < t}\) are thus the count of positive and negative predictions at threshold \(t\). Let \(tp\), \(fp\), \(fn\), \(tn\) be number of true positives, false positives, false negatives and true negatives respectively:
+In a typical binary classification problem with the label vector $\mathbf{y} = \{y_1 , \ldots, y_n\}$, predictions are probabilistic and it is necessary to define a threshold \(t\), at which a prediction is dichotomized. With \(\mathds{1}\) as an indicator function, \(\mathbf{y}^+ = \sum \mathds{1}_{\hat{\mathbf{y}} \geq t}\), \(\mathbf{y}^- = \sum \mathds{1}_{\hat{\mathbf{y}} < t}\) are thus the count of positive and negative predictions at threshold \(t\). Let \(tp\), \(fp\), \(fn\), \(tn\) be number of true positives, false positives, false negatives and true negatives respectively:
 %
 \begin{equation}
 \label{eq:conf}
@@ -39,7 +39,7 @@ In a typical binary classification problem with the label vector $\mathbf{y} = \
 with \(\odot\) the component-wise multiplication sign.
 
 
-For simplicity, in the formulation above and the ones that follow scores are calculated for a single class, therefore the sum is implicitly over all examples \(\sum_i\). This is useful for the binary classification problem but also for the multilabel problem, when micro metrics are calculated (i.e. metric for each class which is then averaged over all classes, we later further refine the micro and macro concepts). In the multilabel setting $\mathbf{y}$ can be substituted by $\mathbf{y}^j$ for each class $j$. Note that vectors could be trivially substituted by matrices ($Y$) in the following expressions to obtain the macro formulation.
+For simplicity, in the formulation above and the ones that follow scores are calculated for a single class, therefore the sum is implicitly over all examples \(\sum_i\). This is useful for the binary classification problem but also for the multilabel problem, when micro metrics are calculated (i.e. metric for each class which is then averaged over all classes, we later further refine the micro and macro concepts). In the multilabel setting $\mathbf{y}$ can be substituted by $\mathbf{y}^j$ for each class $j$. Note that vectors could be trivially substituted by matrices ($\mathbf{Y}$) in the following expressions to obtain the macro formulation.
 
 
 % In the multilabel setting $\mathbf{y}$ can be substituted by $\mathbf{y}^j$ for each class $j$. Note that vectors could be trivially substituted by matrices ($Y$) in the following expressions to obtain the macro formulation.
@@ -162,11 +162,11 @@ While this alternative abstracts the thresholding away, which is convenient for 
 %
 A similar method was proposed outside of the context of neural networks: the \emph{Maximum F1-score criterion} for automatic mispronunciation detection as an objective function to a Gaussian Mixture Model-hidden Markov model (GMM-HMM)\cite{sigmoid}.
 
-\emph{sigmoidF1} is particularly suited for the multilabel setting because it is a proper hard thresholding surrogate as defined in the previous sections and because it contains a significant amount of information about label prediction accuracy: $\widetilde{\mathit{tp}}$, $\widetilde{\mathit{fn}}$ and $\widetilde{\mathit{fp}}$ are indicative of the number of predicted labels in each category of the confusion matrix but also contain a notion of certainty, given that they are rational numbers. The built in sigmoid function ensures that certainty increases along training epochs, as outlined by proposition 2. Finally, as the harmonic mean of precision and recall (A property of F1 in general), it weighs in both relevance metrics.
+\emph{sigmoidF1} is particularly suited for the multilabel setting because it is a proper hard thresholding surrogate as defined in the previous sections and because it contains a significant amount of information about label prediction accuracy: $\widetilde{\mathit{tp}}$, $\widetilde{\mathit{fn}}$ and $\widetilde{\mathit{fp}}$ are indicative of the number of predicted labels in each category of the confusion matrix but also contain a notion of certainty, given that they are rational numbers. The built in sigmoid function ensures that certainty increases along training epochs, as outlined by proposition 2. Finally, as the harmonic mean of precision and recall (a property of F1 in general), it weighs in both relevance metrics.
 
 \vspace{\baselineskip}
 
-We end this section by writing down the focal loss~\cite{focalLoss}, as it deals specifically with class imbalance and is used as a baseline due to its popularity in the multiclass domain.
+We end this section by writing down the \emph{focalLoss}~\cite{focalLoss}, as it deals specifically with class imbalance and is used as a baseline due to its popularity in the multiclass domain.
 %
 \begin{equation}
   \mathcal{L}_{FL} = -\alpha^{\mathrm{j}}\left(1-\hat{y}^{\mathrm{j}}\right)^{\gamma} \log \left(\hat{y}^{\mathrm{j}}\right),

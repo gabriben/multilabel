@@ -3,21 +3,21 @@
 \section{Experimental Results}
 \label{sec:orgc23a664}
 
-We present classification results for sigmoidF1 on four different datasets, movie\-Posters, cancerHallmarks, chemicalExposure and arXiv2020 in Table~\ref{table:overallresults}.
+We present classification results for \textit{sigmoidF1} on four different datasets, movie\-Posters, cancerHallmarks, chemicalExposure and arXiv2020 in Table~\ref{table:overallresults}.
 
 \paragraph{Overall classification results}
 
-In general, we observe that the \emph{sigmoidF1} loss performs better on most metrics and across different datasets. In particular, \emph{sigmoidF1} always outperforms other losses on the metric on which focus (weightedF1) and its non-weighted counterpart (microF1).
+In general, we observe that the \emph{sigmoidF1} loss performs better on most metrics and across different datasets. In particular, \emph{sigmoidF1} always outperforms other losses on the metric of focus (weightedF1) and its non-weighted counterpart (microF1).
 On the moviePosters dataset (Table~\ref{tab:moviePosters}) and the arXiv2020 dataset (Table~\ref{tab:arxiv2020}), we observe higher scores for the \emph{sigmoidF1} loss on all but Precision.
 On the smaller chemicalExposure and cancerHallmarks datasets, the \emph{unboundedF1} loss delivers good results for macroF1 and Precision and the \emph{sigmoidF1} loss leads to higher scores on the remainder of the metrics.
 
-We observe that \emph{unboundedF1} scores higher than \emph{sigmoidF1} on macroF1 on the two small text datasets, namely chemicalExposure and cancerHallmarks. Since \emph{unboundedF1} forgoes thresholding altogether. We hypothesize that \emph{unboundedF1} develops tolerance for sparse datasets with low number of class instances.
+We observe that \emph{unboundedF1} scores higher than \emph{sigmoidF1} on macroF1 on the two small text datasets (chemicalExposure and cancerHallmarks). Since \emph{unboundedF1} forgoes thresholding altogether, we hypothesize that \emph{unboundedF1} develops tolerance for sparse datasets with low number of class instances.
 
-Notably for the cancerHallmarks dataset, predictions from a model trained with cross-entropy do not reach high enough values to surpass the threshold and thus all metrics return zero values. This was further observed during experimentation, thus cross-entropy loss might not be a good fit for solving FIMPUL problems.
+Notably for the cancerHallmarks dataset, predictions from a model trained with cross-entropy do not reach high enough values to surpass the threshold and thus all metrics return zero values. This was further observed during experimentation, thus cross-entropy loss might not be a good fit for solving multilabel problems.
 
 % \gab{comment on 0.0 CE for cancer}
 
-FocalLoss, which is specifically tailored for sparse data, does not perform well in our experiments, except for the Precision metric on the moviePosters dataset. This can be explained by the fact that FocalLoss is designed for multiclass uni-label problems.
+\emph{FocalLoss}, which is specifically tailored for sparse data, does not perform well in our experiments, except for the Precision metric on the moviePosters dataset. This can be explained by the fact that \emph{FocalLoss} is designed for multiclass problems.
 % We have already said the following:
 %Across Tables~\ref{tab:moviePosters}, \ref{tab:arxiv2020}, \ref{tab:cancerHallmarks} and \ref{tab:chemicalExposure} we see that the smooth sigmoidF1 loss outperforms other existing losses.
 
@@ -97,7 +97,7 @@ $\mathcal{L}_{\text {sigmoidF1}}$ & \textbf{0.319} & \textbf{0.432} & 0.113 & 0.
 
 \paragraph{Sensitivity analysis}
 
-In Figure \ref{fig:betaEta}, we show the sensitivity of \emph{sigmoidF1} to different para\-metrizations of $\eta$ and $\beta$. It is clear from Figure \ref{fig:betaEta} that results on the test set are sensitive to the choice of $\eta$ and $\beta$. Within the chosen values (see Section~\ref{subsec:hypers}), we chose to display a parameter space similar to the one illustrated in Figure~\ref{fig:sigmoid}. Moving the sigmoid to the left allows the learning algorithm to tend to a (local) optimum.
+In Figure \ref{fig:betaEta}, we show the sensitivity of \emph{sigmoidF1} to different para\-metrizations of $\eta$ and $\beta$. Within the chosen values (see Section~\ref{subsec:hypers}), we chose to display a parameter space similar to the one illustrated in Figure~\ref{fig:sigmoid}. Moving the sigmoid to the left allows the learning algorithm to tend to a (local) optimum.
 
 In general and across datasets, when sampling for $\eta$, we noticed how the optimum tended towards positive values. Offsetting the sigmoid curve to the left has the effect of pushing more candidate predictions to the rank of positive instance (or at least close to 1). We also note how $\beta$ (which cannot be negative or otherwise the sigmoid function would flip around the horizontal axis) is at best close to a value close to 0 on this dataset (we show discrete values here for display purposes). The sigmoid is thus relatively flat, which involves dynamic gradients over different batches. The idea is similar to a high learning rate. In our experiments, this rarely lead to divergent behavior in the loss function (learning curve).
 

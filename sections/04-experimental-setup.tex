@@ -5,9 +5,9 @@
 
 We test multilabel learning using our proposed \emph{sigmoidF1} loss function on four datasets across different modalities, consisting of image and text.
 %
-Our experiments compare loss functions while finetuning state-of-the-art models. For this, we take a state-of-the-art model that generates an embedding layer and attach a softmax cross-entropy or a sigmoid loss to it. Multilabel deep learning is usually implemented with softmax cross-entropy directly on the last neural layer (a simplification of the OVA and PAL reductions). We follow this approach for our experiments (e.g. in the BERT domain~\cite{bigBird, BERT}). It is harder to find existing baselines in the literature where similar multilabel experiments were made, in particular because multilabel reformulation choices were made in previous literature: only keeping the top-n occurring classes (often 4-10) ~\cite[e.g.][]{textClassificationLeCun, CUNHA}, multiclass classification on each entity within an example (objects in an image, expressions in a text)~\cite[e.g.][]{COCO, multilabelImage1, multilabelImage2, multilabelImage3}. The datasets in our experiments are deliberatively relatively small so as to showcase sigmoidF1 as a loss functions against other types of loss functions in an efficient manner. Work on bigger datasets (where multilabel reduction is still the norm) is left for future work.
+We take a state-of-the-art model that generates an embedding layer and attach a softmax cross-entropy or a sigmoid loss to it. Multilabel deep learning is usually implemented with softmax cross-entropy directly on the last neural layer (a simplification of the OVA and PAL reductions). We follow this approach for our experiments (e.g. in the BERT domain~\cite{bigBird, BERT}). It is harder to find existing baselines in the literature where similar multilabel experiments were made, in particular because multilabel reformulation choices were made in previous literature: only keeping the top-n occurring classes (often 4-10) ~\cite[e.g.][]{textClassificationLeCun, CUNHA}, multiclass classification on each entity within an example (objects in an image, expressions in a text)~\cite[e.g.][]{COCO, multilabelImage1, multilabelImage2, multilabelImage3}. The datasets in our experiments are deliberatively relatively small so as to showcase sigmoidF1 as a loss functions against other types of loss functions in an efficient manner. Work on bigger datasets (where multilabel reduction is still the norm) is left for future work.
 
-The next section and Table~\ref{table:datasets} describe our four datasets. The learning architecture, in which a classification head attached to a pretrained neural network, is then described before addressing hyperparameter tuning and reproducibility remarks.
+The next section and Table~\ref{table:datasets} describe our four datasets. The learning architecture, in which a classification head is attached to a pretrained neural network, is then described before addressing hyperparameter tuning and reproducibility remarks.
 
 \begin{table}[b]
 \caption{Descriptive statistics of our experimental datasets.}
@@ -32,7 +32,7 @@ cancerHallmarks\hspace{-.7em}  & text & 33 & 3.501 & 1,582\\
 
 Our first dataset \citep{moviePosters} comes from the vision domain and consists of movie posters and their genres (e.g., \emph{action}, \emph{comedy}) \footnote{Labels at \url{https://tinyurl.com/y7ydyedu} and images at \url{https://tinyurl.com/y7lfpvlx}.}. The posters and labels have been extracted from IMDB and the dataset was previously used for per-class, post-training thresholding (see Section~\ref{sec:org2aceb9f}). The genre labels in this dataset are not mutually exclusive and of varying counts per movie.
 
-We use the newly created \emph{arXiv dataset}\footnote{Available at \url{https://www.kaggle.com/Cornell-University/arxiv}} with over 1.7 million open source articles and their metadata. Our experiments use the abstracts and categories that are suitably non-mutually exclusive and of varying counts per example. There is a longer history of using arXiv to create research datasets; the dataset we use is not to be confused with an earlier long document dataset that only features 11 classes~\citep{oldarXiv}, but was used in a recent long transformer publication~\cite{bigBird}. The limited number of labeled classes render the older dataset unsuitable for our experiments.  We write \textit{arXiv2020} for the subset of the \emph{arXiv dataset} that only contains documents published in 2020, given limited computing power. This results in around 26k documents.
+We use the newly created \emph{arXiv dataset}\footnote{Available at \url{https://www.kaggle.com/Cornell-University/arxiv}} with over 1.7 million open source articles and their metadata. Our experiments use the abstracts and categories that are suitably non-mutually exclusive and of varying counts per example. There is a longer history of using arXiv to create research datasets; the dataset we use is not to be confused with an earlier long document dataset that only features 11 classes~\citep{oldarXiv}, and was used in a recent long transformer publication~\cite{bigBird}. The limited number of labeled classes render the older dataset unsuitable for our experiments.  We write \textit{arXiv2020} for the subset of the \emph{arXiv dataset} that only contains documents published in 2020, given limited computing power. This results in around 26k documents.
 
 \begin{figure*}[!tp]
 \centering
@@ -44,11 +44,11 @@ We use the newly created \emph{arXiv dataset}\footnote{Available at \url{https:/
      \hspace{.02\linewidth}
      \begin{subfigure}{0.36\linewidth}
          \centering
-         \includegraphics[page=8,width=\linewidth,trim=190 100 210 0,clip]{images/SIGIR2021 Loss Diagram.pdf}
+         \includegraphics[page=8,width=\linewidth,trim=190 90 210 15,clip]{images/SIGIR2021 Loss Diagram.pdf}
          \caption{During inference, unbounded predictions are transformed to predictions with a Softmax.}
      \end{subfigure}
      \vspace{.5\baselineskip}
-\caption{Our experimental setup for the CoMMaL framework and specifically for \emph{sigmoidF1} as a loss function.}
+\caption{Our experimental setup for \emph{sigmoidF1} as a loss function.}
 \label{fig:architecture}
 \end{figure*}
 
@@ -63,7 +63,7 @@ For the moviePoster image dataset, we use a MobileNetV2~\cite{mobileNet} archite
 For the three text datasets, we use DistilBert~\cite{distilBert} as implemented in Hugging Face. This is a particularly efficient instance of the BERT model.\footnote{Available at \url{https://huggingface.co/transformers/model_doc/distilbert.html}.}.
 In both cases, we use the final pretrained layer as an embedding of the input. In order to make sure that the results of different loss functions are comparable, we fix the model weights of the pretrained MobileNetV2 and DistilBert and keep the hyperparameter values that were used to train them from scratch. We also initialize the model weights with the same TensorFlow internal random seeds across training sessions.
 
-A similar classification head is used for both MobileNetV2 and DistilBert. It consists of a latent representation layer (the final pretrained layer mentioned above) connected with a RELU activation. This layer is linked to a final classification layer with a linear activation. The dimension of the final layer is equal to the number of classes in the dataset. When computing focalLoss and crossEntropy, a softmax transformation transforms the unbounded last layer to a $[0,1]$ bounded vector. When computing sigmoidF1 loss, a sigmoid transformation is operated instead, which results in a sparser $[0,1]$ vector. At inference time, the last layer is used for prediction and is bounded with a softmax function. A threshold must then be chosen at evaluation time to compute different metrics. Figure \ref{fig:architecture} depicts this learning framework. Thresholding regimes at inference time are further discussed in Sections~\ref{sec:evalMetrics} and~\ref{subsec:thresh}.
+A similar classification head is used for both MobileNetV2 and DistilBert. It consists of a latent representation layer (the final pretrained layer mentioned above) connected with a RELU activation. This layer is linked to a final classification layer with a linear activation. The dimension of the final layer is equal to the number of classes in the dataset. When computing \emph{focalLoss} and \emph{crossEntropy}, a softmax transforms the unbounded last layer to a $[0,1]$ bounded vector. When computing sigmoidF1 loss, a sigmoid transformation is operated instead, which results in a sparser $[0,1]$ vector. At inference time, the last layer is used for prediction and is bounded with a softmax function. A threshold must then be chosen at evaluation time to compute different metrics. Figure \ref{fig:architecture} depicts this learning framework. Thresholding regimes at inference time are further discussed in Sections~\ref{sec:evalMetrics} and~\ref{subsec:thresh}.
 
 % \gab{ev. remove losses compared}
 % \subsection{Losses Compared}
@@ -76,7 +76,7 @@ A similar classification head is used for both MobileNetV2 and DistilBert. It co
 
 In our experimental evaluation, we consider a suite of metrics that are commonly used in the evaluation of multilabel classification to measure the effectiveness of multilabel prediction. Such metrics are based on the confusion matrix that we detailed in Section~\ref{section:method} and for which we provided smoothed surrogates to optimize directly.
 
-When true positives and false positives are used, recall that \(t p=\sum_{i \in Y^{+}} \mathds{1}_{\mathbf{p_i} \geq t}\) and \(f p=\sum_{i \in Y^{-}} \mathds{1}_{\mathbf{p_i} \geq t}\), and thus a threshold \(t\) must be set. Information on thresholding at inference time is generally hard to find in the recent literature, we thus decide on neutral thresholds before training. For arXiv2020 and moviePosters, we set \(t = 0.5\), as is commonly done in the early literature~\cite{multilabelReview, ML-DT}.
+When true positives and false positives are used, recall that \(t p= \mathds{1}_{\hat{\mathbf{y}} \geq t} \odot \mathbf{y}\) and \(f p= \mathds{1}_{\hat{\mathbf{y}} \geq t} \odot (\mathds{1} - \mathbf{y})\), and thus a threshold \(t\) must be set. Information on thresholding at inference time is generally hard to find in the recent literature, we thus decide on neutral thresholds before training. For arXiv2020 and moviePosters, we set \(t = 0.5\), as is commonly done in the early literature~\cite{multilabelReview, ML-DT}.
 For the two medical datasets, cancerHallmarks and chemicalExposure, we saw after a few preparatory training rounds that only sigmoidF1 had non-zero results for \(t = 0.5\). Information is a lot more sparse for these dataset, we thus set the evaluation metrics threshold to a reasonable value of $0.05$ and train for $500$ epochs until reaching convergence.
 
 Extending \(F_1\) to multiclass binary classification means deciding whether to pool classes.
@@ -107,7 +107,7 @@ We also define micro precision% and micro recall
 \end{equation}
 %
 In our experiments, we report on weightedF1, microF1, macroF1, Precision% and Recall
-. Macro scores do not differentiate multiclass unilabel classification from multiclass multilabel classification. Micro scores treat classes separately. The \emph{weighted} micro F1 score is a further refinement where class scores are weighted by their representation in the dataset. We thus focus our discussion of experimental results around weightedF1 as we consider this to be the most representative for success on FIMPUL problems.
+. The \emph{weighted} micro F1 score is a further refinement where class scores are weighted by their representation in the dataset. We thus focus our discussion of experimental results around weightedF1 as we consider this to be the most representative for success on multilabel problems.
 
 There is an interaction between our optimization on \emph{sigmoidF1} and our evaluation using (weighted) F1 metrics. If our approach of optimizing for an F1 surrogate succeeds, we expect higher values on F1-related metrics during evaluation. For this reason, we consider and discuss not a single, but multiple metrics.
 
@@ -123,4 +123,4 @@ In our experiments, we evaluate the sensitivity of our method to these hyperpara
 
 We made sure to split the data in the same training, validation and test sets for each loss function. Our code, dataset splits and other settings are shared to ensure reproducibility of our results.
 
-We performed our experiments on Amazon Web Services cloud machines with data parallelization on up to 16 GPUs \textit{p2.16xlarge}, with TensorFlow 2 as a gradient-descent backend.
+We performed our experiments on Amazon Web Services cloud machines with data parallelization on up to 16 GPUs \textit{p2.16xlarge}, with TensorFlow 2~\cite{tensorflow} as a gradient-descent backend.

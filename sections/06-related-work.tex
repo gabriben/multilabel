@@ -15,15 +15,12 @@
 % concepts in the output space is limited. In the next sections we detail
 % some of this related work and discuss it relation to the research in this paper.
 
-Existing algorithmic solutions to deal with multilabel tasks can be divided into \emph{fit-data-to-algorithm} solutions, which map FIMPUL problems to a known problem formulation like multiclass uni-label classification, and \emph{fit-algorithm-to-data} solutions, which adapt existing classification
-algorithms to the problem at hand~\citep{multilabelMethods}.
+Existing algorithmic solutions to deal with multilabel tasks can be divided into \emph{fit-data-to-algorithm} solutions, which map multilabel problems to a known problem formulation like multiclass classification, and \emph{fit-algorithm-to-data} solutions, which adapt existing classification algorithms to the problem at hand~\citep{multilabelMethods}.
 
 \paragraph{Fit-data-to-algorithm}
-Commonly, in fit-data-to-algorithm solutions, cross-entropy losses are used at training time and thresholding is done at inference time to determine how many labels should be assigned to an instance. This has also been called multilabel reduction ~\citep{multilabelReduction}, to be distinguished from multiclass to binary classifications ~\citep{multiclassToBinary1, multiclassToBinary2, multiclassToBinary3}.
+Commonly, in fit-data-to-algorithm solutions, cross-entropy losses are used at training time and thresholding is done at inference time to determine how many labels should be assigned to an instance. This has also been called multilabel reduction ~\citep{multilabelReduction}, to be distinguished from multiclass to binary classifications ~\citep{multiclassToBinary1, multiclassToBinary2, multiclassToBinary3}. We can further make the distinction between One-versus-all (OVA) and Pick-all-labels (PAL) solutions ~\citep{multilabelReduction} (see also~\ref{section:background}).
 
-We can further make the distinction between One-versus-all (OVA) and Pick-all-labels (PAL) solutions ~\citep{multilabelReduction} (see also~\ref{section:background}).
-
-In OVA (a.k.a binary relevance model), one reduces the classification problem to independent binary classifications~\citep{OVA1, hammingLoss, OVA2}. OVA Theory \cite{OVATheory}. In PAL , one reformulates the task to independent multiclass classifications \citep{labelPowerset, extremeClassification, PAL}. The \textit{label powerset} approach considers each unique set of labels as one class in the transformed setting~\cite{labelPowerset}. In Pick-One-Label (POL), a single multiclass example is created by randomly sampling a positive label \cite{PAL, extremeClassification}. Note that Menon et. al. propose a normalized versions of OVA and PAL~\cite{multilabelReduction}.
+In OVA (a.k.a binary relevance model), one reduces the classification problem to independent binary classifications~\citep{OVA1, hammingLoss, OVA2, OVATheory}. In PAL, one reformulates the task to independent multiclass classifications \citep{labelPowerset, extremeClassification, PAL}. The \textit{label powerset} approach considers each unique set of labels as one class in the transformed setting~\cite{labelPowerset}. In Pick-One-Label (POL), a single multiclass example is created by randomly sampling a positive label \cite{PAL, extremeClassification}. Note that Menon et. al. propose a normalized versions of OVA and PAL~\cite{multilabelReduction}.
 
 % (e.g., an instance labeled \textit{Thriller} and \textit{Action}, results in the creation of the class \textit{Thriller and action}).
 Alternatively, \textit{ranking by pairwise comparison} is a solution where the dataset is duplicated for each possible label pairs. Each duplicated dataset has therefore two classes and only contains instances that have at least one of the labels in the label pair. Different ranking methods exist~\cite{pairwiseBinary, pairwiseNet}.
@@ -48,7 +45,7 @@ An important limitation shared by both \emph{fit-data-to-algorithm} and \emph{fi
 
 \begin{figure*}[t!]
 \centering
-\includegraphics[width=.8\linewidth]{./images/betaEtaResized.png}
+\includegraphics[width=.75\linewidth]{./images/betaEtaResized.png}
 \vspace{.1\baselineskip}
 \caption{\label{fig:betaEta}
 DistilBert (NLP) + classification head on arXiv2020 – different scores at a 0.5 threshold for different values of $\eta$ and $\beta$ in a sampling region similar to Figure~\ref{fig:sigmoid}}
