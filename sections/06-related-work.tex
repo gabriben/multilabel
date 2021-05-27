@@ -18,7 +18,7 @@
 Existing algorithmic solutions to deal with multilabel tasks can be divided into \emph{fit-data-to-algorithm} solutions, which map FIMPUL problems to a known problem formulation like multiclass uni-label classification, and \emph{fit-algorithm-to-data} solutions, which adapt existing classification
 algorithms to the problem at hand~\citep{multilabelMethods}.
 
-\subsection{Fit-data-to-algorithm}
+\paragraph{Fit-data-to-algorithm}
 Commonly, in fit-data-to-algorithm solutions, cross-entropy losses are used at training time and thresholding is done at inference time to determine how many labels should be assigned to an instance. This has also been called multilabel reduction ~\citep{multilabelReduction}, to be distinguished from multiclass to binary classifications ~\citep{multiclassToBinary1, multiclassToBinary2, multiclassToBinary3}.
 
 We can further make the distinction between One-versus-all (OVA) and Pick-all-labels (PAL) solutions ~\citep{multilabelReduction} (see also~\ref{section:background}).
@@ -30,7 +30,7 @@ Alternatively, \textit{ranking by pairwise comparison} is a solution where the d
 
 More recently, hierarchical datasets such as DBpedia~\citep{lehmann2015dbpedia} are used to finetune BERT-based models~\cite{XLNet, bigBird};  the latter publications use cross-entropy to predict the labels.
 
-\subsection{Fit-algorithm-to-data}
+\paragraph{Fit-algorithm-to-data}
 In the fit-algorithm-to-data solutions, elements of the learning
 algorithm are changed (such as the back propagation procedure or the task).
 Early representatives of fit-algorithm-to-data stem from heterogenous domains
@@ -54,10 +54,10 @@ An important limitation shared by both \emph{fit-data-to-algorithm} and \emph{fi
 DistilBert (NLP) + classification head on arXiv2020 – different scores at a 0.5 threshold for different values of $\eta$ and $\beta$ in a sampling region similar to Figure~\ref{fig:sigmoid}}
 \end{figure*}
 
-\subsection{Thresholding}
+\paragraph{Thresholding}
 \label{subsec:thresh}
 
-Machine learning prediction tasks' output are probabilistic (or a reversible transformation of a probabilistic measure such as a sigmoid or a softmax function).
+Machine learning prediction tasks' output are probabilistic (or a reversible transformation of a probabilistic measure such as sigmoid or softmax).
 At training time, these outputs are compared to binary
 values in the case of binary encoding of classes.
 
@@ -72,7 +72,7 @@ Solutions include determining an ideal global \emph{threshold} depending on the 
 In our method, this threshold is defined implicitly at training time, thanks to the use of surrogate metrics that already penalize for wrong label counts.
 
 
-\subsection{Metrics as losses}
+\paragraph{Metrics as losses}
 
 In a number of learning to rank tasks~\cite{LTR}, a model's out of sample accuracy is measured on metrics such as AUROC, F1 score, etc. These reflect an objective catered towards evaluating the model over an entire ranking. Due to the lack of differentiability, these metrics cannot be directly used as loss
 functions at training time (in-sample). \citet{optimizableLosses} propose a general framework for deriving
