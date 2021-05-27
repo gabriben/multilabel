@@ -26,7 +26,12 @@ We define $\mathcal{F}$ as the estimand: the theoretical statistic. For one item
 For example, corn ($x_{corn}$) is eaten by a finite number of animals that can digest it ($\mathbf{y}_{corn} = {y_{corn}^{horse}, \ldots, y_{corn}^{sheep}} $), assuming animals belong to a finite set of living beings. If one were to predict which food is eaten by which animals, the theoretical risk (estimand) defines how close we can get to that deterministic vector $\mathbf{y}_{corn}$, given $x_{corn}$.
 \fi
 
+<<<<<<< HEAD
 In practice, statistical models do output probabilities $\mathbf{\hat{y}}_{i}$ via an estimator and its estimate (also called propensities or suitabilities~\citep{multilabelReduction}). The solution to that stochastic-deterministic incompatibility is either to convert the estimator to a deterministic measure via decision thresholds (e.g. traditional cross-entropy loss), or to treat the estimand as a stochastic measure (our sigmoidF1 loss proposal).
+=======
+In practice, statistical models do output probabilities $\mathbf{\hat{y}}_{i}$ via an estimator and its estimate (also called propensities or suitabilities~\citep{multilabelReduction}). The solution to that stochastic-deterministic incompatibility is either to convert the estimator to a deterministic measure via decision thresholds (e.g. traditional cross-entropy loss), or to reformulate the estimand as a stochastic measure (our sigmoidF1 loss proposal). 
+%\daan{So we also reformulate the problem? I think this explanation is clear, so just to be sure of the storyline.}
+>>>>>>> e1a3e8f6671f1363dcd990577e4524b0d2e1f5f0
 
 \subsection{Estimator: the functional form}
 \label{section:background:estimator}
